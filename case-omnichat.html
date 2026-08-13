@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case Omnichat — Redesenhando a verificação de intenção dos agentes conversacionais</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<div style="max-width: 1180px; margin: 0 auto; padding: 64px 28px 96px">
+
+  <header style="display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr); gap: 48px; align-items: end; padding-bottom: 34px; border-bottom: 1px solid var(--color-divider)">
+    <div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px">
+        <span class="tag tag-outline">Omnichat</span>
+        <span class="tag tag-outline">Product Design Manager</span>
+        <span class="tag tag-accent">Agentes conversacionais</span>
+      </div>
+      <h1 style="font-size: clamp(38px, 5.2vw, 62px); max-width: 22ch; margin: 0 0 18px; text-wrap: pretty">Redesenhando a verificação de intenção dos agentes conversacionais</h1>
+      <p style="font-size: 18px; max-width: 56ch; color: var(--color-neutral-800); margin: 0">A maior perda de conversão não estava na interface. Estava na camada onde a intenção do lead entra no sistema.</p>
+    </div>
+    <figure class="blueprint" style="padding: 26px 24px 22px; display: flex; flex-direction: column; gap: 6px">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="font-family: var(--font-heading); font-size: clamp(56px, 9vw, 96px); line-height: 0.9; color: var(--color-accent-700); letter-spacing: -0.03em">+8%</div>
+      <div style="font-size: 13px; line-height: 1.45; color: var(--color-neutral-700); border-top: 1px solid var(--color-divider); padding-top: 10px; margin-top: 6px">Conversão de leads qualificados nos agentes de vendas conversacionais, medida em produção.</div>
+    </figure>
+  </header>
+
+  <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 44px; padding: 72px 0 0">
+    <div>
+      <h6 style="color: var(--color-accent-700); margin-bottom: 14px">01 — Contexto</h6>
+      <p style="font-size: 16px; color: var(--color-neutral-800)">A Omnichat opera agentes de vendas conversacionais que atendem leads em escala, vindos de origens diferentes. Uma parte relevante chegava por campanhas de Instagram, outra por disparos de WhatsApp feitos por bots de terceiros.</p>
+      <p style="font-size: 16px; color: var(--color-neutral-800)">Cada origem carregava um tipo diferente de intenção, mas o agente tratava todo lead da mesma forma, como se toda conversa começasse do zero.</p>
+    </div>
+    <div>
+      <h6 style="color: var(--color-accent-700); margin-bottom: 14px">02 — O problema</h6>
+      <p style="font-size: 16px; color: var(--color-neutral-800)">Não existia visão clara da jornada conversacional. O time via o resultado final, lead convertido ou lead perdido, mas não enxergava o caminho entre a mensagem de entrada e a decisão do agente.</p>
+      <p style="font-size: 16px; color: var(--color-neutral-800)">O erro não era de capacidade do modelo. Era de design. Ninguém havia desenhado a fronteira onde a intenção do lead entra no sistema, então essa fronteira ficava por conta do acaso de cada canal de origem.</p>
+    </div>
+  </section>
+
+  <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; padding: 34px 0 0">
+    <div class="blueprint" style="padding: 22px 20px">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px">
+        <span style="font-family: var(--font-heading); font-size: 22px">Instagram</span>
+        <span class="tag tag-neutral">origem A</span>
+      </div>
+      <p style="font-size: 15px; color: var(--color-neutral-800); margin: 0">Chegavam com um objetivo implícito, moldado pelo anúncio que clicaram. O agente não tinha acesso a esse contexto e tratava a primeira mensagem como uma pergunta genérica.</p>
+    </div>
+    <div class="blueprint" style="padding: 22px 20px">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px">
+        <span style="font-family: var(--font-heading); font-size: 22px">Disparos de WhatsApp</span>
+        <span class="tag tag-neutral">origem B</span>
+      </div>
+      <p style="font-size: 15px; color: var(--color-neutral-800); margin: 0">Chegavam ainda mais comprimidos, muitas vezes respondendo a um gatilho automático sem nunca ter formulado a própria intenção com clareza.</p>
+    </div>
+  </section>
+
+  <section style="padding: 96px 0 0">
+    <div style="display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 40px">
+      <div>
+        <h6 style="color: var(--color-accent-700); margin-bottom: 12px">03 — Processo</h6>
+        <h2 style="font-size: clamp(28px, 3.4vw, 40px); max-width: 26ch; margin: 0">Cinco camadas de um artefato de design</h2>
+      </div>
+      <p style="font-size: 14px; color: var(--color-neutral-700); max-width: 34ch; margin: 0">Clique em uma camada para ver a decisão de design por trás dela e o efeito na conversão.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 56px; align-items: start">
+      <div id="layers-list" style="display: flex; flex-direction: column; gap: 10px; padding: 6px 6px 6px 0"></div>
+
+      <div class="blueprint" style="padding: 28px 26px 30px; min-height: 320px; display: flex; flex-direction: column; gap: 18px">
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div style="display: flex; align-items: baseline; gap: 12px">
+          <span class="tag tag-accent">camada <span id="detail-id"></span></span>
+        </div>
+        <h3 id="detail-title" style="font-size: 26px; margin: 0; max-width: 26ch"></h3>
+        <div style="border-top: 1px solid var(--color-divider); padding-top: 16px">
+          <h6 style="color: var(--color-neutral-600); margin-bottom: 8px">Decisão de design</h6>
+          <p id="detail-decision" style="font-size: 16px; color: var(--color-neutral-800); margin: 0"></p>
+        </div>
+        <div style="border-top: 1px solid var(--color-divider); padding-top: 16px; margin-top: auto">
+          <h6 style="color: var(--color-neutral-600); margin-bottom: 8px">Efeito na conversão</h6>
+          <p id="detail-effect" style="font-size: 16px; color: var(--color-accent-700); margin: 0"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 96px 0 0">
+    <div style="display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 12px">
+      <div>
+        <h6 style="color: var(--color-accent-700); margin-bottom: 12px">04 — Antes e depois</h6>
+        <h2 style="font-size: clamp(28px, 3.4vw, 40px); max-width: 30ch; margin: 0">O mesmo lead de Instagram, nas duas versões da fronteira de entrada</h2>
+      </div>
+      <button id="replay-btn" class="btn btn-secondary">Reproduzir conversa</button>
+    </div>
+    <p style="font-size: 13px; color: var(--color-neutral-600); margin: 0 0 34px">Conversa ilustrativa. As marcas de camada ligam cada correção ao ponto correspondente do diagrama acima.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px">
+      <div class="blueprint" style="padding: 24px 22px 28px; display: flex; flex-direction: column; gap: 14px">
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--color-divider); padding-bottom: 12px">
+          <span style="font-family: var(--font-heading); font-size: 21px">Antes</span>
+          <span class="tag tag-outline">conversa abandonada</span>
+        </div>
+        <div id="before-list" style="display: flex; flex-direction: column; gap: 14px"></div>
+      </div>
+
+      <div class="blueprint" style="padding: 24px 22px 28px; display: flex; flex-direction: column; gap: 14px; background: color-mix(in srgb, var(--color-accent) 4%, transparent)">
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--color-divider); padding-bottom: 12px">
+          <span style="font-family: var(--font-heading); font-size: 21px">Depois</span>
+          <span class="tag tag-accent">lead convertido</span>
+        </div>
+        <div id="after-list" style="display: flex; flex-direction: column; gap: 14px"></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 96px 0 0">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 44px; align-items: start; padding-top: 34px; border-top: 1px solid var(--color-divider)">
+      <div>
+        <h6 style="color: var(--color-accent-700); margin-bottom: 14px">05 — Resultado</h6>
+        <p style="font-size: 16px; color: var(--color-neutral-800)">A conversão de leads qualificados subiu 8%, medida pela taxa de conversão dos agentes de vendas conversacionais. O ganho não veio de uma oferta melhor ou de um texto mais persuasivo, veio de o agente parar de responder à mensagem literal e passar a responder à intenção real por trás dela.</p>
+        <p style="font-size: 16px; color: var(--color-neutral-800); margin: 0">Especialmente nos leads vindos de Instagram e de disparos de WhatsApp, que eram os que mais perdiam conversão antes da mudança.</p>
+      </div>
+      <div>
+        <h6 style="color: var(--color-accent-700); margin-bottom: 14px">Aprendizado</h6>
+        <p style="font-family: var(--font-heading); font-size: clamp(22px, 2.6vw, 30px); line-height: 1.2; color: var(--color-neutral-900); margin: 0 0 14px; text-wrap: pretty">A interface não é mais o objeto principal do trabalho. O objeto principal é a decisão.</p>
+        <p style="font-size: 16px; color: var(--color-neutral-800); margin: 0">O que o agente pode decidir sozinho, o que ele precisa verificar antes de agir e como ele mostra isso para quem precisa confiar no resultado. Desenhar bem essa camada foi o que gerou o ganho de conversão.</p>
+      </div>
+    </div>
+
+    <div class="blueprint" style="margin-top: 56px; padding: 26px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <p style="font-size: 16px; color: var(--color-neutral-800); margin: 0; max-width: 46ch">Trabalho com design de decisão em produtos conversacionais. Se esse tipo de camada é um problema no seu produto, vamos conversar.</p>
+      <a class="btn btn-primary" href="mailto:contato@exemplo.com">Entrar em contato</a>
+    </div>
+  </section>
+
+</div>
+
+<script src="assets/script.js"></script>
+</body>
+</html>
