@@ -18,7 +18,7 @@
       id: "03",
       title: "Ideação",
       body: "O time de pesquisadores e produto vinha há um bom tempo tentando achar um formato de entrega de dados que fugisse do tradicional relatório. A maioria deles não era lida nem utilizada na hora de idealizar soluções e propor ações, mesmo com esforços grandes de divulgação, apresentação e colaboração com as áreas.",
-      body2: "Surgiu então a ideia de criar um mapa interativo com cara de tabuleiro de jogo, capaz de engajar o time em consumir e até “brincar” com as informações levantadas. Esse mapa precisava trazer informações resumidas de fácil consulta, assim como em profundidade.",
+      body2: "Antes disso testamos dois formatos mais óbvios, um dashboard de indicadores e um resumo executivo de duas páginas por campus. Os dois falharam pelo mesmo motivo, entregavam a conclusão pronta e ninguém precisava percorrer a jornada do aluno para chegar nela. O tabuleiro foi escolhido porque obriga quem lê a andar por semestre e por eixo, e é nesse trajeto que o time reconhece o próprio aluno e propõe ação. Esse mapa precisava trazer informações resumidas de fácil consulta, assim como em profundidade.",
       effect: "O formato virou parte da solução, não apenas a embalagem da pesquisa."
     }
   ];

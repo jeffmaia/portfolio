@@ -15,7 +15,7 @@
     {
       id: "03",
       title: "Limites de decisão do agente redesenhados",
-      decision: "Definimos com clareza o que o agente decide sozinho — seguir com a oferta quando a intenção está confirmada — e em que ponto ele precisa parar e verificar antes de agir, quando há sinal de ambiguidade na origem da conversa.",
+      decision: "A primeira ideia do time era fazer o agente sempre pedir confirmação antes de ofertar. Descartamos porque isso adicionava um turno em toda conversa e derrubava a conversão de quem já chegava com intenção clara. Optamos por um limite condicionado à origem. Com a intenção confirmada o agente segue com a oferta sozinho, e havendo sinal de ambiguidade ele para e verifica antes de agir.",
       effect: "Reduziu ofertas erradas apresentadas cedo demais, um dos principais pontos de abandono."
     },
     {
