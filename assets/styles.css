@@ -142,30 +142,36 @@ img { max-width: 100%; }
   .btn:hover,
   .btn-ghost:hover,
   .pager__arrow:hover,
-  .dot:hover {
+  .dot:hover,
+  .nav-toggle:hover {
     background: var(--color-accent-700);
     border-color: var(--color-accent-700);
     color: var(--color-bg);
   }
+  /* As barras do hambúrguer são fundo, não texto: acompanham na mão. */
+  .nav-toggle:hover .nav-toggle__bar { background: var(--color-bg); }
 }
 .btn:active,
 .btn-ghost:active,
 .pager__arrow:active,
-.dot:active {
+.dot:active,
+.nav-toggle:active {
   background: var(--color-accent-800);
   border-color: var(--color-accent-800);
   color: var(--color-bg);
 }
+.nav-toggle:active .nav-toggle__bar { background: var(--color-bg); }
 
 /* — navegação — */
 .site-nav {
   position: sticky; top: 0; z-index: 40;
-  display: flex; align-items: center; flex-wrap: wrap; gap: 24px;
+  display: flex; align-items: center; gap: 24px;
   padding: 14px 28px;
   background: color-mix(in srgb, var(--color-bg) 92%, transparent);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--color-divider);
 }
+.nav-menu { display: flex; align-items: center; flex-wrap: wrap; gap: 24px; }
 .site-nav a { color: inherit; text-decoration: none; font-size: 14px; }
 .site-nav a[aria-current="page"] { color: var(--color-accent); }
 @media (hover: hover) and (pointer: fine) {
@@ -177,13 +183,59 @@ img { max-width: 100%; }
 }
 .nav-sep { width: 1px; height: 18px; background: var(--color-divider); }
 .site-nav .btn-primary { font-size: 13px; padding: 7px 14px; color: var(--color-bg); }
-/* Em telas estreitas a barra quebra em linhas: aperta o espaçamento para não
-   comer meia tela, e a marca fica sozinha na primeira linha. */
-@media (max-width: 640px) {
-  .site-nav { gap: 10px 16px; padding: 12px 18px; }
-  .site-nav a { font-size: 13px; }
-  .nav-brand { font-size: 16px; flex: 1 0 100%; margin-right: 0; }
-  .nav-sep { display: none; }
+
+/* — hambúrguer: existe só abaixo de 860px, onde a barra inteira não cabe — */
+.nav-toggle {
+  display: none; position: relative;
+  width: 40px; height: 40px; padding: 0; cursor: pointer;
+  background: var(--color-bg); border: 1px solid var(--color-divider);
+  transition: background .2s, border-color .2s;
+}
+.nav-toggle__bar {
+  position: absolute; left: 50%; top: 50%;
+  width: 18px; height: 1.5px; margin: -0.75px 0 0 -9px;
+  background: var(--color-text);
+  transition: transform .3s var(--ease-chart), opacity .18s, background .2s;
+}
+.nav-toggle__bar:nth-child(1) { transform: translateY(-5.5px); }
+.nav-toggle__bar:nth-child(3) { transform: translateY(5.5px); }
+/* Aberto, as três barras viram X: a do meio some e as outras giram sobre o
+   centro, de onde as duas partiram. */
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(1) { transform: rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(3) { transform: rotate(-45deg); }
+
+/* Trava a rolagem do documento enquanto o painel cobre a tela. */
+body.has-nav-open { overflow: hidden; }
+
+@media (max-width: 860px) {
+  /* Sem backdrop-filter aqui: um elemento filtrado vira bloco de contenção
+     para descendentes fixed, e o painel precisa se ancorar na viewport. */
+  .site-nav { background: var(--color-bg); backdrop-filter: none; gap: 16px; padding: 12px 18px; }
+  .nav-brand { font-size: 16px; position: relative; z-index: 2; }
+  .nav-toggle { display: block; z-index: 2; }
+
+  .nav-menu {
+    position: fixed; inset: 0; z-index: 1;
+    flex-direction: column; flex-wrap: nowrap;
+    align-items: stretch; justify-content: center;
+    gap: 0; padding: 76px 18px 40px;
+    background: var(--color-bg);
+    opacity: 0; visibility: hidden; transform: translateY(-10px);
+    transition: opacity .26s, transform .26s, visibility .26s;
+  }
+  .nav-menu.is-open { opacity: 1; visibility: visible; transform: none; }
+
+  .site-nav .nav-menu a {
+    font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+    font-size: clamp(24px, 6.5vw, 32px); line-height: 1.1; letter-spacing: -0.02em;
+    padding: 16px 2px; border-bottom: 1px solid var(--color-divider);
+  }
+  .site-nav .nav-menu .btn-primary {
+    justify-content: center; font-size: 16px;
+    padding: 15px; margin-top: 26px; border-bottom: 0;
+  }
+  .nav-menu .nav-sep { display: none; }
 }
 
 /* — layout — */

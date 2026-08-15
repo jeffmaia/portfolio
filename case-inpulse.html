@@ -12,13 +12,20 @@
 
 <nav class="site-nav">
   <a class="nav-brand" href="index.html">Jeff Maia | Product Designer Manager</a>
-  <a href="index.html">Home</a>
-  <a href="case-omnichat.html">Omnichat</a>
-  <a href="case-inpulse.html" aria-current="page">Inpulse</a>
-  <a href="case-mapa-experiencia.html">Mapa de experiência</a>
-  <span class="nav-sep"></span>
-  <a href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn</a>
-  <a class="btn btn-primary" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp</a>
+  <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Abrir menu">
+    <span class="nav-toggle__bar"></span>
+    <span class="nav-toggle__bar"></span>
+    <span class="nav-toggle__bar"></span>
+  </button>
+  <div class="nav-menu" id="nav-menu">
+    <a href="index.html">Home</a>
+    <a href="case-omnichat.html">Omnichat</a>
+    <a href="case-inpulse.html" aria-current="page">Inpulse</a>
+    <a href="case-mapa-experiencia.html">Mapa de experiência</a>
+    <span class="nav-sep"></span>
+    <a href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn</a>
+    <a class="btn btn-primary" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
 </nav>
 
 <main>
@@ -244,6 +251,7 @@
 </div>
 </main>
 
+<script src="assets/nav.js"></script>
 <script src="assets/inpulse.js"></script>
 </body>
 </html>
