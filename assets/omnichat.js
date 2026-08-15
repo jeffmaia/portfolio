@@ -42,20 +42,21 @@
 
   const AFTER = [
     { author: "Lead · Instagram", side: "lead", text: "Oi, vi aqui no Instagram e queria saber mais" },
-    { author: "Agente", side: "bot", text: "Oi! Você chegou pelo anúncio da campanha de inverno. É sobre isso que quer falar, ou é outro assunto?", layer: 0 },
+    { author: "Agente", side: "bot", text: "Oi! Você chegou pelo anúncio da campanha de inverno. É sobre isso que quer falar, ou é outro assunto?", layer: 1 },
     { author: "Lead · Instagram", side: "lead", text: "É sobre isso mesmo" },
-    { author: "Agente", side: "bot", text: "Fechado. Antes de te passar valores, só confirmando: é para uso próprio ou para revenda?", layer: 1 },
+    { author: "Agente", side: "bot", text: "Fechado. Antes de te passar valores, só confirmando: é para uso próprio ou para revenda?", layer: 2 },
     { author: "Lead · Instagram", side: "lead", text: "Uso próprio" },
-    { author: "Agente", side: "bot", text: "Então a opção que faz sentido é a que estava no anúncio, com entrega para a sua região. Quero já reservar para você?", layer: 1 },
+    { author: "Agente", side: "bot", text: "Então a opção que faz sentido é a que estava no anúncio, com entrega para a sua região. Quero já reservar para você?", layer: 2 },
     { author: "Lead · Instagram", side: "lead", text: "Pode reservar sim" }
   ];
 
-  const START_LAYER = 1; // matches original startLayer=2 (1-based) -> index 1
-
-  const state = { active: START_LAYER, shown: 0 };
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const state = { active: 0, shown: reduceMotion ? AFTER.length : 0 };
   let timer = null;
 
   const layersList = document.getElementById("layers-list");
+  const layerDots = document.getElementById("layer-dots");
+  const detail = document.getElementById("layer-detail");
   const detailId = document.getElementById("detail-id");
   const detailTitle = document.getElementById("detail-title");
   const detailDecision = document.getElementById("detail-decision");
@@ -64,44 +65,58 @@
   const afterList = document.getElementById("after-list");
   const replayBtn = document.getElementById("replay-btn");
 
+  const layerItems = LAYERS.map((layer, i) => {
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "blueprint layer-item";
+    item.setAttribute("role", "tab");
+    item.id = "layer-tab-" + layer.id;
+    item.innerHTML = '<span class="layer-num"></span><span class="layer-title"></span>';
+    item.querySelector(".layer-num").textContent = layer.id;
+    item.querySelector(".layer-title").textContent = layer.title;
+    item.addEventListener("click", () => setActive(i));
+    layersList.appendChild(item);
+
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.className = "dot";
+    dot.setAttribute("aria-label", "Camada " + layer.id);
+    dot.addEventListener("click", () => setActive(i));
+    layerDots.appendChild(dot);
+
+    return { item, dot };
+  });
+
   function setActive(index) {
     state.active = index;
-    renderLayers();
-    renderDetail();
-  }
-
-  function renderLayers() {
-    layersList.innerHTML = "";
-    LAYERS.forEach((l, i) => {
-      const item = document.createElement("div");
-      item.className = "blueprint layer-item" + (i === state.active ? " active" : "");
-      item.innerHTML = `
-        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-        <span class="layer-num">${l.id}</span>
-        <span class="layer-title">${l.title}</span>
-      `;
-      item.addEventListener("click", () => setActive(i));
-      layersList.appendChild(item);
+    layerItems.forEach((refs, i) => {
+      const on = i === index;
+      refs.item.setAttribute("aria-selected", String(on));
+      refs.dot.setAttribute("aria-current", String(on));
     });
+
+    const layer = LAYERS[index];
+    detail.setAttribute("aria-labelledby", "layer-tab-" + layer.id);
+    detailId.textContent = layer.id;
+    detailTitle.textContent = layer.title;
+    detailDecision.textContent = layer.decision;
+    detailEffect.textContent = layer.effect;
   }
 
-  function renderDetail() {
-    const l = LAYERS[state.active];
-    detailId.textContent = l.id;
-    detailTitle.textContent = l.title;
-    detailDecision.textContent = l.decision;
-    detailEffect.textContent = l.effect;
-  }
+  document.getElementById("layer-prev").addEventListener("click", () => {
+    setActive((state.active + LAYERS.length - 1) % LAYERS.length);
+  });
+  document.getElementById("layer-next").addEventListener("click", () => {
+    setActive((state.active + 1) % LAYERS.length);
+  });
 
   function messageRow(m, i) {
     const bot = m.side === "bot";
     const row = document.createElement("div");
-    row.className = "msg-row" + (i < state.shown ? " visible" : "");
-    row.style.justifyContent = bot ? "flex-start" : "flex-end";
+    row.className = "msg-row " + (bot ? "msg-row--bot" : "msg-row--lead") + (i < state.shown ? " visible" : "");
 
     const bubble = document.createElement("div");
     bubble.className = "msg-bubble";
-    bubble.style.alignItems = bot ? "flex-start" : "flex-end";
 
     const author = document.createElement("span");
     author.className = "msg-author";
@@ -109,12 +124,9 @@
 
     const text = document.createElement("div");
     text.className = "msg-text";
-    text.style.background = bot ? "color-mix(in srgb, var(--color-accent) 12%, transparent)" : "transparent";
-    text.style.borderColor = bot ? "var(--color-accent-400)" : "var(--color-divider)";
     text.textContent = m.text;
 
-    bubble.appendChild(author);
-    bubble.appendChild(text);
+    bubble.append(author, text);
 
     if (m.note) {
       const note = document.createElement("span");
@@ -125,9 +137,13 @@
 
     if (m.layer != null) {
       const btn = document.createElement("button");
-      btn.className = "layer-link";
+      btn.type = "button";
+      btn.className = "btn-ghost";
       btn.textContent = "camada " + LAYERS[m.layer].id;
-      btn.addEventListener("click", () => setActive(m.layer));
+      btn.addEventListener("click", () => {
+        setActive(m.layer);
+        detail.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+      });
       bubble.appendChild(btn);
     }
 
@@ -136,30 +152,28 @@
   }
 
   function renderChat() {
-    beforeList.innerHTML = "";
-    BEFORE.forEach((m, i) => beforeList.appendChild(messageRow(m, i)));
-    afterList.innerHTML = "";
-    AFTER.forEach((m, i) => afterList.appendChild(messageRow(m, i)));
+    beforeList.replaceChildren(...BEFORE.map(messageRow));
+    afterList.replaceChildren(...AFTER.map(messageRow));
   }
 
   function play() {
     clearInterval(timer);
+    if (reduceMotion) {
+      state.shown = AFTER.length;
+      renderChat();
+      return;
+    }
     state.shown = 0;
     renderChat();
     timer = setInterval(() => {
-      if (state.shown >= 7) {
-        clearInterval(timer);
-        return;
-      }
       state.shown += 1;
       renderChat();
+      if (state.shown >= AFTER.length) clearInterval(timer);
     }, 620);
   }
 
   replayBtn.addEventListener("click", play);
 
-  renderLayers();
-  renderDetail();
-  renderChat();
+  setActive(0);
   play();
 })();

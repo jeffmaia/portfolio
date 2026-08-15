@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case Mapa de Experiência — Como um mapa de experiência ajudou a deixar o NPS positivo</title>
+<meta name="description" content="Um relatório visual em formato de tabuleiro que fez 16 campus lerem a pesquisa e agirem sobre ela. O NPS geral saiu de −33 e chegou a +15.">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="nav-brand" href="index.html">Jeff Maia | Product Designer Manager</a>
+  <a href="index.html">Home</a>
+  <a href="case-omnichat.html">Omnichat</a>
+  <a href="case-inpulse.html">Inpulse</a>
+  <a href="case-mapa-experiencia.html" aria-current="page">Mapa de experiência</a>
+  <span class="nav-sep"></span>
+  <a href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn</a>
+  <a class="btn btn-primary" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp</a>
+</nav>
+
+<main class="wrap page">
+
+  <header class="case-header">
+    <div>
+      <div class="tag-row">
+        <span class="tag tag-outline">UX Research</span>
+        <span class="tag tag-outline">UX Strategy</span>
+        <span class="tag tag-accent">Pesquisa e NPS</span>
+      </div>
+      <h1>Como um mapa de experiência ajudou a deixar o NPS positivo</h1>
+      <p class="subhead">Um grupo educacional com 12 marcas e 16 campus ao redor do Brasil sofria com uma nota de NPS negativa. As ações realizadas nos últimos semestres não conseguiram mudar esse cenário.</p>
+    </div>
+    <figure class="blueprint stat-figure">
+      <div class="stat-figure__num">+48</div>
+      <figcaption class="stat-figure__cap">Pontos de NPS. A nota geral partiu de 33 pontos negativos e chegou a 15 pontos.</figcaption>
+    </figure>
+  </header>
+
+  <section class="grid-2 section--tight">
+    <div>
+      <h6 class="eyebrow">01 — A pergunta</h6>
+      <p class="statement">Como ajudar cada campus a entender o motivo da nota negativa e a pensar em ações para melhorá-la?</p>
+      <p class="lead">Um relatório visual conseguiu engajar mais times e ajudar efetivamente a pensar em ações para solucionar insatisfações específicas de cada grupo de alunos.</p>
+    </div>
+    <div>
+      <h6 class="eyebrow">Ficha do projeto</h6>
+      <dl class="spec">
+        <div class="spec__row"><dt>Duração</dt><dd>3 meses</dd></div>
+        <div class="spec__row"><dt>Jeff</dt><dd>Idealizador e mentor</dd></div>
+        <div class="spec__row"><dt>Anna Marsillac</dt><dd>Pesquisadora</dd></div>
+        <div class="spec__row"><dt>Lucas Dias, Natália Dantas</dt><dd>Designers</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <h6 class="eyebrow" style="margin-bottom: 20px">02 — Só um relatório não é suficiente</h6>
+    <div class="grid-2">
+      <p class="lead">Ajudamos 16 campus de medicina a melhorar a nota de NPS, deixando alunos mais felizes com o serviço das instituições. A nota geral saiu de negativa e algumas marcas tiveram sua nota como promotora.</p>
+      <div class="blueprint chart-panel" style="gap: 16px">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px">
+          <span class="chart-panel__title">Nota geral de NPS</span>
+          <button class="btn-ghost" id="replay-nps">Reproduzir</button>
+        </div>
+        <div class="nps-scale">
+          <div class="nps-scale__zero"></div>
+          <div class="nps-scale__range" id="nps-range"></div>
+        </div>
+        <div class="nps-legend"><span>−100</span><span>0</span><span>+100</span></div>
+        <div class="nps-values">
+          <div>
+            <div class="nps-values__num">−33</div>
+            <div class="nps-values__label">antes</div>
+          </div>
+          <div>
+            <div class="nps-values__num is-after">+15</div>
+            <div class="nps-values__label">depois</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div>
+        <h6 class="eyebrow" style="margin-bottom: 12px">03 — Processo</h6>
+        <h2>Destaques do processo</h2>
+      </div>
+      <p class="caption">Clique em uma etapa para abrir o detalhe.</p>
+    </div>
+
+    <div class="layers">
+      <div class="layers__list" id="steps-list" role="tablist" aria-label="Etapas do processo"></div>
+
+      <div>
+        <div class="blueprint layer-detail" id="step-detail" role="tabpanel" tabindex="0">
+          <span class="tag tag-accent" style="align-self: flex-start">etapa <span id="detail-id"></span></span>
+          <h3 id="detail-title"></h3>
+          <div class="layer-detail__block">
+            <p id="detail-body"></p>
+            <p id="detail-body2"></p>
+          </div>
+          <div class="layer-detail__block layer-detail__effect">
+            <h6>Consequência</h6>
+            <p id="detail-effect"></p>
+          </div>
+        </div>
+
+        <div class="pager">
+          <button class="pager__arrow" id="step-prev" aria-label="Etapa anterior">←</button>
+          <div class="dots" id="step-dots"></div>
+          <button class="pager__arrow" id="step-next" aria-label="Próxima etapa">→</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head" style="margin-bottom: 28px">
+      <div>
+        <h6 class="eyebrow" style="margin-bottom: 12px">04 — Solução</h6>
+        <h2>O mapa</h2>
+      </div>
+      <a class="btn btn-secondary" href="https://www.figma.com/proto/8fvE9ztg50OQFqWIqGfH3y/Mapa-de-Experie%CC%82ncia-Estudante-Medicina?page-id=221%3A2&amp;node-id=288-1762&amp;starting-point-node-id=288%3A1762&amp;t=rEOOuyzD3vuwNv1m-1" target="_blank" rel="noopener">Abrir o mapa completo</a>
+    </div>
+
+    <div class="grid-2" style="margin-bottom: 34px">
+      <p class="lead">As instituições receberam um mapa interativo para transitar por toda a jornada do estudante, com visualização por semestre, por eixos da vida do aluno, resumida por variação de sentimento entre semestres e resumida por palavras chave entre eixos e semestres.</p>
+      <div>
+        <h6 class="eyebrow" style="margin-bottom: 12px">Eixos do mapa</h6>
+        <div class="tag-row">
+          <span class="tag tag-outline">Saúde mental</span>
+          <span class="tag tag-outline">Saúde física</span>
+          <span class="tag tag-outline">Vida financeira</span>
+          <span class="tag tag-outline">Expectativa de futuro</span>
+          <span class="tag tag-outline">Dores</span>
+          <span class="tag tag-outline">Experiência com a instituição</span>
+          <span class="tag tag-outline">Sugestões</span>
+          <span class="tag tag-outline">Aplicativos</span>
+          <span class="tag tag-outline">Oportunidades</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="caption" style="margin: 0 0 20px">Clique na imagem para ampliar. Use as setas para navegar.</p>
+    <div class="blueprint carousel">
+      <div class="carousel__stage">
+        <figure class="carousel__figure" id="shot-figure">
+          <img id="shot-img" src="" alt="" loading="lazy">
+        </figure>
+        <button class="pager__arrow carousel__arrow carousel__arrow--prev" id="shot-prev" aria-label="Imagem anterior">←</button>
+        <button class="pager__arrow carousel__arrow carousel__arrow--next" id="shot-next" aria-label="Próxima imagem">→</button>
+      </div>
+      <div class="carousel__foot">
+        <span class="overline" id="shot-caption"></span>
+        <div class="dots" id="shot-dots"></div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="padding-top: 56px">
+      <div>
+        <h6 class="eyebrow">Relatórios por eixo</h6>
+        <div class="lead">
+          <p>Além do mapa, foram criados relatórios em profundidade dos principais eixos, com uma visão ainda mais detalhada e recortes das entrevistas realizadas, evidenciando reclamações e problemas relatados.</p>
+          <p>Os achados foram complementados com informações de mercado, correlacionando as dores da instituição com as de outras instituições. Também foi sugerida uma pequena lista de indicadores para acompanhamento após as ações, garantindo que estivessem trazendo resultado.</p>
+        </div>
+      </div>
+      <div>
+        <h6 class="eyebrow">Ferramentas e métodos</h6>
+        <div class="tag-row">
+          <span class="tag tag-outline">Mapa de afinidade</span>
+          <span class="tag tag-outline">Análise temática</span>
+          <span class="tag tag-outline">Análise de sentimento</span>
+          <span class="tag tag-outline">Análise narrativa</span>
+          <span class="tag tag-outline">Brainstorm</span>
+          <span class="tag tag-outline">Benchmark</span>
+          <span class="tag tag-outline">Rascunho de ideias</span>
+          <span class="tag tag-outline">Prototipagem navegável</span>
+          <span class="tag tag-outline">Desenho de interface</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="grid-2 section--divided">
+      <div>
+        <h6 class="eyebrow">05 — Resultado</h6>
+        <h2 style="font-size: clamp(26px, 3.2vw, 38px); max-width: 26ch; margin: 0 0 18px; text-wrap: pretty">Atingimos grande parte do ecossistema</h2>
+        <p class="lead">Com um trabalho de várias mãos, o engajamento com os relatórios mudou. A média de acesso de usuários únicos no primeiro mês, que era de 20 acessos sem o mapa de experiência, passou para 890 acessos com o mapa de experiência.</p>
+      </div>
+      <div class="blueprint chart-panel" style="gap: 22px">
+        <div class="chart-panel__head">
+          <span class="chart-panel__title">Usuários únicos no primeiro mês</span>
+          <span class="chart-panel__delta">+4.350%</span>
+        </div>
+        <div class="access-row">
+          <div class="access-row__head">
+            <span class="access-row__label">Sem o mapa de experiência</span>
+            <span class="access-row__value">20</span>
+          </div>
+          <div class="access-track"><div class="access-fill" data-width="2.2"></div></div>
+        </div>
+        <div class="access-row access-row--with">
+          <div class="access-row__head">
+            <span class="access-row__label">Com o mapa de experiência</span>
+            <span class="access-row__value">890</span>
+          </div>
+          <div class="access-track"><div class="access-fill" data-width="100"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="blueprint cta-bar">
+      <p>Precisa transformar pesquisa em ação dentro do time? Vamos conversar.</p>
+      <div class="cta-bar__actions">
+        <a class="btn btn-secondary" href="case-omnichat.html">Próximo caso →</a>
+        <a class="btn btn-primary" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Imagem ampliada" hidden>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox__caption" id="lightbox-caption"></div>
+</div>
+
+<script src="assets/mapa-experiencia.js"></script>
+</body>
+</html>

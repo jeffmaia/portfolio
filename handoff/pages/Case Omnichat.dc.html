@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/industry-40b7f81b-dcc7-48da-abee-61879f51ed00/styles.css">
+<script src="_ds/industry-40b7f81b-dcc7-48da-abee-61879f51ed00/_ds_bundle.js"></script>
+<style>
+@keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+body { margin: 0; }
+a { color: var(--color-accent-700); }
+a:hover { color: var(--color-accent-900); }
+</style>
+</helmet>
+
+<nav class="nav" style="position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--color-bg) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--color-divider); padding: 14px 28px; gap: 24px; flex-wrap: wrap">
+  <a class="nav-brand" href="Home.dc.html">Jeff Maia | Product Designer Manager</a>
+  <a href="Home.dc.html">Home</a>
+  <a href="Case%20Omnichat.dc.html" aria-current="page">Omnichat</a>
+  <a href="Case%20Inpulse.dc.html">Inpulse</a>
+  <a href="Case%20Mapa%20de%20Experiencia.dc.html">Mapa de experiência</a>
+  <span style="width: 1px; height: 18px; background: var(--color-divider)"></span>
+  <a href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn</a>
+  <a class="btn btn-primary" href="https://wa.me/5511977346175" target="_blank" rel="noopener" style="font-size: 13px; padding: 7px 14px; color: var(--color-bg)">WhatsApp</a>
+</nav>
+
+<div style="max-width: 1180px; margin: 0 auto; padding: 64px 28px 96px">
+
+  <header style="display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr); gap: 48px; align-items: end; padding-bottom: 34px; border-bottom: 1px solid var(--color-divider)">
+    <div>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px">
+        <span class="tag tag-outline">Omnichat</span>
+        <span class="tag tag-outline">Agentic Experience (AX)</span>
+        <span class="tag tag-accent">Agentes conversacionais</span>
+      </div>
+      <h1 style="font-size: clamp(38px, 5.2vw, 62px); max-width: 22ch; margin: 0 0 18px; text-wrap: pretty">Redesenhando a&nbsp;verificação de&nbsp;intenção dos&nbsp;agentes conversacionais</h1>
+      <p style="font-size: 18px; max-width: 56ch; color: var(--color-neutral-800); margin: 0">A maior perda de conversão não estava na interface. Estava na camada onde a intenção do lead entra no sistema.</p>
+    </div>
+    <figure class="blueprint" style="padding: 26px 24px 22px; display: flex; flex-direction: column; gap: 6px">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="font-family: var(--font-heading); font-size: clamp(56px, 9vw, 96px); line-height: 0.9; color: var(--color-accent-700); letter-spacing: -0.03em">+8%</div>
+      <div style="font-size: 13px; line-height: 1.45; color: var(--color-neutral-700); border-top: 1px solid var(--color-divider); padding-top: 10px; margin-top: 6px">Conversão de leads qualificados nos agentes de vendas conversacionais, medida em produção.</div>
+    </figure>
+  </header>
+
+  <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 44px; padding: 72px 0 0">
+    <div>
+      <h6 style="color: var(--color-accent-700); margin-bottom: 14px">01 — Contexto</h6>
+      <p style="font-size: 16px; color: var(--color-neutral-800)">A Omnichat opera agentes de vendas conversacionais que atendem leads em escala, vindos de origens diferentes. Uma parte relevante chegava por campanhas de Instagram, outra por disparos de WhatsApp feitos por bots de terceiros.</p>
+      <p style="font-size: 16px; color: var(--color-neutral-800)">Cada origem carregava um tipo diferente de intenção, mas o agente tratava todo lead da mesma forma, como se toda conversa começasse do zero.</p>
+    </div>
+    <div>
+      <h6 style="color: var(--color-accent-700); margin-bottom: 14px">02 — O problema</h6>
+      <p style="font-size: 16px; color: var(--color-neutral-800)">Não existia visão clara da jornada conversacional. O time via o resultado final, lead convertido ou lead perdido, mas não enxergava o caminho entre a mensagem de entrada e a decisão do agente.</p>
+      <p style="font-size: 16px; color: var(--color-neutral-800)">O erro não era de capacidade do modelo. Era de design. Ninguém havia desenhado a fronteira onde a intenção do lead entra no sistema, então essa fronteira ficava por conta do acaso de cada canal de origem.</p>
+    </div>
+  </section>
+
+  <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; padding: 34px 0 0">
+    <div class="blueprint" style="padding: 22px 20px">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px">
+        <span style="font-family: var(--font-heading); font-size: 22px">Instagram</span>
+        <span class="tag tag-neutral">origem A</span>
+      </div>
+      <p style="font-size: 15px; color: var(--color-neutral-800); margin: 0">Chegavam com um objetivo implícito, moldado pelo anúncio que clicaram. O agente não tinha acesso a esse contexto e tratava a primeira mensagem como uma pergunta genérica.</p>
+    </div>
+    <div class="blueprint" style="padding: 22px 20px">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px">
+        <span style="font-family: var(--font-heading); font-size: 22px">Disparos de WhatsApp</span>
+        <span class="tag tag-neutral">origem B</span>
+      </div>
+      <p style="font-size: 15px; color: var(--color-neutral-800); margin: 0">Chegavam ainda mais comprimidos, muitas vezes respondendo a um gatilho automático sem nunca ter formulado a própria intenção com clareza.</p>
+    </div>
+  </section>
+
+  <section style="padding: 96px 0 0">
+    <div style="display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 40px">
+      <div>
+        <h6 style="color: var(--color-accent-700); margin-bottom: 12px">03 — Processo</h6>
+        <h2 style="font-size: clamp(28px, 3.4vw, 40px); max-width: 26ch; margin: 0">Cinco camadas de&nbsp;um&nbsp;artefato de&nbsp;design</h2>
+      </div>
+      <p style="font-size: 14px; color: var(--color-neutral-700); max-width: 34ch; margin: 0">Clique em uma camada para ver a decisão de design por trás dela e o efeito na conversão.</p>
+    </div>
+
+    <div ref="{{ layersGridRef }}" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 56px; align-items: stretch">
+      <sc-if value="{{ showLayerList }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; flex-direction: column; gap: 10px; height: 560px">
+          <sc-for list="{{ layers }}" as="l" hint-placeholder-count="5">
+            <div class="blueprint" onClick="{{ l.select }}" onMouseEnter="{{ l.enter }}" onMouseLeave="{{ l.leave }}" style="cursor: pointer; height: 104px; flex: none; display: grid; grid-template-columns: 52px minmax(0, 1fr); align-items: center; gap: 18px; min-height: 76px; padding: 14px 20px; transition: background .3s, border-color .3s; background: {{ l.bg }}; border-color: {{ l.border }}">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+              <span style="font-family: var(--font-heading); font-size: 30px; line-height: 1; letter-spacing: -0.02em; color: {{ l.num }}; transition: color .3s">{{ l.id }}</span>
+              <span style="font-family: var(--font-heading); font-size: 19px; line-height: 1.2; color: {{ l.fg }}; transition: color .3s">{{ l.title }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <div style="display: flex; flex-direction: column; gap: 14px">
+      <div class="blueprint" style="padding: 28px 26px 30px; height: 560px; overflow: hidden; display: flex; flex-direction: column; gap: 18px">
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div style="display: flex; align-items: baseline; gap: 12px">
+          <span class="tag tag-accent">camada {{ active.id }}</span>
+        </div>
+        <h3 style="font-size: 26px; margin: 0; max-width: 26ch">{{ active.title }}</h3>
+        <div style="border-top: 1px solid var(--color-divider); padding-top: 16px">
+          <h6 style="color: var(--color-neutral-600); margin-bottom: 8px">Decisão de design</h6>
+          <p style="font-size: 16px; color: var(--color-neutral-800); margin: 0">{{ active.decision }}</p>
+        </div>
+        <div style="border-top: 1px solid var(--color-divider); padding-top: 16px; margin-top: auto">
+          <h6 style="color: var(--color-neutral-600); margin-bottom: 8px">Efeito na conversão</h6>
+          <p style="font-size: 16px; color: var(--color-accent-700); margin: 0">{{ active.effect }}</p>
+        </div>
+      </div>
+
+      <sc-if value="{{ showLayerPager }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; border-top: 1px solid var(--color-divider); padding-top: 14px">
+          <button onClick="{{ prevLayer }}" aria-label="Anterior" style="width: 40px; height: 40px; padding: 0; cursor: pointer; font-size: 16px; background: var(--color-bg); border: 1px solid var(--color-divider); color: var(--color-neutral-900)" style-hover="background: var(--color-accent-200); border-color: var(--color-accent-500)">←</button>
+          <div style="display: flex; gap: 8px">
+            <sc-for list="{{ layers }}" as="l" hint-placeholder-count="5">
+              <button onClick="{{ l.select }}" aria-label="camada {{ l.id }}" style="width: 26px; height: 26px; padding: 0; cursor: pointer; font-family: var(--font-heading); font-size: 12px; background: {{ l.dotBg }}; color: {{ l.dotFg }}; border: 1px solid {{ l.border }}; transition: background .25s, border-color .25s"></button>
+            </sc-for>
+          </div>
+          <button onClick="{{ nextLayer }}" aria-label="Próxima" style="width: 40px; height: 40px; padding: 0; cursor: pointer; font-size: 16px; background: var(--color-bg); border: 1px solid var(--color-divider); color: var(--color-neutral-900)" style-hover="background: var(--color-accent-200); border-color: var(--color-accent-500)">→</button>
+        </div>
+      </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 96px 0 0">
+    <div style="display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 12px">
+      <div>
+        <h6 style="color: var(--color-accent-700); margin-bottom: 12px">04 — Antes e depois</h6>
+        <h2 style="font-size: clamp(28px, 3.4vw, 40px); max-width: 30ch; margin: 0">O&nbsp;mesmo lead de&nbsp;Instagram, nas&nbsp;duas versões da&nbsp;fronteira de&nbsp;entrada</h2>
+      </div>
+      <button class="btn btn-secondary" onClick="{{ replay }}">Reproduzir conversa</button>
+    </div>
+    <p style="font-size: 13px; color: var(--color-neutral-600); margin: 0 0 34px">Conversa ilustrativa. As marcas de camada ligam cada correção ao ponto correspondente do diagrama acima.</p>
+
+    <div style="display: grid; grid-template-columns: {{ chatCols }}; gap: 28px">
+      <div class="blueprint" style="padding: 24px 22px 28px; display: flex; flex-direction: column; gap: 14px">
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--color-divider); padding-bottom: 12px">
+          <span style="font-family: var(--font-heading); font-size: 21px">Antes</span>
+          <span class="tag tag-outline">conversa abandonada</span>
+        </div>
+        <sc-for list="{{ before }}" as="m" hint-placeholder-count="5">
+          <div style="display: flex; justify-content: {{ m.align }}; opacity: {{ m.vis }}; transition: opacity .5s">
+            <div style="max-width: 84%; display: flex; flex-direction: column; gap: 6px; align-items: {{ m.items }}">
+              <span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-600)">{{ m.author }}</span>
+              <div style="border: 1px solid {{ m.border }}; background: {{ m.bg }}; padding: 11px 14px; font-size: 15px; line-height: 1.45; color: var(--color-neutral-900)">{{ m.text }}</div>
+              <sc-if value="{{ m.note }}" hint-placeholder-val="{{ false }}">
+                <span style="font-size: 12px; color: var(--color-neutral-700); border-left: 1px solid var(--color-divider); padding-left: 8px">{{ m.note }}</span>
+              </sc-if>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div class="blueprint" style="padding: 24px 22px 28px; display: flex; flex-direction: column; gap: 14px; background: color-mix(in srgb, var(--color-accent) 4%, transparent)">
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--color-divider); padding-bottom: 12px">
+          <span style="font-family: var(--font-heading); font-size: 21px">Depois</span>
+          <span class="tag tag-accent">lead convertido</span>
+        </div>
+        <sc-for list="{{ after }}" as="m" hint-placeholder-count="7">
+          <div style="display: flex; justify-content: {{ m.align }}; opacity: {{ m.vis }}; transition: opacity .5s">
+            <div style="max-width: 84%; display: flex; flex-direction: column; gap: 6px; align-items: {{ m.items }}">
+              <span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-600)">{{ m.author }}</span>
+              <div style="border: 1px solid {{ m.border }}; background: {{ m.bg }}; padding: 11px 14px; font-size: 15px; line-height: 1.45; color: var(--color-neutral-900)">{{ m.text }}</div>
+              <sc-if value="{{ m.hasLayer }}" hint-placeholder-val="{{ false }}">
+                <button onClick="{{ m.goLayer }}" style="font-family: var(--font-body); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-accent-700); background: transparent; border: 1px solid var(--color-accent-300); padding: 4px 9px; cursor: pointer; transition: background .25s, border-color .25s" style-hover="background: var(--color-accent-200); border-color: var(--color-accent-500)">{{ m.layerLabel }}</button>
+              </sc-if>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 96px 0 0">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 44px; align-items: start; padding-top: 34px; border-top: 1px solid var(--color-divider)">
+      <div>
+        <h6 style="color: var(--color-accent-700); margin-bottom: 14px">05 — Resultado</h6>
+        <p style="font-size: 16px; color: var(--color-neutral-800)">A conversão de leads qualificados subiu 8%, medida pela taxa de conversão dos agentes de vendas conversacionais. O ganho não veio de uma oferta melhor ou de um texto mais persuasivo, veio de o agente parar de responder à mensagem literal e passar a responder à intenção real por trás dela.</p>
+        <p style="font-size: 16px; color: var(--color-neutral-800); margin: 0">Especialmente nos leads vindos de Instagram e de disparos de WhatsApp, que eram os que mais perdiam conversão antes da mudança.</p>
+      </div>
+      <div>
+        <h6 style="color: var(--color-accent-700); margin-bottom: 14px">Aprendizado</h6>
+        <p style="font-family: var(--font-heading); font-size: clamp(22px, 2.6vw, 30px); line-height: 1.2; color: var(--color-neutral-900); margin: 0 0 14px; text-wrap: pretty">A interface não é mais o objeto principal do&nbsp;trabalho. O objeto principal é a decisão.</p>
+        <p style="font-size: 16px; color: var(--color-neutral-800); margin: 0">O que o agente pode decidir sozinho, o que ele precisa verificar antes de agir e como ele mostra isso para quem precisa confiar no resultado. Desenhar bem essa camada foi o que gerou o ganho de conversão.</p>
+      </div>
+    </div>
+
+    <div class="blueprint" style="margin-top: 56px; padding: 26px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <p style="font-size: 16px; color: var(--color-neutral-800); margin: 0; flex: 1 1 320px">Trabalho com design de decisão em produtos conversacionais. Se esse tipo de camada é um problema no seu produto, vamos conversar.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px">
+        <a class="btn btn-secondary" href="Case%20Inpulse.dc.html">Próximo caso →</a>
+        <a class="btn btn-primary" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;chatLayout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;lado a lado&quot;,&quot;empilhado&quot;],&quot;default&quot;:&quot;lado a lado&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;autoplayChat&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;startLayer&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1,&quot;min&quot;:1,&quot;max&quot;:5,&quot;tsType&quot;:&quot;number&quot;}}">
+const LAYERS = [
+  {
+    id: "01",
+    title: "A\u00A0arquitetura de\u00A0prompt como\u00A0superfície de\u00A0design",
+    decision: "Parar de tratar o prompt como configuração técnica. Cada ponto em que o agente decide algo — continuar a conversa, pedir mais contexto ou escalar para um vendedor — passou a ser um ponto de decisão desenhado com intenção, no mesmo nível de uma interface visual.",
+    effect: "Tornou a conversa um objeto de design, com pontos de falha localizáveis em vez de um resultado opaco."
+  },
+  {
+    id: "02",
+    title: "Jornada mapeada por\u00A0origem do\u00A0lead",
+    decision: "Em vez de um fluxo único, a entrada da conversa virou uma fronteira distinta por canal. Leads de Instagram passaram a receber uma pergunta inicial que resgata o contexto do anúncio. Leads de disparos de WhatsApp ganharam uma etapa extra de verificação de intenção.",
+    effect: "Recuperou contexto que antes se perdia no primeiro turno, justamente nas duas origens de maior perda."
+  },
+  {
+    id: "03",
+    title: "Limites de\u00A0decisão do\u00A0agente redesenhados",
+    decision: "Definimos com clareza o que o agente decide sozinho — seguir com a oferta quando a intenção está confirmada — e em que ponto ele precisa parar e verificar antes de agir, quando há sinal de ambiguidade na origem da conversa.",
+    effect: "Reduziu ofertas erradas apresentadas cedo demais, um dos principais pontos de abandono."
+  },
+  {
+    id: "04",
+    title: "Leitura de\u00A0desvio em\u00A0vez de\u00A0leitura completa",
+    decision: "O time passou a revisar apenas os pontos em que a conversa fugiu do padrão esperado para aquela origem, em vez de ler transcrições inteiras.",
+    effect: "Permitiu revisar volume alto de conversas em pouco tempo e ajustar a fronteira de entrada com base em dado real."
+  },
+  {
+    id: "05",
+    title: "Teste controlado em\u00A0produção",
+    decision: "Rodar o redesenho em produção com testes controlados, comparando taxa de conversão por origem antes e depois, em vez de validar a mudança isolada em ambiente de teste.",
+    effect: "Isolou o ganho de 8% na conversão de leads qualificados por origem de lead."
+  }
+];
+
+const BEFORE = [
+  { author: "Lead · Instagram", side: "lead", text: "Oi, vi aqui no Instagram e queria saber mais" },
+  { author: "Agente", side: "bot", text: "Olá! Tudo bem? Posso te ajudar com informações sobre nossos produtos. Qual o seu nome?", note: "Trata a primeira mensagem como pergunta genérica." },
+  { author: "Lead · Instagram", side: "lead", text: "É sobre aquilo que apareceu no anúncio" },
+  { author: "Agente", side: "bot", text: "Temos várias opções disponíveis. Quer fechar o plano anual em 12x sem juros?", note: "Oferta apresentada antes de a intenção existir." },
+  { author: "Lead · Instagram", side: "lead", text: "…", note: "Conversa abandonada no quarto turno." }
+];
+
+const AFTER = [
+  { author: "Lead · Instagram", side: "lead", text: "Oi, vi aqui no Instagram e queria saber mais" },
+  { author: "Agente", side: "bot", text: "Oi! Você chegou pelo anúncio da campanha de inverno. É sobre isso que quer falar, ou é outro assunto?", layer: 1 },
+  { author: "Lead · Instagram", side: "lead", text: "É sobre isso mesmo" },
+  { author: "Agente", side: "bot", text: "Fechado. Antes de te passar valores, só confirmando: é para uso próprio ou para revenda?", layer: 2 },
+  { author: "Lead · Instagram", side: "lead", text: "Uso próprio" },
+  { author: "Agente", side: "bot", text: "Então a opção que faz sentido é a que estava no anúncio, com entrega para a sua região. Quero já reservar para você?", layer: 2 },
+  { author: "Lead · Instagram", side: "lead", text: "Pode reservar sim" }
+];
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const start = Math.min(Math.max(parseInt(props.startLayer ?? 1, 10) || 1, 1), 5) - 1;
+    this.state = { active: start, shown: props.autoplayChat === false ? 99 : 0, hoverLayer: -1 };
+  }
+
+  layersGridRef = React.createRef();
+
+  componentDidMount() {
+    if (this.props.autoplayChat !== false) this.play();
+    const el = this.layersGridRef.current;
+    if (el && window.ResizeObserver) {
+      this.ro = new ResizeObserver(() => {
+        // one column = the detail panel already fills the width; drop the list
+        const single = el.clientWidth < 720;
+        if (single !== this.state.singleCol) this.setState({ singleCol: single });
+      });
+      this.ro.observe(el);
+    }
+  }
+
+  componentWillUnmount() { clearInterval(this.timer); if (this.ro) this.ro.disconnect(); }
+
+  play() {
+    clearInterval(this.timer);
+    this.setState({ shown: 0 });
+    this.timer = setInterval(() => {
+      this.setState(s => {
+        if (s.shown >= 7) { clearInterval(this.timer); return s; }
+        return { shown: s.shown + 1 };
+      });
+    }, 620);
+  }
+
+  msgs(list) {
+    return list.map((m, i) => {
+      const bot = m.side === "bot";
+      return {
+        author: m.author,
+        text: m.text,
+        note: m.note || false,
+        align: bot ? "flex-start" : "flex-end",
+        items: bot ? "flex-start" : "flex-end",
+        bg: bot ? "color-mix(in srgb, var(--color-accent) 12%, transparent)" : "transparent",
+        border: bot ? "var(--color-accent-400)" : "var(--color-divider)",
+        vis: i < this.state.shown ? 1 : 0,
+        hasLayer: m.layer != null,
+        layerLabel: m.layer != null ? "camada " + LAYERS[m.layer].id : "",
+        goLayer: () => this.setState({ active: m.layer })
+      };
+    });
+  }
+
+  renderVals() {
+    const active = this.state.active;
+    return {
+      layers: LAYERS.map((l, i) => {
+        const on = i === active;
+        const hot = this.state.hoverLayer === i;
+        return {
+          id: l.id,
+          title: l.title,
+          shift: on ? "22px" : "0px",
+          bg: on
+            ? (hot ? "var(--color-accent-800)" : "var(--color-accent-700)")
+            : (hot ? "color-mix(in srgb, var(--color-accent) 12%, transparent)" : "transparent"),
+          border: on
+            ? (hot ? "var(--color-accent-800)" : "var(--color-accent-700)")
+            : (hot ? "var(--color-accent-500)" : "var(--color-divider)"),
+          fg: on ? "var(--color-bg)" : "var(--color-neutral-900)",
+          num: on ? "var(--color-accent-300)" : (hot ? "var(--color-accent-700)" : "var(--color-neutral-500)"),
+          dotBg: on ? "var(--color-accent-700)" : "transparent",
+          dotFg: on ? "var(--color-bg)" : "var(--color-neutral-700)",
+          select: () => this.setState({ active: i }),
+          enter: () => this.setState({ hoverLayer: i }),
+          leave: () => this.setState({ hoverLayer: -1 })
+        };
+      }),
+      active: LAYERS[active],
+      layersGridRef: this.layersGridRef,
+      showLayerList: !this.state.singleCol,
+      showLayerPager: !!this.state.singleCol,
+      prevLayer: () => this.setState(s => ({ active: (s.active + LAYERS.length - 1) % LAYERS.length })),
+      nextLayer: () => this.setState(s => ({ active: (s.active + 1) % LAYERS.length })),
+      before: this.msgs(BEFORE),
+      after: this.msgs(AFTER),
+      chatCols: this.props.chatLayout === "empilhado" ? "minmax(0, 1fr)" : "repeat(auto-fit, minmax(320px, 1fr))",
+      replay: () => this.play()
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/industry-40b7f81b-dcc7-48da-abee-61879f51ed00/styles.css">
+<script src="_ds/industry-40b7f81b-dcc7-48da-abee-61879f51ed00/_ds_bundle.js"></script>
+<style>
+body { margin: 0; }
+a { color: var(--color-accent-700); }
+a:hover { color: var(--color-accent-900); }
+</style>
+</helmet>
+
+<nav class="nav" style="position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--color-bg) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--color-divider); padding: 14px 28px; gap: 24px; flex-wrap: wrap">
+  <a class="nav-brand" href="Home.dc.html">Jeff Maia | Product Designer Manager</a>
+  <a href="Home.dc.html" aria-current="page">Home</a>
+  <a href="Case%20Omnichat.dc.html">Omnichat</a>
+  <a href="Case%20Inpulse.dc.html">Inpulse</a>
+  <a href="Case%20Mapa%20de%20Experiencia.dc.html">Mapa de experiência</a>
+  <span style="width: 1px; height: 18px; background: var(--color-divider)"></span>
+  <a href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn</a>
+  <a class="btn btn-primary" href="https://wa.me/5511977346175" target="_blank" rel="noopener" style="font-size: 13px; padding: 7px 14px; color: var(--color-bg)">WhatsApp</a>
+</nav>
+
+<div style="max-width: 1180px; margin: 0 auto; padding: 76px 28px 96px">
+
+  <header style="padding-bottom: 56px">
+    <sc-if value="{{ showKicker }}" hint-placeholder-val="{{ true }}">
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 26px; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-600)">
+        <span style="width: 34px; height: 1px; background: var(--color-neutral-400)"></span>
+        <span>Product design · IA no processo</span>
+      </div>
+    </sc-if>
+    <h1 style="font-size: clamp(38px, 5.4vw, 76px); line-height: 0.98; letter-spacing: -0.03em; max-width: 26ch; margin: 0 0 24px; text-wrap: pretty; width: 557px; height: 122px">O ofício continua o mesmo. <br><span style="color: var(--color-neutral-600);">O jeito de fazer, não.</span></h1>
+    <p style="font-size: 19px; line-height: 1.5; max-width: 58ch; color: var(--color-neutral-800); margin: 0">Ajudo times de produto e design a integrar IA no processo real de trabalho, não só na ferramenta.</p>
+  </header>
+
+  <section style="padding: 76px 0 0">
+    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 30px; padding-top: 0px">
+      <p style="margin: 0; font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: clamp(22px, 2.6vw, 32px); line-height: 1.1; letter-spacing: -0.02em">Isso na prática, nos projetos abaixo</p>
+      <span style="flex: 1; height: 1px; background: var(--color-divider)"></span>
+      <span style="font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-600)">03 casos</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; align-items: stretch">
+      <sc-for list="{{ cases }}" as="c" hint-placeholder-count="3">
+        <a class="blueprint" href="{{ c.href }}" onMouseEnter="{{ c.enter }}" onMouseLeave="{{ c.leave }}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 16px; padding: 24px 22px 22px; min-height: 340px; transition: background .3s, border-color .3s; background: {{ c.bg }}; border-color: {{ c.border }}">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px">
+            <span style="font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-600)">{{ c.index }}</span>
+            <span class="tag tag-neutral">{{ c.role }}</span>
+          </div>
+          <div style="font-family: var(--font-heading); font-size: clamp(44px, 5vw, 62px); line-height: 0.92; letter-spacing: -0.03em; color: var(--color-accent-700)">{{ c.stat }}</div>
+          <div style="font-size: 13px; color: var(--color-neutral-700); border-bottom: 1px solid var(--color-divider); padding-bottom: 14px">{{ c.statLabel }}</div>
+          <h3 style="font-size: 23px; line-height: 1.18; margin: 0; text-wrap: pretty">{{ c.title }}</h3>
+          <p style="font-size: 15px; color: var(--color-neutral-800); margin: 0">{{ c.summary }}</p>
+          <span style="margin-top: auto; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-accent-700)">Ver o caso →</span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="padding: 88px 0 0">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 44px; align-items: start; padding-top: 34px; border-top: 1px solid var(--color-divider)">
+      <div>
+        <h6 style="color: var(--color-accent-700); margin-bottom: 14px">Como eu trabalho</h6>
+        <p style="font-family: var(--font-heading); font-size: clamp(22px, 2.6vw, 30px); line-height: 1.2; margin: 0 0 14px; text-wrap: pretty">Antes de desenhar a tela, desenhar a decisão.</p>
+        <p style="font-size: 16px; color: var(--color-neutral-800); margin: 0">Em todos os três casos o ponto de partida foi o mesmo: entender onde a informação se perde entre quem usa o produto e quem decide sobre ele. A interface vem depois.</p>
+      </div>
+      <div>
+        <h6 style="color: var(--color-accent-700); margin-bottom: 14px">Métodos recorrentes</h6>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <span class="tag tag-outline">Mapa de afinidade</span>
+          <span class="tag tag-outline">Análise temática</span>
+          <span class="tag tag-outline">Experimento de desejabilidade</span>
+          <span class="tag tag-outline">Story mapping</span>
+          <span class="tag tag-outline">Cocriação</span>
+          <span class="tag tag-outline">Benchmark</span>
+          <span class="tag tag-outline">Prototipagem navegável</span>
+          <span class="tag tag-outline">Desenho de interface</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="blueprint" style="margin-top: 56px; padding: 26px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <p style="font-size: 16px; color: var(--color-neutral-800); margin: 0; max-width: 46ch">Quer conversar sobre um problema de produto parecido com algum desses? Me chama no WhatsApp ou no LinkedIn.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px">
+        <a class="btn btn-secondary" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-primary" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showKicker&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
+const CASES = [
+  {
+    index: "Caso 01",
+    role: "Product Design Manager",
+    stat: "+8%",
+    statLabel: "Conversão de leads qualificados nos agentes de vendas conversacionais",
+    title: "Redesenhando a verificação de intenção dos agentes conversacionais",
+    summary: "A maior perda de conversão não estava na interface, estava na camada onde a intenção do lead entra no sistema.",
+    href: "Case%20Omnichat.dc.html"
+  },
+  {
+    index: "Caso 02",
+    role: "Idealizador · Mentor · UX/UI",
+    stat: "−25%",
+    statLabel: "Queda na média de recuperação por semestre por aluno",
+    title: "Solução que ajudou a diminuir a recuperação dos alunos",
+    summary: "Boletim, calendário acadêmico e comunicação em um app, para alunos de medicina que viviam em movimento.",
+    href: "Case%20Inpulse.dc.html"
+  },
+  {
+    index: "Caso 03",
+    role: "Idealizador · Mentor",
+    stat: "+48",
+    statLabel: "Pontos de NPS, de 33 negativos para 15 positivos em 16 campus",
+    title: "Como um mapa de experiência ajudou a deixar o NPS positivo",
+    summary: "Um relatório visual em formato de tabuleiro que fez 16 campus lerem a pesquisa e agirem sobre ela.",
+    href: "Case%20Mapa%20de%20Experiencia.dc.html"
+  }
+];
+
+class Component extends DCLogic {
+  state = { hover: -1 };
+  renderVals() {
+    return {
+      showKicker: this.props.showKicker ?? false,
+      cases: CASES.map((c, i) => ({
+        ...c,
+        bg: this.state.hover === i ? "color-mix(in srgb, var(--color-accent) 7%, transparent)" : "transparent",
+        border: this.state.hover === i ? "var(--color-accent-500)" : "var(--color-divider)",
+        enter: () => this.setState({ hover: i }),
+        leave: () => this.setState({ hover: -1 })
+      }))
+    };
+  }
+}
+
+</script>
+</body>
+</html>
