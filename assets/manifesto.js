@@ -338,7 +338,7 @@
 
   /* ---- cena ---- */
 
-  const state = { T: INTRO, W: 1280, H: 720, wall: 0, prog: 0 };
+  const state = { T: INTRO, W: 1280, H: 720, wall: 0, prog: 0, signH: 0 };
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   const fmtOf = W => (W < 640 ? "sm" : W < 1080 ? "md" : "lg");
@@ -408,11 +408,26 @@
     } else if (stack) {
       size = Math.min(inW / (maxWord * 0.52), (H * (fmt === "sm" ? 0.52 : 0.74)) / (words.length * 1.2), fmt === "sm" ? W * 0.15 : fmt === "md" ? W * 0.085 : W * 0.062);
     } else if (layout === "card") {
-      size = Math.min(inW * 2.1 / chars, fmt === "sm" ? W * 0.14 : W * 0.062);
+      /* O fecho é o único verso em "card", e a conta de uma linha só o
+         deixava em 21px no celular: um fiapo de texto perdido embaixo de um
+         motivo grande. Na tela estreita ele quebra em duas linhas de
+         propósito, que é como a frase fecha no computador. */
+      size = Math.min(inW * 2.1 / chars * (fmt === "sm" ? 1.9 : 1), fmt === "sm" ? W * 0.14 : W * 0.062);
     } else {
       size = Math.min(inW * 2.35 / chars, fmt === "md" ? W * 0.1 : W * 0.086);
     }
     size = Math.max(size, 15);
+
+    /* No celular a assinatura entra por cima da cena, e ela só existe no
+       último verso. Sem reservar a altura dela o fecho cai exatamente em
+       cima dos dois botões — no telefone os dois empilham, então a faixa
+       ocupada é quase o dobro da do computador. A reserva usa a altura
+       medida da assinatura, não um número escolhido a olho, porque ela
+       muda com a largura do aparelho. */
+    const signRoom = fmt === "sm" && isLast
+      ? Math.min(H * 0.16, 96) + state.signH + Math.max(H * 0.05, 30)
+      : 0;
+    const smBottom = Math.max(beat.art ? H * 0.19 : 0, signRoom);
 
     /* --- geometria do motivo, reorganizada por formato --- */
     let motifBox = { position: "absolute", opacity: 0 };
@@ -424,6 +439,16 @@
       if (fmt === "sm") {
         if (full) box = { left: 0, right: 0, top: 0, height: H * 0.34 };
         else if (band) box = { left: pad, top: H * 0.1, width: inW, height: H * 0.2 };
+        else if (isLast) {
+          /* O fecho divide a tela em três faixas: motivo, frase e assinatura.
+             Com o quadrado padrão, pequeno e colado no alto, sobrava um quarto
+             de tela vazio entre ele e a frase — a cena terminava com um buraco
+             no meio. Aqui ele cresce até a faixa que resta acima da frase e se
+             centra nela, que é a proporção que o fecho tem no computador. */
+          const zone = H - signRoom - size * 2.6;
+          const S = Math.min(inW * 1.05, zone * 0.8);
+          box = { left: (W - S) / 2, top: Math.max(H * 0.04, (zone - S) / 2), width: S, height: S };
+        }
         else { const S = Math.min(inW * 0.78, H * 0.26); box = { left: (W - S) / 2, top: H * 0.08, width: S, height: S }; }
       } else if (fmt === "md") {
         if (full) box = { inset: 0 };
@@ -474,9 +499,9 @@
          sustentação do verso, quando a entrada das palavras já acabou. */
       transform: "translateY(" + (dy + (p - 0.5) * H * 0.035) + "px)",
       justifyContent: fmt === "sm" ? (layout === "hero" || layout === "card" ? "center" : "flex-start") : align,
-      alignItems: fmt === "sm" && beat.art ? "flex-end" : "center",
+      alignItems: fmt === "sm" && (beat.art || isLast) ? "flex-end" : "center",
       padding: fmt === "sm"
-        ? (beat.art ? H * 0.1 + "px " + pad + "px " + H * 0.19 + "px" : "0 " + pad + "px")
+        ? (beat.art ? H * 0.1 : 0) + "px " + pad + "px " + smBottom + "px"
         : "0 " + pad + "px",
       boxSizing: "border-box",
     };
@@ -550,6 +575,35 @@
     const T = state.T, W = state.W, H = state.H;
     const fmt = fmtOf(W);
     const scrollLen = Math.round((TOTAL - INTRO) * PACE * H);
+    const small = fmt === "sm";
+    const metaSize = small ? 10 : fmt === "md" ? 13 : 17;
+    const edge = small ? W * 0.075 : fmt === "md" ? W * 0.07 : Math.min(W * 0.08, 160);
+
+    const sigT = CUES.Fecho + 8.8;
+    const sigOp = trackVal(T, [sigT + 1.6, sigT + 2.3, TOTAL - 0.2, TOTAL], [0, 1, 1, 1]);
+    const signOpacity = T > sigT ? sigOp : 0;
+    applyStyle(signEl, {
+      position: "absolute", left: 0, right: 0, bottom: small ? Math.min(H * 0.16, 96) : H * 0.14,
+      display: "flex", flexDirection: "column", alignItems: "center", gap: small ? 14 : 22,
+      opacity: signOpacity, padding: "0 " + edge + "px", boxSizing: "border-box",
+      /* Enquanto a assinatura está invisível o link não pode receber clique
+         nem foco de teclado. */
+      pointerEvents: signOpacity > 0.6 ? "auto" : "none",
+      visibility: signOpacity > 0.02 ? "visible" : "hidden",
+    });
+    applyStyle(signRuleEl, { width: (small ? 120 : 200) * tw(T, sigT + 1.4, 1, 0, 1, eo4) + "px", height: 1, background: accent, opacity: 0.85 });
+    applyStyle(signTextEl, {
+      fontFamily: SANS, fontWeight: 600, fontSize: (small ? 11 : fmt === "md" ? 15 : 20) + "px",
+      letterSpacing: small ? "0.16em" : "0.2em", textTransform: "uppercase", color: PAPER, opacity: 0.72, textAlign: "center",
+    });
+
+    /* A assinatura é o único bloco da cena com altura desconhecida: ela
+       depende da fonte carregada e de quantas linhas os botões ocupam num
+       telefone estreito. O último verso precisa desse número para não cair
+       em cima dela, então a medida vem do próprio elemento — uma vez por
+       formato, nunca a cada quadro, para não forçar recálculo de layout
+       dentro do laço. Por isso ela é desenhada antes das tomadas. */
+    if (!state.signH) state.signH = signEl.offsetHeight || 0;
 
     const shots = [];
     BEATS.forEach(entry => {
@@ -562,9 +616,6 @@
     const onLight = active ? active.light : false;
     const chrome = onLight ? INK : PAPER;
     const section = active ? active.section : "Antes";
-    const small = fmt === "sm";
-    const metaSize = small ? 10 : fmt === "md" ? 13 : 17;
-    const edge = small ? W * 0.075 : fmt === "md" ? W * 0.07 : Math.min(W * 0.08, 160);
 
     applyStyle(track, { position: "relative", width: "100%", height: (H + scrollLen) + "px" });
     applyStyle(stage, { position: "sticky", top: 0, height: H + "px", width: "100%", overflow: "hidden", background: INK });
@@ -624,24 +675,6 @@
       fontFamily: SANS, fontWeight: 600, fontSize: (small ? 9 : 11) + "px", letterSpacing: "0.34em",
       textTransform: "uppercase", color: PAPER, opacity: 0.5,
     });
-
-    const sigT = CUES.Fecho + 8.8;
-    const sigOp = trackVal(T, [sigT + 1.6, sigT + 2.3, TOTAL - 0.2, TOTAL], [0, 1, 1, 1]);
-    const signOpacity = T > sigT ? sigOp : 0;
-    applyStyle(signEl, {
-      position: "absolute", left: 0, right: 0, bottom: small ? H * 0.16 : H * 0.14,
-      display: "flex", flexDirection: "column", alignItems: "center", gap: small ? 14 : 22,
-      opacity: signOpacity, padding: "0 " + edge + "px", boxSizing: "border-box",
-      /* Enquanto a assinatura está invisível o link não pode receber clique
-         nem foco de teclado. */
-      pointerEvents: signOpacity > 0.6 ? "auto" : "none",
-      visibility: signOpacity > 0.02 ? "visible" : "hidden",
-    });
-    applyStyle(signRuleEl, { width: (small ? 120 : 200) * tw(T, sigT + 1.4, 1, 0, 1, eo4) + "px", height: 1, background: accent, opacity: 0.85 });
-    applyStyle(signTextEl, {
-      fontFamily: SANS, fontWeight: 600, fontSize: (small ? 11 : fmt === "md" ? 15 : 20) + "px",
-      letterSpacing: small ? "0.16em" : "0.2em", textTransform: "uppercase", color: PAPER, opacity: 0.72, textAlign: "center",
-    });
   }
 
   /* ---- laço ---- */
@@ -654,7 +687,7 @@
   function measure() {
     const W = scroller.clientWidth || 1280;
     const H = scroller.clientHeight || 720;
-    if (W !== state.W || H !== state.H) { state.W = W; state.H = H; return true; }
+    if (W !== state.W || H !== state.H) { state.W = W; state.H = H; state.signH = 0; return true; }
     return false;
   }
 
@@ -672,6 +705,10 @@
      sem ela a página nasce sem comprimento para rolar. */
   if (!reduced.matches) state.T = 0;
   render();
+  /* A primeira medição da assinatura acontece com a fonte de reserva; quando
+     a Libre Franklin chega, a altura muda alguns pixels e a reserva do último
+     verso precisa acompanhar. */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { state.signH = 0; });
   window.addEventListener("resize", () => { if (measure()) { onScroll(); render(); } });
   if (window.ResizeObserver) {
     const ro = new ResizeObserver(() => { if (measure()) { onScroll(); render(); } });

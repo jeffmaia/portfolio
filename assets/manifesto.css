@@ -76,6 +76,22 @@ button.om-link {
 }
 @media (max-width: 639px) {
   .om-link { font-size: 10px; letter-spacing: 0.16em; padding: 9px 16px; }
+  /* Os dois botões não cabem lado a lado na largura de um telefone. Em vez
+     de deixar a quebra automática decidir onde cortar, eles empilham com a
+     mesma largura: fica claro qual é o primeiro, e a assinatura passa a ter
+     uma altura previsível para o último verso se apoiar em cima. */
+  #om-sign-actions {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 240px;
+  }
+  #om-sign-actions .om-link {
+    display: block;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
 }
 
 /* — versão em texto corrido: sem JS, para leitores de tela que preferem
