@@ -8,7 +8,6 @@
 (() => {
   const scroller = document.getElementById("om-scroller");
   const track    = document.getElementById("om-track");
-  const snapsEl  = document.getElementById("om-snaps");
   const stage    = document.getElementById("om-stage");
   const shotsEl  = document.getElementById("om-shots");
   if (!scroller || !stage || !shotsEl) return;
@@ -24,6 +23,7 @@
   const signEl      = document.getElementById("om-sign");
   const signRuleEl  = document.getElementById("om-sign-rule");
   const signTextEl  = document.getElementById("om-sign-text");
+  const restartEl   = document.getElementById("om-sign-restart");
   const fallbackEl  = document.getElementById("om-fallback");
 
   /* A versão em texto corrido existe para quem chega sem JS e para os
@@ -134,25 +134,25 @@
   /* Motivos que ocupam uma faixa inteira da tela em vez de um quadrado. */
   const BAND = { grid: 1, stripes: 1, bars: 1, wave: 1, pix: 1 };
 
-  /* Uma cena por volta da rolagem: a página é dividida em seções de uma
-     tela cada, e o navegador encaixa a rolagem numa seção de cada vez. O
-     ponto de descanso de cada seção é o instante em que aquele verso está
-     inteiro no ar — nem entrando nem saindo. Rolar não é mais varrer uma
-     linha do tempo contínua, é virar uma página. */
-  const REST_AT = 0.55;
-  const REST = BEATS.map(e => e.base + e.beat.at + e.beat.dur * REST_AT);
-  /* A última parada é o fim do roteiro: é lá que a assinatura e o link
-     para o portfólio terminam de entrar. */
-  REST.push(TOTAL);
-  const STOPS = REST.length;
-  const INTRO = REST[0];
+  const INTRO = 1.15;
 
   /* Meia-largura do cruzamento entre versos, em segundos de roteiro. */
   const XF = 0.11;
-  /* Constante de tempo do amortecimento da rolagem, em segundos. Com o
-     encaixe por seção quem anima a rolagem é o navegador; o amortecimento
-     só tira o degrau de um salto de posição, então é curto. */
-  const SMOOTH = 0.08;
+
+  /* Ritmo: quantas telas de rolagem cabem em um segundo de roteiro. É a
+     medida em telas, e não em pixels, porque o gesto de quem rola é
+     proporcional ao tamanho da tela. Com 0,42 um verso médio (2,2 s) leva
+     quase uma tela inteira de rolagem — o passo usual das páginas em que a
+     rolagem conduz a cena. Menor deixa a cena mais apressada, maior deixa
+     a página mais longa. */
+  const PACE = 0.42;
+
+  /* Atraso de captura, em segundos: o tempo que a cena leva para alcançar
+     a posição da barra de rolagem. É o mesmo modelo do "scrub" numérico do
+     ScrollTrigger — a rolagem é nativa, e o que suaviza é a perseguição do
+     tempo do roteiro, não a posição da página. Zero gruda na mão e treme a
+     cada degrau da roda; alto demais parece que a página está molhada. */
+  const SCRUB = 0.15;
 
   const sh  = o => Object.assign({ position: "absolute" }, o);
   const kid = (style, children) => ({ style, children: children || null });
@@ -442,7 +442,15 @@
           box = Object.assign({ width: S, height: S }, P);
         }
       }
-      motifBox = Object.assign({ position: "absolute", opacity: motifOp * (light ? 0.16 : 0.2), pointerEvents: "none", fontSize: (box.width || W) + "px" }, box);
+      /* Deriva lenta ao longo de todo o verso. Sem ela a formação do
+         motivo termina a um terço do verso e o resto da rolagem não move
+         nada: o dedo anda meia tela e a tela fica parada, que é o que faz
+         a página parecer travada. Só amplia — nunca encolhe — para não
+         abrir fresta nos motivos que ocupam a tela inteira. */
+      motifBox = Object.assign({
+        position: "absolute", opacity: motifOp * (light ? 0.16 : 0.2), pointerEvents: "none",
+        fontSize: (box.width || W) + "px", transform: "scale(" + (1 + p * 0.05) + ")",
+      }, box);
       motif = motifChildren(beat.art, p, motifColor);
     }
 
@@ -461,7 +469,10 @@
     const align = layout === "right" ? "flex-end" : (layout === "center" || layout === "hero" || layout === "card") ? "center" : "flex-start";
     const block = {
       position: "absolute", inset: 0, display: "flex", opacity: op,
-      transform: "translateY(" + dy + "px)",
+      /* O texto caminha devagar em sentido contrário ao do motivo: é o
+         paralaxe que mantém a mão em contato com a cena durante a
+         sustentação do verso, quando a entrada das palavras já acabou. */
+      transform: "translateY(" + (dy + (p - 0.5) * H * 0.035) + "px)",
       justifyContent: fmt === "sm" ? (layout === "hero" || layout === "card" ? "center" : "flex-start") : align,
       alignItems: fmt === "sm" && beat.art ? "flex-end" : "center",
       padding: fmt === "sm"
@@ -538,6 +549,7 @@
     const accent = ACCENT;
     const T = state.T, W = state.W, H = state.H;
     const fmt = fmtOf(W);
+    const scrollLen = Math.round((TOTAL - INTRO) * PACE * H);
 
     const shots = [];
     BEATS.forEach(entry => {
@@ -554,8 +566,8 @@
     const metaSize = small ? 10 : fmt === "md" ? 13 : 17;
     const edge = small ? W * 0.075 : fmt === "md" ? W * 0.07 : Math.min(W * 0.08, 160);
 
-    applyStyle(track, { position: "relative", width: "100%" });
-    applyStyle(stage, { position: "sticky", top: 0, zIndex: 1, height: H + "px", width: "100%", overflow: "hidden", background: INK });
+    applyStyle(track, { position: "relative", width: "100%", height: (H + scrollLen) + "px" });
+    applyStyle(stage, { position: "sticky", top: 0, height: H + "px", width: "100%", overflow: "hidden", background: INK });
 
     /* Cada tomada vive numa camada própria para que a ordem de pilha não
        dependa de quantas estão no ar. A lista só tem os versos no ar, então
@@ -639,46 +651,25 @@
   let prog = 0;
   let raf = 0;
 
-  /* Uma seção de uma tela para cada parada. São elas que dão altura à
-     página e são nelas que o navegador encaixa a rolagem; o palco fica
-     grudado no topo por cima, e por isso as seções sobem com margem
-     negativa de uma tela. */
-  function layoutSnaps(H) {
-    if (!snapsEl) return;
-    while (snapsEl.children.length > STOPS) snapsEl.removeChild(snapsEl.lastElementChild);
-    while (snapsEl.children.length < STOPS) {
-      const d = document.createElement("div");
-      d.className = "om-snap";
-      snapsEl.appendChild(d);
-    }
-    snapsEl.style.marginTop = -H + "px";
-    for (let i = 0; i < snapsEl.children.length; i++) snapsEl.children[i].style.height = H + "px";
-  }
-
   function measure() {
     const W = scroller.clientWidth || 1280;
     const H = scroller.clientHeight || 720;
-    if (W !== state.W || H !== state.H) { state.W = W; state.H = H; layoutSnaps(H); return true; }
+    if (W !== state.W || H !== state.H) { state.W = W; state.H = H; return true; }
     return false;
   }
 
+  /* A barra de rolagem é a barra de tempo do roteiro: a posição da página
+     vira diretamente o instante da cena, sem paradas nem encaixes. */
   function onScroll() {
     const max = Math.max(1, scroller.scrollHeight - scroller.clientHeight);
     prog = clamp(scroller.scrollTop / max, 0, 1);
     if (prog > 0.0004) introDone = true;
-    /* Entre duas paradas o tempo do roteiro caminha do repouso de uma cena
-       até o repouso da seguinte, passando pela troca no meio. Parado numa
-       seção, a cena está sempre inteira. */
-    const f = clamp(scroller.scrollTop / (state.H || 1), 0, STOPS - 1);
-    const i = Math.min(Math.floor(f), STOPS - 2);
-    target = REST[i] + (REST[i + 1] - REST[i]) * (f - i);
+    target = INTRO + prog * (TOTAL - INTRO);
   }
 
   measure();
-  layoutSnaps(state.H);
-  /* Um desenho antes do primeiro quadro: a altura do palco sai daqui, e é
-     ela que fecha a conta da trilha — sem esse desenho as seções de encaixe
-     nascem medindo uma tela a menos que a página. */
+  /* Um desenho antes do primeiro quadro: a altura da trilha sai daqui, e
+     sem ela a página nasce sem comprimento para rolar. */
   if (!reduced.matches) state.T = 0;
   render();
   window.addEventListener("resize", () => { if (measure()) { onScroll(); render(); } });
@@ -687,6 +678,20 @@
     ro.observe(scroller);
   }
   scroller.addEventListener("scroll", onScroll, { passive: true });
+
+  /* Voltar ao início é um corte, não uma rebobinada: percorrer os 84
+     segundos de roteiro de trás para frente levaria meio minuto e passaria
+     a cena inteira embaralhada. Some a posição e o instante de uma vez. */
+  if (restartEl) {
+    restartEl.addEventListener("click", () => {
+      scroller.scrollTo({ top: 0, behavior: "auto" });
+      prog = 0;
+      target = INTRO;
+      state.T = INTRO;
+      render();
+      scroller.focus({ preventScroll: true });
+    });
+  }
 
   let wall = 0;
   let last = 0;
@@ -709,12 +714,12 @@
       T = tw(wall, 0.25, 1.5, 0, INTRO, eo3);
       if (wall > 1.85) introDone = true;
     } else {
-      /* Amortecimento exponencial medido em tempo, não em quadros. Com um
+      /* Perseguição exponencial medida em tempo, não em quadros. Com um
          fator fixo por quadro a cena alcançava a rolagem no dobro da
          velocidade num monitor de 120 Hz e engasgava a cada quadro perdido:
          era isso que fazia a mesma rolagem parecer diferente conforme o
          aparelho e a pressa da mão. */
-      T += (target - T) * (1 - Math.exp(-dt / SMOOTH));
+      T += (target - T) * (1 - Math.exp(-dt / SCRUB));
       if (Math.abs(target - T) < 0.002) T = target;
     }
 

@@ -31,17 +31,10 @@ a:hover { color: var(--om-paper); }
   overflow-y: auto;
   background: var(--om-ink);
   scrollbar-width: none;
-  /* Uma cena por volta da roda ou do trackpad: a rolagem para sempre numa
-     seção, e "always" impede que um gesto rápido pule por cima de uma cena
-     sem que ela chegue a se formar. */
-  scroll-snap-type: y mandatory;
   overscroll-behavior: contain;
 }
 #om-scroller::-webkit-scrollbar { width: 0; height: 0; }
 #om-scroller:focus-visible { outline: 2px solid var(--om-accent); outline-offset: -4px; }
-
-#om-snaps { position: relative; pointer-events: none; }
-.om-snap { scroll-snap-align: start; scroll-snap-stop: always; }
 
 .om-link {
   font-family: "Libre Franklin", system-ui, sans-serif;
@@ -58,6 +51,29 @@ a:hover { color: var(--om-paper); }
   .om-link:hover { background: var(--om-accent); color: var(--om-paper); }
 }
 .om-link:focus-visible { outline: 2px solid var(--om-paper); outline-offset: 3px; }
+
+/* O botão de recomeço é ação secundária: mesma forma do link principal,
+   com o contorno recuado para o primeiro continuar sendo o primeiro. */
+button.om-link {
+  background: none;
+  cursor: pointer;
+  font-family: "Libre Franklin", system-ui, sans-serif;
+}
+.om-link--ghost {
+  border-color: rgba(242, 239, 232, 0.26);
+  color: rgba(242, 239, 232, 0.7);
+}
+@media (hover: hover) and (pointer: fine) {
+  .om-link--ghost:hover { background: none; border-color: var(--om-paper); color: var(--om-paper); }
+}
+
+#om-sign-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
 @media (max-width: 639px) {
   .om-link { font-size: 10px; letter-spacing: 0.16em; padding: 9px 16px; }
 }
