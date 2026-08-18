@@ -1,0 +1,148 @@
+/* Manifesto — folha própria.
+   A página não usa os tokens do portfólio: é uma cena de tela cheia com
+   paleta e tipografia próprias, vindas do arquivo de design. */
+
+:root {
+  --om-ink: #0B0B0C;
+  --om-paper: #F2EFE8;
+  --om-accent: #D9481F;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--om-ink);
+  color: var(--om-paper);
+  overscroll-behavior: none;
+}
+
+a { color: var(--om-accent); text-decoration: none; }
+a:hover { color: var(--om-paper); }
+
+/* A cena só entra em cena com JS. Sem ele, o navegador ficaria com um
+   retângulo preto fixo por cima do texto — então ela nasce escondida e o
+   texto corrido é que vale. */
+#om-scroller { display: none; }
+.js #om-scroller {
+  display: block;
+  position: fixed;
+  inset: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--om-ink);
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+}
+#om-scroller::-webkit-scrollbar { width: 0; height: 0; }
+#om-scroller:focus-visible { outline: 2px solid var(--om-accent); outline-offset: -4px; }
+
+.om-link {
+  font-family: "Libre Franklin", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--om-paper);
+  border: 1px solid var(--om-accent);
+  padding: 11px 20px;
+  transition: background .25s, color .25s;
+}
+@media (hover: hover) and (pointer: fine) {
+  .om-link:hover { background: var(--om-accent); color: var(--om-paper); }
+}
+.om-link:focus-visible { outline: 2px solid var(--om-paper); outline-offset: 3px; }
+
+/* O botão de recomeço é ação secundária: mesma forma do link principal,
+   com o contorno recuado para o primeiro continuar sendo o primeiro. */
+button.om-link {
+  background: none;
+  cursor: pointer;
+  font-family: "Libre Franklin", system-ui, sans-serif;
+}
+.om-link--ghost {
+  border-color: rgba(242, 239, 232, 0.26);
+  color: rgba(242, 239, 232, 0.7);
+}
+@media (hover: hover) and (pointer: fine) {
+  .om-link--ghost:hover { background: none; border-color: var(--om-paper); color: var(--om-paper); }
+}
+
+#om-sign-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
+@media (max-width: 639px) {
+  .om-link { font-size: 10px; letter-spacing: 0.16em; padding: 9px 16px; }
+  /* Os dois botões não cabem lado a lado na largura de um telefone. Em vez
+     de deixar a quebra automática decidir onde cortar, eles empilham com a
+     mesma largura: fica claro qual é o primeiro, e a assinatura passa a ter
+     uma altura previsível para o último verso se apoiar em cima. */
+  #om-sign-actions {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 240px;
+  }
+  #om-sign-actions .om-link {
+    display: block;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+}
+
+/* — versão em texto corrido: sem JS, para leitores de tela que preferem
+     percorrer o texto e para a indexação — */
+#om-fallback {
+  max-width: 62ch;
+  margin: 0 auto;
+  padding: 12vh 7vw 14vh;
+  font-family: "Libre Franklin", system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--om-paper);
+}
+#om-fallback h1 {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(44px, 9vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  margin: 0 0 40px;
+}
+#om-fallback h2 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--om-accent);
+  margin: 44px 0 12px;
+}
+#om-fallback p { font-size: clamp(19px, 2.2vw, 24px); margin: 0; }
+#om-fallback .om-close {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-style: italic;
+  font-size: clamp(26px, 3.4vw, 40px);
+  line-height: 1.2;
+}
+#om-fallback footer {
+  margin-top: 56px;
+  padding-top: 26px;
+  border-top: 1px solid var(--om-accent);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+}
+#om-fallback footer p {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
