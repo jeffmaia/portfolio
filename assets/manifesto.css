@@ -31,8 +31,17 @@ a:hover { color: var(--om-paper); }
   overflow-y: auto;
   background: var(--om-ink);
   scrollbar-width: none;
+  /* Uma cena por volta da roda ou do trackpad: a rolagem para sempre numa
+     seção, e "always" impede que um gesto rápido pule por cima de uma cena
+     sem que ela chegue a se formar. */
+  scroll-snap-type: y mandatory;
+  overscroll-behavior: contain;
 }
 #om-scroller::-webkit-scrollbar { width: 0; height: 0; }
+#om-scroller:focus-visible { outline: 2px solid var(--om-accent); outline-offset: -4px; }
+
+#om-snaps { position: relative; pointer-events: none; }
+.om-snap { scroll-snap-align: start; scroll-snap-stop: always; }
 
 .om-link {
   font-family: "Libre Franklin", system-ui, sans-serif;

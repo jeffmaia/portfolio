@@ -19,7 +19,7 @@
 </head>
 <body>
 
-<div id="om-scroller">
+<div id="om-scroller" tabindex="0" aria-label="Manifesto: role para avançar">
   <div id="om-track">
     <div id="om-stage">
       <div id="om-shots"></div>
@@ -40,6 +40,10 @@
         <a class="om-link" id="om-sign-link" href="../index.html">Ir para portfólio →</a>
       </div>
     </div>
+
+    <!-- Uma seção por cena: são elas que dão altura à página e onde a
+         rolagem encaixa. O script as cria. -->
+    <div id="om-snaps" aria-hidden="true"></div>
   </div>
 </div>
 

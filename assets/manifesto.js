@@ -8,6 +8,7 @@
 (() => {
   const scroller = document.getElementById("om-scroller");
   const track    = document.getElementById("om-track");
+  const snapsEl  = document.getElementById("om-snaps");
   const stage    = document.getElementById("om-stage");
   const shotsEl  = document.getElementById("om-shots");
   if (!scroller || !stage || !shotsEl) return;
@@ -36,9 +37,6 @@
 
   const ACCENT    = "#D9481F";
   const SHOW_META = true;
-  /* Pixels de rolagem por segundo de roteiro: define o comprimento total da
-     página. É o valor padrão do arquivo de design. */
-  const PACE      = 220;
 
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const eo4  = t => 1 - Math.pow(1 - t, 4);
@@ -124,7 +122,6 @@
     return c;
   })();
   const TOTAL = CUES.__total;
-  const INTRO = 1.15;
 
   const BEATS = (() => {
     const out = [];
@@ -137,10 +134,25 @@
   /* Motivos que ocupam uma faixa inteira da tela em vez de um quadrado. */
   const BAND = { grid: 1, stripes: 1, bars: 1, wave: 1, pix: 1 };
 
+  /* Uma cena por volta da rolagem: a página é dividida em seções de uma
+     tela cada, e o navegador encaixa a rolagem numa seção de cada vez. O
+     ponto de descanso de cada seção é o instante em que aquele verso está
+     inteiro no ar — nem entrando nem saindo. Rolar não é mais varrer uma
+     linha do tempo contínua, é virar uma página. */
+  const REST_AT = 0.55;
+  const REST = BEATS.map(e => e.base + e.beat.at + e.beat.dur * REST_AT);
+  /* A última parada é o fim do roteiro: é lá que a assinatura e o link
+     para o portfólio terminam de entrar. */
+  REST.push(TOTAL);
+  const STOPS = REST.length;
+  const INTRO = REST[0];
+
   /* Meia-largura do cruzamento entre versos, em segundos de roteiro. */
   const XF = 0.11;
-  /* Constante de tempo do amortecimento da rolagem, em segundos. */
-  const SMOOTH = 0.14;
+  /* Constante de tempo do amortecimento da rolagem, em segundos. Com o
+     encaixe por seção quem anima a rolagem é o navegador; o amortecimento
+     só tira o degrau de um salto de posição, então é curto. */
+  const SMOOTH = 0.08;
 
   const sh  = o => Object.assign({ position: "absolute" }, o);
   const kid = (style, children) => ({ style, children: children || null });
@@ -313,8 +325,12 @@
         if (node.__text) { node.textContent = ""; node.__text = ""; }
         syncList(node, n.children);
       } else {
+        /* O elemento pode vir de um motivo anterior que tinha filhos. Sem
+           olhar para eles, um "dot" que herdou o elemento de um "clock"
+           continuava com o ponteiro e o aro dentro: era daí que saíam as
+           formas híbridas, que não existem em nenhum dos dois desenhos. */
         const t = n.text == null ? "" : n.text;
-        if (node.__text !== t) { node.textContent = t; node.__text = t; }
+        if (node.__text !== t || node.firstElementChild) { node.textContent = t; node.__text = t; }
       }
     }
     while (parent.children.length > nodes.length) parent.removeChild(parent.lastElementChild);
@@ -522,7 +538,6 @@
     const accent = ACCENT;
     const T = state.T, W = state.W, H = state.H;
     const fmt = fmtOf(W);
-    const scrollLen = Math.round((TOTAL - INTRO) * (fmt === "sm" ? PACE * 0.85 : PACE));
 
     const shots = [];
     BEATS.forEach(entry => {
@@ -539,12 +554,21 @@
     const metaSize = small ? 10 : fmt === "md" ? 13 : 17;
     const edge = small ? W * 0.075 : fmt === "md" ? W * 0.07 : Math.min(W * 0.08, 160);
 
-    applyStyle(track, { position: "relative", width: "100%", height: (H + scrollLen) + "px" });
-    applyStyle(stage, { position: "sticky", top: 0, height: H + "px", width: "100%", overflow: "hidden", background: INK });
+    applyStyle(track, { position: "relative", width: "100%" });
+    applyStyle(stage, { position: "sticky", top: 0, zIndex: 1, height: H + "px", width: "100%", overflow: "hidden", background: INK });
 
     /* Cada tomada vive numa camada própria para que a ordem de pilha não
-       dependa de quantas estão no ar. */
+       dependa de quantas estão no ar. A lista só tem os versos no ar, então
+       uma camada muda de dono conforme a cena anda: antes de reaproveitá-la
+       para outro verso ela é esvaziada, para nada do desenho anterior
+       sobreviver dentro do novo. */
+    const layers = shotsEl.children;
+    for (let i = 0; i < shots.length; i++) {
+      const el = layers[i];
+      if (el && el.__beat !== shots[i].idx) { el.textContent = ""; el.__text = ""; }
+    }
     syncList(shotsEl, shots.map(s => ({ style: { position: "absolute", inset: 0, pointerEvents: "none" }, children: s.nodes })));
+    for (let i = 0; i < shots.length; i++) layers[i].__beat = shots[i].idx;
 
     applyStyle(labelEl, {
       position: "absolute", top: small ? 18 : 40, left: edge,
@@ -615,25 +639,51 @@
   let prog = 0;
   let raf = 0;
 
+  /* Uma seção de uma tela para cada parada. São elas que dão altura à
+     página e são nelas que o navegador encaixa a rolagem; o palco fica
+     grudado no topo por cima, e por isso as seções sobem com margem
+     negativa de uma tela. */
+  function layoutSnaps(H) {
+    if (!snapsEl) return;
+    while (snapsEl.children.length > STOPS) snapsEl.removeChild(snapsEl.lastElementChild);
+    while (snapsEl.children.length < STOPS) {
+      const d = document.createElement("div");
+      d.className = "om-snap";
+      snapsEl.appendChild(d);
+    }
+    snapsEl.style.marginTop = -H + "px";
+    for (let i = 0; i < snapsEl.children.length; i++) snapsEl.children[i].style.height = H + "px";
+  }
+
   function measure() {
     const W = scroller.clientWidth || 1280;
     const H = scroller.clientHeight || 720;
-    if (W !== state.W || H !== state.H) { state.W = W; state.H = H; return true; }
+    if (W !== state.W || H !== state.H) { state.W = W; state.H = H; layoutSnaps(H); return true; }
     return false;
   }
 
   function onScroll() {
     const max = Math.max(1, scroller.scrollHeight - scroller.clientHeight);
-    const p = clamp(scroller.scrollTop / max, 0, 1);
-    prog = p;
-    if (p > 0.0004) introDone = true;
-    target = INTRO + p * (TOTAL - INTRO);
+    prog = clamp(scroller.scrollTop / max, 0, 1);
+    if (prog > 0.0004) introDone = true;
+    /* Entre duas paradas o tempo do roteiro caminha do repouso de uma cena
+       até o repouso da seguinte, passando pela troca no meio. Parado numa
+       seção, a cena está sempre inteira. */
+    const f = clamp(scroller.scrollTop / (state.H || 1), 0, STOPS - 1);
+    const i = Math.min(Math.floor(f), STOPS - 2);
+    target = REST[i] + (REST[i + 1] - REST[i]) * (f - i);
   }
 
   measure();
-  window.addEventListener("resize", () => { if (measure()) render(); });
+  layoutSnaps(state.H);
+  /* Um desenho antes do primeiro quadro: a altura do palco sai daqui, e é
+     ela que fecha a conta da trilha — sem esse desenho as seções de encaixe
+     nascem medindo uma tela a menos que a página. */
+  if (!reduced.matches) state.T = 0;
+  render();
+  window.addEventListener("resize", () => { if (measure()) { onScroll(); render(); } });
   if (window.ResizeObserver) {
-    const ro = new ResizeObserver(() => { if (measure()) render(); });
+    const ro = new ResizeObserver(() => { if (measure()) { onScroll(); render(); } });
     ro.observe(scroller);
   }
   scroller.addEventListener("scroll", onScroll, { passive: true });
