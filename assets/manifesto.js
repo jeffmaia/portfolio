@@ -137,6 +137,11 @@
   /* Motivos que ocupam uma faixa inteira da tela em vez de um quadrado. */
   const BAND = { grid: 1, stripes: 1, bars: 1, wave: 1, pix: 1 };
 
+  /* Meia-largura do cruzamento entre versos, em segundos de roteiro. */
+  const XF = 0.11;
+  /* Constante de tempo do amortecimento da rolagem, em segundos. */
+  const SMOOTH = 0.14;
+
   const sh  = o => Object.assign({ position: "absolute" }, o);
   const kid = (style, children) => ({ style, children: children || null });
 
@@ -336,12 +341,27 @@
     if (T < t0 - 0.55 || T > t1 + 0.45) return null;
 
     const isLast = entry.idx === BEATS.length;
-    const outStart = t1 - 0.34;
+    const outStart = t1 - XF;
     const p = clamp((T - t0) / beat.dur, 0, 1);
+    /* Cada verso termina exatamente onde o próximo começa, então as duas
+       rampas são a mesma janela: uma sobe enquanto a outra desce. Como eio3
+       é simétrica, a soma das opacidades fica em 1 o tempo todo. Antes a
+       saída acabava antes de a entrada começar e sobrava uma fresta de
+       ~0,1s com a tela vazia — um piscar a cada troca, que virava pausa
+       quando a rolagem estava lenta. */
     const op = isLast
-      ? trackVal(T, [t0 - 0.02, t0 + 0.1], [0, 1])
-      : trackVal(T, [t0 - 0.02, t0 + 0.1, outStart, t1], [0, 1, 1, 0]);
-    const dy = isLast ? 0 : tw(T, outStart, 0.34, 0, -H * 0.03, eo3);
+      ? trackVal(T, [t0 - XF, t0 + XF], [0, 1])
+      : trackVal(T, [t0 - XF, t0 + XF, outStart, t1 + XF], [0, 1, 1, 0]);
+    const dy = isLast ? 0 : tw(T, outStart, XF * 2, 0, -H * 0.03, eo3);
+
+    /* O motivo não cruza com o do verso seguinte, reveza com ele: sai
+       inteiro antes de o outro entrar. Dois motivos no ar ao mesmo tempo
+       são duas camadas translúcidas somando alfa — onde se cruzam a
+       composição salta de 0,08 para 0,15 e a silhueta ganha emendas e
+       pontas que não existem em nenhuma das duas formas. */
+    const motifOp = isLast
+      ? trackVal(T, [t0, t0 + XF], [0, 1])
+      : trackVal(T, [t0, t0 + XF, t1 - XF, t1], [0, 1, 1, 0]);
     const light = beat.bg !== "ink";
     const body = light ? INK : PAPER;
     const keyColor = beat.bg === "orange" ? PAPER : accent;
@@ -406,13 +426,13 @@
           box = Object.assign({ width: S, height: S }, P);
         }
       }
-      motifBox = Object.assign({ position: "absolute", opacity: op * (light ? 0.16 : 0.2), pointerEvents: "none", fontSize: (box.width || W) + "px" }, box);
+      motifBox = Object.assign({ position: "absolute", opacity: motifOp * (light ? 0.16 : 0.2), pointerEvents: "none", fontSize: (box.width || W) + "px" }, box);
       motif = motifChildren(beat.art, p, motifColor);
     }
 
     /* --- cortina do fundo claro --- */
-    const wIn = eiq(clamp((T - t0 + 0.12) / 0.46, 0, 1));
-    const wOut = eiq(clamp((T - outStart) / 0.34, 0, 1));
+    const wIn = eiq(clamp((T - t0 + XF) / 0.46, 0, 1));
+    const wOut = eiq(clamp((T - outStart) / (XF * 2), 0, 1));
     const fromLeft = entry.idx % 2 === 1;
     const panel = light ? {
       position: "absolute", inset: 0, background: beat.bg === "orange" ? accent : PAPER,
@@ -618,10 +638,16 @@
   }
   scroller.addEventListener("scroll", onScroll, { passive: true });
 
-  const t0 = performance.now();
+  let wall = 0;
+  let last = 0;
   function loop(now) {
     raf = requestAnimationFrame(loop);
-    const wall = (now - t0) / 1000;
+    /* Tempo real decorrido, limitado: uma aba que volta do segundo plano
+       traz um salto de vários segundos, e ele não pode virar um pulo na
+       cena. */
+    const dt = last ? Math.min((now - last) / 1000, 0.05) : 1 / 60;
+    last = now;
+    wall += dt;
     let T = state.T;
 
     if (reduced.matches) {
@@ -633,7 +659,12 @@
       T = tw(wall, 0.25, 1.5, 0, INTRO, eo3);
       if (wall > 1.85) introDone = true;
     } else {
-      T = T + (target - T) * 0.16;
+      /* Amortecimento exponencial medido em tempo, não em quadros. Com um
+         fator fixo por quadro a cena alcançava a rolagem no dobro da
+         velocidade num monitor de 120 Hz e engasgava a cada quadro perdido:
+         era isso que fazia a mesma rolagem parecer diferente conforme o
+         aparelho e a pressa da mão. */
+      T += (target - T) * (1 - Math.exp(-dt / SMOOTH));
       if (Math.abs(target - T) < 0.002) T = target;
     }
 
