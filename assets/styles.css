@@ -250,6 +250,9 @@ body.has-nav-open { overflow: hidden; }
 .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 44px; align-items: start; }
 .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
 .grid-cards--sm { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+/* Mesmo vão dos cards de 4 colunas: assim a borda da coluna direita cai exatamente
+   sobre a divisão do terceiro card logo abaixo. */
+.grid-2--snap { gap: 24px; }
 
 .eyebrow { color: var(--color-accent-700); margin-bottom: 14px; }
 .lead { font-size: 16px; color: var(--color-neutral-800); }
@@ -288,6 +291,17 @@ body.has-nav-open { overflow: hidden; }
 /* Números que são uma frase curta ("20 para 890") não cabem no tamanho do
    número solto: um passo abaixo mantém tudo em uma linha na coluna estreita. */
 .stat-figure__num--long { font-size: clamp(30px, 4.6vw, 46px); line-height: 1.02; }
+/* Quando o número é uma passagem ("de X para Y"), as duas pontas empilham: o
+   ponto de partida fica pequeno em cima e o resultado ocupa a linha de baixo
+   inteira, em vez de quebrar no meio da frase. */
+.stat-figure__num--shift { display: flex; flex-direction: column; gap: 2px; line-height: 1; }
+.stat-figure__from {
+  font-size: clamp(20px, 2.4vw, 24px); color: var(--color-neutral-600);
+  letter-spacing: 0.01em;
+  text-decoration: line-through; text-decoration-thickness: 1px;
+}
+.stat-figure__to { font-size: clamp(40px, 6vw, 62px); letter-spacing: -0.03em; }
+.stat-figure__to::before { content: "→ "; font-size: 0.5em; vertical-align: 0.34em; color: var(--color-neutral-500); }
 .stat-figure__cap {
   font-size: 13px; line-height: 1.45; color: var(--color-neutral-700);
   border-top: 1px solid var(--color-divider); padding-top: 10px; margin-top: 6px;
@@ -587,12 +601,17 @@ body.has-nav-open { overflow: hidden; }
    Três estágios em linha, entrada, camada e saída. Os artefatos da saída são
    botões porque cada um tem um destino diferente depois de gerado, e é esse
    destino que interessa mostrar. */
-.flow {
-  padding: 26px 24px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1.15fr);
-  gap: 20px;
-  align-items: start;
+.flow { padding: 26px 24px; display: flex; flex-direction: column; gap: 22px; }
+/* Entrada e camada ficam em cima, lado a lado, e os artefatos ocupam a faixa
+   inteira embaixo: em três colunas a lista de artefatos era muito mais alta que
+   as outras duas e abria um vazio embaixo delas. */
+.flow__pipe {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 20px; align-items: start;
+}
+.flow__out {
+  display: flex; flex-direction: column; gap: 12px;
+  border-top: 1px solid var(--color-divider); padding-top: 20px;
 }
 .flow__stage { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
 .flow__node {
@@ -608,9 +627,9 @@ body.has-nav-open { overflow: hidden; }
   font-size: 18px; color: var(--color-neutral-500);
 }
 .flow__arrow::before { content: "→"; }
-.flow__chips { display: flex; flex-direction: column; gap: 8px; }
+.flow__chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .flow-chip {
-  cursor: pointer; width: 100%; text-align: left; font: inherit; font-size: 15px;
+  cursor: pointer; flex: 1 1 auto; text-align: left; font: inherit; font-size: 15px;
   color: var(--color-neutral-900); background: transparent;
   border: 1px solid var(--color-divider); padding: 10px 14px;
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
@@ -628,14 +647,13 @@ body.has-nav-open { overflow: hidden; }
 
 @media (max-width: 900px) {
   /* Empilhado, a seta deixa de ligar colunas e passa a ligar linhas. */
-  .flow { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .flow__pipe { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .flow-chip { flex: 1 1 100%; }
   .flow__arrow { align-self: start; margin-top: 0; }
   .flow__arrow::before { content: "↓"; }
 }
 
-/* — funil de etapas (Processo) —
-   A barra de cada etapa encurta conforme o funil avança, então a lista já é o
-   desenho do funil, sem precisar de imagem. */
+/* — funil de etapas (Processo) — */
 .funnel { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 44px; align-items: start; }
 .funnel__list { display: flex; flex-direction: column; gap: 10px; }
 .funnel__stage {
@@ -656,16 +674,9 @@ body.has-nav-open { overflow: hidden; }
   font-family: var(--font-heading); font-weight: var(--font-heading-weight);
   font-size: 19px; line-height: 1.2; color: var(--color-neutral-900); transition: color .3s;
 }
-.funnel__bar { height: 8px; border: 1px solid var(--color-divider); }
-.funnel__fill {
-  height: 100%; width: 0; background: var(--color-neutral-600);
-  transition: width 1s var(--ease-chart), background .3s;
-}
 .funnel__stage[aria-selected="true"] { background: var(--color-accent-700); border-color: var(--color-accent-700); }
 .funnel__stage[aria-selected="true"] .funnel__num { color: var(--color-accent-300); }
 .funnel__stage[aria-selected="true"] .funnel__name { color: var(--color-bg); }
-.funnel__stage[aria-selected="true"] .funnel__bar { border-color: var(--color-accent-400); }
-.funnel__stage[aria-selected="true"] .funnel__fill { background: var(--color-accent-300); }
 
 /* — trilha horizontal do Design System — */
 .trail { display: flex; flex-wrap: wrap; align-items: stretch; gap: 10px; }

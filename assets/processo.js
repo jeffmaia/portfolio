@@ -13,7 +13,7 @@
       body: "Com o PRD já rascunhado, a Planning deixou de ser um rito frequente. Acontece só quando necessário, e a maior parte dela é feita de forma documentada e assíncrona."
     },
     {
-      name: "Stories",
+      name: "User stories (US)",
       title: "Entram no Kanban já documentadas",
       body: "O refinamento passou a ser só tirar dúvida sobre o que já está escrito na story e desenhado no protótipo. Foi o que derrubou o ritual de quatro ou cinco horas para trinta ou quarenta minutos."
     },
@@ -60,41 +60,34 @@
     }
   ];
 
-  /* A largura da barra desenha o funil: o topo é largo porque entra muito
-     sinal, e cada fase seguinte carrega menos coisa adiante. */
   const PHASES = [
     {
       id: "01",
       name: "Identificação de oportunidades",
-      width: 100,
       body: "Mapeamentos internos, dados de produto, pesquisa e canais de feedback alimentam uma árvore de oportunidades que facilita a escolha do que entra em pauta.",
       owner: "Produto e design, com dados alimentando a árvore."
     },
     {
       id: "02",
       name: "Validação de desejabilidade e diferencial",
-      width: 80,
       body: "Análise de mercado e de usuário para confirmar se a aposta faz sentido antes de o time gastar tempo desenhando a solução.",
       owner: "Produto e design."
     },
     {
       id: "03",
       name: "Definição e prototipagem",
-      width: 62,
       body: "É aqui que nasce a maior parte da solução. O protótipo já sai desenvolvido e segue para a engenharia sem uma etapa de tradução no meio.",
       owner: "Produto, design e engenharia, com prototipação distribuída entre os três."
     },
     {
       id: "04",
       name: "Delivery",
-      width: 44,
       body: "A fase alfa é responsabilidade da engenharia, que garante o funcionamento do que foi construído. A fase beta, aberta ou fechada, valida os experimentos antes da decisão de abrir para todos ou seguir para GTM.",
       owner: "Engenharia no alfa, time inteiro no beta."
     },
     {
       id: "05",
       name: "Depois do lançamento",
-      width: 28,
       body: "O foco passa a ser satisfação e adoção do que acabou de ir ao ar, com a validação qualitativa acionada quando o dado quantitativo mostra desvio do esperado.",
       owner: "Produto, design e dados, junto de GA e GTM."
     }
@@ -102,7 +95,7 @@
 
   const COMPARE = [
     { label: "Prototipação", before: "Concentrada em design", after: "Distribuída entre produto, design e engenharia" },
-    { label: "Validação qualitativa", before: "Quase sempre antes do desenvolvimento", after: "Depois do lançamento, quando o dado quantitativo mostra desvio do esperado" },
+    { label: "Validação qualitativa", before: "Quase sempre antes do\u00a0desenvolvimento", after: "Depois do lançamento, quando o dado quantitativo mostra desvio do esperado" },
     { label: "Rituais", before: "Longos e presenciais na agenda", after: "Curtos e assíncronos" },
     { label: "Testes A/B", before: "Poucas variações, porque cada uma custava caro para construir", after: "Muito mais variações, porque desenvolver ficou ágil e barato" }
   ];
@@ -204,13 +197,12 @@
     stage.setAttribute("role", "tab");
     stage.id = "phase-tab-" + phase.id;
     stage.innerHTML =
-      '<span class="funnel__head"><span class="funnel__num"></span><span class="funnel__name"></span></span>' +
-      '<span class="funnel__bar"><span class="funnel__fill"></span></span>';
+      '<span class="funnel__head"><span class="funnel__num"></span><span class="funnel__name"></span></span>';
     stage.querySelector(".funnel__num").textContent = phase.id;
     stage.querySelector(".funnel__name").textContent = phase.name;
     stage.addEventListener("click", () => setPhase(i));
     funnelList.appendChild(stage);
-    return { stage, fill: stage.querySelector(".funnel__fill") };
+    return { stage };
   });
 
   function setPhase(index) {
@@ -221,25 +213,6 @@
     funnelTitle.textContent = phase.name;
     funnelBody.textContent = phase.body;
     funnelOwner.textContent = phase.owner;
-  }
-
-  /* As barras só crescem quando o funil aparece na tela: crescer fora de vista
-     gastaria a única leitura que a animação tem para dar. */
-  function growFunnel() {
-    phaseRefs.forEach((refs, i) => { refs.fill.style.width = PHASES[i].width + "%"; });
-  }
-
-  if (reduceMotion || !("IntersectionObserver" in window)) {
-    growFunnel();
-  } else {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        growFunnel();
-        observer.disconnect();
-      });
-    }, { threshold: 0.35 });
-    observer.observe(funnelList);
   }
 
   /* — antes e depois — */
