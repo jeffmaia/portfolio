@@ -350,6 +350,7 @@ body.has-nav-open { overflow: hidden; }
   }
 }
 .case-card__top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.case-card__tags { gap: 6px; margin-top: -8px; }
 .case-card__stat {
   font-family: var(--font-heading); font-weight: var(--font-heading-weight);
   font-size: clamp(44px, 5vw, 62px); line-height: 0.92; letter-spacing: -0.03em;
