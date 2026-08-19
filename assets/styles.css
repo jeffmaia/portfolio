@@ -166,7 +166,10 @@ img { max-width: 100%; }
 .site-nav {
   position: sticky; top: 0; z-index: 40;
   display: flex; align-items: center; gap: 24px;
-  padding: 14px 28px;
+  /* A barra é full-bleed, mas o conteúdo dela começa na mesma linha vertical do
+     corpo da página: 28px nas telas estreitas e, a partir de 1180px, o mesmo
+     recuo que centraliza .wrap. */
+  padding: 14px max(28px, calc((100% - 1124px) / 2));
   background: color-mix(in srgb, var(--color-bg) 92%, transparent);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--color-divider);
@@ -184,7 +187,8 @@ img { max-width: 100%; }
 .nav-sep { width: 1px; height: 18px; background: var(--color-divider); }
 .site-nav .btn-primary { font-size: 13px; padding: 7px 14px; color: var(--color-bg); }
 
-/* — hambúrguer: existe só abaixo de 860px, onde a barra inteira não cabe — */
+/* — hambúrguer: existe só abaixo de 1000px, onde a barra inteira não cabe —
+   com quatro casos no menu, entre 860 e 1000 os links quebravam em duas linhas. */
 .nav-toggle {
   display: none; position: relative;
   width: 40px; height: 40px; padding: 0; cursor: pointer;
@@ -208,10 +212,10 @@ img { max-width: 100%; }
 /* Trava a rolagem do documento enquanto o painel cobre a tela. */
 body.has-nav-open { overflow: hidden; }
 
-@media (max-width: 860px) {
+@media (max-width: 1000px) {
   /* Sem backdrop-filter aqui: um elemento filtrado vira bloco de contenção
      para descendentes fixed, e o painel precisa se ancorar na viewport. */
-  .site-nav { background: var(--color-bg); backdrop-filter: none; gap: 16px; padding: 12px 18px; }
+  .site-nav { background: var(--color-bg); backdrop-filter: none; gap: 16px; padding-block: 12px; }
   .nav-brand { font-size: 16px; position: relative; z-index: 2; }
   .nav-toggle { display: block; z-index: 2; }
 
@@ -350,9 +354,10 @@ body.has-nav-open { overflow: hidden; }
 }
 
 .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; align-items: stretch; }
-/* Com quatro casos, três por linha deixariam o último sozinho: acima de 900px
-   a grade fixa duas colunas e fecha 2x2. */
-@media (min-width: 900px) { .case-grid { grid-template-columns: repeat(2, 1fr); } }
+/* O primeiro caso ocupa a linha inteira e os outros três dividem a linha de
+   baixo em partes iguais: o destaque vem do tamanho, não de um card sozinho
+   sobrando no fim da grade. */
+@media (min-width: 900px) { .case-grid { grid-template-columns: repeat(3, 1fr); } }
 .case-card {
   text-decoration: none; color: inherit;
   display: flex; flex-direction: column; gap: 16px;
@@ -368,6 +373,9 @@ body.has-nav-open { overflow: hidden; }
 }
 .case-card__top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .case-card__tags { gap: 6px; margin-top: -8px; }
+/* Duas linhas reservadas nos três cards da mesma linha: com uma linha de tags a
+   mais em um deles, os números começariam em alturas diferentes. */
+.case-grid > .case-card:not(.case-card--featured) .case-card__tags { min-height: 54px; }
 .case-card__stat {
   font-family: var(--font-heading); font-weight: var(--font-heading-weight);
   font-size: clamp(44px, 5vw, 62px); line-height: 0.92; letter-spacing: -0.03em;
@@ -382,6 +390,43 @@ body.has-nav-open { overflow: hidden; }
 .case-card__go {
   margin-top: auto; font-size: 13px; letter-spacing: 0.06em;
   text-transform: uppercase; color: var(--color-accent-700);
+}
+
+.case-card--featured {
+  grid-column: 1 / -1; position: relative;
+  background: color-mix(in srgb, var(--color-accent) 4%, transparent);
+  border-color: var(--color-accent-400);
+  min-height: 0; padding: 32px 30px 28px;
+  display: grid; gap: 14px 52px; align-content: start;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  grid-template-areas:
+    "top   tags"
+    "stat  title"
+    "label body"
+    "label go";
+}
+.case-card--featured .case-card__top { grid-area: top; }
+.case-card--featured .case-card__tags { grid-area: tags; margin-top: 0; align-content: start; padding-right: 118px; }
+.case-card--featured .case-card__stat { grid-area: stat; font-size: clamp(52px, 6.4vw, 82px); }
+.case-card--featured .case-card__stat-label {
+  grid-area: label; align-self: start; border-bottom: 0; padding-bottom: 0; font-size: 14px;
+}
+.case-card--featured h3 { grid-area: title; font-size: clamp(26px, 3vw, 34px); }
+.case-card--featured p { grid-area: body; font-size: 16px; }
+.case-card--featured .case-card__go { grid-area: go; align-self: end; margin-top: 6px; }
+/* Fora do fluxo, colada no canto: dentro da coluna do número ela ficaria no
+   meio do card, longe da borda que deveria marcar. */
+.case-card__flag { position: absolute; top: 32px; right: 30px; color: var(--color-accent-700); }
+@media (max-width: 760px) {
+  /* Sem largura para duas colunas, o destaque volta a ser uma coluna só. */
+  .case-card--featured {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "top" "tags" "stat" "label" "title" "body" "go";
+    gap: 14px;
+  }
+  /* Empilhado, o rótulo divide a linha com o número do caso e não disputa
+     espaço com as tags. */
+  .case-card--featured .case-card__tags { padding-right: 0; }
 }
 
 /* — seletor de camadas / etapas — */
