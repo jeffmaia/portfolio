@@ -336,6 +336,9 @@ body.has-nav-open { overflow: hidden; }
 }
 
 .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; align-items: stretch; }
+/* Com quatro casos, três por linha deixariam o último sozinho: acima de 900px
+   a grade fixa duas colunas e fecha 2x2. */
+@media (min-width: 900px) { .case-grid { grid-template-columns: repeat(2, 1fr); } }
 .case-card {
   text-decoration: none; color: inherit;
   display: flex; flex-direction: column; gap: 16px;
@@ -579,3 +582,125 @@ body.has-nav-open { overflow: hidden; }
     transition-duration: 0.01ms !important;
   }
 }
+
+/* — fluxo da camada de IA (Processo) —
+   Três estágios em linha, entrada, camada e saída. Os artefatos da saída são
+   botões porque cada um tem um destino diferente depois de gerado, e é esse
+   destino que interessa mostrar. */
+.flow {
+  padding: 26px 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1.15fr);
+  gap: 20px;
+  align-items: start;
+}
+.flow__stage { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.flow__node {
+  border: 1px solid var(--color-divider); padding: 16px 16px 15px;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 19px; line-height: 1.15;
+}
+.flow__node--core { background: var(--color-accent-700); border-color: var(--color-accent-700); color: var(--color-bg); }
+.flow__arrow {
+  /* Alinhada à altura dos nós, não ao centro da linha: as colunas têm alturas
+     diferentes e a seta precisa apontar para a caixa, não para o texto de apoio. */
+  align-self: start; margin-top: 52px;
+  font-size: 18px; color: var(--color-neutral-500);
+}
+.flow__arrow::before { content: "→"; }
+.flow__chips { display: flex; flex-direction: column; gap: 8px; }
+.flow-chip {
+  cursor: pointer; width: 100%; text-align: left; font: inherit; font-size: 15px;
+  color: var(--color-neutral-900); background: transparent;
+  border: 1px solid var(--color-divider); padding: 10px 14px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  transition: background .25s, border-color .25s, color .25s, opacity .25s;
+}
+.flow-chip::after { content: "→"; color: var(--color-neutral-500); transition: color .25s; }
+@media (hover: hover) and (pointer: fine) {
+  .flow-chip:hover { background: color-mix(in srgb, var(--color-accent) 12%, transparent); border-color: var(--color-accent-500); }
+}
+.flow-chip[aria-selected="true"] { background: var(--color-accent-700); border-color: var(--color-accent-700); color: var(--color-bg); }
+.flow-chip[aria-selected="true"]::after { color: var(--color-accent-300); }
+.flow-note { margin-top: 22px; padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 10px; }
+.flow-note__title { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 21px; }
+.flow-note p { font-size: 16px; color: var(--color-neutral-800); margin: 0; }
+
+@media (max-width: 900px) {
+  /* Empilhado, a seta deixa de ligar colunas e passa a ligar linhas. */
+  .flow { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .flow__arrow { align-self: start; margin-top: 0; }
+  .flow__arrow::before { content: "↓"; }
+}
+
+/* — funil de etapas (Processo) —
+   A barra de cada etapa encurta conforme o funil avança, então a lista já é o
+   desenho do funil, sem precisar de imagem. */
+.funnel { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 44px; align-items: start; }
+.funnel__list { display: flex; flex-direction: column; gap: 10px; }
+.funnel__stage {
+  cursor: pointer; width: 100%; text-align: left; font: inherit;
+  background: transparent; border: 1px solid var(--color-divider);
+  padding: 14px 18px; display: flex; flex-direction: column; gap: 9px;
+  transition: background .3s, border-color .3s;
+}
+@media (hover: hover) and (pointer: fine) {
+  .funnel__stage:hover { background: color-mix(in srgb, var(--color-accent) 12%, transparent); border-color: var(--color-accent-500); }
+}
+.funnel__head { display: flex; align-items: baseline; gap: 12px; }
+.funnel__num {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 20px; line-height: 1; color: var(--color-neutral-500); transition: color .3s;
+}
+.funnel__name {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 19px; line-height: 1.2; color: var(--color-neutral-900); transition: color .3s;
+}
+.funnel__bar { height: 8px; border: 1px solid var(--color-divider); }
+.funnel__fill {
+  height: 100%; width: 0; background: var(--color-neutral-600);
+  transition: width 1s var(--ease-chart), background .3s;
+}
+.funnel__stage[aria-selected="true"] { background: var(--color-accent-700); border-color: var(--color-accent-700); }
+.funnel__stage[aria-selected="true"] .funnel__num { color: var(--color-accent-300); }
+.funnel__stage[aria-selected="true"] .funnel__name { color: var(--color-bg); }
+.funnel__stage[aria-selected="true"] .funnel__bar { border-color: var(--color-accent-400); }
+.funnel__stage[aria-selected="true"] .funnel__fill { background: var(--color-accent-300); }
+
+/* — trilha horizontal do Design System — */
+.trail { display: flex; flex-wrap: wrap; align-items: stretch; gap: 10px; }
+.trail__step {
+  flex: 1 1 150px; border: 1px solid var(--color-divider); padding: 14px 16px;
+  display: flex; flex-direction: column; gap: 6px; background: transparent;
+}
+.trail__step:last-child { background: color-mix(in srgb, var(--color-accent) 7%, transparent); border-color: var(--color-accent-400); }
+.trail__name { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 17px; line-height: 1.2; }
+.trail__desc { font-size: 13px; color: var(--color-neutral-700); }
+
+/* — comparação antes e depois (Processo) —
+   Uma linha por dimensão, com um seletor que troca o lado inteiro de uma vez.
+   Ver os dois lados lado a lado espalharia oito blocos de texto; trocar o
+   estado deixa a mudança acontecer no mesmo lugar da página. */
+.compare__switch { display: inline-flex; border: 1px solid var(--color-divider); margin-bottom: 22px; }
+.compare__tab {
+  cursor: pointer; font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 15px; padding: 9px 22px; color: var(--color-neutral-700);
+  background: transparent; border: 0;
+  transition: background .25s, color .25s;
+}
+@media (hover: hover) and (pointer: fine) {
+  .compare__tab:hover { background: color-mix(in srgb, var(--color-accent) 12%, transparent); }
+}
+.compare__tab[aria-selected="true"] { background: var(--color-accent-700); color: var(--color-bg); }
+.compare__rows { display: grid; grid-template-columns: repeat(auto-fit, minmax(248px, 1fr)); gap: 18px; }
+.compare__row { padding: 18px 18px 20px; display: flex; flex-direction: column; gap: 10px; transition: background .3s, border-color .3s; }
+.compare__label { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-neutral-600); }
+.compare__text {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 19px; line-height: 1.25; color: var(--color-neutral-900);
+  margin: 0; text-wrap: pretty;
+  transition: opacity .28s, transform .28s;
+}
+.compare__row.is-swapping .compare__text { opacity: 0; transform: translateY(6px); }
+.compare.is-after .compare__row { background: color-mix(in srgb, var(--color-accent) 6%, transparent); border-color: var(--color-accent-400); }
+.compare.is-after .compare__text { color: var(--color-accent-800); }
