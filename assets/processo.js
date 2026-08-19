@@ -104,6 +104,7 @@
 
   /* — fluxo: artefatos e seus destinos — */
   const flowChips = document.getElementById("flow-chips");
+  const noteEl = document.getElementById("flow-note");
   const noteTitle = document.getElementById("flow-note-title");
   const noteBody = document.getElementById("flow-note-body");
 
@@ -118,10 +119,54 @@
     return chip;
   });
 
-  function setArtifact(index) {
-    chipRefs.forEach((chip, i) => chip.setAttribute("aria-selected", String(i === index)));
+  function renderNote(index) {
     noteTitle.textContent = ARTIFACTS[index].title;
     noteBody.textContent = ARTIFACTS[index].body;
+  }
+
+  let activeArtifact = 0;
+
+  function setArtifact(index) {
+    activeArtifact = index;
+    chipRefs.forEach((chip, i) => chip.setAttribute("aria-selected", String(i === index)));
+    renderNote(index);
+  }
+
+  /* No celular o mesmo conteúdo vira acordeão: o destino abre colado no artefato
+     clicado, em vez de aparecer num painel abaixo da lista inteira. */
+  const accordion = document.getElementById("flow-accordion");
+
+  const accRefs = ARTIFACTS.map((artifact, i) => {
+    const item = document.createElement("div");
+    item.className = "flow-acc__item";
+    item.innerHTML =
+      '<button class="flow-acc__head" type="button" aria-expanded="false"></button>' +
+      '<div class="flow-acc__panel" hidden><span class="flow-acc__title"></span><p></p></div>';
+
+    const head = item.querySelector(".flow-acc__head");
+    const panel = item.querySelector(".flow-acc__panel");
+    head.id = "acc-head-" + i;
+    panel.id = "acc-panel-" + i;
+    head.setAttribute("aria-controls", panel.id);
+    panel.setAttribute("role", "region");
+    panel.setAttribute("aria-labelledby", head.id);
+    head.textContent = artifact.name;
+    panel.querySelector(".flow-acc__title").textContent = artifact.title;
+    panel.querySelector("p").textContent = artifact.body;
+    head.addEventListener("click", () => toggleAcc(i));
+    accordion.appendChild(item);
+    return { head, panel };
+  });
+
+  /* Um aberto por vez: com todos abertos a seção vira o texto corrido que o
+     acordeão existe para evitar. */
+  function toggleAcc(index) {
+    const willOpen = accRefs[index].head.getAttribute("aria-expanded") !== "true";
+    accRefs.forEach((refs, i) => {
+      const on = i === index && willOpen;
+      refs.head.setAttribute("aria-expanded", String(on));
+      refs.panel.hidden = !on;
+    });
   }
 
   /* — decisões do novo processo: lista no desktop, paginador no celular — */
@@ -166,6 +211,10 @@
       refs.dot.setAttribute("aria-current", String(on));
     });
 
+    renderMove(index);
+  }
+
+  function renderMove(index) {
     const move = MOVES[index];
     moveDetail.setAttribute("aria-labelledby", "move-tab-" + move.id);
     moveId.textContent = move.id;
@@ -205,8 +254,21 @@
     return { stage };
   });
 
-  function setPhase(index) {
-    phaseRefs.forEach((refs, i) => refs.stage.setAttribute("aria-selected", String(i === index)));
+  const phaseDots = document.getElementById("phase-dots");
+
+  const dotRefs = PHASES.map((phase, i) => {
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.className = "dot";
+    dot.setAttribute("aria-label", "Fase " + phase.id);
+    dot.addEventListener("click", () => setPhase(i));
+    phaseDots.appendChild(dot);
+    return dot;
+  });
+
+  let activePhase = 0;
+
+  function renderPhase(index) {
     const phase = PHASES[index];
     funnelDetail.setAttribute("aria-labelledby", "phase-tab-" + phase.id);
     funnelId.textContent = phase.id;
@@ -214,6 +276,20 @@
     funnelBody.textContent = phase.body;
     funnelOwner.textContent = phase.owner;
   }
+
+  function setPhase(index) {
+    activePhase = index;
+    phaseRefs.forEach((refs, i) => refs.stage.setAttribute("aria-selected", String(i === index)));
+    dotRefs.forEach((dot, i) => dot.setAttribute("aria-current", String(i === index)));
+    renderPhase(index);
+  }
+
+  document.getElementById("phase-prev").addEventListener("click", () => {
+    setPhase((activePhase + PHASES.length - 1) % PHASES.length);
+  });
+  document.getElementById("phase-next").addEventListener("click", () => {
+    setPhase((activePhase + 1) % PHASES.length);
+  });
 
   /* — antes e depois — */
   const compare = document.getElementById("compare");
@@ -275,9 +351,61 @@
 
   document.getElementById("replay-time").addEventListener("click", () => playTime(260));
 
+  /* Cada painel fica do tamanho do seu estado mais alto. Sem isso a caixa
+     encolhe e cresce a cada troca, e o que está abaixo dela pula junto; travar
+     por rolagem interna resolveria a altura mas esconderia texto. */
+  function lockHeight(el, count, render) {
+    el.style.minHeight = "";
+    let tallest = 0;
+    for (let i = 0; i < count; i++) {
+      render(i);
+      tallest = Math.max(tallest, el.getBoundingClientRect().height);
+    }
+    el.style.minHeight = Math.ceil(tallest) + "px";
+  }
+
+  function lockAll() {
+    lockHeight(noteEl, ARTIFACTS.length, renderNote);
+    renderNote(activeArtifact);
+    lockHeight(moveDetail, MOVES.length, renderMove);
+    renderMove(activeMove);
+    lockHeight(funnelDetail, PHASES.length, renderPhase);
+    renderPhase(activePhase);
+    /* Uma altura só para as quatro dimensões, tirada do texto mais longo entre
+       todas: no celular elas ficam empilhadas, e caixas de tamanhos diferentes
+       fariam a troca parecer que mudou mais do que o texto. */
+    let tallestRow = 0;
+    rowRefs.forEach((refs, i) => {
+      refs.el.style.minHeight = "";
+      ["before", "after"].forEach(state => {
+        refs.text.textContent = COMPARE[i][state];
+        tallestRow = Math.max(tallestRow, refs.el.getBoundingClientRect().height);
+      });
+    });
+    rowRefs.forEach((refs, i) => {
+      refs.el.style.minHeight = Math.ceil(tallestRow) + "px";
+      refs.text.textContent = COMPARE[i][compareState];
+    });
+  }
+
   setArtifact(0);
+  toggleAcc(0);
   setMove(0);
   setPhase(0);
   writeRows("before");
   playTime(520);
+  lockAll();
+
+  /* A altura mais alta muda quando a linha quebra em outro ponto, então ela é
+     recalculada quando a largura muda e quando a fonte real substitui a de
+     fallback. */
+  let lockTimer = null;
+  let lastWidth = window.innerWidth;
+  window.addEventListener("resize", () => {
+    if (window.innerWidth === lastWidth) return;
+    lastWidth = window.innerWidth;
+    clearTimeout(lockTimer);
+    lockTimer = setTimeout(lockAll, 180);
+  });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(lockAll);
 })();

@@ -257,6 +257,18 @@ body.has-nav-open { overflow: hidden; }
 /* Mesmo vão dos cards de 4 colunas: assim a borda da coluna direita cai exatamente
    sobre a divisão do terceiro card logo abaixo. */
 .grid-2--snap { gap: 24px; }
+.result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; align-items: start; }
+.result-grid__intro { grid-column: 1; grid-row: 1; }
+.result-grid__lead { grid-column: 1; grid-row: 2; }
+.result-grid__panel { grid-column: 2; grid-row: 1 / span 2; }
+@media (max-width: 860px) {
+  /* Em uma coluna o gráfico sobe para logo depois do título: o número é a
+     resposta da frase, e os dois parágrafos vêm explicar. */
+  .result-grid { grid-template-columns: minmax(0, 1fr); }
+  .result-grid__intro { grid-column: 1; grid-row: 1; }
+  .result-grid__panel { grid-column: 1; grid-row: 2; }
+  .result-grid__lead { grid-column: 1; grid-row: 3; }
+}
 
 .eyebrow { color: var(--color-accent-700); margin-bottom: 14px; }
 .lead { font-size: 16px; color: var(--color-neutral-800); }
@@ -598,7 +610,7 @@ body.has-nav-open { overflow: hidden; }
 .access-row { display: flex; flex-direction: column; gap: 7px; }
 .access-row__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .access-row__label { font-size: 15px; color: var(--color-neutral-900); }
-.access-row__value { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 22px; color: var(--color-neutral-700); }
+.access-row__value { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 22px; color: var(--color-neutral-700); white-space: nowrap; }
 .access-row--with .access-row__value { color: var(--color-accent-700); }
 .access-track { height: 12px; border: 1px solid var(--color-divider); }
 .access-fill { height: 100%; width: 0; background: var(--color-neutral-400); transition: width 1.2s var(--ease-chart); }
@@ -686,6 +698,23 @@ body.has-nav-open { overflow: hidden; }
 }
 .flow-chip[aria-selected="true"] { background: var(--color-accent-700); border-color: var(--color-accent-700); color: var(--color-bg); }
 .flow-chip[aria-selected="true"]::after { color: var(--color-accent-300); }
+.flow-accordion { display: none; flex-direction: column; gap: 8px; }
+.flow-acc__item { border: 1px solid var(--color-divider); }
+.flow-acc__head {
+  cursor: pointer; width: 100%; text-align: left; font: inherit; font-size: 16px;
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  color: var(--color-neutral-900); background: transparent; border: 0;
+  padding: 13px 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  transition: background .25s, color .25s;
+}
+.flow-acc__head::after { content: "+"; font-size: 18px; color: var(--color-neutral-500); }
+.flow-acc__head[aria-expanded="true"] { background: var(--color-accent-700); color: var(--color-bg); }
+.flow-acc__head[aria-expanded="true"]::after { content: "−"; color: var(--color-accent-300); }
+.flow-acc__panel { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+.flow-acc__panel[hidden] { display: none; }
+.flow-acc__title { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 18px; line-height: 1.2; }
+.flow-acc__panel p { font-size: 15px; color: var(--color-neutral-800); margin: 0; }
+
 .flow-note { margin-top: 22px; padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 10px; }
 .flow-note__title { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 21px; }
 .flow-note p { font-size: 16px; color: var(--color-neutral-800); margin: 0; }
@@ -697,10 +726,19 @@ body.has-nav-open { overflow: hidden; }
   .flow__arrow { align-self: start; margin-top: 0; }
   .flow__arrow::before { content: "↓"; }
 }
+@media (max-width: 860px) {
+  /* No celular, chip em cima e resposta embaixo obrigava a rolar para ler o que
+     foi clicado. O acordeão abre o destino junto do artefato. */
+  .flow__chips, .flow-note { display: none; }
+  .flow-accordion { display: flex; }
+}
 
 /* — funil de etapas (Processo) — */
 .funnel { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 44px; align-items: start; }
 .funnel__list { display: flex; flex-direction: column; gap: 10px; }
+/* Abaixo de 860px a lista dá lugar ao paginador: com a lista em cima e o detalhe
+   embaixo, cada clique jogava a resposta para fora da tela. */
+@media (max-width: 860px) { .funnel__list { display: none; } }
 .funnel__stage {
   cursor: pointer; width: 100%; text-align: left; font: inherit;
   background: transparent; border: 1px solid var(--color-divider);
