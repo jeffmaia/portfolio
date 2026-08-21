@@ -112,7 +112,7 @@ img { max-width: 100%; }
 .tag-accent { background: var(--color-accent-100); color: var(--color-accent-800); }
 .tag-neutral { background: var(--color-neutral-100); color: var(--color-neutral-800); }
 .tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
-.tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; align-items: flex-start; }
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
