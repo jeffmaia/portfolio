@@ -5,58 +5,27 @@
     {
       name: "Visão de produto",
       title: "Vira direção antes de virar backlog",
-      body: "A habilidade lê a transcrição do ritual e devolve um rascunho de visão. O time revisa e ajusta, em vez de escrever do zero depois da conversa."
+      body: "A habilidade lê a transcrição do ritual e devolve o rascunho da visão. O time revisa e ajusta, em vez de escrever do zero depois da conversa."
     },
     {
       name: "PRD",
       title: "Chega pronto para discussão, não para redação",
-      body: "Com o PRD já rascunhado, a Planning deixou de ser um rito frequente. Acontece só quando necessário, e a maior parte dela é feita de forma documentada e assíncrona."
+      body: "Com o PRD já rascunhado, a Planning deixou de ser um rito semanal. Acontece sob demanda, e a maior parte dela é assíncrona."
     },
     {
       name: "User stories (US)",
       title: "Entram no Kanban já documentadas",
-      body: "O refinamento passou a ser só tirar dúvida sobre o que já está escrito na story e desenhado no protótipo. Foi o que derrubou o ritual de quatro ou cinco horas para trinta ou quarenta minutos."
+      body: "O refinamento virou tirar dúvida sobre o que já está escrito na story e desenhado no protótipo. Foi o que derrubou o ritual de quatro horas para quarenta minutos."
     },
     {
       name: "Relatório de usabilidade",
       title: "Análise no lugar de rodada de teste",
-      body: "Boa parte dos testes frequentes foi reduzida porque o Claude passou a apontar com assertividade onde um fluxo pode ter problema, com base em padrões como os de Norman e Nielsen e no comportamento já conhecido do público da Omni."
+      body: "O Claude aponta problema de fluxo com consistência, usando heurística de Norman e Nielsen mais o que a gente já sabe do público da Omni."
     },
     {
       name: "Protótipo",
-      title: "Sai desenvolvido e segue direto para a engenharia",
-      body: "O protótipo já nasce desenvolvido no Claude Design e vai para o Claude Code, que a engenharia assume dali em diante. Os designers usam o Claude Code para garantir que a biblioteca usada no Claude Design está fiel à do código, que é a referência principal."
-    }
-  ];
-
-  const MOVES = [
-    {
-      id: "01",
-      title: "Rituais redesenhados",
-      body: "O formato de Scrum deixou de funcionar e o time migrou para Kanban. A Planning deixou de ser um rito frequente e acontece só quando necessário, com a maior parte dela documentada e assíncrona.",
-      body2: "As dailies no formato antigo deixaram de existir, com participação ativa apenas da engenharia e de produto somente quando necessário. Os refinamentos, que chegavam a durar de quatro a cinco horas por semana, caíram para trinta a quarenta minutos.",
-      effect: "A agenda parou de ser o lugar onde o trabalho acontece e virou o lugar onde a dúvida é resolvida."
-    },
-    {
-      id: "02",
-      title: "Design conectado à entrega",
-      body: "O próprio protótipo já sai desenvolvido no Claude Design e segue direto para o Claude Code, que a engenharia assume a partir dali.",
-      body2: "Os designers também usam o Claude Code para garantir que a biblioteca do Design System usada no Claude Design está fiel à biblioteca do código, que é a referência principal.",
-      effect: "O caminho entre a decisão de design e o código deixou de ter uma etapa de tradução no meio."
-    },
-    {
-      id: "03",
-      title: "Usabilidade como habilidade de análise",
-      body: "Boa parte dos testes de usabilidade que antes eram feitos com frequência foi reduzida, porque o Claude passou a fazer uma análise assertiva sobre onde um fluxo podia ter problema.",
-      body2: "Isso virou uma habilidade de análise de usabilidade baseada em padrões como os de Norman e Nielsen, além do comportamento e do perfil já conhecidos do público da Omni.",
-      effect: "A pesquisa com pessoa foi realocada para onde ela decide algo, não para confirmar o previsível."
-    },
-    {
-      id: "04",
-      title: "Métricas em conversa, não em dashboard",
-      body: "As discussões de time passaram a focar muito mais em como medir o que está sendo lançado e quais são as métricas fundamentais.",
-      body2: "A conexão direta com dados no Mixpanel reduziu o uso frequente de dashboards fixos, substituído por uma versão conversacional que já gera o artefato com a métrica que garante se a entrega foi um sucesso.",
-      effect: "A pergunta “como vamos saber se deu certo” passou a ter resposta na mesma conversa em que ela aparece."
+      title: "Nasce desenvolvido e segue direto para a engenharia",
+      body: "O protótipo sai do Claude Design e vai para o Claude Code, de onde a engenharia assume. Design usa o Claude Code para manter a biblioteca fiel à do código, que é a referência principal."
     }
   ];
 
@@ -64,40 +33,40 @@
     {
       id: "01",
       name: "Identificação de oportunidades",
-      body: "Mapeamentos internos, dados de produto, pesquisa e canais de feedback alimentam uma árvore de oportunidades que facilita a escolha do que entra em pauta.",
+      body: "Dado de produto, pesquisa e canais de feedback alimentam uma árvore de oportunidades que facilita escolher o que entra em pauta.",
       owner: "Produto e design, com dados alimentando a árvore."
     },
     {
       id: "02",
       name: "Validação de desejabilidade e diferencial",
-      body: "Análise de mercado e de usuário para confirmar se a aposta faz sentido antes de o time gastar tempo desenhando a solução.",
+      body: "Confirmamos se a aposta faz sentido antes de o time gastar tempo desenhando a solução.",
       owner: "Produto e design."
     },
     {
       id: "03",
       name: "Definição e prototipagem",
-      body: "É aqui que nasce a maior parte da solução. O protótipo já sai desenvolvido e segue para a engenharia sem uma etapa de tradução no meio.",
+      body: "É aqui que nasce a maior parte da solução. O protótipo já sai desenvolvido e segue para a engenharia sem etapa de tradução no meio.",
       owner: "Produto, design e engenharia, com prototipação distribuída entre os três."
     },
     {
       id: "04",
       name: "Delivery",
-      body: "A fase alfa é responsabilidade da engenharia, que garante o funcionamento do que foi construído. A fase beta, aberta ou fechada, valida os experimentos antes da decisão de abrir para todos ou seguir para GTM.",
+      body: "Alfa na engenharia, que garante o funcionamento do que foi construído. Beta, aberto ou fechado, validando o experimento antes de abrir para todos.",
       owner: "Engenharia no alfa, time inteiro no beta."
     },
     {
       id: "05",
       name: "Depois do lançamento",
-      body: "O foco passa a ser satisfação e adoção do que acabou de ir ao ar, com a validação qualitativa acionada quando o dado quantitativo mostra desvio do esperado.",
+      body: "O foco vira satisfação e adoção. A validação qualitativa entra quando o dado quantitativo mostra desvio do esperado.",
       owner: "Produto, design e dados, junto de GA e GTM."
     }
   ];
 
   const COMPARE = [
     { label: "Prototipação", before: "Concentrada em design", after: "Distribuída entre produto, design e engenharia" },
-    { label: "Validação qualitativa", before: "Quase sempre antes do\u00a0desenvolvimento", after: "Depois do lançamento, quando o dado quantitativo mostra desvio do esperado" },
-    { label: "Rituais", before: "Longos e presenciais na agenda", after: "Curtos e assíncronos" },
-    { label: "Testes A/B", before: "Poucas variações, porque cada uma custava caro para construir", after: "Muito mais variações, porque desenvolver ficou ágil e barato" }
+    { label: "Validação qualitativa", before: "Quase sempre antes do desenvolvimento", after: "Depois do lançamento, quando o dado mostra desvio do esperado" },
+    { label: "Rituais", before: "Longos e na agenda", after: "Curtos e assíncronos" },
+    { label: "Testes A/B", before: "Poucas variações, porque cada uma custava caro para construir", after: "Muitas variações, porque desenvolver ficou ágil e barato" }
   ];
 
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -168,68 +137,6 @@
       refs.panel.hidden = !on;
     });
   }
-
-  /* — decisões do novo processo: lista no desktop, paginador no celular — */
-  const movesList = document.getElementById("moves-list");
-  const moveDots = document.getElementById("move-dots");
-  const moveDetail = document.getElementById("move-detail");
-  const moveId = document.getElementById("move-id");
-  const moveTitle = document.getElementById("move-title");
-  const moveBody = document.getElementById("move-body");
-  const moveBody2 = document.getElementById("move-body2");
-  const moveEffect = document.getElementById("move-effect");
-
-  const moveRefs = MOVES.map((move, i) => {
-    const item = document.createElement("button");
-    item.type = "button";
-    item.className = "blueprint layer-item";
-    item.setAttribute("role", "tab");
-    item.id = "move-tab-" + move.id;
-    item.innerHTML = '<span class="layer-num"></span><span class="layer-title"></span>';
-    item.querySelector(".layer-num").textContent = move.id;
-    item.querySelector(".layer-title").textContent = move.title;
-    item.addEventListener("click", () => setMove(i));
-    movesList.appendChild(item);
-
-    const dot = document.createElement("button");
-    dot.type = "button";
-    dot.className = "dot";
-    dot.setAttribute("aria-label", "Decisão " + move.id);
-    dot.addEventListener("click", () => setMove(i));
-    moveDots.appendChild(dot);
-
-    return { item, dot };
-  });
-
-  let activeMove = 0;
-
-  function setMove(index) {
-    activeMove = index;
-    moveRefs.forEach((refs, i) => {
-      const on = i === index;
-      refs.item.setAttribute("aria-selected", String(on));
-      refs.dot.setAttribute("aria-current", String(on));
-    });
-
-    renderMove(index);
-  }
-
-  function renderMove(index) {
-    const move = MOVES[index];
-    moveDetail.setAttribute("aria-labelledby", "move-tab-" + move.id);
-    moveId.textContent = move.id;
-    moveTitle.textContent = move.title;
-    moveBody.textContent = move.body;
-    moveBody2.textContent = move.body2;
-    moveEffect.textContent = move.effect;
-  }
-
-  document.getElementById("move-prev").addEventListener("click", () => {
-    setMove((activeMove + MOVES.length - 1) % MOVES.length);
-  });
-  document.getElementById("move-next").addEventListener("click", () => {
-    setMove((activeMove + 1) % MOVES.length);
-  });
 
   /* — funil — */
   const funnelList = document.getElementById("funnel-list");
@@ -349,8 +256,6 @@
     timeTimer = setTimeout(growTime, delay);
   }
 
-  document.getElementById("replay-time").addEventListener("click", () => playTime(260));
-
   /* Cada painel fica do tamanho do seu estado mais alto. Sem isso a caixa
      encolhe e cresce a cada troca, e o que está abaixo dela pula junto; travar
      por rolagem interna resolveria a altura mas esconderia texto. */
@@ -367,8 +272,6 @@
   function lockAll() {
     lockHeight(noteEl, ARTIFACTS.length, renderNote);
     renderNote(activeArtifact);
-    lockHeight(moveDetail, MOVES.length, renderMove);
-    renderMove(activeMove);
     lockHeight(funnelDetail, PHASES.length, renderPhase);
     renderPhase(activePhase);
     /* Uma altura só para as quatro dimensões, tirada do texto mais longo entre
@@ -390,7 +293,6 @@
 
   setArtifact(0);
   toggleAcc(0);
-  setMove(0);
   setPhase(0);
   writeRows("before");
   playTime(520);

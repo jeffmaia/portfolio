@@ -63,7 +63,6 @@
   const detailEffect = document.getElementById("detail-effect");
   const beforeList = document.getElementById("before-list");
   const afterList = document.getElementById("after-list");
-  const replayBtn = document.getElementById("replay-btn");
 
   const layerItems = LAYERS.map((layer, i) => {
     const item = document.createElement("button");
@@ -171,8 +170,6 @@
       if (state.shown >= AFTER.length) clearInterval(timer);
     }, 620);
   }
-
-  replayBtn.addEventListener("click", play);
 
   setActive(0);
   play();
