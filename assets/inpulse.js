@@ -1,7 +1,6 @@
 (() => {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const bars = Array.from(document.querySelectorAll(".bar-fill"));
-  const replayBtn = document.getElementById("replay-bars");
   let timer = null;
 
   // Cada barra vale de 0 a 10 participantes, então o valor × 10 já é a largura em %.
@@ -15,6 +14,5 @@
     timer = setTimeout(grow, delay);
   }
 
-  replayBtn.addEventListener("click", () => play(260));
   play(500);
 })();

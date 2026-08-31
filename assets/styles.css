@@ -252,23 +252,32 @@ body.has-nav-open { overflow: hidden; }
 .section--divided { border-top: 1px solid var(--color-divider); padding-top: 34px; }
 
 .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 44px; align-items: start; }
+/* Quatro células, sempre duas colunas fixas (não auto-fit): a segunda linha
+   precisa começar exatamente onde a primeira termina, nas duas colunas ao
+   mesmo tempo. Um espaçador vazio ocupa a célula de cima à direita, então o
+   bloco "O que destravou" nasce alinhado com o texto ao lado dele, não com o
+   título — o auto-fit do .grid-2 poderia colapsar para 3 colunas e quebrar
+   esse pareamento de linha. */
+.leadership-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 44px; row-gap: 20px; align-items: start; }
+@media (max-width: 860px) {
+  .leadership-grid { grid-template-columns: minmax(0, 1fr); }
+  .leadership-grid__spacer { display: none; }
+}
+/* O gráfico ganha metade da largura e os quatro cartões preenchem a outra
+   metade lado a lado, em vez de empilhar embaixo com a largura inteira vazia
+   ao lado. */
+.result-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+@media (max-width: 760px) { .result-layout { grid-template-columns: minmax(0, 1fr); } }
 .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
 .grid-cards--sm { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 /* Mesmo vão dos cards de 4 colunas: assim a borda da coluna direita cai exatamente
    sobre a divisão do terceiro card logo abaixo. */
 .grid-2--snap { gap: 24px; }
-.result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; align-items: start; }
-.result-grid__intro { grid-column: 1; grid-row: 1; }
-.result-grid__lead { grid-column: 1; grid-row: 2; }
-.result-grid__panel { grid-column: 2; grid-row: 1 / span 2; }
-@media (max-width: 860px) {
-  /* Em uma coluna o gráfico sobe para logo depois do título: o número é a
-     resposta da frase, e os dois parágrafos vêm explicar. */
-  .result-grid { grid-template-columns: minmax(0, 1fr); }
-  .result-grid__intro { grid-column: 1; grid-row: 1; }
-  .result-grid__panel { grid-column: 1; grid-row: 2; }
-  .result-grid__lead { grid-column: 1; grid-row: 3; }
-}
+/* O par antes/depois anda junto e os dois pares se separam por uma linha: a
+   distância dentro do par é menor que a distância entre pares, senão as quatro
+   barras leem como quatro medidas soltas em vez de duas comparações. */
+.access-pair { display: flex; flex-direction: column; gap: 12px; }
+.access-pair + .access-pair { border-top: 1px solid var(--color-divider); padding-top: 20px; }
 
 .eyebrow { color: var(--color-accent-700); margin-bottom: 14px; }
 .lead { font-size: 16px; color: var(--color-neutral-800); }
@@ -662,27 +671,39 @@ body.has-nav-open { overflow: hidden; }
 /* Entrada e camada ficam em cima, lado a lado, e os artefatos ocupam a faixa
    inteira embaixo: em três colunas a lista de artefatos era muito mais alta que
    as outras duas e abria um vazio embaixo delas. */
+/* Duas linhas: rótulo (entrada/camada) e caixa. A seta some da linha do rótulo
+   e some centrada só na linha da caixa, então ela aponta de caixa para caixa e
+   não para o meio do bloco inteiro, que ficaria puxado para cima pelo rótulo. */
 .flow__pipe {
   display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-  gap: 20px; align-items: start;
+  grid-template-rows: auto 1fr;
+  column-gap: 20px; row-gap: 10px;
 }
+.flow__stage { display: contents; }
+.flow__stage:nth-of-type(1) > .overline { grid-column: 1; grid-row: 1; }
+.flow__stage:nth-of-type(1) > .flow__node { grid-column: 1; grid-row: 2; }
+.flow__stage:nth-of-type(2) > .overline { grid-column: 3; grid-row: 1; }
+.flow__stage:nth-of-type(2) > .flow__node { grid-column: 3; grid-row: 2; }
+.flow__arrow { grid-column: 2; grid-row: 2; align-self: center; justify-self: center; }
 .flow__out {
   display: flex; flex-direction: column; gap: 12px;
   border-top: 1px solid var(--color-divider); padding-top: 20px;
 }
-.flow__stage { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+/* A explicação mora dentro da caixa, não solta embaixo dela. Com três palavras
+   sozinhas numa caixa de 800px o nó parecia vazio, e a legenda à parte fazia
+   cada estágio ler como dois objetos em vez de um. */
 .flow__node {
   border: 1px solid var(--color-divider); padding: 16px 16px 15px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.flow__node-title {
   font-family: var(--font-heading); font-weight: var(--font-heading-weight);
   font-size: 19px; line-height: 1.15;
 }
+.flow__node-desc { font-size: 13px; line-height: 1.45; color: var(--color-neutral-600); }
 .flow__node--core { background: var(--color-accent-700); border-color: var(--color-accent-700); color: var(--color-bg); }
-.flow__arrow {
-  /* Alinhada à altura dos nós, não ao centro da linha: as colunas têm alturas
-     diferentes e a seta precisa apontar para a caixa, não para o texto de apoio. */
-  align-self: start; margin-top: 52px;
-  font-size: 18px; color: var(--color-neutral-500);
-}
+.flow__node--core .flow__node-desc { color: var(--color-accent-200); }
+.flow__arrow { font-size: 18px; color: var(--color-neutral-500); }
 .flow__arrow::before { content: "→"; }
 .flow__chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .flow-chip {
@@ -720,10 +741,14 @@ body.has-nav-open { overflow: hidden; }
 .flow-note p { font-size: 16px; color: var(--color-neutral-800); margin: 0; }
 
 @media (max-width: 900px) {
-  /* Empilhado, a seta deixa de ligar colunas e passa a ligar linhas. */
-  .flow__pipe { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  /* Empilhado, a seta deixa de ligar colunas e passa a ligar linhas. A grade de
+     duas linhas existe só para o layout lado a lado; aqui volta a ser um fluxo
+     simples de cima para baixo. */
+  .flow__pipe { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; gap: 14px; }
+  .flow__stage { display: flex; flex-direction: column; gap: 10px; }
+  .flow__stage > .overline, .flow__stage > .flow__node { grid-column: auto; grid-row: auto; }
+  .flow__arrow { grid-column: auto; grid-row: auto; align-self: center; justify-self: unset; }
   .flow-chip { flex: 1 1 100%; }
-  .flow__arrow { align-self: start; margin-top: 0; }
   .flow__arrow::before { content: "↓"; }
 }
 @media (max-width: 860px) {
@@ -734,8 +759,11 @@ body.has-nav-open { overflow: hidden; }
 }
 
 /* — funil de etapas (Processo) — */
-.funnel { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 44px; align-items: start; }
-.funnel__list { display: flex; flex-direction: column; gap: 10px; }
+/* align-items:stretch (o default) faz as duas colunas terem a mesma altura, a
+   do painel de detalhe. Sem isso a lista de cinco fases, mais curta, deixava
+   a coluna da direita sobrando abaixo dela. */
+.funnel { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 44px; }
+.funnel__list { display: flex; flex-direction: column; gap: 10px; justify-content: space-between; }
 /* Abaixo de 860px a lista dá lugar ao paginador: com a lista em cima e o detalhe
    embaixo, cada clique jogava a resposta para fora da tela. */
 @media (max-width: 860px) { .funnel__list { display: none; } }
@@ -768,8 +796,39 @@ body.has-nav-open { overflow: hidden; }
   display: flex; flex-direction: column; gap: 6px; background: transparent;
 }
 .trail__step:last-child { background: color-mix(in srgb, var(--color-accent) 7%, transparent); border-color: var(--color-accent-400); }
+/* Quando os passos são paralelos e não uma sequência que termina em algum lugar,
+   o destaque no último passo mentiria sobre a ordem. */
+.trail--flat .trail__step:last-child { background: transparent; border-color: var(--color-divider); }
+/* Abaixo disso cabem dois por linha e o terceiro fica órfão embaixo: melhor
+   empilhar os três do que deixar um sozinho parecendo sobra. */
+@media (max-width: 600px) { .trail__step { flex: 1 1 100%; } }
 .trail__name { font-family: var(--font-heading); font-weight: var(--font-heading-weight); font-size: 17px; line-height: 1.2; }
 .trail__desc { font-size: 13px; color: var(--color-neutral-700); }
+
+/* — atrito (Processo) —
+   O ponto do processo onde a coisa não funcionou, no lugar cronológico em que
+   aconteceu. Uma seção de “erros” no fim da página vira selo de humildade e o
+   leitor desconta; aqui o tropeço aparece dentro da etapa que ele atrapalhou.
+   A régua de accent é distinção suficiente para o olho achar os quatro numa
+   rolagem rápida, sem transformá-los em vitrine. */
+/* Título em cima, relato embaixo, largura contida a uma medida de leitura: o
+   bloco fecha em si mesmo como unidade, no lugar de esticar até a borda da
+   página e sobrar branco ao lado de um texto que parou de crescer. */
+.friction {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 26px;
+  margin-top: 34px;
+  max-width: 640px;
+}
+.friction p { font-size: 16px; line-height: 1.6; color: var(--color-neutral-800); }
+/* Dois nomes de classe porque o título também é um <p>: com um só, a regra do
+   corpo acima ganharia por especificidade e achataria o título. */
+.friction .friction__title {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: clamp(20px, 2.2vw, 25px); line-height: 1.18; letter-spacing: -0.015em;
+  color: var(--color-text); margin: 0 0 10px; text-wrap: pretty;
+}
+@media (max-width: 860px) { .friction { padding-left: 18px; margin-top: 28px; } }
 
 /* — comparação antes e depois (Processo) —
    Uma linha por dimensão, com um seletor que troca o lado inteiro de uma vez.

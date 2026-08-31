@@ -114,8 +114,6 @@
     growTimer = setTimeout(grow, delay);
   }
 
-  document.getElementById("replay-nps").addEventListener("click", () => playCharts(260));
-
   /* — carrossel do mapa + lightbox — */
   const shotImg = document.getElementById("shot-img");
   const shotCaption = document.getElementById("shot-caption");
