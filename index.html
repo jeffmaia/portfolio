@@ -5,147 +5,226 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jeff Maia — Product Design Manager</title>
 <meta name="description" content="Ajudo times de produto e design a integrar IA no processo real de trabalho, não só na ferramenta. Quatro casos: Omnichat, Inpulse, Mapa de Experiência e a reconstrução do processo de produto e design com Claude no centro.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E✅%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%232bee4b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/home.css">
 <script src="assets/analytics.js"></script>
 </head>
 <body>
 
-<nav class="site-nav">
-  <a class="nav-brand" href="index.html">Jeff Maia | Product Designer Manager</a>
-  <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Abrir menu">
-    <span class="nav-toggle__bar"></span>
-    <span class="nav-toggle__bar"></span>
-    <span class="nav-toggle__bar"></span>
-  </button>
-  <div class="nav-menu" id="nav-menu">
-    <a href="index.html" aria-current="page">Home</a>
-    <a href="case-processo.html">Processo com IA</a>
-    <a href="case-omnichat.html">Omnichat</a>
-    <a href="case-inpulse.html">Inpulse</a>
-    <a href="case-mapa-experiencia.html">Mapa de experiência</a>
-    <span class="nav-sep"></span>
-    <a href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn</a>
-    <a class="btn btn-primary" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp</a>
+<!-- O recorte da onda é um só para as três: elas são desenhadas no
+     mesmo quadro e na mesma fase, e o clipPath em objectBoundingBox
+     estica a forma até a largura de cada seção. O caminho já vem
+     desenhado aqui, então a borda ondulada existe sem JS. -->
+<svg class="onda-defs" aria-hidden="true" focusable="false"><defs><clipPath id="onda-recorte" clipPathUnits="objectBoundingBox"><path id="onda-caminho" d="M0,1 L0.0000,0.5167 L0.0250,0.4905 L0.0500,0.4658 L0.0750,0.4438 L0.1000,0.4256 L0.1250,0.4120 L0.1500,0.4035 L0.1750,0.4001 L0.2000,0.4016 L0.2250,0.4074 L0.2500,0.4167 L0.2750,0.4284 L0.3000,0.4416 L0.3250,0.4551 L0.3500,0.4681 L0.3750,0.4800 L0.4000,0.4903 L0.4250,0.4988 L0.4500,0.5058 L0.4750,0.5116 L0.5000,0.5167 L0.5250,0.5218 L0.5500,0.5276 L0.5750,0.5346 L0.6000,0.5431 L0.6250,0.5534 L0.6500,0.5653 L0.6750,0.5783 L0.7000,0.5918 L0.7250,0.6050 L0.7500,0.6167 L0.7750,0.6260 L0.8000,0.6318 L0.8250,0.6333 L0.8500,0.6299 L0.8750,0.6214 L0.9000,0.6078 L0.9250,0.5896 L0.9500,0.5676 L0.9750,0.5429 L1.0000,0.5167 L1,1 Z"/></clipPath></defs></svg>
+
+<a class="pular" href="#casos">Pular para os casos</a>
+
+<header class="nav">
+  <div class="wrap nav__inner">
+    <a class="wordmark" href="index.html"><b>Jeff</b> Maia <span>Product Design Manager</span></a>
+
+    <button class="nav__toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav__links" id="nav-links" aria-label="Principal">
+      <span class="nav__rotulo micro">Casos</span>
+      <a href="case-processo.html">Processo com IA</a>
+      <a href="case-omnichat.html">Omnichat</a>
+      <a href="case-inpulse.html">Inpulse</a>
+      <a href="case-mapa-experiencia.html">Mapa de experiência</a>
+
+      <span class="nav__sep" role="presentation"></span>
+
+      <span class="nav__rotulo micro">Fora daqui</span>
+      <a class="nav__fora" href="manifesto/index.html">Manifesto<i aria-hidden="true">↗</i></a>
+      <a class="nav__fora" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn<i aria-hidden="true">↗</i></a>
+    </nav>
   </div>
-</nav>
+</header>
 
-<main class="wrap page page--home">
+<main>
 
-  <header class="hero">
-    <h1>O ofício continua o mesmo. <br><span>O jeito de fazer, não.</span></h1>
-    <p>Ajudo times de produto e design a integrar IA no processo real de trabalho, não só na ferramenta.</p>
-    <a class="hero__manifesto" href="manifesto/index.html">Veja manifesto completo →</a>
-  </header>
+  <section class="wrap hero">
+    <p class="micro hero__eyebrow" data-revelar>Product Design Manager · São Paulo · Disponível</p>
 
-  <section class="section--tight">
-    <div class="cases-head">
-      <p class="cases-head__title">Isso na prática, nos projetos abaixo</p>
-      <span class="cases-head__rule"></span>
-      <span class="overline">04 casos</span>
+    <h1 class="hero__title">
+      <span class="hero__line hero__line--serif" data-revelar>O ofício continua o mesmo.</span>
+      <span class="hero__line hero__line--grot" data-revelar data-revelar-atraso="1">O jeito de fazer, não.</span>
+    </h1>
+
+    <!-- Cada moldura guarda duas fotos. A de baixo sobe dentro da própria
+         máscara conforme a página rola: o ofício primeiro, o jeito de
+         fazer depois. O JS escreve --troca; sem JS fica só a primeira. -->
+    <div class="hero__fotos" data-revelar data-revelar-atraso="2">
+      <figure class="foto" data-troca>
+        <div class="foto__cam">
+          <img src="assets/fotos/oficio-tipos.jpg" alt="Tipos móveis de metal alinhados numa gaveta de tipografia." width="840" height="560" data-parallax="-30" loading="eager" decoding="async">
+        </div>
+        <div class="foto__cam foto__cam--nova">
+          <img src="assets/fotos/oficio-mao-tipo.jpg" alt="Uma mão escolhendo um tipo de metal numa caixa de tipografia." width="840" height="560" data-parallax="-30" loading="eager" fetchpriority="low" decoding="async">
+        </div>
+      </figure>
+
+      <figure class="foto" data-troca>
+        <div class="foto__cam">
+          <img src="assets/fotos/oficio-esboco.jpg" alt="Mãos desenhando um esboço a lápis sobre papel, com régua ao lado." width="840" height="560" data-parallax="18" loading="eager" decoding="async">
+        </div>
+        <div class="foto__cam foto__cam--nova">
+          <img src="assets/fotos/jeito-wireframe.jpg" alt="Wireframes de um site desenhados à mão num caderno aberto." width="840" height="560" data-parallax="18" loading="eager" fetchpriority="low" decoding="async">
+        </div>
+      </figure>
+
+      <figure class="foto" data-troca>
+        <div class="foto__cam">
+          <img src="assets/fotos/jeito-teclado.jpg" alt="Mão sobre o teclado de um laptop, em luz baixa." width="840" height="560" data-parallax="-14" loading="eager" decoding="async">
+        </div>
+        <div class="foto__cam foto__cam--nova">
+          <img src="assets/fotos/jeito-monitores.jpg" alt="Pessoa sentada diante de monitores acesos, num quarto escuro." width="840" height="560" data-parallax="-14" loading="eager" fetchpriority="low" decoding="async">
+        </div>
+      </figure>
     </div>
 
-    <div class="case-grid">
-      <a class="blueprint case-card case-card--featured" href="case-processo.html">
-        <div class="case-card__top">
-          <span class="overline">Caso 01</span>
-          <span class="overline case-card__flag">Em destaque</span>
-        </div>
-        <div class="tag-row case-card__tags">
-          <span class="tag tag-outline">AX</span>
-          <span class="tag tag-outline">Processo de produto e design</span>
-          <span class="tag tag-accent">IA no fluxo de trabalho</span>
-        </div>
-        <div class="case-card__stat">1 semana</div>
-        <div class="case-card__stat-label">De Discovery, no lugar de um a dois meses. O refinamento semanal caiu de 4 a 5 horas para 30 a 40 minutos</div>
-        <h3>Reconstruindo o processo de produto e design com Claude no centro</h3>
-        <p>A maior mudança não foi trocar de ferramenta. Foi perceber quantas reuniões existiam só porque ninguém tinha um jeito melhor de transformar uma conversa em entregável.</p>
-        <span class="case-card__go">Ver o caso →</span>
-      </a>
-
-      <a class="blueprint case-card" href="case-omnichat.html">
-        <div class="case-card__top">
-          <span class="overline">Caso 02</span>
-        </div>
-        <div class="tag-row case-card__tags">
-          <span class="tag tag-outline">Omnichat</span>
-          <span class="tag tag-outline">Agentic Experience (AX)</span>
-          <span class="tag tag-accent">Agentes conversacionais</span>
-        </div>
-        <div class="case-card__stat">+8%</div>
-        <div class="case-card__stat-label">Conversão de leads qualificados, de 24% para 32% nas origens redesenhadas</div>
-        <h3>Redesenhando a verificação de intenção dos agentes conversacionais</h3>
-        <p>A maior perda de conversão não estava na interface. Estava na camada onde a intenção do lead entra no sistema.</p>
-        <span class="case-card__go">Ver o caso →</span>
-      </a>
-
-      <a class="blueprint case-card" href="case-inpulse.html">
-        <div class="case-card__top">
-          <span class="overline">Caso 03</span>
-        </div>
-        <div class="tag-row case-card__tags">
-          <span class="tag tag-outline">Ideação</span>
-          <span class="tag tag-outline">Experimentação</span>
-          <span class="tag tag-accent">Graduação em medicina</span>
-        </div>
-        <div class="case-card__stat">−25%</div>
-        <div class="case-card__stat-label">A média de recuperação caiu de 8 para 6 a cada 10 avaliações por aluno, numa base de 420 alunos</div>
-        <h3>Solução que ajudou a diminuir a recuperação dos alunos</h3>
-        <p>Cada avaliação gera cerca de 5 notas separadas, e o aluno fica de recuperação em cada uma delas. Não existia lugar nenhum onde ele visse isso junto.</p>
-        <span class="case-card__go">Ver o caso →</span>
-      </a>
-
-      <a class="blueprint case-card" href="case-mapa-experiencia.html">
-        <div class="case-card__top">
-          <span class="overline">Caso 04</span>
-        </div>
-        <div class="tag-row case-card__tags">
-          <span class="tag tag-outline">UX Research</span>
-          <span class="tag tag-outline">UX Strategy</span>
-          <span class="tag tag-accent">Pesquisa e NPS</span>
-        </div>
-        <div class="case-card__stat">+48</div>
-        <div class="case-card__stat-label">Pontos de NPS, de 33 negativos para 15 positivos em 16 campus</div>
-        <h3>Como um mapa de experiência ajudou a deixar o NPS positivo</h3>
-        <p>Um grupo educacional com 12 marcas e 16 campus sofria com uma nota de NPS negativa. As ações dos últimos semestres não mudaram esse cenário.</p>
-        <span class="case-card__go">Ver o caso →</span>
-      </a>
+    <div class="hero__foot" data-revelar data-revelar-atraso="3">
+      <p class="hero__lead">Ajudo times de produto e design a integrar IA no processo real de trabalho, não só na ferramenta.</p>
+      <a class="link micro hero__manifesto" href="manifesto/index.html">Ler o manifesto completo<i aria-hidden="true">↗</i></a>
     </div>
+
+    <a class="descer" href="#casos">
+      <span class="micro">Quatro casos abaixo</span>
+      <span class="descer__seta" aria-hidden="true">
+        <svg width="16" height="26" viewBox="0 0 16 26" fill="none"><path d="M8 0v24M1 17l7 7 7-7" stroke="currentColor" stroke-width="1.6"/></svg>
+      </span>
+    </a>
   </section>
 
-  <section class="section">
-    <div class="grid-2 section--divided">
-      <div>
-        <h6 class="eyebrow">Como eu trabalho</h6>
-        <p class="statement">Antes de desenhar a tela, desenhar a decisão.</p>
-        <p class="lead">Em todos os casos o ponto de partida foi o mesmo: entender onde a informação se perde entre quem usa o produto e quem decide sobre ele. A interface vem depois.</p>
-      </div>
-      <div>
-        <h6 class="eyebrow">Métodos recorrentes</h6>
-        <div class="tag-row">
-          <span class="tag tag-outline">Mapa de afinidade</span>
-          <span class="tag tag-outline">Análise temática</span>
-          <span class="tag tag-outline">Experimento de desejabilidade</span>
-          <span class="tag tag-outline">Story mapping</span>
-          <span class="tag tag-outline">Cocriação</span>
-          <span class="tag tag-outline">Benchmark</span>
-          <span class="tag tag-outline">Prototipagem navegável</span>
-          <span class="tag tag-outline">Desenho de interface</span>
+  <section id="casos" class="casos" aria-labelledby="casos-titulo">
+
+    <article class="destaque">
+      <div class="onda onda--escura" aria-hidden="true"></div>
+      <div class="wrap destaque__inner">
+        <div class="secao__head" data-revelar>
+          <span class="micro" id="casos-titulo">Caso 01 · Em destaque</span>
+          <span class="secao__rule"></span>
+        </div>
+
+        <div class="destaque__grid">
+          <div class="destaque__texto">
+            <h2 class="destaque__titulo" data-revelar>Reconstruindo o processo de produto e design com Claude no centro</h2>
+            <p class="destaque__desc" data-revelar data-revelar-atraso="1">A maior mudança não foi trocar de ferramenta. Foi perceber quantas reuniões existiam só porque ninguém tinha um jeito melhor de transformar uma conversa em entregável.</p>
+
+            <dl class="ficha" data-revelar data-revelar-atraso="2">
+              <div><dt class="micro">Papel</dt><dd>Liderei o processo de produto e design, conectando delivery, GA e GTM</dd></div>
+              <div><dt class="micro">Time</dt><dd>Produto, design, engenharia e dados</dd></div>
+              <div><dt class="micro">Duração</dt><dd>1 mês para validar o novo desenho, que segue evoluindo</dd></div>
+            </dl>
+
+            <a class="btn-green" href="case-processo.html" data-revelar data-revelar-atraso="3">Ver o caso completo
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
+            </a>
+          </div>
+
+          <div class="destaque__numeros" data-revelar data-revelar-atraso="1">
+            <div class="numero">
+              <span class="numero__valor">1 semana</span>
+              <p class="numero__label">De discovery, no lugar de um a dois meses</p>
+            </div>
+            <div class="numero">
+              <span class="numero__valor">30 a 40 min</span>
+              <p class="numero__label">De refinamento semanal, no lugar de 4 a 5 horas</p>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </article>
 
-    <div class="blueprint cta-bar">
-      <p>Quer conversar sobre um problema de produto parecido com algum desses? Me chama no WhatsApp ou no LinkedIn.</p>
-      <div class="cta-bar__actions">
-        <a class="btn btn-secondary" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn</a>
-        <a class="btn btn-primary" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175</a>
+    <div class="outros">
+      <div class="onda onda--clara" aria-hidden="true"></div>
+      <div class="wrap outros__inner">
+        <div class="secao__head" data-revelar>
+          <span class="micro">Mais três casos</span>
+          <span class="secao__rule"></span>
+        </div>
+
+        <div class="outros__grid">
+
+          <a class="caso" href="case-omnichat.html" data-revelar>
+            <span class="micro caso__num">Caso 02</span>
+            <span class="caso__stat">+8%</span>
+            <p class="caso__stat-label">Conversão de leads qualificados, de 24% para 32% nas origens redesenhadas</p>
+            <h3 class="caso__titulo">Redesenhando a verificação de intenção dos agentes conversacionais</h3>
+            <p class="caso__ficha micro">Product Design Manager · 4 meses</p>
+            <span class="caso__go micro">Ver o caso <i aria-hidden="true">→</i></span>
+          </a>
+
+          <a class="caso" href="case-inpulse.html" data-revelar data-revelar-atraso="1">
+            <span class="micro caso__num">Caso 03</span>
+            <span class="caso__stat">−25%</span>
+            <p class="caso__stat-label">A média de recuperação caiu de 8 para 6 a cada 10 avaliações, numa base de 420 alunos</p>
+            <h3 class="caso__titulo">Solução que ajudou a diminuir a recuperação dos alunos</h3>
+            <p class="caso__ficha micro">Idealizador, mentor e designer · 10 meses</p>
+            <span class="caso__go micro">Ver o caso <i aria-hidden="true">→</i></span>
+          </a>
+
+          <a class="caso" href="case-mapa-experiencia.html" data-revelar data-revelar-atraso="2">
+            <span class="micro caso__num">Caso 04</span>
+            <span class="caso__stat">+48</span>
+            <p class="caso__stat-label">Pontos de NPS, de 33 negativos para 15 positivos em 16 campus</p>
+            <h3 class="caso__titulo">Como um mapa de experiência ajudou a deixar o NPS positivo</h3>
+            <p class="caso__ficha micro">Idealizador e mentor · 3 meses</p>
+            <span class="caso__go micro">Ver o caso <i aria-hidden="true">→</i></span>
+          </a>
+
+        </div>
       </div>
     </div>
   </section>
 
 </main>
 
-<script src="assets/nav.js"></script>
+<footer class="footer on-dark">
+  <div class="onda onda--escura" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="footer__grid">
+      <div data-revelar>
+        <h2>Quer conversar sobre um problema parecido?</h2>
+        <p class="footer__contact">
+          <a class="link" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff</a>
+        </p>
+        <a class="btn-green" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
+        </a>
+      </div>
+
+      <div class="footer__col" data-revelar data-revelar-atraso="1">
+        <h3>Casos</h3>
+        <ul>
+          <li><a href="case-processo.html">Processo com IA</a></li>
+          <li><a href="case-omnichat.html">Omnichat</a></li>
+          <li><a href="case-inpulse.html">Inpulse</a></li>
+          <li><a href="case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col" data-revelar data-revelar-atraso="2">
+        <h3>Fora daqui</h3>
+        <ul>
+          <li><a href="manifesto/index.html">Manifesto<i aria-hidden="true">↗</i></a></li>
+          <li><a href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn<i aria-hidden="true">↗</i></a></li>
+          <li><a href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp<i aria-hidden="true">↗</i></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__meta">
+      <span class="micro">Jeff Maia · Product Design Manager</span>
+      <span class="micro">São Paulo, Brasil</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/home.js"></script>
 </body>
 </html>
