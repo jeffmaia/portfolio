@@ -3,17 +3,40 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Duas marcas postas antes do primeiro pixel:
+     .js       — a folha de estilo só esconde o painel do menu quando
+                 ela existe, então sem script nenhum link do site
+                 fica inalcançável;
+     .chegando — a página anterior pediu a passagem, e a cortina
+                 entra cobrindo e sai por baixo. A animação é de CSS
+                 puro: se o script do rodapé falhar, ela sai sozinha
+                 e nunca deixa a página coberta. -->
+<script>
+(function () {
+  var h = document.documentElement;
+  h.classList.add("js");
+  try {
+    if (sessionStorage.getItem("jm-passagem")) {
+      sessionStorage.removeItem("jm-passagem");
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) h.classList.add("chegando");
+    }
+  } catch (e) {}
+})();
+</script>
+
 <title>Jeff Maia — Product Design Manager</title>
 <meta name="description" content="Ajudo times de produto e design a integrar IA no processo real de trabalho, não só na ferramenta. Quatro casos: Omnichat, Inpulse, Mapa de Experiência e a reconstrução do processo de produto e design com Claude no centro.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%232bee4b'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/base.css">
 <link rel="stylesheet" href="assets/home.css">
 <script src="assets/analytics.js"></script>
 </head>
-<body>
+<body class="face-unica">
 
-<!-- O recorte da onda é um só para as três: elas são desenhadas no
+<!-- O recorte da onda é um só para todas: elas são desenhadas no
      mesmo quadro e na mesma fase, e o clipPath em objectBoundingBox
      estica a forma até a largura de cada seção. O caminho já vem
      desenhado aqui, então a borda ondulada existe sem JS. -->
@@ -23,73 +46,81 @@
 
 <header class="nav">
   <div class="wrap nav__inner">
-    <a class="wordmark" href="index.html"><b>Jeff</b> Maia <span>Product Design Manager</span></a>
+    <!-- A marca encolhe até a inicial na rolagem. O tracinho verde
+         mora no bloco que segura o "J" e o "eff", então encolhe
+         junto, sem precisar de uma segunda regra. -->
+    <a class="wordmark" href="index.html" aria-label="Jeff Maia, Product Design Manager">
+      <span class="wordmark__nome">J<span class="wordmark__dobra">eff</span></span>
+      <span class="wordmark__dobra wordmark__sobrenome">Maia</span>
+      <span class="wordmark__dobra wordmark__papel">Product Design Manager</span>
+    </a>
 
-    <button class="nav__toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Abrir menu">
-      <span></span><span></span><span></span>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
+      <span class="menu-btn__traco"></span>
+      <span class="menu-btn__traco"></span>
     </button>
-
-    <nav class="nav__links" id="nav-links" aria-label="Principal">
-      <span class="nav__rotulo micro">Casos</span>
-      <a href="case-processo.html">Processo com IA</a>
-      <a href="case-omnichat.html">Omnichat</a>
-      <a href="case-inpulse.html">Inpulse</a>
-      <a href="case-mapa-experiencia.html">Mapa de experiência</a>
-
-      <span class="nav__sep" role="presentation"></span>
-
-      <span class="nav__rotulo micro">Fora daqui</span>
-      <a class="nav__fora" href="manifesto/index.html">Manifesto<i aria-hidden="true">↗</i></a>
-      <a class="nav__fora" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn<i aria-hidden="true">↗</i></a>
-    </nav>
   </div>
 </header>
 
+<!-- Sem aria-hidden aqui: sem script o painel fica aberto no
+     fluxo, e a marca fixa esconderia do leitor de tela um menu que
+     está à vista. Quem escreve o estado é o JS, que já começa
+     fechando o painel. -->
+<div class="menu" id="menu">
+  <nav class="wrap menu__inner" aria-label="Principal">
+    <div class="menu__grupo">
+      <p class="micro menu__rotulo">Casos</p>
+      <ul class="menu__lista">
+        <li style="--i:0"><a class="menu__item" href="case-processo.html">Processo com IA</a></li>
+        <li style="--i:1"><a class="menu__item" href="case-omnichat.html">Omnichat</a></li>
+        <li style="--i:2"><a class="menu__item" href="case-inpulse.html">Inpulse</a></li>
+        <li style="--i:3"><a class="menu__item" href="case-mapa-experiencia.html">Mapa de experiência</a></li>
+      </ul>
+    </div>
+
+    <div class="menu__grupo">
+      <p class="micro menu__rotulo">Fora daqui</p>
+      <ul class="menu__lista menu__lista--fora">
+        <li style="--i:4"><a class="menu__item" href="manifesto/index.html">Manifesto<i aria-hidden="true">↗</i></a></li>
+        <li style="--i:5"><a class="menu__item" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn<i aria-hidden="true">↗</i></a></li>
+        <li style="--i:6"><a class="menu__item" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp<i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="onda onda--escura onda--pe" aria-hidden="true"></div>
+</div>
+
 <main>
 
+  <!-- O hero: uma tipografia só, e as fotografias andando dentro
+       das frases em vez de embaixo delas. Cada selo tem a altura de
+       uma letra alta, senta na linha de base como se fosse uma
+       palavra e guarda duas fotos — a segunda sobe por dentro da
+       primeira conforme a página rola.
+
+       Os selos vão com alt vazio e aria-hidden de propósito: aqui
+       eles são ritmo de leitura, não conteúdo. O que o leitor de
+       tela ouve é a frase inteira, sem interrupção. Sem espaço em
+       branco dentro do selo, também de propósito: as duas câmaras
+       são absolutas, e qualquer texto solto ali dentro mudaria a
+       linha de base do bloco. -->
   <section class="wrap hero">
     <p class="micro hero__eyebrow" data-revelar>Product Design Manager · São Paulo · Disponível</p>
 
-    <h1 class="hero__title">
-      <span class="hero__line hero__line--serif" data-revelar>O ofício continua o mesmo.</span>
-      <span class="hero__line hero__line--grot" data-revelar data-revelar-atraso="1">O jeito de fazer, não.</span>
+    <h1 class="hero__titulo">
+      <span class="hero__linha" data-revelar>O ofício
+        <span class="selo" data-troca aria-hidden="true"><span class="selo__cam"><img src="assets/fotos/oficio-tipos.jpg" alt="" width="420" height="280" data-parallax="-7" loading="eager" decoding="async"></span><span class="selo__cam selo__cam--nova"><img src="assets/fotos/oficio-mao-tipo.jpg" alt="" width="420" height="280" data-parallax="-7" loading="eager" fetchpriority="low" decoding="async"></span></span>
+        continua o mesmo.</span>
+
+      <span class="hero__linha hero__linha--eco" data-revelar data-revelar-atraso="1">O jeito
+        <span class="selo" data-troca aria-hidden="true"><span class="selo__cam"><img src="assets/fotos/oficio-esboco.jpg" alt="" width="420" height="280" data-parallax="6" loading="eager" decoding="async"></span><span class="selo__cam selo__cam--nova"><img src="assets/fotos/jeito-wireframe.jpg" alt="" width="420" height="280" data-parallax="6" loading="eager" fetchpriority="low" decoding="async"></span></span>
+        de fazer,
+        <span class="selo" data-troca aria-hidden="true"><span class="selo__cam"><img src="assets/fotos/jeito-teclado.jpg" alt="" width="420" height="280" data-parallax="-5" loading="eager" decoding="async"></span><span class="selo__cam selo__cam--nova"><img src="assets/fotos/jeito-monitores.jpg" alt="" width="420" height="280" data-parallax="-5" loading="eager" fetchpriority="low" decoding="async"></span></span>
+        não.</span>
     </h1>
 
-    <!-- Cada moldura guarda duas fotos. A de baixo sobe dentro da própria
-         máscara conforme a página rola: o ofício primeiro, o jeito de
-         fazer depois. O JS escreve --troca; sem JS fica só a primeira. -->
-    <div class="hero__fotos" data-revelar data-revelar-atraso="2">
-      <figure class="foto" data-troca>
-        <div class="foto__cam">
-          <img src="assets/fotos/oficio-tipos.jpg" alt="Tipos móveis de metal alinhados numa gaveta de tipografia." width="840" height="560" data-parallax="-30" loading="eager" decoding="async">
-        </div>
-        <div class="foto__cam foto__cam--nova">
-          <img src="assets/fotos/oficio-mao-tipo.jpg" alt="Uma mão escolhendo um tipo de metal numa caixa de tipografia." width="840" height="560" data-parallax="-30" loading="eager" fetchpriority="low" decoding="async">
-        </div>
-      </figure>
-
-      <figure class="foto" data-troca>
-        <div class="foto__cam">
-          <img src="assets/fotos/oficio-esboco.jpg" alt="Mãos desenhando um esboço a lápis sobre papel, com régua ao lado." width="840" height="560" data-parallax="18" loading="eager" decoding="async">
-        </div>
-        <div class="foto__cam foto__cam--nova">
-          <img src="assets/fotos/jeito-wireframe.jpg" alt="Wireframes de um site desenhados à mão num caderno aberto." width="840" height="560" data-parallax="18" loading="eager" fetchpriority="low" decoding="async">
-        </div>
-      </figure>
-
-      <figure class="foto" data-troca>
-        <div class="foto__cam">
-          <img src="assets/fotos/jeito-teclado.jpg" alt="Mão sobre o teclado de um laptop, em luz baixa." width="840" height="560" data-parallax="-14" loading="eager" decoding="async">
-        </div>
-        <div class="foto__cam foto__cam--nova">
-          <img src="assets/fotos/jeito-monitores.jpg" alt="Pessoa sentada diante de monitores acesos, num quarto escuro." width="840" height="560" data-parallax="-14" loading="eager" fetchpriority="low" decoding="async">
-        </div>
-      </figure>
-    </div>
-
-    <div class="hero__foot" data-revelar data-revelar-atraso="3">
+    <div class="hero__foot" data-revelar data-revelar-atraso="2">
       <p class="hero__lead">Ajudo times de produto e design a integrar IA no processo real de trabalho, não só na ferramenta.</p>
-      <a class="link micro hero__manifesto" href="manifesto/index.html">Ler o manifesto completo<i aria-hidden="true">↗</i></a>
     </div>
 
     <a class="descer" href="#casos">
@@ -100,93 +131,148 @@
     </a>
   </section>
 
-  <section id="casos" class="casos" aria-labelledby="casos-titulo">
+  <!-- A cena. O palco gruda no alto da tela e a rolagem passa a
+       trocar o que está dentro dele: o caso em destaque primeiro,
+       os outros três depois. O orbe desce e encolhe nas passagens.
 
-    <article class="destaque">
-      <div class="onda onda--escura" aria-hidden="true"></div>
-      <div class="wrap destaque__inner">
-        <div class="secao__head" data-revelar>
-          <span class="micro" id="casos-titulo">Caso 01 · Em destaque</span>
+       Sem script, em movimento reduzido ou em tela curta, .cena--viva
+       nunca é posta e os quatro casos ficam empilhados no fluxo
+       normal, cada um inteiro e com o seu número à vista. -->
+  <section id="casos" class="cena" aria-labelledby="casos-titulo">
+    <div class="onda onda--escura" aria-hidden="true"></div>
+
+    <div class="cena__palco">
+      <div class="wrap cena__quadro">
+        <div class="cena__cabeca" data-revelar>
+          <span class="micro" id="casos-titulo">Quatro casos</span>
           <span class="secao__rule"></span>
+          <span class="micro cena__contador"><b data-contador>01</b> / 04</span>
         </div>
 
-        <div class="destaque__grid">
-          <div class="destaque__texto">
-            <h2 class="destaque__titulo" data-revelar>Reconstruindo o processo de produto e design com Claude no centro</h2>
-            <p class="destaque__desc" data-revelar data-revelar-atraso="1">A maior mudança não foi trocar de ferramenta. Foi perceber quantas reuniões existiam só porque ninguém tinha um jeito melhor de transformar uma conversa em entregável.</p>
+        <div class="cena__grade">
+          <div class="cena__atos">
 
-            <dl class="ficha" data-revelar data-revelar-atraso="2">
-              <div><dt class="micro">Papel</dt><dd>Liderei o processo de produto e design, conectando delivery, GA e GTM</dd></div>
-              <div><dt class="micro">Time</dt><dd>Produto, design, engenharia e dados</dd></div>
-              <div><dt class="micro">Duração</dt><dd>1 mês para validar o novo desenho, que segue evoluindo</dd></div>
-            </dl>
+            <article class="ato">
+              <p class="micro ato__num"><b>Caso 01</b> · Em destaque</p>
+              <h2 class="ato__titulo">Reconstruindo o processo de produto e design com Claude no centro</h2>
+              <p class="ato__desc">A maior mudança não foi trocar de ferramenta. Foi perceber quantas reuniões existiam só porque ninguém tinha um jeito melhor de transformar uma conversa em entregável.</p>
+              <p class="ato__stat"><b>1 semana</b> <span>De discovery, no lugar de um a dois meses</span></p>
+              <dl class="ficha">
+                <div><dt class="micro">Papel</dt><dd>Liderei o processo de produto e design, conectando delivery, GA e GTM</dd></div>
+                <div><dt class="micro">Ritmo</dt><dd>Refinamento semanal de 30 a 40 minutos, no lugar de 4 a 5 horas</dd></div>
+                <div><dt class="micro">Duração</dt><dd>1 mês para validar o novo desenho, que segue evoluindo</dd></div>
+              </dl>
+              <a class="btn-green" href="case-processo.html">Ver o caso completo
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
+              </a>
+            </article>
 
-            <a class="btn-green" href="case-processo.html" data-revelar data-revelar-atraso="3">Ver o caso completo
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
-            </a>
+            <article class="ato">
+              <p class="micro ato__num"><b>Caso 02</b> · Omnichat</p>
+              <h2 class="ato__titulo">Redesenhando a verificação de intenção dos agentes conversacionais</h2>
+              <p class="ato__desc">A maior perda de conversão não estava na interface. Estava na camada onde a intenção do lead entra no sistema.</p>
+              <p class="ato__stat"><b>+8%</b> <span>Conversão de leads qualificados, de 24% para 32% nas origens redesenhadas</span></p>
+              <p class="ato__ficha">Product Design Manager · 4 meses</p>
+              <a class="btn-green" href="case-omnichat.html">Ver o caso
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
+              </a>
+            </article>
+
+            <article class="ato">
+              <p class="micro ato__num"><b>Caso 03</b> · Inpulse</p>
+              <h2 class="ato__titulo">Solução que ajudou a diminuir a recuperação dos alunos</h2>
+              <p class="ato__desc">Uma prova de medicina vira cinco notas separadas e cinco recuperações independentes. Não existia lugar nenhum onde o aluno visse isso junto antes de já estar em recuperação.</p>
+              <p class="ato__stat"><b>−25%</b> <span>A média de recuperação caiu de 8 para 6 a cada 10 avaliações, numa base de 420 alunos</span></p>
+              <p class="ato__ficha">Idealizador, mentor e designer · 10 meses</p>
+              <a class="btn-green" href="case-inpulse.html">Ver o caso
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
+              </a>
+            </article>
+
+            <article class="ato">
+              <p class="micro ato__num"><b>Caso 04</b> · Mapa de experiência</p>
+              <h2 class="ato__titulo">Como um mapa de experiência ajudou a deixar o NPS positivo</h2>
+              <p class="ato__desc">Um relatório de pesquisa que 16 campus liam e a partir do qual agiam, em vez de arquivar junto com os outros.</p>
+              <p class="ato__stat"><b>+48</b> <span>Pontos de NPS, de 33 negativos para 15 positivos em 16 campus</span></p>
+              <p class="ato__ficha">Idealizador e mentor · 3 meses</p>
+              <a class="btn-green" href="case-mapa-experiencia.html">Ver o caso
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
+              </a>
+            </article>
+
           </div>
 
-          <div class="destaque__numeros" data-revelar data-revelar-atraso="1">
-            <div class="numero">
-              <span class="numero__valor">1 semana</span>
-              <p class="numero__label">De discovery, no lugar de um a dois meses</p>
+          <!-- O orbe repete o número do caso que está à frente. Ele
+               é decoração com dado dentro: o mesmo número já está
+               no texto do caso, então aqui vai escondido do leitor
+               de tela para não ser lido duas vezes. -->
+          <div class="cena__orbe" aria-hidden="true">
+            <div class="orbe__disco">
+              <span class="orbe__valor" data-orbe-valor>1 semana</span>
+              <span class="orbe__valor" data-orbe-valor>+8%</span>
+              <span class="orbe__valor" data-orbe-valor>−25%</span>
+              <span class="orbe__valor" data-orbe-valor>+48</span>
             </div>
-            <div class="numero">
-              <span class="numero__valor">30 a 40 min</span>
-              <p class="numero__label">De refinamento semanal, no lugar de 4 a 5 horas</p>
+            <div class="orbe__legendas">
+              <p class="orbe__legenda" data-orbe-legenda>De discovery, no lugar de um a dois meses</p>
+              <p class="orbe__legenda" data-orbe-legenda>Conversão de leads qualificados, de 24% para 32%</p>
+              <p class="orbe__legenda" data-orbe-legenda>Recuperação por avaliação, de 8 para 6 em cada 10</p>
+              <p class="orbe__legenda" data-orbe-legenda>Pontos de NPS, de 33 negativos para 15 positivos</p>
             </div>
           </div>
         </div>
       </div>
-    </article>
 
-    <div class="outros">
-      <div class="onda onda--clara" aria-hidden="true"></div>
-      <div class="wrap outros__inner">
-        <div class="secao__head" data-revelar>
-          <span class="micro">Mais três casos</span>
-          <span class="secao__rule"></span>
-        </div>
+      <ol class="cena__trilho">
+        <li><button type="button" data-ir="0" aria-label="Ir para o caso 01"><i></i></button></li>
+        <li><button type="button" data-ir="1" aria-label="Ir para o caso 02"><i></i></button></li>
+        <li><button type="button" data-ir="2" aria-label="Ir para o caso 03"><i></i></button></li>
+        <li><button type="button" data-ir="3" aria-label="Ir para o caso 04"><i></i></button></li>
+      </ol>
+    </div>
+  </section>
 
-        <div class="outros__grid">
-
-          <a class="caso" href="case-omnichat.html" data-revelar>
-            <span class="micro caso__num">Caso 02</span>
-            <span class="caso__stat">+8%</span>
-            <p class="caso__stat-label">Conversão de leads qualificados, de 24% para 32% nas origens redesenhadas</p>
-            <h3 class="caso__titulo">Redesenhando a verificação de intenção dos agentes conversacionais</h3>
-            <p class="caso__ficha micro">Product Design Manager · 4 meses</p>
-            <span class="caso__go micro">Ver o caso <i aria-hidden="true">→</i></span>
-          </a>
-
-          <a class="caso" href="case-inpulse.html" data-revelar data-revelar-atraso="1">
-            <span class="micro caso__num">Caso 03</span>
-            <span class="caso__stat">−25%</span>
-            <p class="caso__stat-label">A média de recuperação caiu de 8 para 6 a cada 10 avaliações, numa base de 420 alunos</p>
-            <h3 class="caso__titulo">Solução que ajudou a diminuir a recuperação dos alunos</h3>
-            <p class="caso__ficha micro">Idealizador, mentor e designer · 10 meses</p>
-            <span class="caso__go micro">Ver o caso <i aria-hidden="true">→</i></span>
-          </a>
-
-          <a class="caso" href="case-mapa-experiencia.html" data-revelar data-revelar-atraso="2">
-            <span class="micro caso__num">Caso 04</span>
-            <span class="caso__stat">+48</span>
-            <p class="caso__stat-label">Pontos de NPS, de 33 negativos para 15 positivos em 16 campus</p>
-            <h3 class="caso__titulo">Como um mapa de experiência ajudou a deixar o NPS positivo</h3>
-            <p class="caso__ficha micro">Idealizador e mentor · 3 meses</p>
-            <span class="caso__go micro">Ver o caso <i aria-hidden="true">→</i></span>
-          </a>
-
-        </div>
-      </div>
+  <!-- Um respiro claro entre a cena e o rodapé, e o lugar próprio
+       do manifesto — que antes disputava espaço com o lead do hero. -->
+  <section class="fecho">
+    <div class="onda onda--clara" aria-hidden="true"></div>
+    <div class="wrap fecho__inner">
+      <p class="micro fecho__micro" data-revelar>Fora dos casos</p>
+      <h2 data-revelar data-revelar-atraso="1">Escrevi um manifesto sobre o que muda quando a IA entra no processo — e sobre o que não muda.</h2>
+      <a class="link micro fecho__link" href="manifesto/index.html" data-revelar data-revelar-atraso="2">Ler o manifesto completo<i aria-hidden="true">↗</i></a>
     </div>
   </section>
 
 </main>
 
-<footer class="footer on-dark">
+<footer class="footer">
   <div class="onda onda--escura" aria-hidden="true"></div>
   <div class="wrap">
+    <!-- O copo enche conforme o rodapé sobe: a água e a seta sobem
+         juntas, e é essa subida que diz que dali em diante só se
+         anda para cima. A linha da água é redesenhada no mesmo
+         quadro e na mesma fase das ondas das seções.
+
+         Fica no alto do rodapé, e não no rodapé do rodapé: lá
+         embaixo ele só apareceria nos últimos pixels de rolagem, e
+         a subida inteira aconteceria fora da tela. -->
+    <div class="footer__subir">
+      <!-- #top e não um id nosso: a barra é fixa, e uma âncora para
+           um elemento fixo não faz o navegador rolar nada. "#top"
+           sem elemento correspondente é o fragmento que o HTML
+           define como "o começo do documento". -->
+      <a class="subir" href="#top">
+        <span class="micro">Voltar ao topo</span>
+        <svg class="subir__copo" viewBox="0 0 72 72" aria-hidden="true" focusable="false">
+          <defs><clipPath id="subir-copo"><circle cx="36" cy="36" r="35"/></clipPath></defs>
+          <circle class="subir__fundo" cx="36" cy="36" r="35"/>
+          <g clip-path="url(#subir-copo)"><path id="onda-agua" class="subir__agua" d="M-6,18 L78,18 L78,84 L-6,84 Z"/></g>
+          <circle class="subir__aro" cx="36" cy="36" r="35"/>
+          <path class="subir__seta" d="M36 50V25M25 34l11-11 11 11"/>
+        </svg>
+      </a>
+    </div>
+
     <div class="footer__grid">
       <div data-revelar>
         <h2>Quer conversar sobre um problema parecido?</h2>
@@ -221,10 +307,20 @@
     <div class="footer__meta">
       <span class="micro">Jeff Maia · Product Design Manager</span>
       <span class="micro">São Paulo, Brasil</span>
+
     </div>
   </div>
 </footer>
 
+<!-- A cortina da passagem entre páginas. Fica fora da tela até que
+     um link interno seja clicado, ou até que a página anterior peça
+     a entrada. -->
+<div class="transicao" aria-hidden="true">
+  <span class="transicao__marca">J</span>
+  <span class="transicao__barra"><i></i></span>
+</div>
+
+<script src="assets/base.js"></script>
 <script src="assets/home.js"></script>
 </body>
 </html>

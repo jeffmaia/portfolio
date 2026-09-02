@@ -1,0 +1,744 @@
+/* ============================================================
+   Base — "editorial broadsheet in a green room"
+
+   O que toda página do site divide: os tokens do DESIGN.md, o
+   papel com a trama, a barra do topo, a onda entre as seções, o
+   rodapé e o movimento de entrada. O que é de uma página só mora
+   na folha dela — home.css, caso.css —, carregada depois desta.
+
+   Tokens do DESIGN.md (referência: newformcap.com). As três faces
+   originais são licenciadas — TWK Lausanne, PP Mondwest e
+   Editorial New. Aqui entram os substitutos livres que o próprio
+   DESIGN.md indica:
+     TWK Lausanne  → Inter (variável, cobre o peso 550)
+     PP Mondwest   → Instrument Serif
+     Editorial New → Instrument Serif italic
+
+   Uma correção ao DESIGN.md: ele manda passar toda fotografia por
+   uma cadeia de filtro que a joga para o verde. O site real não faz
+   isso — as fotos dele são preto e branco de contraste cheio, e o
+   filtro verde fica em outros elementos. Seguimos o site.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,200..700;1,14..32,200..700&family=Instrument+Serif:ital@0;1&display=swap');
+
+:root {
+  --bone-white: #fafffa;
+  --press-black: #121613;
+  --ink: #000000;
+  --slate-verdant: #232924;
+  --newsprint-gray: #516254;
+  --muted-sage: #c8d2c8;
+  --highlighter-green: #2bee4b;
+  --echo-green: #c4e4c9;
+
+  --font-ui: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Instrument Serif", "Times New Roman", Times, serif;
+
+  --text-caption: 11px;
+  --text-body-sm: 14px;
+  --text-body: 18px;
+  --text-subheading: clamp(30px, 4vw, 46px);
+  --text-heading-sm: clamp(34px, 4.6vw, 60px);
+  --text-heading: clamp(40px, 6vw, 82px);
+
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-10: 10px;
+  --space-15: 15px;
+  --space-20: 20px;
+  --space-25: 25px;
+  --space-30: 30px;
+  --space-40: 40px;
+  --space-50: 50px;
+  --space-60: 60px;
+
+  --nav-h: clamp(66px, 7vw, 84px);
+  --page-max: 1400px;
+  --gutter: clamp(20px, 4vw, 50px);
+  --section-gap: clamp(64px, 9vw, 120px);
+  --onda-h: clamp(34px, 4.6vw, 84px);
+
+  --radius-buttons: 5px;
+  --radius-pills: 10px;
+  --radius-images: 14px;
+
+  /* Existe uma só elevação, e ela pertence ao verde. */
+  --shadow-green: rgba(16, 94, 29, 0.45) 1px 8px 20px 0px;
+
+  --ease-saida: cubic-bezier(.22, .61, .36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  /* A trama é quase invisível de perto: linhas onduladas a 2,5px uma
+     da outra que, à distância, só dão ao papel um leve tom verde.
+     Reproduzida a partir da tile da referência — mesmas cores, mesmo
+     espaçamento, mesma deriva diagonal de fase. */
+  background-color: var(--bone-white);
+  background-image: url("bg-weave.svg");
+  color: var(--press-black);
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.4;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+
+:where(a):focus-visible,
+:where(button):focus-visible {
+  outline: 2px solid var(--highlighter-green);
+  outline-offset: 3px;
+}
+
+.pular {
+  position: absolute;
+  left: -9999px;
+  z-index: 100;
+  padding: var(--space-15) var(--space-20);
+  background: var(--highlighter-green);
+  color: var(--ink);
+  font-size: var(--text-caption);
+  font-weight: 550;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.pular:focus { left: var(--gutter); top: var(--space-10); }
+
+.wrap {
+  width: 100%;
+  max-width: var(--page-max);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+.micro {
+  font-family: var(--font-ui);
+  font-size: var(--text-caption);
+  font-weight: 550;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   Movimento
+
+   O site de referência não usa parallax: usa reveal na entrada
+   (opacidade + subida), um float em laço e um marquee. O reveal é
+   o que faz a página parecer viva ao rolar, então é o efeito
+   principal aqui, com o parallax das fotos por cima.
+
+   O estado inicial escondido é posto pelo JS (.js-mov no html).
+   Sem JS, nada nunca fica invisível.
+   ============================================================ */
+
+.js-mov [data-revelar] {
+  opacity: 0;
+  transform: translateY(22px);
+}
+.js-mov [data-revelar].revelado {
+  opacity: 1;
+  transform: none;
+  transition: opacity .7s var(--ease-saida), transform .7s var(--ease-saida);
+  transition-delay: var(--atraso, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-mov [data-revelar] { opacity: 1; transform: none; transition: none; }
+}
+
+/* ============================================================
+   Botões e links
+   ============================================================ */
+
+.btn-green {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-10);
+  padding: var(--space-20) var(--space-30);
+  border: 0;
+  border-radius: var(--radius-buttons);
+  background: var(--highlighter-green);
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: var(--shadow-green);
+  font-family: var(--font-ui);
+  font-size: var(--text-caption);
+  font-weight: 550;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  transition: transform .25s, box-shadow .25s;
+}
+.btn-green svg { display: block; }
+@media (hover: hover) and (pointer: fine) {
+  .btn-green:hover { transform: translateY(-2px); box-shadow: rgba(16, 94, 29, .55) 1px 12px 26px 0; }
+}
+.btn-green:active { transform: translateY(0); }
+
+/* O sublinhado é o tratamento inteiro do link: nada de mudar peso
+   ou cor no hover. */
+.link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* A seta marca o que leva para fora desta página. */
+.menu__item i,
+.fecho__link i,
+.footer__col i {
+  font-style: normal;
+  margin-left: .35em;
+  font-size: .9em;
+  vertical-align: .05em;
+}
+
+/* ============================================================
+   Navegação
+
+   A barra é fixa e vive fechada: só a marca e o botão, em qualquer
+   largura de tela. Não existe mais uma versão de desktop com os
+   links soltos e outra de celular escondida — o menu inteiro mora
+   atrás do botão nas duas.
+
+   Ao rolar, a marca encolhe até a inicial. O tracinho verde não
+   precisa de uma segunda regra para isso: ele mora no bloco que
+   segura o "J" e o "eff", então encolhe junto com ele.
+   ============================================================ */
+
+/* A barra saiu do fluxo; o corpo abre o vão dela. O scroll-padding
+   é para as âncoras não pararem debaixo da barra. */
+body { padding-top: var(--nav-h); }
+html { scroll-padding-top: calc(var(--nav-h) + var(--space-20)); }
+
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  color: var(--press-black);
+  transition: color .35s;
+}
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-20);
+  height: var(--nav-h);
+}
+
+/* Uma névoa do papel atrás da barra, ligada só depois que a página
+   anda: sem ela o texto grande do hero passa por baixo da marca e
+   as duas se confundem. Parada no topo, a barra não tem fundo
+   nenhum e a trama atravessa ela sem emenda. */
+.nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(250, 255, 250, .94), rgba(250, 255, 250, 0));
+  opacity: 0;
+  transition: opacity .35s;
+  pointer-events: none;
+}
+.nav--rolada::before { opacity: 1; }
+
+/* Sobre as seções escuras a barra inverte inteira. Quem decide é o
+   JS, medindo qual fundo está passando debaixo dela. */
+.nav--tinta { color: var(--bone-white); }
+.nav--tinta::before { background: linear-gradient(to bottom, rgba(18, 22, 19, .94), rgba(18, 22, 19, 0)); }
+/* Com o menu aberto o fundo é o painel, que já é escuro. */
+.nav--aberta::before { opacity: 0; }
+
+/* ── A marca que encolhe ───────────────────────────────── */
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 20px;
+  font-weight: 550;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+}
+/* O sublinhado verde é o logo inteiro — não existe ícone nem
+   moldura. Ele fica neste bloco, que é o que encolhe. */
+.wordmark__nome {
+  display: inline-flex;
+  align-items: center;
+  box-shadow: inset 0 -2px 0 0 var(--highlighter-green);
+}
+/* Tudo que some na rolagem: fecha a largura em vez de sumir de
+   uma vez, para o "J" andar para a esquerda junto. */
+.wordmark__dobra {
+  display: inline-block;
+  overflow: hidden;
+  max-width: 12ch;
+  opacity: 1;
+  transition:
+    max-width .5s var(--ease-saida),
+    margin-left .5s var(--ease-saida),
+    opacity .3s;
+}
+.wordmark__sobrenome { margin-left: .3em; }
+.wordmark__papel {
+  margin-left: .55em;
+  max-width: 26ch;
+  font-weight: 400;
+  color: var(--newsprint-gray);
+  transition: max-width .5s var(--ease-saida), margin-left .5s var(--ease-saida), opacity .3s, color .35s;
+}
+.nav--tinta .wordmark__papel { color: var(--muted-sage); }
+
+.nav--reduzida .wordmark__dobra { max-width: 0; margin-left: 0; opacity: 0; }
+
+@media (max-width: 720px) {
+  .wordmark { font-size: 18px; }
+  /* O cargo não cabe ao lado do botão num celular; some antes de
+     qualquer rolagem. */
+  .wordmark__papel { max-width: 0; margin-left: 0; opacity: 0; }
+}
+
+/* ── O botão de dois tracinhos ───────────────────────────────── */
+
+.menu-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
+  width: 44px;
+  height: 44px;
+  margin-right: -6px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+}
+.menu-btn__traco {
+  display: block;
+  width: 26px;
+  height: 2px;
+  background: var(--highlighter-green);
+  transition: transform .35s var(--ease-saida);
+}
+/* O hover junta os dois tracinhos; o clique cruza eles. */
+@media (hover: hover) and (pointer: fine) {
+  .menu-btn:hover .menu-btn__traco:first-child { transform: translateY(2px); }
+  .menu-btn:hover .menu-btn__traco:last-child { transform: translateY(-2px); }
+}
+.menu-btn[aria-expanded="true"] .menu-btn__traco:first-child { transform: translateY(4px) rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-btn__traco:last-child { transform: translateY(-4px) rotate(-45deg); }
+
+/* ============================================================
+   O menu
+
+   Abre por cima de parte da tela, não da tela inteira: o que fica
+   embaixo continua à vista e diz de onde se veio. A borda de baixo
+   é a mesma onda das seções, virada de cabeça para baixo.
+
+   Os itens são contorno; o preenchimento é a resposta do hover. A
+   página em que se está já vem preenchida, em verde.
+   ============================================================ */
+
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 55;
+  display: flex;
+  align-items: flex-end;
+  height: min(78vh, 680px);
+  background-color: var(--press-black);
+  background-image: url("bg-weave-dark.svg");
+  color: var(--bone-white);
+  transform: translateY(-101%);
+  visibility: hidden;
+  transition:
+    transform .55s var(--ease-saida),
+    height .5s var(--ease-saida),
+    visibility .55s;
+}
+.menu.aberto { transform: none; visibility: visible; }
+/* Na saída para outra página o painel cresce até cobrir tudo — é
+   o começo da passagem, antes da cortina. */
+.menu.crescendo { height: 100vh; }
+.menu.crescendo .onda { opacity: 0; }
+
+/* A rolagem, quando o painel não couber, é do miolo — não do
+   painel: a onda fica pendurada abaixo dele, e um overflow no
+   painel a cortaria fora. */
+.menu__inner {
+  width: 100%;
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-top: calc(var(--nav-h) + var(--space-20));
+  padding-bottom: clamp(24px, 5vh, 56px);
+}
+.menu__grupo + .menu__grupo { margin-top: clamp(18px, 3.5vh, 40px); }
+.menu__rotulo { margin: 0 0 var(--space-15); color: var(--muted-sage); }
+.menu__lista { margin: 0; padding: 0; list-style: none; }
+.menu__lista li {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .5s var(--ease-saida), transform .5s var(--ease-saida);
+}
+.menu.aberto .menu__lista li {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i, 0) * 55ms + 140ms);
+}
+
+.menu__item {
+  display: inline-block;
+  padding-block: .02em;
+  font-family: var(--font-ui);
+  font-size: clamp(26px, 4.2vw, 52px);
+  font-weight: 550;
+  line-height: 1.16;
+  letter-spacing: -0.035em;
+  color: var(--bone-white);
+  text-decoration: none;
+  transition: color .3s, -webkit-text-stroke-color .3s;
+}
+/* Contorno de verdade só onde o navegador sabe desenhar; onde não
+   sabe, o item fica preenchido, que é o estado legível. */
+@supports (-webkit-text-stroke: 1px currentColor) {
+  .menu__item {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--bone-white);
+  }
+  .menu__item:hover,
+  .menu__item:focus-visible { color: var(--bone-white); }
+  .menu__item[aria-current="page"] {
+    color: var(--highlighter-green);
+    -webkit-text-stroke-color: var(--highlighter-green);
+  }
+}
+
+/* O segundo grupo sai daqui: corpo menor, cor mais baixa e a seta
+   ao lado dizem isso antes do clique. */
+.menu__lista--fora .menu__item {
+  font-size: clamp(17px, 1.8vw, 24px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--muted-sage);
+  -webkit-text-stroke: 0;
+}
+@supports (-webkit-text-stroke: 1px currentColor) {
+  .menu__lista--fora .menu__item { color: var(--muted-sage); -webkit-text-stroke: 0; }
+  .menu__lista--fora .menu__item:hover,
+  .menu__lista--fora .menu__item:focus-visible { color: var(--bone-white); }
+}
+
+body.menu-aberto { overflow: hidden; }
+
+/* Sem script não há painel que abra: o menu fica aberto no fluxo,
+   no alto da página, e o botão some. Nada de link inalcançável. */
+html:not(.js) .menu {
+  position: static;
+  height: auto;
+  transform: none;
+  visibility: visible;
+}
+html:not(.js) .menu .onda,
+html:not(.js) .menu-btn { display: none; }
+/* No fluxo, o vão da barra fixa já é o padding do corpo. */
+html:not(.js) .menu__inner { padding-top: var(--space-20); }
+html:not(.js) .menu__lista li { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .menu, .menu__lista li, .wordmark__dobra, .menu-btn__traco { transition: none; }
+}
+
+/* ============================================================
+   A passagem de uma página para outra
+
+   O painel cresce até cobrir a tela, a cortina desce por cima com
+   a marca e uma barra que carrega, e só então a página seguinte é
+   pedida. Do outro lado ela continua o mesmo movimento: sai por
+   baixo em vez de voltar por cima.
+
+   A cortina que chega é animação de CSS puro, disparada por uma
+   classe posta no <html> ainda no <head>. Se o script de baixo
+   falhar, ela sai sozinha — página coberta é falha grave demais
+   para depender de um caminho só.
+   ============================================================ */
+
+.transicao {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-30);
+  background-color: var(--press-black);
+  background-image: url("bg-weave-dark.svg");
+  color: var(--bone-white);
+  transform: translateY(-101%);
+  visibility: hidden;
+  pointer-events: none;
+}
+.transicao__marca {
+  font-family: var(--font-ui);
+  font-size: clamp(52px, 9vw, 108px);
+  font-weight: 550;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  box-shadow: inset 0 -4px 0 0 var(--highlighter-green);
+}
+.transicao__barra {
+  width: min(200px, 42vw);
+  height: 2px;
+  overflow: hidden;
+  background: rgba(250, 255, 250, .2);
+}
+.transicao__barra i { display: block; width: 0; height: 100%; background: var(--highlighter-green); }
+
+.transicao.saindo { visibility: visible; animation: cortina-desce .42s var(--ease-saida) forwards; }
+.transicao.saindo .transicao__barra i { animation: cortina-carrega .6s var(--ease-saida) forwards; }
+
+/* `both` e não `forwards`: com um atraso e sem o preenchimento
+   para trás, a cortina ficaria fora da tela durante esses 50ms e
+   a página nova apareceria por um instante antes de ser coberta. */
+html.chegando .transicao { visibility: visible; animation: cortina-sai .6s var(--ease-saida) .05s both; }
+html.chegando .transicao__barra i { width: 100%; }
+
+@keyframes cortina-desce { from { transform: translateY(-101%); } to { transform: none; } }
+@keyframes cortina-carrega { from { width: 0; } to { width: 100%; } }
+@keyframes cortina-sai {
+  from { transform: none; }
+  to { transform: translateY(101%); visibility: hidden; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .transicao { display: none; }
+}
+
+/* ============================================================
+   Cabeçalho de seção
+
+   Um rótulo curto e uma régua que atravessa o resto da largura.
+   É o que numera as seções em qualquer página.
+   ============================================================ */
+
+.secao__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-20);
+  margin-bottom: var(--space-40);
+}
+.secao__head .micro { color: var(--newsprint-gray); white-space: nowrap; }
+.secao__rule { flex: 1; height: 1px; background: currentColor; opacity: .25; }
+
+/* ============================================================
+   Ficha do projeto
+
+   Papel, ritmo e duração. Aparece no caso em destaque da Home e no
+   alto da página do próprio caso — nos dois sobre o fundo escuro,
+   que é onde ela nasceu.
+   ============================================================ */
+
+.ficha { margin: 0 0 var(--space-40); display: flex; flex-direction: column; gap: var(--space-15); }
+.ficha > div {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: var(--space-20);
+  padding-top: var(--space-15);
+  border-top: 1px solid var(--slate-verdant);
+}
+.ficha dt { color: var(--muted-sage); padding-top: 2px; }
+.ficha dd {
+  margin: 0;
+  font-size: var(--text-body-sm);
+  font-weight: 350;
+  line-height: 1.4;
+  color: var(--bone-white);
+}
+
+
+/* ============================================================
+   A onda entre as seções
+
+   Fica pendurada acima da própria seção (bottom:100%) e leva o
+   fundo dela inteiro — cor e trama — recortado pela curva. Pintar
+   só a cor deixava a onda lisa e a trama começava numa linha reta
+   logo abaixo dela. O caminho já vem desenhado no HTML, então
+   funciona sem JS; com JS ele é redesenhado a cada quadro.
+   ============================================================ */
+
+.onda-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.onda {
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  display: block;
+  width: 100%;
+  height: var(--onda-h);
+  pointer-events: none;
+  /* A trama tem que atravessar a curva sem emenda. Ancorada embaixo,
+     a tile fecha um ciclo exatamente na borda de baixo da onda — que
+     é onde a seção começa a desenhar a dela, no começo do ciclo. */
+  background-position: left bottom;
+  clip-path: url(#onda-recorte);
+}
+.onda--escura {
+  background-color: var(--press-black);
+  background-image: url("bg-weave-dark.svg");
+}
+.onda--clara {
+  background-color: var(--bone-white);
+  background-image: url("bg-weave.svg");
+}
+
+/* A mesma onda virada: pendurada abaixo do elemento em vez de
+   acima dele. É a borda de baixo do painel do menu. */
+.onda--pe {
+  top: 100%;
+  bottom: auto;
+  background-position: left top;
+  transform: scaleY(-1);
+  transition: opacity .35s;
+}
+
+/* ============================================================
+   Rodapé
+   ============================================================ */
+
+.footer {
+  position: relative;
+  background-color: var(--press-black);
+  background-image: url("bg-weave-dark.svg");
+  color: var(--bone-white);
+  padding-block: clamp(50px, 7vw, 100px) var(--space-50);
+}
+.footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-50) var(--space-40);
+}
+.footer h2 {
+  margin: 0 0 var(--space-20);
+  max-width: 14ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--text-heading-sm);
+  line-height: .95;
+  letter-spacing: -0.03em;
+}
+.footer__contact {
+  margin: 0 0 var(--space-30);
+  font-size: var(--text-body);
+  font-weight: 200;
+  letter-spacing: -0.02em;
+}
+.footer__col h3 {
+  margin: 0 0 var(--space-20);
+  color: var(--muted-sage);
+  font-size: var(--text-caption);
+  font-weight: 550;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+}
+.footer__col ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-10); }
+.footer__col a {
+  color: var(--bone-white);
+  font-size: var(--text-body-sm);
+  font-weight: 350;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(250, 255, 250, .35);
+  transition: text-decoration-color .25s;
+}
+@media (hover: hover) and (pointer: fine) {
+  .footer__col a:hover { text-decoration-color: var(--highlighter-green); }
+}
+.footer__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-15);
+  margin-top: clamp(48px, 7vw, 100px);
+  padding-top: var(--space-20);
+  border-top: 1px solid var(--slate-verdant);
+  color: var(--muted-sage);
+}
+@media (max-width: 760px) {
+  .footer__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .footer__grid > :first-child { grid-column: 1 / -1; }
+}
+
+
+/* ============================================================
+   Voltar ao topo
+
+   Um copo com água verde no fim da página. Conforme o rodapé
+   entra, a água sobe dentro do copo e a seta sobe junto: os dois
+   dizem, sem escrever, que dali em diante só se anda para cima.
+
+   O JS escreve --subir de 0 a 1 e redesenha a linha da água no
+   mesmo quadro e na mesma fase das ondas das seções. Sem JS a
+   propriedade nunca é escrita, --subir fica em 1 e o copo aparece
+   cheio e parado.
+   ============================================================ */
+
+.footer__subir {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: clamp(24px, 4vw, 50px);
+}
+
+.subir {
+  --subir: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-20);
+  color: var(--muted-sage);
+  text-decoration: none;
+  transition: color .25s;
+}
+.subir__copo { display: block; flex: none; width: 64px; height: 64px; overflow: visible; }
+.subir__fundo { fill: var(--bone-white); }
+.subir__agua { fill: var(--highlighter-green); }
+.subir__aro { fill: none; stroke: var(--press-black); stroke-width: 1.5; opacity: .25; }
+.subir__seta {
+  fill: none;
+  stroke: var(--press-black);
+  stroke-width: 3.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* A seta sobe os últimos 9px junto com a água. */
+  transform: translateY(calc((1 - var(--subir)) * 9px));
+}
+@media (hover: hover) and (pointer: fine) {
+  .subir:hover { color: var(--bone-white); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .subir { --subir: 1; }
+  .subir__seta { transform: none; }
+}

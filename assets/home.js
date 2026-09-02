@@ -1,129 +1,34 @@
-/* Menu do topo no celular. O CSS esconde o painel acima de 940px,
-   então o script só precisa cuidar do estado abaixo disso. */
+/* ============================================================
+   Home
+
+   Dois módulos, os dois presos à rolagem:
+
+   1. Os selos do hero — cada fotografia dentro das frases guarda
+      duas imagens. A segunda sobe por dentro da janela da primeira
+      conforme a frase atravessa a tela, uma depois da outra, da
+      esquerda para a direita. O JS só escreve --troca; quem recorta
+      é o CSS. Por cima disso, um parallax curto: a foto desliza
+      dentro do selo, que fica parado — mover o selo empurraria as
+      palavras vizinhas.
+
+   2. A cena dos casos — o palco gruda no alto da tela e a rolagem
+      passa a trocar o que está dentro dele. Um caso de cada vez, o
+      orbe descendo e pulsando nas passagens, o trilho dizendo
+      onde se está.
+
+   O menu, o reveal, as ondas e a passagem entre páginas vêm de
+   base.js, carregada antes desta.
+   ============================================================ */
+
+const calmo = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+
+/* ── Os selos do hero ──────────────────────────────── */
 (() => {
-  const toggle = document.getElementById("nav-toggle");
-  const links = document.getElementById("nav-links");
-  const bar = document.querySelector(".nav");
-  if (!toggle || !links || !bar) return;
-
-  const largo = window.matchMedia("(min-width: 941px)");
-
-  /* O painel abre logo abaixo da barra. Como a barra rola junto com
-     a página, o que vale é onde ela está na tela neste instante —
-     não a altura dela. Medido na abertura, e a rolagem trava logo
-     em seguida, então o valor não envelhece. */
-  const medirBarra = () =>
-    bar.style.setProperty(
-      "--nav-h",
-      Math.max(0, bar.getBoundingClientRect().bottom) + "px"
-    );
-
-  function abrir(sim) {
-    links.classList.toggle("is-open", sim);
-    toggle.setAttribute("aria-expanded", String(sim));
-    toggle.setAttribute("aria-label", sim ? "Fechar menu" : "Abrir menu");
-    document.body.classList.toggle("nav-open", sim);
-    if (sim) medirBarra();
-  }
-
-  toggle.addEventListener("click", () => {
-    abrir(toggle.getAttribute("aria-expanded") !== "true");
-  });
-
-  /* Todo item leva para outro lugar, então o painel fecha no clique. */
-  links.addEventListener("click", e => { if (e.target.closest("a")) abrir(false); });
-
-  document.addEventListener("keydown", e => { if (e.key === "Escape") abrir(false); });
-
-  /* Girar para paisagem pode cruzar o ponto de corte com o painel
-     aberto, e a rolagem ficaria travada. */
-  largo.addEventListener("change", e => { if (e.matches) abrir(false); });
-
-  window.addEventListener("resize", medirBarra);
-  medirBarra();
-  abrir(false);
-})();
-
-
-/* ── Movimento ────────────────────────────────
-   Quatro efeitos. Os três últimos são presos à rolagem: andam junto
-   com a página, para frente e para trás, em vez de disparar uma vez.
-
-   1. Reveal na entrada — cada peça marcada com data-revelar sobe e
-      aparece quando cruza a borda de baixo da tela.
-
-   2. Troca de foto dentro da máscara — cada moldura guarda duas
-      fotos. A segunda sobe por dentro da janela da primeira conforme
-      a moldura atravessa a tela, uma depois da outra, da esquerda
-      para a direita. O JS só escreve --troca; quem recorta é o CSS.
-
-   3. Parallax — a foto desliza dentro da moldura, que fica parada.
-      Mover a moldura empurraria o texto vizinho.
-
-   4. Onda entre seções — a borda entre uma seção e a seguinte é um
-      recorte redesenhado a cada quadro: a fase acompanha a posição
-      da página e a amplitude responde à velocidade da rolagem, com
-      volta lenta ao repouso. As três ondas compartilham o mesmo
-      caminho, por isso ele vai normalizado de 0 a 1.
-
-   O estado escondido inicial é ligado aqui, não no CSS: se o script
-   não rodar, nada fica invisível na página.
-   ──────────────────────────────────────────────── */
-(() => {
-  const calmo = window.matchMedia("(prefers-reduced-motion: reduce)");
-  const raiz = document.documentElement;
-
-  /* ── 1. Reveal ── */
-  const alvos = [...document.querySelectorAll("[data-revelar]")];
-  let varrer = () => {};
-
-  if (alvos.length && !calmo.matches && "IntersectionObserver" in window) {
-    raiz.classList.add("js-mov");
-
-    for (const el of alvos) {
-      const n = parseInt(el.dataset.revelarAtraso || "0", 10);
-      if (n) el.style.setProperty("--atraso", n * 90 + "ms");
-    }
-
-    const pendentes = new Set(alvos);
-
-    function mostrar(el) {
-      el.classList.add("revelado");
-      pendentes.delete(el);
-      olho.unobserve(el);          // revela uma vez e sai do caminho
-    }
-
-    const olho = new IntersectionObserver(entradas => {
-      for (const e of entradas) if (e.isIntersecting) mostrar(e.target);
-    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.05 });
-
-    for (const el of alvos) olho.observe(el);
-
-    /* Rede de segurança. Deixar conteúdo preso em opacidade zero é
-       uma falha grave demais para depender de um caminho só: esta
-       varredura repete a decisão do observador na unha e é chamada
-       por tempo e por rolagem também. Em aba de fundo o rAF não
-       roda e o observador pode não disparar — o setTimeout roda. */
-    varrer = () => {
-      if (!pendentes.size) return;
-      const limite = window.innerHeight * 0.98;
-      for (const el of [...pendentes]) {
-        if (el.getBoundingClientRect().top < limite) mostrar(el);
-      }
-    };
-
-    setTimeout(varrer, 400);
-    setTimeout(varrer, 1500);
-    window.addEventListener("scroll", varrer, { passive: true });
-    window.addEventListener("resize", varrer);
-  }
-
-  /* ── 2 e 3. Troca de foto e parallax ── */
-
   const trocas = [...document.querySelectorAll("[data-troca]")].map((el, i) => ({
     el,
-    /* Escalona as três: a da esquerda vira primeiro. O denominador
-       devolve a última ao valor cheio no fim do percurso. */
+    /* Escalona os três: o da esquerda vira primeiro. O denominador
+       devolve o último ao valor cheio no fim do percurso. */
     atraso: i * 0.12,
     valor: 0,
     escrito: -1,
@@ -133,7 +38,7 @@
   const ESCALA = 1 - (trocas.length ? (trocas.length - 1) * 0.12 : 0);
 
   const pecas = [...document.querySelectorAll("[data-parallax]")].map(el => {
-    const camada = el.closest(".foto__cam--nova");
+    const camada = el.closest(".selo__cam--nova");
     return {
       el,
       amp: parseFloat(el.dataset.parallax) || 0,
@@ -146,36 +51,7 @@
       altura: 0
     };
   });
-
-  /* ── 4. Onda ── */
-  /* As três dividem um recorte só: são desenhadas no mesmo quadro e
-     na mesma fase, e o clipPath em objectBoundingBox estica a mesma
-     forma até a largura de cada seção. Por isso o caminho vai em
-     coordenadas de 0 a 1, e não em pixels. */
-  const ondas = [...document.querySelectorAll(".onda")].map(el => ({
-    el,
-    topo: 0,
-    altura: 0
-  }));
-  const recorte = document.getElementById("onda-caminho");
-
-  const ONDA_MEIO = 0.5167, ONDA_N = 40;
-  let fase = 0, energia = 0, ultimoY = window.scrollY;
-
-  function desenharOnda(amp) {
-    let d = "M0,1 L";
-    for (let i = 0; i <= ONDA_N; i++) {
-      const x = i / ONDA_N;
-      const a = x * 6.283185;
-      const y = ONDA_MEIO
-        - amp * Math.sin(a + fase)
-        - amp * 0.34 * Math.sin(a * 2 - fase * 1.4);
-      d += x.toFixed(4) + "," + y.toFixed(4) + " L";
-    }
-    recorte.setAttribute("d", d + "1,1 Z");
-  }
-
-  /* ── Medida e desenho ── */
+  if (!trocas.length && !pecas.length) return;
 
   let agendado = false;
 
@@ -190,18 +66,18 @@
       p.centro = r.top + window.scrollY + r.height / 2;
       p.altura = r.height;
 
-      /* Quanto a imagem pode deslizar antes de descobrir o canto da
-         moldura é a sobra de escala, e ela muda com a largura da
-         tela. Medir e limitar aqui evita ter que reajustar a
-         amplitude a cada ponto de corte. */
+      /* Quanto a imagem pode deslizar antes de descobrir o canto do
+         selo é a sobra de escala, e ela muda com o corpo do texto.
+         Medir e limitar aqui evita reajustar a amplitude a cada
+         ponto de corte. */
       const moldura = p.el.parentElement;
       const sobra = moldura
         ? (r.height - moldura.getBoundingClientRect().height) / 2 - 1
         : 0;
       /* `scale` é propriedade própria e o CSS a aplica DEPOIS do
          transform, então o que se escreve aqui chega na tela
-         multiplicado por ela. Sem dividir, um deslocamento de 30px
-         vira 36,6px e descobre a borda da moldura. */
+         multiplicado por ela. Sem dividir, o deslocamento estoura a
+         borda do selo. */
       const esc = parseFloat(getComputedStyle(p.el).scale) || 1;
       p.sobra = Math.max(0, sobra) / esc;
       p.usar = Math.sign(p.amp) * Math.min(Math.abs(p.amp), p.sobra);
@@ -209,25 +85,19 @@
          é limitada na hora de escrever, então nunca aparece borda. */
       p.subida = p.sobra * 0.8;
     }
-    /* A troca é medida no percurso da própria moldura: começa quando
-       o topo dela chega a 80% da tela e termina meia tela depois.
-       Meia tela é curto de propósito — as três precisam terminar de
-       trocar enquanto ainda estão à vista, não na hora em que a
-       faixa já está saindo pelo topo. */
+    /* A troca é medida no percurso do próprio selo: começa quando o
+       topo dele chega a 80% da tela e termina meia tela depois.
+       Meia tela é curto de propósito — os três precisam terminar de
+       trocar enquanto a frase ainda está à vista. */
     const vh0 = window.innerHeight || 800;
     for (const t of trocas) {
       const r = t.el.getBoundingClientRect();
       t.inicio = Math.max(0, r.top + window.scrollY - vh0 * 0.80);
       t.percurso = vh0 * 0.5;
     }
-    for (const o of ondas) {
-      const r = o.el.getBoundingClientRect();
-      o.topo = r.top + window.scrollY;
-      o.altura = r.height;
-    }
   }
 
-  function desenhar(t) {
+  function desenhar() {
     agendado = false;
     const vh = window.innerHeight;
     const y = window.scrollY;
@@ -257,34 +127,6 @@
       if (d > p.sobra) d = p.sobra; else if (d < -p.sobra) d = -p.sobra;
       p.el.style.transform = "translate3d(0," + d.toFixed(2) + "px,0)";
     }
-
-    /* — Onda — */
-    let ondaVisivel = false;
-    if (recorte && ondas.length) {
-      const v = y - ultimoY;
-      ultimoY = y;
-      /* Sobe depressa com a rolagem e volta devagar ao repouso: é
-         essa assimetria que faz a onda parecer acompanhar a mão. */
-      const alvo = Math.min(1, Math.abs(v) / 55);
-      energia += (alvo - energia) * (alvo > energia ? 0.4 : 0.05);
-      if (energia < 0.002) energia = 0;
-      /* A fase segue a posição da página; a deriva lenta no tempo
-         mantém a onda viva mesmo com a página parada. */
-      fase = y * 0.0022 + (t || 0) * 0.00016;
-      for (const o of ondas) {
-        const rel = o.topo - y;
-        if (rel < -o.altura - 100 || rel > vh + 100) continue;
-        ondaVisivel = true;
-        break;
-      }
-      /* Uma altura de onda vale 1 aqui, então a amplitude vai na
-         mesma escala: 12 de 120 na forma em repouso. */
-      if (ondaVisivel) desenharOnda(0.1 + energia * 0.1417);
-    }
-
-    /* O laço só continua enquanto houver onda na tela ou sobra de
-       energia. Fora disso a página fica parada e nada roda. */
-    if (ondaVisivel || energia > 0) laco();
   }
 
   function laco() {
@@ -302,8 +144,6 @@
 
   function ligar() {
     if (calmo.matches) {
-      /* Sem movimento não há troca: fica a primeira foto de cada
-         moldura, igual ao que aparece quando o script não roda. */
       limpar();
       window.removeEventListener("scroll", laco);
       window.removeEventListener("resize", remedir);
@@ -317,8 +157,153 @@
   calmo.addEventListener("change", ligar);
   ligar();
 
-  /* As fontes de display e as fotos chegam depois e mudam a altura
-     do hero: sem remedir, as bases ficariam alguns pixels erradas. */
+  /* As fontes chegam depois e mudam o corpo das frases, e com ele o
+     tamanho dos selos: sem remedir, as bases ficariam erradas. */
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(remedir);
   window.addEventListener("load", remedir);
+})();
+
+
+/* ── A cena dos casos ────────────────────────────────
+   O palco só gruda quando há espaço para ele: uma cena presa numa
+   tela baixa esconde metade do caso, e presa num celular briga com
+   a barra do navegador, que muda de altura ao rolar. Fora dessas
+   condições — e sem script, e com movimento reduzido — os quatro
+   casos ficam empilhados no fluxo, cada um inteiro.
+   ──────────────────────────────────────────────── */
+(() => {
+  const cena = document.querySelector(".cena");
+  if (!cena) return;
+
+  const atos = [...cena.querySelectorAll(".ato")];
+  const valores = [...cena.querySelectorAll("[data-orbe-valor]")];
+  const legendas = [...cena.querySelectorAll("[data-orbe-legenda]")];
+  const orbe = cena.querySelector(".cena__orbe");
+  const disco = cena.querySelector(".orbe__disco");
+  const contador = cena.querySelector("[data-contador]");
+  const marcas = [...cena.querySelectorAll("[data-ir]")];
+  const N = atos.length;
+  if (N < 2) return;
+
+  cena.style.setProperty("--atos", String(N));
+
+  /* Espaço suficiente para um caso inteiro caber de pé. */
+  const cabe = window.matchMedia("(min-width: 940px) and (min-height: 700px)");
+
+  let viva = false, agendado = false, atual = -1;
+  let topo = 0, curso = 1;
+
+  function medir() {
+    const r = cena.getBoundingClientRect();
+    topo = r.top + window.scrollY;
+    curso = Math.max(1, cena.offsetHeight - window.innerHeight);
+  }
+
+  function desenhar() {
+    agendado = false;
+    if (!viva) return;
+
+    let p = (window.scrollY - topo) / curso;
+    p = p < 0 ? 0 : p > 1 ? 1 : p;
+    const pos = p * (N - 1);
+
+    for (let i = 0; i < N; i++) {
+      const d = pos - i;
+      /* Some antes de o vizinho chegar: a fresta escura no meio da
+         passagem é o que dá o corte entre um caso e outro. */
+      let t = 1 - Math.abs(d) * 1.55;
+      t = t < 0 ? 0 : t > 1 ? 1 : t;
+      const e = t * t * (3 - 2 * t);
+      const a = atos[i];
+      a.style.opacity = e.toFixed(3);
+      a.style.transform = "translate3d(0," + (d * -44).toFixed(1) + "px,0)";
+      a.classList.toggle("ato--frente", t > 0.5);
+      /* inert e não aria-hidden: o ato apagado tem um link dentro, e
+         esconder do leitor de tela sem tirar do caminho do Tab
+         deixaria um link invisível e alcançável. inert faz as duas
+         coisas de uma vez. */
+      a.inert = t <= 0.5;
+      if (valores[i]) valores[i].style.opacity = e.toFixed(3);
+      if (legendas[i]) legendas[i].style.opacity = e.toFixed(3);
+    }
+
+    /* O orbe desce ao longo da cena inteira e encolhe no meio de
+       cada passagem: cheio parado, menor em movimento. */
+    if (orbe) orbe.style.setProperty("--orbe-y", p.toFixed(4));
+    if (disco) {
+      const frac = pos - Math.floor(pos);
+      disco.style.setProperty("--orbe-esc", (1 - 0.34 * Math.sin(Math.PI * frac)).toFixed(3));
+    }
+
+    const i = Math.round(pos);
+    if (i !== atual) {
+      atual = i;
+      if (contador) contador.textContent = String(i + 1).padStart(2, "0");
+      for (let k = 0; k < marcas.length; k++) {
+        marcas[k].setAttribute("aria-current", k === i ? "true" : "false");
+      }
+    }
+  }
+
+  function laco() {
+    if (!agendado) { agendado = true; requestAnimationFrame(desenhar); }
+  }
+
+  /* O primeiro desenho é síncrono de propósito. Em aba de fundo o
+     rAF pode não rodar por muito tempo, e como o CSS zera a
+     opacidade dos quatro atos no modo cena, esperar por um quadro
+     que talvez nunca venha deixaria a seção em branco. */
+  function remedir() { medir(); desenhar(); }
+
+  function limpar() {
+    for (const a of atos) {
+      a.style.opacity = "";
+      a.style.transform = "";
+      a.classList.remove("ato--frente");
+      a.inert = false;
+    }
+    for (const v of valores) v.style.opacity = "";
+    for (const l of legendas) l.style.opacity = "";
+    if (orbe) orbe.style.removeProperty("--orbe-y");
+    if (disco) disco.style.removeProperty("--orbe-esc");
+    atual = -1;
+  }
+
+  function ligar() {
+    const querido = cabe.matches && !calmo.matches;
+    if (querido === viva) return;
+    viva = querido;
+    cena.classList.toggle("cena--viva", viva);
+
+    if (!viva) {
+      limpar();
+      window.removeEventListener("scroll", laco);
+      window.removeEventListener("resize", remedir);
+      return;
+    }
+    window.addEventListener("scroll", laco, { passive: true });
+    window.addEventListener("resize", remedir);
+    remedir();
+  }
+
+  /* Cada traço do trilho leva direto ao seu ato. */
+  for (const b of marcas) {
+    b.addEventListener("click", () => {
+      if (!viva) {
+        atos[+b.dataset.ir].scrollIntoView({ behavior: calmo.matches ? "auto" : "smooth", block: "center" });
+        return;
+      }
+      window.scrollTo({
+        top: topo + (+b.dataset.ir / (N - 1)) * curso,
+        behavior: calmo.matches ? "auto" : "smooth"
+      });
+    });
+  }
+
+  cabe.addEventListener("change", ligar);
+  calmo.addEventListener("change", ligar);
+  ligar();
+
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (viva) remedir(); });
+  window.addEventListener("load", () => { if (viva) remedir(); });
 })();

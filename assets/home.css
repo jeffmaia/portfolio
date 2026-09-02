@@ -1,388 +1,97 @@
 /* ============================================================
-   Home — "editorial broadsheet in a green room"
+   Home
 
-   Sistema visual novo, isolado nesta folha: só a index.html
-   carrega este arquivo. As páginas de caso continuam em
-   assets/styles.css até que a migração chegue nelas.
+   Só o que é da página inicial. O resto — tokens, barra do topo,
+   menu, onda, rodapé, movimento — vem de base.css, carregada antes
+   desta.
 
-   Tokens do DESIGN.md (referência: newformcap.com). As três faces
-   originais são licenciadas — TWK Lausanne, PP Mondwest e
-   Editorial New. Aqui entram os substitutos livres que o próprio
-   DESIGN.md indica:
-     TWK Lausanne  → Inter (variável, cobre o peso 550)
-     PP Mondwest   → Instrument Serif
-     Editorial New → Instrument Serif italic
+   Uma tipografia só
 
-   Uma correção ao DESIGN.md: ele manda passar toda fotografia por
-   uma cadeia de filtro que a joga para o verde. O site real não faz
-   isso — as fotos dele são preto e branco de contraste cheio, e o
-   filtro verde fica em outros elementos. Seguimos o site.
+   A referência tem uma face e nada mais: a hierarquia inteira sai
+   de corpo, peso e cor. A Home fazia diferente, misturando a
+   grotesca com a serifada, e a mistura era o que mais destoava.
+   Aqui a serifada é desligada no ponto em que ela é escolhida —
+   --font-display passa a apontar para a mesma face da interface —,
+   então tudo que já pedia display continua pedindo, e recebe Inter.
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,200..700;1,14..32,200..700&family=Instrument+Serif:ital@0;1&display=swap');
+.face-unica { --font-display: var(--font-ui); }
 
-:root {
-  --bone-white: #fafffa;
-  --press-black: #121613;
-  --ink: #000000;
-  --slate-verdant: #232924;
-  --newsprint-gray: #516254;
-  --muted-sage: #c8d2c8;
-  --highlighter-green: #2bee4b;
-  --echo-green: #c4e4c9;
-
-  --font-ui: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-display: "Instrument Serif", "Times New Roman", Times, serif;
-
-  --text-caption: 11px;
-  --text-body-sm: 14px;
-  --text-body: 18px;
-  --text-subheading: clamp(30px, 4vw, 46px);
-  --text-heading-sm: clamp(34px, 4.6vw, 60px);
-  --text-heading: clamp(40px, 6vw, 82px);
-
-  --space-4: 4px;
-  --space-8: 8px;
-  --space-10: 10px;
-  --space-15: 15px;
-  --space-20: 20px;
-  --space-25: 25px;
-  --space-30: 30px;
-  --space-40: 40px;
-  --space-50: 50px;
-  --space-60: 60px;
-
-  --page-max: 1400px;
-  --gutter: clamp(20px, 4vw, 50px);
-  --section-gap: clamp(64px, 9vw, 120px);
-  --onda-h: clamp(34px, 4.6vw, 84px);
-
-  --radius-buttons: 5px;
-  --radius-pills: 10px;
-  --radius-images: 14px;
-
-  /* Existe uma só elevação, e ela pertence ao verde. */
-  --shadow-green: rgba(16, 94, 29, 0.45) 1px 8px 20px 0px;
-
-  --ease-saida: cubic-bezier(.22, .61, .36, 1);
-}
-
-*, *::before, *::after { box-sizing: border-box; }
-
-html {
-  -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
-}
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-}
-
-body {
-  margin: 0;
-  /* A trama é quase invisível de perto: linhas onduladas a 2,5px uma
-     da outra que, à distância, só dão ao papel um leve tom verde.
-     Reproduzida a partir da tile da referência — mesmas cores, mesmo
-     espaçamento, mesma deriva diagonal de fase. */
-  background-color: var(--bone-white);
-  background-image: url("bg-weave.svg");
-  color: var(--press-black);
-  font-family: var(--font-ui);
-  font-size: var(--text-body);
-  font-weight: 400;
-  line-height: 1.4;
-  font-synthesis-weight: none;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
-
-img { max-width: 100%; display: block; }
-
-:where(a):focus-visible,
-:where(button):focus-visible {
-  outline: 2px solid var(--highlighter-green);
-  outline-offset: 3px;
-}
-
-.pular {
-  position: absolute;
-  left: -9999px;
-  z-index: 100;
-  padding: var(--space-15) var(--space-20);
-  background: var(--highlighter-green);
-  color: var(--ink);
-  font-size: var(--text-caption);
+/* Inter no corpo de display precisa de peso e de aperto para
+   segurar o que a serifada segurava com a forma da letra. As peças
+   desta folha já pedem os dois; a única que vem de fora e não sabe
+   disso é a chamada do rodapé. */
+.face-unica .footer h2 {
   font-weight: 550;
-  text-transform: uppercase;
-  text-decoration: none;
-}
-.pular:focus { left: var(--gutter); top: var(--space-10); }
-
-.wrap {
-  width: 100%;
-  max-width: var(--page-max);
-  margin: 0 auto;
-  padding-inline: var(--gutter);
-}
-
-.micro {
-  font-family: var(--font-ui);
-  font-size: var(--text-caption);
-  font-weight: 550;
-  line-height: 1.1;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-}
-
-/* ============================================================
-   Movimento
-
-   O site de referência não usa parallax: usa reveal na entrada
-   (opacidade + subida), um float em laço e um marquee. O reveal é
-   o que faz a página parecer viva ao rolar, então é o efeito
-   principal aqui, com o parallax das fotos por cima.
-
-   O estado inicial escondido é posto pelo JS (.js-mov no html).
-   Sem JS, nada nunca fica invisível.
-   ============================================================ */
-
-.js-mov [data-revelar] {
-  opacity: 0;
-  transform: translateY(22px);
-}
-.js-mov [data-revelar].revelado {
-  opacity: 1;
-  transform: none;
-  transition: opacity .7s var(--ease-saida), transform .7s var(--ease-saida);
-  transition-delay: var(--atraso, 0ms);
-}
-[data-parallax] { will-change: transform; }
-
-@media (prefers-reduced-motion: reduce) {
-  .js-mov [data-revelar] { opacity: 1; transform: none; transition: none; }
-  [data-parallax] { transform: none !important; }
-  .descer__seta { animation: none !important; }
-}
-
-/* ============================================================
-   Botões e links
-   ============================================================ */
-
-.btn-green {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-10);
-  padding: var(--space-20) var(--space-30);
-  border: 0;
-  border-radius: var(--radius-buttons);
-  background: var(--highlighter-green);
-  color: var(--ink);
-  text-decoration: none;
-  box-shadow: var(--shadow-green);
-  font-family: var(--font-ui);
-  font-size: var(--text-caption);
-  font-weight: 550;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  transition: transform .25s, box-shadow .25s;
-}
-.btn-green svg { display: block; }
-@media (hover: hover) and (pointer: fine) {
-  .btn-green:hover { transform: translateY(-2px); box-shadow: rgba(16, 94, 29, .55) 1px 12px 26px 0; }
-}
-.btn-green:active { transform: translateY(0); }
-
-/* O sublinhado é o tratamento inteiro do link: nada de mudar peso
-   ou cor no hover. */
-.link {
-  color: inherit;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-}
-
-/* A seta marca o que leva para fora desta página. */
-.nav__fora i,
-.hero__manifesto i,
-.footer__col i {
-  font-style: normal;
-  margin-left: .35em;
-  font-size: .9em;
-  vertical-align: .05em;
-}
-
-/* ============================================================
-   Navegação
-   ============================================================ */
-
-/* A barra fica onde está e sai com a rolagem. Sem fundo próprio,
-   a trama do papel atravessa ela sem emenda; o z-index é só para o
-   painel do celular passar por cima do conteúdo. */
-.nav {
-  position: relative;
-  z-index: 40;
-}
-.nav__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-20);
-  padding-block: var(--space-25);
-}
-
-.wordmark {
-  display: inline-flex;
-  align-items: baseline;
-  gap: .28em;
-  font-family: var(--font-ui);
-  font-size: 20px;
-  font-weight: 550;
-  letter-spacing: -0.02em;
-  color: var(--press-black);
-  text-decoration: none;
-  white-space: nowrap;
-}
-/* O sublinhado verde embaixo do primeiro nome é o logo inteiro —
-   não existe ícone nem moldura. */
-.wordmark b { font-weight: inherit; box-shadow: inset 0 -2px 0 0 var(--highlighter-green); }
-.wordmark span { color: var(--newsprint-gray); font-weight: 400; }
-@media (max-width: 620px) {
-  .wordmark { font-size: 18px; }
-  .wordmark span { display: none; }
-}
-
-.nav__links { display: flex; align-items: center; gap: var(--space-25); }
-
-/* Os rótulos só existem no painel do celular, onde há espaço
-   vertical para separar os dois grupos com palavras. */
-.nav__rotulo { display: none; color: var(--newsprint-gray); }
-
-.nav__links a {
-  color: var(--press-black);
-  text-decoration: none;
-  font-size: var(--text-caption);
-  font-weight: 550;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  padding-block: var(--space-4);
-  border-bottom: 2px solid transparent;
-  transition: border-color .2s;
-}
-/* Quem sai desta página não é do mesmo grupo: cor mais baixa e a
-   seta ao lado dizem isso antes do clique. */
-.nav__fora { color: var(--newsprint-gray) !important; font-weight: 400 !important; }
-.nav__sep { width: 1px; height: 16px; background: var(--slate-verdant); opacity: .3; }
-@media (hover: hover) and (pointer: fine) {
-  .nav__links a:hover { border-bottom-color: var(--highlighter-green); }
-}
-
-.nav__toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  gap: 4px;
-  width: 44px;
-  height: 44px;
-  padding: 0 0 0 14px;
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-}
-.nav__toggle span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: var(--highlighter-green);
-  transition: transform .25s, opacity .25s;
-}
-.nav__toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-.nav__toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
-.nav__toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
-
-@media (max-width: 940px) {
-  .nav__toggle { display: flex; }
-  .nav__rotulo { display: block; padding-top: var(--space-25); }
-  .nav__rotulo:first-child { padding-top: var(--space-10); }
-  .nav__sep { display: none; }
-  /* Painel de altura cheia: um menu que só cobre metade da tela
-     deixa o conteúdo de baixo cortado no meio de uma palavra. */
-  .nav__links {
-    position: fixed;
-    inset: var(--nav-h, 74px) 0 0;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    padding: var(--space-20) var(--gutter) var(--space-50);
-    background-color: var(--bone-white);
-    background-image: url("bg-weave.svg");
-    border-top: 1px solid rgba(18, 22, 19, .12);
-    transform: translateY(-8px);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity .22s, transform .22s, visibility .22s;
-  }
-  .nav__links.is-open { transform: none; opacity: 1; visibility: visible; }
-  .nav__links a { padding-block: var(--space-20); border-bottom: 1px solid rgba(18, 22, 19, .12); }
-  body.nav-open { overflow: hidden; }
+  letter-spacing: -0.04em;
 }
 
 /* ============================================================
    Hero
+
+   As fotografias deixaram de ser uma faixa embaixo do texto e
+   passaram a andar dentro das frases: cada uma ocupa a altura de
+   uma letra alta, senta na linha de base como se fosse uma palavra
+   e vale menos que o texto ao redor. Elas dão o ritmo, não roubam
+   a leitura.
    ============================================================ */
 
-/* O container é a régua: as frases são dimensionadas a partir da
-   largura dele, não de vw, então a barra de rolagem não conta. */
-.hero {
-  container-type: inline-size;
-  padding-block: clamp(36px, 5vw, 80px) calc(clamp(30px, 4vw, 50px) + var(--onda-h));
+@media (prefers-reduced-motion: reduce) {
+  .descer__seta { animation: none !important; }
 }
 
-.hero__eyebrow { color: var(--newsprint-gray); margin: 0 0 var(--space-40); }
+.hero { padding-block: clamp(24px, 4vw, 56px) calc(clamp(30px, 4vw, 50px) + var(--onda-h)); }
 
-.hero__title { margin: 0; font-weight: 400; display: flex; flex-direction: column; }
+.hero__eyebrow { color: var(--newsprint-gray); margin: 0 0 clamp(24px, 4vw, 46px); }
 
-/* Cada frase ocupa uma linha inteira e não quebra nunca. As duas
-   medem quase o mesmo em ems — 8,135 no serifado e 8,119 no
-   grotesco —, então o mesmo corpo faz as duas fecharem rentes nas
-   duas margens. O divisor 8,26 é essa medida com folga de segurança
-   para a variação de renderização entre navegadores. */
-.hero__line {
-  display: block;
-  white-space: nowrap;
-  line-height: .98;
-  letter-spacing: -0.04em;
-  font-size: calc((min(100vw, var(--page-max)) - 2 * clamp(20px, 4vw, 50px)) / 8.26);
-}
-@supports (width: 100cqw) {
-  .hero__line { font-size: calc(100cqw / 8.26); }
-}
-.hero__line--serif { font-family: var(--font-display); font-weight: 400; }
-.hero__line--grot { font-family: var(--font-ui); font-weight: 550; color: var(--newsprint-gray); }
-
-/* As fotos ficam abaixo do bloco de texto — nunca no meio das
-   frases, que precisam ser lidas inteiras, uma depois da outra. */
-.hero__fotos {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-20);
-  margin-top: clamp(30px, 4vw, 55px);
-}
-.foto {
-  position: relative;
+.hero__titulo {
   margin: 0;
-  border-radius: var(--radius-images);
-  /* O recorte fica no pai: assim a foto pode deslizar dentro dele no
-     parallax sem estourar o canto arredondado. */
-  overflow: hidden;
-  aspect-ratio: 3 / 2;
+  display: flex;
+  flex-direction: column;
+  gap: .04em;
+  font-family: var(--font-ui);
+  font-size: clamp(34px, 6.9vw, 90px);
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  text-wrap: pretty;
 }
-.foto__cam { position: absolute; inset: 0; }
+/* A primeira frase é o que continua igual: cheia, preta. A segunda
+   é o que muda: mesma face, peso leve, cor mais baixa. É toda a
+   diferença de que as duas precisam. */
+.hero__linha { display: block; font-weight: 550; }
+.hero__linha--eco { font-weight: 300; color: var(--newsprint-gray); letter-spacing: -0.035em; }
+
+/* ── O selo: uma fotografia do tamanho de uma palavra ─────────
+   Sem vertical-align: em `baseline`, a borda de baixo do
+   inline-block encosta na linha de base do texto, que é
+   exatamente onde a foto tem que sentar. A altura fica um pouco
+   abaixo da altura das maiúsculas — é essa sobra que faz a foto
+   pesar menos que a palavra vizinha.
+   ──────────────────────────────────────────────── */
+.selo {
+  /* inline-flex e não inline-block: as duas câmaras são absolutas,
+     então o bloco não tem conteúdo em fluxo e a linha de base dele
+     é a própria borda de baixo — que é onde a foto tem que sentar.
+     No inline-flex qualquer espaço em branco solto lá dentro é
+     ignorado, e a linha de base não escorrega por causa dele. */
+  display: inline-flex;
+  position: relative;
+  width: 1.2em;
+  height: .66em;
+  margin-inline: .12em;
+  border-radius: .16em;
+  /* O recorte fica aqui: assim a foto desliza dentro do selo sem
+     estourar o canto arredondado. */
+  overflow: hidden;
+  background: var(--echo-green);
+  vertical-align: baseline;
+}
+.selo__cam { position: absolute; inset: 0; }
 /* A segunda foto sobe por dentro da máscara: a janela abre da borda
    de baixo para cima conforme --troca vai de 0 a 1. Sem JS, --troca
    nunca é escrita, o recorte fica em 100% e só a primeira aparece. */
-.foto__cam--nova { clip-path: inset(calc((1 - var(--troca, 0)) * 100%) 0 0 0); }
-.foto img {
+.selo__cam--nova { clip-path: inset(calc((1 - var(--troca, 0)) * 100%) 0 0 0); }
+.selo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -391,7 +100,11 @@ img { max-width: 100%; display: block; }
   filter: contrast(1.06);
   /* Folga para o deslocamento do parallax não descobrir a borda. O
      quanto dela dá para usar é o JS que decide, medindo. */
-  scale: 1.22;
+  scale: 1.28;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .selo img { transform: none !important; }
 }
 
 .hero__foot {
@@ -400,28 +113,26 @@ img { max-width: 100%; display: block; }
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--space-25);
-  margin-top: clamp(30px, 4vw, 50px);
+  margin-top: clamp(34px, 5vw, 60px);
   padding-top: var(--space-30);
   border-top: 1px solid rgba(18, 22, 19, .18);
 }
 .hero__lead {
   margin: 0;
-  max-width: 44ch;
+  max-width: 46ch;
   font-size: var(--text-body);
   font-weight: 300;
   line-height: 1.45;
   letter-spacing: -0.02em;
 }
-/* O manifesto fala do hero, não dos casos: mora aqui, sozinho. */
-.hero__manifesto { color: var(--press-black); white-space: nowrap; }
 
-/* Aviso de que há mais abaixo. A seta boia devagar, o mesmo laço de
-   float que a referência usa. */
+/* Aviso de que há mais abaixo. A seta boia devagar — é o par da
+   que espera lá embaixo, no fim da página. */
 .descer {
   display: inline-flex;
   align-items: center;
   gap: var(--space-15);
-  margin-top: clamp(40px, 6vw, 70px);
+  margin-top: clamp(36px, 5vw, 64px);
   color: var(--newsprint-gray);
   text-decoration: none;
 }
@@ -438,279 +149,231 @@ img { max-width: 100%; display: block; }
   .descer:hover { color: var(--press-black); }
 }
 
-@media (max-width: 720px) {
-  /* Três fotos lado a lado em 335px não deixam nada legível: viram
-     uma faixa que rola de lado. */
-  .hero__fotos {
-    display: flex;
-    gap: var(--space-15);
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
-    scroll-snap-type: x mandatory;
-    margin-inline: calc(var(--gutter) * -1);
-    padding-inline: var(--gutter);
-    /* Sem isto o encaixe cola a primeira foto na borda do scrollport
-       e come o recuo: a faixa nasce rolada. */
-    scroll-padding-inline: var(--gutter);
-    scrollbar-width: none;
-  }
-  .hero__fotos::-webkit-scrollbar { display: none; }
-  .foto { flex: 0 0 76%; scroll-snap-align: start; }
-}
-
 /* ============================================================
-   Casos
+   A cena dos casos
+
+   A segunda seção não é uma lista: é uma cena que abre. O palco
+   gruda no alto da tela e a rolagem passa a mover o que está
+   dentro dele — um caso de cada vez, do destaque para os outros
+   três. O orbe desce ao longo do percurso e encolhe no meio de
+   cada passagem, como quem toma fôlego antes da próxima cena.
+
+   Nada disso é obrigatório. Sem script, com movimento reduzido ou
+   em tela curta, .cena--viva nunca é posta: os quatro casos ficam
+   empilhados no fluxo normal, cada um com o seu número à vista, e
+   a página inteira continua legível rolando de cima a baixo.
    ============================================================ */
 
-.secao__head {
-  display: flex;
-  align-items: center;
-  gap: var(--space-20);
-  margin-bottom: var(--space-40);
-}
-.secao__head .micro { color: var(--newsprint-gray); white-space: nowrap; }
-.secao__rule { flex: 1; height: 1px; background: currentColor; opacity: .25; }
-
-/* — O caso em destaque tem a página inteira e o fundo escuro só
-     para ele. É a diferença de tratamento, não só de tamanho, que
-     diz qual caso ler primeiro. — */
-.destaque {
+.cena {
   position: relative;
+  --atos: 4;
+  --passo: 88vh;
   background-color: var(--press-black);
   background-image: url("bg-weave-dark.svg");
   color: var(--bone-white);
 }
-.destaque__inner { padding-block: var(--section-gap); }
-.destaque .secao__head .micro { color: var(--highlighter-green); }
-.destaque .secao__rule { color: var(--muted-sage); }
+/* A altura é o que dá curso à rolagem: uma tela para ler o
+   primeiro caso, mais um passo para cada passagem. */
+.cena--viva { height: calc(100vh + (var(--atos) - 1) * var(--passo)); }
 
-.destaque__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-  gap: clamp(40px, 6vw, 90px);
-  align-items: start;
+.cena__palco { padding-block: var(--section-gap); }
+.cena--viva .cena__palco {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  padding-block: calc(var(--nav-h) + clamp(12px, 2.5vh, 32px)) clamp(20px, 4vh, 48px);
+  overflow: hidden;
 }
-.destaque__titulo {
-  margin: 0 0 var(--space-30);
-  max-width: 18ch;
+.cena__quadro { width: 100%; }
+
+.cena__cabeca {
+  display: flex;
+  align-items: center;
+  gap: var(--space-20);
+  margin-bottom: clamp(18px, 3vh, 44px);
+}
+.cena__cabeca .micro { color: var(--highlighter-green); white-space: nowrap; }
+.cena__cabeca .secao__rule { color: var(--muted-sage); }
+.cena__contador { color: var(--muted-sage) !important; font-variant-numeric: tabular-nums; }
+.cena__contador b { color: var(--bone-white); font-weight: inherit; }
+/* Fora da cena o contador não conta nada: os quatro estão à vista. */
+.cena:not(.cena--viva) .cena__contador { display: none; }
+
+.cena__grade { display: grid; gap: clamp(30px, 5vw, 80px); align-items: center; }
+.cena--viva .cena__grade { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+
+/* Empilhados: no modo cena os quatro ocupam a mesma célula da
+   grade, então a altura é a do mais alto e ninguém salta na
+   passagem. Fora dele, viram uma coluna comum. */
+.cena__atos { display: flex; flex-direction: column; gap: var(--section-gap); }
+.cena--viva .cena__atos { display: grid; }
+.cena--viva .ato { grid-area: 1 / 1; opacity: 0; pointer-events: none; }
+.cena--viva .ato.ato--frente { pointer-events: auto; }
+
+.ato__num { margin: 0 0 var(--space-20); color: var(--muted-sage); }
+.ato__num b { color: var(--highlighter-green); font-weight: inherit; }
+.ato__titulo {
+  margin: 0 0 var(--space-25);
+  max-width: 17ch;
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 550;
   font-size: var(--text-heading);
-  line-height: .95;
-  letter-spacing: -0.03em;
+  line-height: .98;
+  letter-spacing: -0.045em;
   text-wrap: pretty;
 }
-.destaque__desc {
-  margin: 0 0 var(--space-40);
-  max-width: 54ch;
+.ato__desc {
+  margin: 0 0 var(--space-30);
+  max-width: 52ch;
   font-size: var(--text-body);
   font-weight: 200;
   line-height: 1.5;
   letter-spacing: -0.02em;
 }
+.ato__ficha { margin: 0 0 var(--space-30); color: var(--muted-sage); text-transform: none; letter-spacing: 0; font-size: var(--text-body-sm); font-weight: 400; }
+.ato .ficha { margin-bottom: var(--space-30); }
 
-/* Papel, time e duração: é o que um líder procura primeiro e o que
-   o número sozinho não conta. */
-.ficha { margin: 0 0 var(--space-40); display: flex; flex-direction: column; gap: var(--space-15); }
-.ficha > div {
-  display: grid;
-  grid-template-columns: 90px minmax(0, 1fr);
-  gap: var(--space-20);
-  padding-top: var(--space-15);
-  border-top: 1px solid var(--slate-verdant);
-}
-.ficha dt { color: var(--muted-sage); padding-top: 2px; }
-.ficha dd {
-  margin: 0;
-  font-size: var(--text-body-sm);
-  font-weight: 350;
-  line-height: 1.4;
-  color: var(--bone-white);
-}
-
-.destaque__numeros { display: flex; flex-direction: column; gap: var(--space-40); }
-.numero__valor {
-  display: block;
-  font-size: clamp(38px, 4.6vw, 68px);
-  font-weight: 550;
-  line-height: 1;
-  letter-spacing: -0.04em;
-  color: var(--bone-white);
-}
-.numero__label {
-  margin: var(--space-10) 0 0;
-  max-width: 26ch;
-  font-size: var(--text-body-sm);
-  font-weight: 350;
-  line-height: 1.35;
-  color: var(--muted-sage);
-}
-
-@media (max-width: 900px) {
-  .destaque__grid { grid-template-columns: minmax(0, 1fr); }
-  .destaque__titulo { max-width: none; }
-  .destaque__numeros { flex-direction: row; flex-wrap: wrap; gap: var(--space-30); }
-}
-
-/* — Os outros três dividem o mesmo peso entre si, num degrau claro
-     abaixo do destaque: sem fundo próprio, numa grade de três. — */
-.outros {
-  position: relative;
-  padding-block: var(--section-gap);
-  background-color: var(--bone-white);
-  background-image: url("bg-weave.svg");
-}
-.outros__grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-40);
-}
-.caso {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-15);
-  padding-top: var(--space-25);
-  border-top: 1px solid rgba(18, 22, 19, .25);
-  color: inherit;
-  text-decoration: none;
-}
-.caso__num { color: var(--newsprint-gray); }
-.caso__stat {
+/* O número do caso mora no orbe enquanto a cena está viva; fora
+   dela, ele volta para dentro do próprio caso. */
+.ato__stat { margin: 0 0 var(--space-30); display: flex; flex-direction: column; gap: var(--space-8); }
+.ato__stat b {
   font-size: clamp(34px, 3.6vw, 52px);
   font-weight: 550;
   line-height: 1;
   letter-spacing: -0.04em;
-  color: var(--press-black);
 }
-.caso__stat-label {
+.ato__stat span { max-width: 34ch; font-size: var(--text-body-sm); font-weight: 350; line-height: 1.35; color: var(--muted-sage); }
+.cena--viva .ato__stat { display: none; }
+
+/* Dentro do palco a altura é fixa — uma tela — e o caso mais
+   cheio é o que decide. Os respiros passam a ser medidos em vh
+   para o ato inteiro caber de pé em qualquer tela funda o
+   bastante, em vez de estourar por baixo. */
+.cena--viva .ato__num { margin-bottom: clamp(12px, 2vh, 20px); }
+.cena--viva .ato__titulo { margin-bottom: clamp(12px, 2.2vh, 25px); font-size: clamp(34px, 4.3vw, 64px); }
+.cena--viva .ato__desc { margin-bottom: clamp(14px, 2.4vh, 30px); }
+.cena--viva .ato__ficha { margin-bottom: clamp(16px, 2.8vh, 30px); }
+.cena--viva .ato .ficha { margin-bottom: clamp(16px, 2.8vh, 30px); gap: clamp(6px, 1.2vh, 15px); }
+.cena--viva .ato .ficha > div { padding-top: clamp(6px, 1.2vh, 15px); }
+
+/* ── O orbe ────────────────────────────────
+   Desce ao longo da cena e pulsa: cheio quando um caso está
+   parado à frente, encolhido no meio do caminho entre dois. É o
+   relógio da cena — quem olha para ele sabe que ainda está
+   andando.
+   ──────────────────────────────────────────────── */
+.cena__orbe { display: none; }
+.cena--viva .cena__orbe {
+  display: block;
+  justify-self: center;
+  width: min(100%, 330px);
+  transform: translateY(calc(var(--orbe-y, 0) * clamp(40px, 8vh, 110px)));
+}
+.orbe__disco {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  padding: 12%;
+  border: 1px solid var(--highlighter-green);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, rgba(43, 238, 75, .16), rgba(43, 238, 75, 0) 70%);
+  box-shadow: var(--shadow-green);
+  transform: scale(var(--orbe-esc, 1));
+}
+.orbe__valor {
+  grid-area: 1 / 1;
+  font-size: clamp(28px, 3.2vw, 50px);
+  font-weight: 550;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  text-align: center;
+  opacity: 0;
+}
+.orbe__legendas { display: grid; margin-top: var(--space-20); }
+.orbe__legenda {
+  grid-area: 1 / 1;
   margin: 0;
   font-size: var(--text-body-sm);
   font-weight: 350;
   line-height: 1.35;
-  color: var(--newsprint-gray);
-}
-.caso__titulo {
-  margin: var(--space-10) 0 0;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: var(--text-subheading);
-  line-height: 1;
-  letter-spacing: -0.02em;
-  text-wrap: pretty;
-}
-.caso__ficha { margin: 0; color: var(--newsprint-gray); font-weight: 400; text-transform: none; letter-spacing: 0; font-size: var(--text-body-sm); }
-.caso__go { margin-top: auto; padding-top: var(--space-20); color: var(--newsprint-gray); transition: color .25s; }
-.caso__go i { display: inline-block; transition: transform .25s; }
-@media (hover: hover) and (pointer: fine) {
-  .caso:hover .caso__go { color: var(--press-black); }
-  .caso:hover .caso__go i { transform: translateX(4px); }
-  .caso:hover { border-top-color: var(--highlighter-green); }
+  text-align: center;
+  color: var(--muted-sage);
+  opacity: 0;
 }
 
-@media (max-width: 860px) {
-  .outros__grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-30); }
-  .caso__titulo { font-size: clamp(26px, 6vw, 36px); }
+/* ── O trilho ────────────────────────────────
+   Quatro traços dizendo quantos atos existem e em qual se está.
+   Numa cena que prende a rolagem, saber que há fim é metade do
+   conforto — e cada traço leva direto ao seu ato.
+   ──────────────────────────────────────────────── */
+.cena__trilho { display: none; }
+.cena--viva .cena__trilho {
+  position: absolute;
+  /* Fica na calha, encostado por fora da coluna de texto: o traço
+     tem 26px, então a borda esquerda dele cai exatamente na borda
+     do conteúdo em qualquer largura. */
+  right: max(8px, calc(var(--gutter) - 26px));
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-15);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cena__trilho button {
+  display: block;
+  width: 26px;
+  height: 22px;
+  padding: 10px 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.cena__trilho i {
+  display: block;
+  height: 2px;
+  width: 12px;
+  margin-left: auto;
+  background: var(--muted-sage);
+  opacity: .45;
+  transition: width .35s var(--ease-saida), opacity .35s, background-color .35s;
+}
+.cena__trilho [aria-current="true"] i { width: 26px; opacity: 1; background: var(--highlighter-green); }
+@media (hover: hover) and (pointer: fine) {
+  .cena__trilho button:hover i { opacity: 1; width: 20px; }
+}
+
+@media (max-width: 900px) {
+  .ato__titulo { max-width: none; font-size: clamp(30px, 7vw, 46px); }
+  .cena__atos { gap: clamp(48px, 9vw, 80px); }
 }
 
 /* ============================================================
-   A onda entre as seções
+   Fecho
 
-   Fica pendurada acima da própria seção (bottom:100%) e leva o
-   fundo dela inteiro — cor e trama — recortado pela curva. Pintar
-   só a cor deixava a onda lisa e a trama começava numa linha reta
-   logo abaixo dela. O caminho já vem desenhado no HTML, então
-   funciona sem JS; com JS ele é redesenhado a cada quadro.
+   Um respiro claro entre a cena e o rodapé — e o lugar próprio do
+   manifesto, que antes disputava espaço com o lead do hero.
    ============================================================ */
 
-.onda-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
-
-.onda {
-  position: absolute;
-  left: 0;
-  bottom: 100%;
-  display: block;
-  width: 100%;
-  height: var(--onda-h);
-  pointer-events: none;
-  /* A trama tem que atravessar a curva sem emenda. Ancorada embaixo,
-     a tile fecha um ciclo exatamente na borda de baixo da onda — que
-     é onde a seção começa a desenhar a dela, no começo do ciclo. */
-  background-position: left bottom;
-  clip-path: url(#onda-recorte);
-}
-.onda--escura {
-  background-color: var(--press-black);
-  background-image: url("bg-weave-dark.svg");
-}
-.onda--clara {
+.fecho {
+  position: relative;
   background-color: var(--bone-white);
   background-image: url("bg-weave.svg");
 }
-
-/* ============================================================
-   Rodapé
-   ============================================================ */
-
-.footer {
-  position: relative;
-  background-color: var(--press-black);
-  background-image: url("bg-weave-dark.svg");
-  color: var(--bone-white);
-  padding-block: clamp(50px, 7vw, 100px) var(--space-50);
-}
-.footer__grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr);
-  gap: var(--space-50) var(--space-40);
-}
-.footer h2 {
-  margin: 0 0 var(--space-20);
-  max-width: 14ch;
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: var(--text-heading-sm);
-  line-height: .95;
-  letter-spacing: -0.03em;
-}
-.footer__contact {
+.fecho__inner { padding-block: clamp(60px, 8vw, 110px); }
+.fecho__micro { margin: 0 0 var(--space-20); color: var(--newsprint-gray); }
+.fecho h2 {
   margin: 0 0 var(--space-30);
-  font-size: var(--text-body);
-  font-weight: 200;
-  letter-spacing: -0.02em;
-}
-.footer__col h3 {
-  margin: 0 0 var(--space-20);
-  color: var(--muted-sage);
-  font-size: var(--text-caption);
+  max-width: 22ch;
+  font-family: var(--font-display);
   font-weight: 550;
-  letter-spacing: .01em;
-  text-transform: uppercase;
+  font-size: var(--text-heading-sm);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  text-wrap: pretty;
 }
-.footer__col ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-10); }
-.footer__col a {
-  color: var(--bone-white);
-  font-size: var(--text-body-sm);
-  font-weight: 350;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
-  text-decoration-color: rgba(250, 255, 250, .35);
-  transition: text-decoration-color .25s;
-}
-@media (hover: hover) and (pointer: fine) {
-  .footer__col a:hover { text-decoration-color: var(--highlighter-green); }
-}
-.footer__meta {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: var(--space-15);
-  margin-top: clamp(48px, 7vw, 100px);
-  padding-top: var(--space-20);
-  border-top: 1px solid var(--slate-verdant);
-  color: var(--muted-sage);
-}
-@media (max-width: 760px) {
-  .footer__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-  .footer__grid > :first-child { grid-column: 1 / -1; }
-}
+.fecho__link { color: var(--press-black); }

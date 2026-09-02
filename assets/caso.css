@@ -1,0 +1,824 @@
+/* ============================================================
+   Caso — a página de um caso, por dentro
+
+   Continua de onde o cartão da Home parou: quem clica no caso em
+   destaque, que lá é o bloco escuro, chega num topo escuro igual.
+   Daí em diante a página alterna papel e tinta, e cada troca é uma
+   onda — o mesmo recorte da Home.
+
+   A diagramação vem das páginas internas da referência
+   (newformcap.com/team e as seções de baixo da home dela):
+   linhas indexadas com número à esquerda, coluna fixa de título ao
+   lado de uma pilha de linhas, traço verde curto como separador,
+   texto deslocado do eixo em vez de centralizado em caixas iguais.
+   Nenhuma seção usa o mesmo arranjo da anterior — é isso que dá
+   ritmo a uma página longa.
+
+   Só o que é da página de caso mora aqui. Tokens, barra do topo,
+   ficha, onda, rodapé e movimento vêm de base.css.
+   ============================================================ */
+
+/* ============================================================
+   Quebra de linha
+
+   Duas regras para a página inteira, porque quebra de linha é
+   decisão de leitura, não sobra de largura:
+
+   - título quebra equilibrado, nunca deixando uma palavra sozinha
+     na última linha;
+   - parágrafo nunca termina com uma palavra órfã.
+
+   O resto é o &nbsp; escrito no texto, que amarra artigo e
+   preposição na palavra que eles regem.
+   ============================================================ */
+
+/* Uma página de caso é longa: o intervalo entre seções fica um
+   pouco menor que o do resto do site, para o vazio continuar sendo
+   pausa e não interrupção. */
+.caso { --section-gap: clamp(56px, 6.5vw, 96px); }
+
+.caso h1,
+.caso h2,
+.caso h3,
+.caso h4,
+.caso .declaracao,
+.caso .grito { text-wrap: balance; }
+
+.caso p,
+.caso dd,
+.caso li { text-wrap: pretty; }
+
+/* ============================================================
+   Régua de leitura
+
+   A única peça de cromo que uma página longa ganha: uma linha
+   verde no topo da tela dizendo quanto falta. Sem JS ela fica em
+   zero e some, que é o mesmo que não existir.
+   ============================================================ */
+
+.regua {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 60;
+  height: 2px;
+  background: var(--highlighter-green);
+  transform: scaleX(var(--lido, 0));
+  transform-origin: left;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Superfícies
+
+   Papel e tinta, alternados. Cada uma carrega a própria trama, e a
+   onda pendurada no topo leva o fundo da seção junto para a curva
+   não cortar o padrão numa linha reta.
+   ============================================================ */
+
+.folha {
+  position: relative;
+  background-color: var(--bone-white);
+  background-image: url("bg-weave.svg");
+}
+.tinta {
+  position: relative;
+  background-color: var(--press-black);
+  background-image: url("bg-weave-dark.svg");
+  color: var(--bone-white);
+}
+
+/* O recuo de baixo precisa caber a onda da seção seguinte, que fica
+   pendurada por cima desta — e por isso ele já vem com altura de
+   sobra. O intervalo próprio da seção entra reduzido embaixo, senão
+   a soma vira um vão de mais de 200px em cada troca de fundo. */
+.folha__inner,
+.tinta__inner {
+  padding-block: var(--section-gap) calc(var(--section-gap) * .5 + var(--onda-h));
+}
+
+.secao + .secao { margin-top: var(--section-gap); }
+
+/* ============================================================
+   Topo do caso
+
+   A referência abre as páginas internas com o título grande à
+   esquerda, o texto de apoio logo abaixo dele e o número sozinho
+   do outro lado. Aqui o número é o salto: de quanto era para
+   quanto passou a ser.
+   ============================================================ */
+
+.caso-topo__inner {
+  padding-block: var(--space-30) calc(clamp(50px, 6vw, 80px) + var(--onda-h));
+}
+
+.voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-10);
+  margin-bottom: clamp(24px, 4vw, 44px);
+  color: var(--muted-sage);
+  text-decoration: none;
+  transition: color .25s;
+}
+.voltar i { font-style: normal; display: inline-block; transition: transform .25s; }
+@media (hover: hover) and (pointer: fine) {
+  .voltar:hover { color: var(--bone-white); }
+  .voltar:hover i { transform: translateX(-4px); }
+}
+
+/* As etiquetas de assunto, sem fundo e sem moldura, como o
+   DESIGN.md manda. A última é a que muda de cor. */
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-10) var(--space-25);
+  margin-bottom: var(--space-30);
+  color: var(--muted-sage);
+}
+.etiquetas .etiqueta--verde { color: var(--highlighter-green); }
+
+.caso-topo h1 {
+  margin: 0;
+  max-width: 20ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--text-heading);
+  line-height: .95;
+  letter-spacing: -0.03em;
+}
+/* O traço verde no fim do título é o gesto de marca-texto da
+   referência: ela põe um risco depois da última palavra de cada
+   linha. Aqui basta um, no fim da frase. */
+.caso-topo h1::after {
+  content: "";
+  display: inline-block;
+  width: clamp(40px, 5vw, 76px);
+  height: clamp(6px, .7vw, 10px);
+  margin-left: .18em;
+  vertical-align: baseline;
+  background: var(--highlighter-green);
+}
+
+.caso-topo__pe {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(30px, 4vw, 70px);
+  margin-top: var(--space-40);
+  padding-top: var(--space-30);
+  border-top: 1px solid var(--slate-verdant);
+  align-items: start;
+}
+.caso-topo__lead {
+  margin: 0;
+  max-width: 46ch;
+  font-size: var(--text-body);
+  font-weight: 200;
+  line-height: 1.55;
+  letter-spacing: -0.02em;
+}
+
+/* — O salto: o número velho riscado em verde, o novo em corpo
+     grande logo abaixo. — */
+.salto__de {
+  display: block;
+  margin-bottom: var(--space-8);
+  font-size: var(--text-body-sm);
+  font-weight: 400;
+  color: var(--muted-sage);
+  text-decoration: line-through;
+  text-decoration-color: var(--highlighter-green);
+  text-decoration-thickness: 2px;
+}
+.salto__para {
+  display: block;
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 550;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--bone-white);
+}
+.salto__que {
+  margin: var(--space-15) 0 0;
+  max-width: 40ch;
+  font-size: var(--text-body-sm);
+  font-weight: 350;
+  line-height: 1.45;
+  color: var(--muted-sage);
+}
+
+@media (max-width: 900px) {
+  .caso-topo h1 { max-width: none; }
+  .caso-topo__pe { grid-template-columns: minmax(0, 1fr); gap: var(--space-40); }
+}
+
+/* ============================================================
+   Peças de texto
+   ============================================================ */
+
+.secao__titulo {
+  margin: 0 0 var(--space-25);
+  max-width: 30ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(30px, 3.6vw, 50px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.tinta .secao__titulo { color: var(--bone-white); }
+.secao__titulo--sm { font-size: clamp(24px, 2.6vw, 34px); max-width: 26ch; }
+
+.corpo-texto {
+  max-width: 60ch;
+  font-size: var(--text-body);
+  font-weight: 300;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+}
+.corpo-texto p { margin: 0 0 var(--space-20); }
+.corpo-texto p:last-child { margin-bottom: 0; }
+.tinta .corpo-texto { font-weight: 200; }
+
+/* Duas colunas de texto corrido, do jeito que um jornal resolve um
+   bloco largo: mais curto de ler e mais baixo na página. */
+.colunas {
+  columns: 2;
+  column-gap: clamp(30px, 4vw, 60px);
+  max-width: none;
+}
+.colunas p { break-inside: avoid; }
+@media (max-width: 780px) { .colunas { columns: 1; } }
+
+/* O rótulo miúdo que abre um bloco dentro da seção. */
+.rotulo { display: block; margin-bottom: var(--space-20); color: var(--newsprint-gray); }
+.tinta .rotulo { color: var(--muted-sage); }
+
+/* A linha de apoio embaixo de uma frase: explica de onde ela veio. */
+.legenda {
+  margin: var(--space-15) 0 0;
+  max-width: 34ch;
+  font-size: var(--text-body-sm);
+  font-weight: 350;
+  line-height: 1.45;
+  color: var(--newsprint-gray);
+}
+.tinta .legenda { color: var(--muted-sage); }
+
+/* ============================================================
+   Contexto — o parágrafo de abertura
+
+   Deslocado do eixo, como a referência faz com o texto de entrada
+   das páginas internas: começa depois do primeiro terço, e o
+   rótulo da seção fica sozinho na margem.
+   ============================================================ */
+
+.abertura {
+  display: grid;
+  grid-template-columns: minmax(0, .62fr) minmax(0, 2fr);
+  gap: clamp(20px, 3vw, 50px);
+}
+.abertura > p {
+  grid-column: 2;
+  margin: 0;
+  max-width: 40ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(22px, 2.4vw, 30px);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* A ficha corre embaixo, em faixa, como o crédito de uma matéria. */
+.ficha-bloco { margin-top: clamp(36px, 4vw, 56px); }
+.ficha-bloco .rotulo { margin-bottom: var(--space-15); }
+.faixa-ficha {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 50px);
+}
+.faixa-ficha > div { padding-top: var(--space-15); border-top: 1px solid rgba(18, 22, 19, .25); }
+.faixa-ficha dt { margin-bottom: var(--space-10); color: var(--newsprint-gray); }
+.faixa-ficha dd {
+  margin: 0;
+  max-width: 32ch;
+  font-size: var(--text-body-sm);
+  font-weight: 350;
+  line-height: 1.5;
+}
+
+@media (max-width: 820px) {
+  .abertura { grid-template-columns: minmax(0, 1fr); }
+  .abertura p { grid-column: 1; }
+  .faixa-ficha { grid-template-columns: minmax(0, 1fr); gap: var(--space-25); }
+}
+
+/* ============================================================
+   Contas — as duas linhas do problema
+
+   Linha indexada: número verde na margem, título em serifa e o
+   texto na coluna larga. É o arranjo que a referência usa para
+   listar as empresas do portfólio, e ele resolve dois itens sem
+   virar dois cartões iguais lado a lado.
+   ============================================================ */
+
+.linhas { border-top: 1px solid rgba(18, 22, 19, .22); }
+.tinta .linhas { border-top-color: var(--slate-verdant); }
+
+.linha {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr) minmax(0, 1.35fr);
+  gap: clamp(16px, 2.5vw, 40px);
+  padding: clamp(24px, 3vw, 40px) 0;
+  border-bottom: 1px solid rgba(18, 22, 19, .22);
+  align-items: baseline;
+}
+.tinta .linha { border-bottom-color: var(--slate-verdant); }
+.linha__num { color: var(--highlighter-green); }
+.linha__titulo {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(24px, 2.6vw, 34px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.linha p {
+  margin: 0;
+  max-width: 56ch;
+  font-size: var(--text-body-sm);
+  font-weight: 350;
+  line-height: 1.55;
+  color: var(--newsprint-gray);
+}
+.tinta .linha p { color: var(--muted-sage); }
+
+@media (max-width: 820px) {
+  .linha { grid-template-columns: 2.5rem minmax(0, 1fr); gap: var(--space-15); }
+  .linha p { grid-column: 2; margin-top: var(--space-10); }
+}
+
+/* ============================================================
+   Estágios — da transcrição ao entregável
+
+   Uma tabela de três estágios em vez de três caixas com setas: o
+   rótulo na margem, o que acontece no meio, o texto na direita. O
+   estágio do meio é o que a seção explica, e é o único que ganha
+   fundo.
+   ============================================================ */
+
+.estagios { border-top: 1px solid rgba(18, 22, 19, .22); }
+
+.estagio {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr) minmax(0, 1.35fr);
+  gap: clamp(16px, 2.5vw, 40px);
+  padding: clamp(22px, 2.6vw, 34px) 0;
+  border-bottom: 1px solid rgba(18, 22, 19, .22);
+  align-items: baseline;
+}
+.estagio > .micro { color: var(--newsprint-gray); }
+.estagio h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(22px, 2.2vw, 28px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.estagio p {
+  margin: 0;
+  max-width: 52ch;
+  font-size: var(--text-body-sm);
+  font-weight: 350;
+  line-height: 1.55;
+  color: var(--newsprint-gray);
+}
+
+/* O estágio do meio: a camada que faz o trabalho. */
+.estagio--nucleo {
+  padding-inline: clamp(16px, 2vw, 28px);
+  margin-inline: calc(-1 * clamp(16px, 2vw, 28px));
+  background-color: var(--press-black);
+  background-image: url("bg-weave-dark.svg");
+  border-bottom-color: var(--press-black);
+  color: var(--bone-white);
+}
+.estagio--nucleo > .micro { color: var(--highlighter-green); }
+.estagio--nucleo p { color: var(--muted-sage); }
+
+/* A saída: cinco entregas, cada uma com o destino dela. O rótulo
+   do estágio segura a coluna da esquerda e a lista ocupa o resto,
+   então as cinco linhas continuam alinhadas com as de cima. */
+.estagio--saida { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); padding-bottom: 0; border-bottom: 0; }
+
+.entregas { margin: 0; padding: 0; list-style: none; }
+.entrega {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+  gap: clamp(16px, 2.5vw, 40px);
+  padding: var(--space-20) 0;
+  border-bottom: 1px solid rgba(18, 22, 19, .22);
+  align-items: baseline;
+}
+.entrega:first-child { padding-top: 0; }
+.entrega__nome {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+}
+.entrega__destino { max-width: 56ch; }
+.entrega__titulo {
+  display: block;
+  margin-bottom: var(--space-8);
+  font-family: var(--font-display);
+  font-size: clamp(19px, 1.9vw, 24px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.entrega p { margin: 0; font-size: var(--text-body-sm); font-weight: 350; line-height: 1.55; color: var(--newsprint-gray); }
+.entregas__cabeca { display: block; margin-bottom: var(--space-15); color: var(--newsprint-gray); }
+
+@media (max-width: 900px) {
+  .estagio,
+  .estagio--saida { grid-template-columns: minmax(0, 1fr); gap: var(--space-15); }
+  .entrega { grid-template-columns: minmax(0, 1fr); gap: var(--space-10); }
+}
+
+/* ============================================================
+   Atrito
+
+   Onde a coisa deu errado. Bloco escuro dentro do papel: é o que
+   um leitor apressado mais precisa achar, e é também o que quebra
+   a página sem custar uma troca de fundo inteira.
+   ============================================================ */
+
+.atrito {
+  max-width: 68ch;
+  padding: clamp(24px, 3vw, 36px);
+  border-left: 2px solid var(--highlighter-green);
+  border-radius: 0 var(--radius-pills) var(--radius-pills) 0;
+  background-color: var(--press-black);
+  background-image: url("bg-weave-dark.svg");
+  color: var(--bone-white);
+}
+/* Já estando no escuro, o bloco não precisa de fundo: o traço
+   verde e o recuo bastam. */
+.tinta .atrito { padding: 0 0 0 var(--space-25); background: none; border-radius: 0; }
+
+.atrito h3 {
+  margin: 0 0 var(--space-15);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(24px, 2.4vw, 32px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.atrito p {
+  margin: 0 0 var(--space-15);
+  font-size: var(--text-body-sm);
+  font-weight: 350;
+  line-height: 1.6;
+  color: var(--muted-sage);
+}
+.atrito p:last-child { margin-bottom: 0; }
+
+/* Respiro entre dois blocos da mesma seção. Menor que o intervalo
+   entre seções, para a seção continuar lendo como uma coisa só. */
+.respiro { margin-top: clamp(36px, 4vw, 56px); }
+
+/* ============================================================
+   Ritos — os três rituais
+
+   Sem moldura e sem fio em cima: o traço verde curto embaixo do
+   nome é o que separa, igual ao que a referência usa no cartão de
+   cada pessoa do time.
+   ============================================================ */
+
+.ritos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: clamp(24px, 3vw, 48px);
+}
+.rito__nome {
+  display: block;
+  margin-bottom: var(--space-15);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(22px, 2.2vw, 28px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.rito__nome::after {
+  content: "";
+  display: block;
+  width: 34px;
+  height: 3px;
+  margin-top: var(--space-15);
+  background: var(--highlighter-green);
+}
+.rito__desc { display: block; max-width: 34ch; font-size: var(--text-body-sm); font-weight: 350; line-height: 1.55; color: var(--muted-sage); }
+.folha .rito__desc { color: var(--newsprint-gray); }
+
+/* Um bloco que entra deslocado do eixo, para a leitura descer em
+   degrau em vez de correr sempre pela mesma margem. */
+.recuado { margin-left: clamp(0px, 12vw, 200px); }
+@media (max-width: 900px) { .recuado { margin-left: 0; } }
+
+/* ============================================================
+   Grito — a frase que a seção existe para carregar
+   ============================================================ */
+
+.grito {
+  margin: 0;
+  max-width: 16ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(44px, 7vw, 104px);
+  line-height: .95;
+  letter-spacing: -0.03em;
+}
+.declaracao {
+  margin: 0 0 var(--space-20);
+  max-width: 22ch;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+/* O grito e a nota dele dividem uma linha: a frase à esquerda, de
+   onde ela veio à direita, alinhadas pela base. */
+.grito-par {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: clamp(24px, 3vw, 60px);
+  align-items: end;
+  margin-bottom: clamp(36px, 4vw, 56px);
+}
+@media (max-width: 820px) {
+  .grito-par { grid-template-columns: minmax(0, 1fr); align-items: start; }
+}
+
+/* A linha final da seção: rótulo na margem, texto do lado. */
+.linha-nota {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr);
+  gap: clamp(20px, 3vw, 50px);
+  margin-top: clamp(36px, 4vw, 56px);
+  padding-top: var(--space-25);
+  border-top: 1px solid var(--slate-verdant);
+  align-items: baseline;
+}
+.folha .linha-nota { border-top-color: rgba(18, 22, 19, .25); }
+.linha-nota .micro { color: var(--muted-sage); }
+.folha .linha-nota .micro { color: var(--newsprint-gray); }
+.linha-nota p { margin: 0; max-width: 62ch; font-size: var(--text-body); font-weight: 200; line-height: 1.55; }
+.folha .linha-nota p { font-weight: 300; }
+@media (max-width: 820px) {
+  .linha-nota { grid-template-columns: minmax(0, 1fr); gap: var(--space-15); }
+}
+
+/* ============================================================
+   Funil — as cinco fases
+
+   Cinco colunas que estreitam da esquerda para a direita: a forma
+   do funil é a própria grade, não um desenho por cima dela. Cada
+   coluna é uma fase inteira, aberta, sem clique.
+   ============================================================ */
+
+.funil {
+  display: grid;
+  grid-template-columns: 1.24fr 1.12fr 1fr .92fr .86fr;
+  gap: clamp(16px, 2vw, 32px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Cada fase é uma coluna inteira, e o "quem conduz" é empurrado
+   para o pé dela: assim os cinco rodapés ficam na mesma linha,
+   mesmo com textos de tamanhos diferentes em cima. */
+.fase {
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--space-20);
+  border-top: 2px solid var(--highlighter-green);
+}
+.fase__quem { margin-top: auto; }
+.fase__num { display: block; margin-bottom: var(--space-15); color: var(--newsprint-gray); }
+.fase__nome {
+  display: block;
+  margin-bottom: var(--space-15);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(19px, 1.9vw, 24px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+.fase p { margin: 0; font-size: var(--text-body-sm); font-weight: 350; line-height: 1.55; color: var(--newsprint-gray); }
+/* O texto estica até o fim do espaço livre e o rodapé encosta
+   embaixo dele: assim o fio de "quem conduz" cai na mesma altura
+   nas cinco colunas, mesmo com textos de tamanhos diferentes. */
+.fase > p { flex: 1; margin-bottom: var(--space-20); }
+.fase__quem { padding-top: var(--space-15); border-top: 1px solid rgba(18, 22, 19, .18); }
+.fase__quem .micro { display: block; margin-bottom: var(--space-8); color: var(--newsprint-gray); }
+
+@media (max-width: 1100px) {
+  .funil { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+}
+
+/* ============================================================
+   Rail — a trilha do componente
+
+   Três marcos numa linha só, com o fio passando por trás dos
+   pontos. Horizontal porque é um caminho, não uma lista.
+   ============================================================ */
+
+.rail {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 3vw, 44px);
+  padding-top: var(--space-30);
+}
+.rail::before {
+  content: "";
+  position: absolute;
+  inset: 4px 0 auto;
+  height: 1px;
+  background: rgba(18, 22, 19, .25);
+}
+.rail__marco { position: relative; }
+.rail__marco::before {
+  content: "";
+  position: absolute;
+  top: -30px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--highlighter-green);
+}
+.rail__nome { display: block; margin-bottom: var(--space-10); font-size: 17px; font-weight: 550; letter-spacing: -0.02em; }
+.rail__desc { display: block; max-width: 34ch; font-size: var(--text-body-sm); font-weight: 350; line-height: 1.55; color: var(--newsprint-gray); }
+
+@media (max-width: 780px) {
+  .rail { grid-template-columns: minmax(0, 1fr); gap: var(--space-30); padding-top: 0; padding-left: var(--space-25); }
+  .rail::before { inset: 4px auto 4px 4px; width: 1px; height: auto; }
+  .rail__marco::before { top: 6px; left: -25px; }
+}
+
+/* ============================================================
+   Confronto — antes e depois
+
+   As duas colunas ficam à vista ao mesmo tempo, separadas por um
+   fio vertical. O "depois" é o lado que a página defende, então é
+   ele que fica na cor cheia.
+   ============================================================ */
+
+.confronto { border-top: 1px solid rgba(18, 22, 19, .22); }
+.confronto__linha {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: clamp(16px, 2.5vw, 40px);
+  padding: var(--space-25) 0;
+  border-bottom: 1px solid rgba(18, 22, 19, .22);
+  align-items: baseline;
+}
+.confronto__cabeca { padding: 0 0 var(--space-15); border-bottom: 0; }
+.confronto__cabeca .micro { color: var(--newsprint-gray); }
+/* A terceira etiqueta acompanha o recuo que o fio vertical cria na
+   coluna do depois, senão o cabeçalho fica fora do prumo. */
+.confronto__cabeca .micro:last-child { padding-left: clamp(16px, 2.5vw, 40px); }
+.confronto__rotulo {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.confronto__antes,
+.confronto__depois { margin: 0; max-width: 46ch; font-size: var(--text-body-sm); line-height: 1.55; }
+.confronto__antes { font-weight: 350; color: var(--newsprint-gray); }
+/* O fio entre as colunas divide os dois estados; ele nasce no
+   texto do depois para não precisar de um elemento só para isso. */
+.confronto__depois {
+  padding-left: clamp(16px, 2.5vw, 40px);
+  border-left: 1px solid rgba(18, 22, 19, .22);
+  font-weight: 400;
+  color: var(--press-black);
+}
+.confronto__marca { display: none; margin-bottom: var(--space-8); color: var(--newsprint-gray); }
+
+@media (max-width: 820px) {
+  .confronto__cabeca { display: none; }
+  .confronto__linha { grid-template-columns: minmax(0, 1fr); gap: var(--space-15); }
+  .confronto__depois { padding-left: 0; border-left: 0; }
+  .confronto__marca { display: block; }
+}
+
+/* ============================================================
+   Barras — o tempo antes e depois
+
+   A barra do "antes" é a régua; a do "depois" é a mesma medida em
+   verde. A largura é escrita pelo JS quando o bloco entra na tela;
+   sem JS ela já nasce no valor final.
+   ============================================================ */
+
+.barras {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: clamp(30px, 4vw, 60px);
+}
+.barras__titulo { display: block; margin-bottom: var(--space-25); color: var(--newsprint-gray); }
+.barra__cabeca {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-15);
+  margin-bottom: var(--space-10);
+}
+.barra__rotulo { font-size: var(--text-body-sm); font-weight: 350; color: var(--newsprint-gray); }
+.barra__valor { font-size: 17px; font-weight: 550; letter-spacing: -0.02em; }
+.barra__trilho { height: 10px; border-radius: 999px; background: rgba(18, 22, 19, .1); overflow: hidden; }
+.barra__preenche {
+  height: 100%;
+  width: var(--larg, 100%);
+  border-radius: 999px;
+  background: var(--newsprint-gray);
+  transition: width .9s var(--ease-saida);
+}
+.barra--depois .barra__preenche { background: var(--highlighter-green); }
+.barra + .barra { margin-top: var(--space-20); }
+.js-mov .barras[data-barras] .barra__preenche { width: 0; }
+.js-mov .barras[data-barras].crescido .barra__preenche { width: var(--larg, 100%); }
+@media (prefers-reduced-motion: reduce) {
+  .barra__preenche { transition: none; }
+  .js-mov .barras[data-barras] .barra__preenche { width: var(--larg, 100%); }
+}
+
+/* ============================================================
+   Números do resultado
+   ============================================================ */
+
+.numeros {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: clamp(20px, 3vw, 40px);
+}
+.numero-caso { padding-top: var(--space-20); border-top: 1px solid rgba(18, 22, 19, .25); }
+.numero-caso__valor {
+  display: block;
+  font-size: clamp(30px, 3.2vw, 46px);
+  font-weight: 550;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.numero-caso__label { margin: var(--space-15) 0 0; max-width: 26ch; font-size: var(--text-body-sm); font-weight: 350; line-height: 1.45; color: var(--newsprint-gray); }
+
+/* ============================================================
+   Fecho — o que fica do caso e para onde ir
+   ============================================================ */
+
+.fecho {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: clamp(24px, 3vw, 60px);
+  align-items: end;
+  padding-top: var(--space-30);
+  border-top: 2px solid var(--highlighter-green);
+}
+.fecho .corpo-texto { max-width: 46ch; }
+@media (max-width: 820px) {
+  .fecho { grid-template-columns: minmax(0, 1fr); align-items: start; }
+}
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-25);
+  margin-top: clamp(36px, 4vw, 56px);
+}
+.acoes p { margin: 0; flex: 1 1 34ch; max-width: 56ch; font-size: var(--text-body); font-weight: 300; line-height: 1.55; }
+.proximo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-10);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid currentColor;
+  color: inherit;
+  font-family: var(--font-ui);
+  font-size: var(--text-caption);
+  font-weight: 550;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color .25s;
+}
+.proximo-link i { font-style: normal; display: inline-block; transition: transform .25s; }
+@media (hover: hover) and (pointer: fine) {
+  .proximo-link:hover { border-color: var(--highlighter-green); }
+  .proximo-link:hover i { transform: translateX(4px); }
+}
