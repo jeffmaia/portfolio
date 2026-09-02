@@ -3,15 +3,15 @@
 
    Dois módulos, os dois presos à rolagem:
 
-   1. Os selos do hero — cada fotografia dentro das frases guarda
+   1. Os selos do hero: cada fotografia dentro das frases guarda
       duas imagens. A segunda sobe por dentro da janela da primeira
       conforme a frase atravessa a tela, uma depois da outra, da
       esquerda para a direita. O JS só escreve --troca; quem recorta
       é o CSS. Por cima disso, um parallax curto: a foto desliza
-      dentro do selo, que fica parado — mover o selo empurraria as
+      dentro do selo, que fica parado, porque mover o selo empurraria as
       palavras vizinhas.
 
-   2. A cena dos casos — o palco gruda no alto da tela e a rolagem
+   2. A cena dos casos: o palco gruda no alto da tela e a rolagem
       passa a trocar o que está dentro dele. Um caso de cada vez, o
       orbe descendo e pulsando nas passagens, o trilho dizendo
       onde se está.
@@ -87,7 +87,7 @@ const calmo = window.matchMedia("(prefers-reduced-motion: reduce)");
     }
     /* A troca é medida no percurso do próprio selo: começa quando o
        topo dele chega a 80% da tela e termina meia tela depois.
-       Meia tela é curto de propósito — os três precisam terminar de
+       Meia tela é curto de propósito: os três precisam terminar de
        trocar enquanto a frase ainda está à vista. */
     const vh0 = window.innerHeight || 800;
     for (const t of trocas) {
@@ -102,7 +102,7 @@ const calmo = window.matchMedia("(prefers-reduced-motion: reduce)");
     const vh = window.innerHeight;
     const y = window.scrollY;
 
-    /* — Troca de foto — */
+    /* Troca de foto */
     for (const tr of trocas) {
       let u = (y - tr.inicio) / tr.percurso;
       u = (u - tr.atraso) / ESCALA;
@@ -115,7 +115,7 @@ const calmo = window.matchMedia("(prefers-reduced-motion: reduce)");
       }
     }
 
-    /* — Parallax, com a subida somada no mesmo deslocamento — */
+    /* Parallax, com a subida somada no mesmo deslocamento */
     const meio = vh / 2;
     for (const p of pecas) {
       const rel = p.centro - y;
@@ -168,7 +168,7 @@ const calmo = window.matchMedia("(prefers-reduced-motion: reduce)");
    O palco só gruda quando há espaço para ele: uma cena presa numa
    tela baixa esconde metade do caso, e presa num celular briga com
    a barra do navegador, que muda de altura ao rolar. Fora dessas
-   condições — e sem script, e com movimento reduzido — os quatro
+   condições (e sem script, e com movimento reduzido) os quatro
    casos ficam empilhados no fluxo, cada um inteiro.
    ──────────────────────────────────────────────── */
 (() => {

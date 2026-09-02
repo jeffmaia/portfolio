@@ -1,14 +1,14 @@
 /* ============================================================
-   Base — "editorial broadsheet in a green room"
+   Base: "editorial broadsheet in a green room"
 
    O que toda página do site divide: os tokens do DESIGN.md, o
    papel com a trama, a barra do topo, a onda entre as seções, o
    rodapé e o movimento de entrada. O que é de uma página só mora
-   na folha dela — home.css, caso.css —, carregada depois desta.
+   na folha dela (home.css, caso.css), carregada depois desta.
 
    Tokens do DESIGN.md (referência: newformcap.com). As três faces
-   originais são licenciadas — TWK Lausanne, PP Mondwest e
-   Editorial New. Aqui entram os substitutos livres que o próprio
+   originais são licenciadas (TWK Lausanne, PP Mondwest e
+   Editorial New). Aqui entram os substitutos livres que o próprio
    DESIGN.md indica:
      TWK Lausanne  → Inter (variável, cobre o peso 550)
      PP Mondwest   → Instrument Serif
@@ -16,7 +16,7 @@
 
    Uma correção ao DESIGN.md: ele manda passar toda fotografia por
    uma cadeia de filtro que a joga para o verde. O site real não faz
-   isso — as fotos dele são preto e branco de contraste cheio, e o
+   isso: as fotos dele são preto e branco de contraste cheio, e o
    filtro verde fica em outros elementos. Seguimos o site.
    ============================================================ */
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,200..700;1,14..32,200..700&family=Instrument+Serif:ital@0;1&display=swap');
@@ -57,6 +57,10 @@
   --gutter: clamp(20px, 4vw, 50px);
   --section-gap: clamp(64px, 9vw, 120px);
   --onda-h: clamp(34px, 4.6vw, 84px);
+  /* A onda que carrega uma seta é mais alta que as outras: ela
+     precisa de corpo para a bolha subir sem virar um espeto, e o
+     mínimo dela é maior porque a seta não encolhe junto. */
+  --onda-bolha-h: clamp(58px, 5.2vw, 88px);
 
   --radius-buttons: 5px;
   --radius-pills: 10px;
@@ -82,7 +86,7 @@ body {
   margin: 0;
   /* A trama é quase invisível de perto: linhas onduladas a 2,5px uma
      da outra que, à distância, só dão ao papel um leve tom verde.
-     Reproduzida a partir da tile da referência — mesmas cores, mesmo
+     Reproduzida a partir da tile da referência: mesmas cores, mesmo
      espaçamento, mesma deriva diagonal de fase. */
   background-color: var(--bone-white);
   background-image: url("bg-weave.svg");
@@ -213,7 +217,7 @@ img { max-width: 100%; display: block; }
 
    A barra é fixa e vive fechada: só a marca e o botão, em qualquer
    largura de tela. Não existe mais uma versão de desktop com os
-   links soltos e outra de celular escondida — o menu inteiro mora
+   links soltos e outra de celular escondida. O menu inteiro mora
    atrás do botão nas duas.
 
    Ao rolar, a marca encolhe até a inicial. O tracinho verde não
@@ -279,7 +283,7 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--space-20)); }
   text-decoration: none;
   white-space: nowrap;
 }
-/* O sublinhado verde é o logo inteiro — não existe ícone nem
+/* O sublinhado verde é o logo inteiro: não existe ícone nem
    moldura. Ele fica neste bloco, que é o que encolhe. */
 .wordmark__nome {
   display: inline-flex;
@@ -380,12 +384,12 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--space-20)); }
     visibility .55s;
 }
 .menu.aberto { transform: none; visibility: visible; }
-/* Na saída para outra página o painel cresce até cobrir tudo — é
+/* Na saída para outra página o painel cresce até cobrir tudo; é
    o começo da passagem, antes da cortina. */
 .menu.crescendo { height: 100vh; }
 .menu.crescendo .onda { opacity: 0; }
 
-/* A rolagem, quando o painel não couber, é do miolo — não do
+/* A rolagem, quando o painel não couber, é do miolo, não do
    painel: a onda fica pendurada abaixo dele, e um overflow no
    painel a cortaria fora. */
 .menu__inner {
@@ -482,7 +486,7 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
 
    A cortina que chega é animação de CSS puro, disparada por uma
    classe posta no <html> ainda no <head>. Se o script de baixo
-   falhar, ela sai sozinha — página coberta é falha grave demais
+   falhar, ela sai sozinha: página coberta é falha grave demais
    para depender de um caminho só.
    ============================================================ */
 
@@ -558,7 +562,7 @@ html.chegando .transicao__barra i { width: 100%; }
    Ficha do projeto
 
    Papel, ritmo e duração. Aparece no caso em destaque da Home e no
-   alto da página do próprio caso — nos dois sobre o fundo escuro,
+   alto da página do próprio caso, nos dois sobre o fundo escuro,
    que é onde ela nasceu.
    ============================================================ */
 
@@ -584,7 +588,7 @@ html.chegando .transicao__barra i { width: 100%; }
    A onda entre as seções
 
    Fica pendurada acima da própria seção (bottom:100%) e leva o
-   fundo dela inteiro — cor e trama — recortado pela curva. Pintar
+   fundo dela inteiro (cor e trama) recortado pela curva. Pintar
    só a cor deixava a onda lisa e a trama começava numa linha reta
    logo abaixo dela. O caminho já vem desenhado no HTML, então
    funciona sem JS; com JS ele é redesenhado a cada quadro.
@@ -601,7 +605,7 @@ html.chegando .transicao__barra i { width: 100%; }
   height: var(--onda-h);
   pointer-events: none;
   /* A trama tem que atravessar a curva sem emenda. Ancorada embaixo,
-     a tile fecha um ciclo exatamente na borda de baixo da onda — que
+     a tile fecha um ciclo exatamente na borda de baixo da onda, que
      é onde a seção começa a desenhar a dela, no começo do ciclo. */
   background-position: left bottom;
   clip-path: url(#onda-recorte);
@@ -624,6 +628,25 @@ html.chegando .transicao__barra i { width: 100%; }
   transform: scaleY(-1);
   transition: opacity .35s;
 }
+
+/* ── A onda com bolha ────────────────────────────────
+   Onde a página tem uma seta, a onda sobe num morro e a seta fica
+   dentro dele. Não é um círculo colado por cima: é a mesma curva,
+   que incha num ponto e volta a ser onda dos dois lados.
+
+   O elemento tem o dobro da altura de uma onda comum, e o morro
+   cabe nessa metade de cima. A linha de repouso é redesenhada na
+   mesma altura absoluta de sempre (0.5167 de uma altura, que em
+   duas viram 0.7583), então as ondas com e sem bolha continuam
+   nascendo no mesmo lugar da página.
+   ──────────────────────────────────────────────── */
+.onda--bolha,
+.onda--subir {
+  --onda-h: var(--onda-bolha-h);
+  height: calc(var(--onda-h) * 2);
+}
+.onda--bolha { clip-path: url(#onda-recorte-bolha); }
+.onda--subir { clip-path: url(#onda-recorte-subir); }
 
 /* ============================================================
    Rodapé
@@ -684,8 +707,6 @@ html.chegando .transicao__barra i { width: 100%; }
   justify-content: space-between;
   gap: var(--space-15);
   margin-top: clamp(48px, 7vw, 100px);
-  padding-top: var(--space-20);
-  border-top: 1px solid var(--slate-verdant);
   color: var(--muted-sage);
 }
 @media (max-width: 760px) {
@@ -697,48 +718,86 @@ html.chegando .transicao__barra i { width: 100%; }
 /* ============================================================
    Voltar ao topo
 
-   Um copo com água verde no fim da página. Conforme o rodapé
-   entra, a água sobe dentro do copo e a seta sobe junto: os dois
-   dizem, sem escrever, que dali em diante só se anda para cima.
+   A seta mora dentro da onda preta do rodapé, no morro que a
+   própria onda faz para recebê-la. Conforme a página chega ao fim,
+   o morro cresce e a seta sobe junto com ele: são os dois dizendo,
+   sem escrever, que dali em diante só se anda para cima.
 
-   O JS escreve --subir de 0 a 1 e redesenha a linha da água no
-   mesmo quadro e na mesma fase das ondas das seções. Sem JS a
-   propriedade nunca é escrita, --subir fica em 1 e o copo aparece
-   cheio e parado.
+   A seta não sobe por conta própria: ela senta a uma distância
+   fixa do alto do morro, e é o morro que cresce. O JS mede esse
+   alto no mesmo quadro em que redesenha a curva e escreve o
+   número aqui. Sem JS o número cai no padrão, e a seta aparece no
+   alto do morro já desenhado no HTML.
    ============================================================ */
 
+/* A seta senta 0.58 de uma altura de onda abaixo do alto do morro,
+   que é onde ele ainda é largo o bastante para contê-la. Quem
+   escreve --pico-subir é o JS, no mesmo quadro em que redesenha a
+   curva: a seta não sobe por conta, ela sobe porque o morro subiu.
+   Sem JS o número cai no padrão, que é o alto do morro já
+   desenhado no HTML. */
 .footer__subir {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: clamp(24px, 4vw, 50px);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + var(--onda-bolha-h) * (2 * var(--pico-subir, 0.792) - 0.58));
+  z-index: 2;
+  transform: translateX(-50%);
 }
 
 .subir {
-  --subir: 1;
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--space-20);
-  color: var(--muted-sage);
+  gap: calc(var(--onda-bolha-h) * 0.62);
+  color: var(--newsprint-gray);
   text-decoration: none;
+  white-space: nowrap;
   transition: color .25s;
 }
-.subir__copo { display: block; flex: none; width: 64px; height: 64px; overflow: visible; }
-.subir__fundo { fill: var(--bone-white); }
-.subir__agua { fill: var(--highlighter-green); }
-.subir__aro { fill: none; stroke: var(--press-black); stroke-width: 1.5; opacity: .25; }
 .subir__seta {
-  fill: none;
-  stroke: var(--press-black);
-  stroke-width: 3.4;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  /* A seta sobe os últimos 9px junto com a água. */
-  transform: translateY(calc((1 - var(--subir)) * 9px));
+  display: block;
+  width: auto;
+  /* A seta é medida na altura da onda, não em pixels próprios: é o
+     que garante que ela caiba no morro em qualquer largura. */
+  height: calc(var(--onda-bolha-h) * 0.38);
+  color: var(--highlighter-green);
 }
 @media (hover: hover) and (pointer: fine) {
-  .subir:hover { color: var(--bone-white); }
+  .subir:hover { color: var(--press-black); }
+}
+
+
+/* O par da seta de cima, na onda que abre a seção dos casos. Mesmo
+   morro, mesma distância, sentido contrário. */
+.descer {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--onda-bolha-h) * (2 * var(--pico-cena, 0.792) - 0.58));
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--onda-bolha-h) * 0.62);
+  transform: translateX(-50%);
+  color: var(--newsprint-gray);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color .25s;
+}
+.descer__seta {
+  display: block;
+  width: auto;
+  height: calc(var(--onda-bolha-h) * 0.38);
+  color: var(--highlighter-green);
+  animation: boiar 2.4s ease-in-out infinite;
+}
+@keyframes boiar {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(7px); }
+}
+@media (hover: hover) and (pointer: fine) {
+  .descer:hover { color: var(--press-black); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .subir { --subir: 1; }
-  .subir__seta { transform: none; }
+  .descer__seta { animation: none; }
 }

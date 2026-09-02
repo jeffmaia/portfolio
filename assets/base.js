@@ -1,5 +1,5 @@
 /* ============================================================
-   Base — o que toda página do site divide
+   Base: o que toda página do site divide
 
    1. O menu: uma barra fixa que vive fechada, a marca que encolhe
       até a inicial ao rolar, e o painel em contorno que abre por
@@ -13,8 +13,8 @@
       página está indo.
    4. A passagem de uma página para outra.
 
-   O que é de uma página só mora no script dela — home.js, caso.js
-   —, carregado depois deste.
+   O que é de uma página só mora no script dela
+   (home.js, caso.js), carregado depois deste.
    ============================================================ */
 
 const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -32,7 +32,7 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
   if (!barra || !botao || !painel) return;
 
   /* Os fundos escuros da página. Quando um deles passa debaixo da
-     barra, ela inverte — do contrário a marca preta some. */
+     barra, ela inverte; do contrário a marca preta some. */
   const escuros = [...document.querySelectorAll(
     '[data-fundo="escuro"], .tinta, .footer, .cena'
   )];
@@ -139,7 +139,7 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
      uma falha grave demais para depender de um caminho só: esta
      varredura repete a decisão do observador na unha e é chamada
      por tempo e por rolagem também. Em aba de fundo o rAF não
-     roda e o observador pode não disparar — o setTimeout roda. */
+     roda e o observador pode não disparar; o setTimeout roda. */
   function varrer() {
     if (!pendentes.size) return;
     const limite = window.innerHeight * 0.98;
@@ -157,37 +157,55 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 /* ── As ondas ────────────────────────────────
    Presas à rolagem: andam junto com a página, para frente e para
-   trás, em vez de disparar uma vez. Todas as ondas de seção
-   dividem um recorte só — são desenhadas no mesmo quadro e na
-   mesma fase, e o clipPath em objectBoundingBox estica a mesma
-   forma até a largura de cada seção. Por isso o caminho vai em
-   coordenadas de 0 a 1, e não em pixels.
+   trás, em vez de disparar uma vez. As ondas de seção dividem um
+   recorte só: são desenhadas no mesmo quadro e na mesma fase, e o
+   clipPath em objectBoundingBox estica a mesma forma até a largura
+   de cada seção. Por isso o caminho vai em coordenadas de 0 a 1, e
+   não em pixels.
 
    Três coisas mexem na forma:
-     fase    — segue a posição da página, então a onda caminha de
-               lado conforme se rola;
-     energia — segue a velocidade, e engrossa a onda na mão pesada;
-     deriva  — segue o SENTIDO. Rolando para baixo a linha inteira
-               desce; para cima, sobe. É o que faz a onda dizer
-               para onde a página está indo, e não só que ela se
-               mexeu.
+     fase    segue a posição da página, então a onda caminha de
+             lado conforme se rola;
+     energia segue a velocidade, e engrossa a onda na mão pesada;
+     deriva  segue o SENTIDO. Rolando para baixo a linha inteira
+             desce; para cima, sobe. É o que faz a onda dizer para
+             onde a página está indo, e não só que ela se mexeu.
 
-   A água do botão de voltar ao topo é desenhada aqui também: mesma
-   fase, mesma onda, outro copo.
+   Duas ondas não são iguais às outras: as que carregam uma seta.
+   Nelas a curva incha num morro no meio da largura, e a seta fica
+   dentro do morro. Cada uma tem o seu recorte porque o morro do
+   rodapé cresce com a rolagem e o da cena não.
    ──────────────────────────────────────────────── */
 (() => {
   const recorte = document.getElementById("onda-caminho");
-  const agua = document.getElementById("onda-agua");
+  const bolha = document.getElementById("onda-caminho-bolha");
+  const subirCaminho = document.getElementById("onda-caminho-subir");
   const subir = document.querySelector(".subir");
 
   const ondas = [...document.querySelectorAll(".onda")].map(el => ({ el, topo: 0, altura: 0 }));
-  if (!recorte && !agua) return;
+  if (!recorte && !bolha && !subirCaminho) return;
 
   const ONDA_MEIO = 0.5167, ONDA_N = 40;
-  const AGUA_N = 18;
+  /* Uma onda com bolha tem o dobro da altura de uma comum. Para a
+     linha de repouso cair no mesmo lugar da página, ela desce para
+     a média entre a de sempre e o pé do elemento, e a amplitude
+     inteira vale metade. */
+  const BOLHA_MEIO = (ONDA_MEIO + 1) / 2;
+  const BOLHA_X = 0.5;
+  /* O morro tem largura em pixels, não em fração: uma tela larga
+     não deve ganhar um morro largo, senão ele deixa de ser um
+     morro e vira a onda toda. */
+  const BOLHA_SIG_PX = 40;
+  /* O morro da cena não muda de tamanho. O do rodapé cresce de
+     BOLHA_MIN a BOLHA_MAX conforme a página chega ao fim, e é esse
+     crescimento que levanta a seta: ela não sobe por conta, ela
+     senta no topo do morro e sobe porque o morro subiu. */
+  const BOLHA_MAX = 0.55, BOLHA_MIN = 0.28;
+
   let fase = 0, energia = 0, deriva = 0;
   let ultimoY = window.scrollY, agendado = false;
-  let pEscrito = -1, aguaVazia = false;
+  let sig = 0.03, amostras = [];
+  let pEscrito = -1;
 
   function desenharOnda(amp, desl) {
     let d = "M0,1 L";
@@ -202,18 +220,52 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
     recorte.setAttribute("d", d + "1,1 Z");
   }
 
-  /* O copo tem 72 de lado. A linha da água vai de 78 (vazio, logo
-     abaixo do círculo) a -6 (cheio, logo acima dele). */
-  function desenharAgua(p, amp) {
-    const base = 78 - p * 84;
-    let d = "M-6," + (base + 2).toFixed(2) + " L";
-    for (let i = 0; i <= AGUA_N; i++) {
-      const x = -6 + (84 * i) / AGUA_N;
-      const a = (i / AGUA_N) * 6.283185;
-      const y = base - amp * Math.sin(a * 1.5 + fase) - amp * 0.4 * Math.sin(a * 3 - fase);
-      d += x.toFixed(2) + "," + y.toFixed(2) + " L";
+  /* Amostragem desigual: passo largo na onda inteira e passo curto
+     na faixa do morro, que é onde a curva muda depressa. Uniforme,
+     ou o morro sairia poligonal, ou a onda inteira sairia cara. */
+  function medirAmostras() {
+    const largura = (ondas.length && ondas[0].el.getBoundingClientRect().width) || window.innerWidth;
+    sig = Math.min(0.09, Math.max(0.014, BOLHA_SIG_PX / (largura || 1)));
+    const a = Math.max(0, BOLHA_X - 3.6 * sig), b = Math.min(1, BOLHA_X + 3.6 * sig);
+    const xs = [];
+    for (let i = 0; i <= 48; i++) { const x = i / 48; if (x <= a || x >= b) xs.push(x); }
+    for (let i = 0; i <= 40; i++) xs.push(a + ((b - a) * i) / 40);
+    xs.sort((p, q) => p - q);
+    amostras = xs;
+  }
+
+  /* `alt` é a altura do morro em unidades do próprio elemento, que
+     tem duas alturas de onda.
+
+     Devolve onde ficou o alto do morro, medido do pé do elemento
+     para cima. Quem carrega a seta é esse número: a onda oscila, e
+     uma seta presa a uma distância fixa acabaria fora do preto na
+     primeira rolagem forte. Presa ao topo, ela nunca sai de dentro
+     do morro. */
+  function desenharBolha(caminho, amp, desl, alt) {
+    let d = "M0,1 L", topo = 1;
+    for (const x of amostras) {
+      const a = x * 6.283185;
+      const t = (x - BOLHA_X) / sig;
+      const y = BOLHA_MEIO + desl * 0.5
+        - amp * 0.5 * Math.sin(a + fase)
+        - amp * 0.5 * 0.34 * Math.sin(a * 2 - fase * 1.4)
+        - alt * Math.exp(-0.5 * t * t);
+      if (y < topo) topo = y;
+      d += x.toFixed(4) + "," + y.toFixed(4) + " L";
     }
-    agua.setAttribute("d", d + "78,84 L-6,84 Z");
+    caminho.setAttribute("d", d + "1,1 Z");
+    return 1 - topo;
+  }
+
+  /* Um número por morro, no documento inteiro: a seta da cena mora
+     no hero, e não dentro da seção que carrega a onda dela. */
+  const raiz = document.documentElement;
+  let picoCena = -1, picoSubir = -1;
+  function anotarPico(nome, guardado, valor) {
+    const arred = Math.round(valor * 1000) / 1000;
+    if (arred !== guardado) raiz.style.setProperty(nome, String(arred));
+    return arred;
   }
 
   function medir() {
@@ -222,6 +274,7 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
       o.topo = r.top + window.scrollY;
       o.altura = r.height;
     }
+    medirAmostras();
   }
 
   function desenhar(t) {
@@ -251,37 +304,40 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     let vivo = energia > 0.002 || Math.abs(deriva) > 0.002;
 
-    if (recorte) {
-      let visivel = false;
-      for (const o of ondas) {
-        const rel = o.topo - y;
-        if (rel < -o.altura - 100 || rel > vh + 100) continue;
-        visivel = true;
-        break;
-      }
-      /* Uma altura de onda vale 1 aqui, então tanto a amplitude
-         quanto o deslocamento vão na mesma escala. */
-      if (visivel) desenharOnda(0.1 + energia * 0.1417, deriva * 0.15);
-      vivo = vivo || visivel;
+    let visivel = false;
+    for (const o of ondas) {
+      const rel = o.topo - y;
+      if (rel < -o.altura - 100 || rel > vh + 100) continue;
+      visivel = true;
+      break;
     }
 
-    /* — A água do voltar ao topo — */
-    if (agua && subir) {
+    /* Uma altura de onda vale 1 aqui, então tanto a amplitude
+       quanto o deslocamento vão na mesma escala. */
+    const amp = 0.1 + energia * 0.1417, desl = deriva * 0.15;
+    if (visivel) {
+      if (recorte) desenharOnda(amp, desl);
+      if (bolha) picoCena = anotarPico("--pico-cena", picoCena, desenharBolha(bolha, amp, desl, BOLHA_MAX));
+      vivo = true;
+    }
+
+    /* A seta de voltar ao topo e o morro que a carrega. Quem manda
+       é a posição da própria seta, não a do rodapé: assim ela sobe
+       exatamente enquanto atravessa a tela, e não antes de
+       aparecer. No chão quando o topo dela encosta na borda de
+       baixo; no alto do morro meia tela acima disso. */
+    if (subirCaminho && subir) {
       const r = subir.getBoundingClientRect();
-      /* Quem manda é a posição do próprio copo, não a do rodapé:
-         assim a água sobe exatamente enquanto ele atravessa a tela,
-         e não antes de ele aparecer. Vazio quando o topo dele
-         encosta na borda de baixo, cheio meia tela acima disso. */
       const curso = Math.min(vh * 0.6, 460) || 1;
       let p = (vh - r.top) / curso;
       p = p < 0 ? 0 : p > 1 ? 1 : p;
       const arred = Math.round(p * 200) / 200;
-      if (arred !== pEscrito) {
-        subir.style.setProperty("--subir", String(arred));
+      if (arred !== pEscrito || visivel) {
         pEscrito = arred;
+        const alt = BOLHA_MIN + (BOLHA_MAX - BOLHA_MIN) * arred;
+        picoSubir = anotarPico("--pico-subir", picoSubir, desenharBolha(subirCaminho, amp, desl, alt));
+        if (arred > 0 && arred < 1) vivo = true;
       }
-      if (p > 0) { desenharAgua(p, 2.4 + energia * 2); aguaVazia = false; vivo = true; }
-      else if (!aguaVazia) { desenharAgua(0, 2.4); aguaVazia = true; }
     }
 
     if (vivo) laco();
@@ -296,7 +352,7 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
   function ligar() {
     if (CALMO.matches) {
       /* Sem movimento, tudo fica na forma que já veio desenhada no
-         HTML — a mesma que aparece quando o script não roda. */
+         HTML: a mesma que aparece quando o script não roda. */
       window.removeEventListener("scroll", laco);
       window.removeEventListener("resize", remedir);
       return;
@@ -309,8 +365,8 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
   CALMO.addEventListener("change", ligar);
   ligar();
 
-  /* As fontes de display chegam depois e mudam a altura das seções:
-     sem remedir, as bases ficariam alguns pixels erradas. */
+  /* As fontes chegam depois e mudam a altura das seções: sem
+     remedir, as bases ficariam alguns pixels erradas. */
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(remedir);
   window.addEventListener("load", remedir);
 })();
@@ -320,7 +376,7 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
    Ao clicar num link interno: o painel cresce até cobrir a tela, a
    cortina desce por cima com a marca e a barra que carrega, e só
    então a página seguinte é pedida. Do outro lado ela continua o
-   mesmo movimento — sai por baixo, não volta por cima.
+   mesmo movimento: sai por baixo, não volta por cima.
 
    O que diz à página seguinte que ela deve entrar assim é uma
    marca no sessionStorage, lida por um script no <head> dela. Se
@@ -356,7 +412,7 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
   }
 
   /* Na captura, e não na subida: o painel do menu também escuta o
-     clique, e é este módulo que precisa marcar o link primeiro —
+     clique, e é este módulo que precisa marcar o link primeiro,
      é a marca que diz ao painel para crescer em vez de fechar. */
   document.addEventListener("click", e => {
     if (e.defaultPrevented || e.button !== 0) return;
@@ -379,8 +435,8 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     setTimeout(() => { location.href = destino; }, ESPERA);
 
-    /* Se a navegação não acontecer — pedido recusado, destino que
-       não responde —, a cortina não pode ficar cobrindo a página
+    /* Se a navegação não acontecer (pedido recusado, destino que
+       não responde), a cortina não pode ficar cobrindo a página
        para sempre. */
     setTimeout(() => {
       cortina.classList.remove("saindo");
