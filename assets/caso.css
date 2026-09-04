@@ -442,7 +442,11 @@ main > .tinta:last-child .tinta__inner {
 .secao--ficha > .abertura { grid-column: 1 / span 7; }
 .ficha-lateral {
   grid-column: 9 / -1;
-  grid-row: 1 / span 2;
+  /* Quantas faixas da esquerda a ficha acompanha. O padrão é duas, o
+     rótulo da seção e a abertura. Onde a entrada tem um parágrafo a
+     mais antes do próximo bloco largo, a página pede três, e a ficha
+     desce junto em vez de deixar um vão embaixo da abertura. */
+  grid-row: 1 / span var(--ficha-faixas, 2);
 }
 .ficha-lateral .faixa-ficha { display: block; }
 .ficha-lateral .faixa-ficha > div + div { margin-top: var(--space-24); }
@@ -950,18 +954,22 @@ main > .tinta:last-child .tinta__inner {
   letter-spacing: -0.02em;
 }
 
-/* O grito e a nota dele dividem uma linha: a frase nas sete
-   primeiras colunas, de onde ela veio nas últimas cinco,
-   alinhadas pela base. */
-.grito-par {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--calha);
-  row-gap: var(--space-24);
-  align-items: end;
+/* O grito e a nota dele descem numa coluna só, na mesma margem.
+   Lado a lado, com a nota alinhada pela base da frase, o leitor
+   tinha que adivinhar se começava pela manchete ou pela letra miúda
+   ao lado dela. E o mesmo par aparecia em duas páginas com duas
+   formas diferentes, sem que nada no conteúdo justificasse a
+   diferença. Uma forma só: a frase, e embaixo de onde ela veio. */
+.grito-par { display: block; }
+.secao > .grito-par { grid-column: 1 / span 9; }
+/* Duas linhas de manchete, não uma linha e meia atravessando a
+   página: o grito perde um pouco de corpo para caber na coluna de
+   leitura e ficar no mesmo prumo de tudo que vem depois. */
+.grito-par .grito { font-size: clamp(40px, 5.4vw, 76px); }
+.grito-par .legenda {
+  max-width: 52ch;
+  margin-top: var(--space-24);
 }
-.grito-par .grito { grid-column: 1 / span 7; }
-.grito-par .legenda { grid-column: 8 / -1; }
 
 /* A linha final da seção: rótulo na margem, texto do lado. */
 .linha-nota {
@@ -993,19 +1001,8 @@ main > .tinta:last-child .tinta__inner {
    possa escapar.
    ============================================================ */
 
-.secao--sequencia > .grito-par { grid-column: 1 / span 9; }
 .secao--sequencia > .corpo-texto,
 .secao--sequencia > .linha-nota { grid-column: 1 / span 6; }
-
-.secao--sequencia .grito-par { display: block; }
-/* Duas linhas de manchete, não uma linha e meia atravessando a
-   página: o grito perde um pouco de corpo para caber na coluna de
-   leitura e ficar no mesmo prumo de tudo que vem depois. */
-.secao--sequencia .grito { font-size: clamp(40px, 5.4vw, 76px); }
-.secao--sequencia .grito-par .legenda {
-  max-width: 52ch;
-  margin-top: var(--space-24);
-}
 
 .secao--sequencia .linha-nota { display: block; }
 .secao--sequencia .linha-nota .micro {
@@ -1329,8 +1326,14 @@ main > .tinta:last-child .tinta__inner {
 .citacao--depois { border-left-color: var(--highlighter-green); }
 .citacao__quando { display: block; margin-bottom: var(--space-16); color: var(--newsprint-gray); }
 .citacao--depois .citacao__quando { color: var(--highlighter-green); }
+/* A fala tem medida de leitura própria. Nas doze colunas do celular
+   largo ela chegava a mais de oitenta caracteres por linha, que já é
+   muito para texto corrido e é demais para uma citação em corpo
+   grande: são três linhas em que o olho tem de voltar do fim ao
+   começo sem nenhuma marca no caminho. */
 .citacao p {
   margin: 0 0 var(--space-16);
+  max-width: 60ch;
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(20px, 2.1vw, 27px);
@@ -1673,10 +1676,6 @@ main > .tinta:last-child .tinta__inner {
 
   .numero-caso { grid-column: span 6; }
 
-  .grito-par .grito { grid-column: 1 / -1; }
-  .grito-par .legenda { grid-column: 1 / span 8; }
-  .grito-par { align-items: start; }
-
   .fecho > *:first-child,
   .fecho > *:last-child { grid-column: 1 / -1; }
   .fecho { align-items: start; }
@@ -1713,7 +1712,6 @@ main > .tinta:last-child .tinta__inner {
   .numero-caso,
   .citacao,
   .galeria > li,
-  .grito-par .legenda,
   .acoes p { grid-column: 1 / -1; }
 
   .funil { grid-template-columns: minmax(0, 1fr); }
@@ -1728,7 +1726,7 @@ main > .tinta:last-child .tinta__inner {
   .ficha-lateral,
   .secao--par > .coluna-a,
   .secao--par > .coluna-b,
-  .secao--sequencia > .grito-par,
+  .secao > .grito-par,
   .secao--sequencia > .corpo-texto,
   .secao--sequencia > .linha-nota,
   .linhas--par .linha { grid-column: 1 / -1; }
