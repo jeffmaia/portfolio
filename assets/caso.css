@@ -1807,3 +1807,119 @@ main > .tinta:last-child .tinta__inner {
   }
   .rail__marco::before { position: static; margin-bottom: var(--space-12); }
 }
+
+
+/* ============================================================
+   Carrossel de tela estreita
+
+   Cinco coisas da mesma natureza, numa coluna de trezentos pixels,
+   viram cinco telas de rolagem. Quem chega na quinta já não tem a
+   primeira na cabeça, e comparar, que é a razão de as cinco estarem
+   juntas, deixa de ser possível. Deitadas, cada uma ocupa uma tela
+   inteira e a troca é o gesto que o polegar já faz.
+
+   Três lugares usam isto, e a forma é a mesma nos três: as cinco
+   fases do funil, as cinco entregas da transcrição e as cinco
+   camadas do artefato. A forma também é a do resto do site, fio
+   verde em cima e texto embaixo, sem caixa em volta: quem faz o
+   cartão parecer cartão é o corte na beirada da tela, não uma
+   moldura desenhada.
+
+   O cartão para antes da margem direita de propósito. A beirada do
+   próximo é o que conta que existe um próximo; alinhado com a
+   margem, o carrossel fica igual a um bloco só.
+   ============================================================ */
+
+@media (max-width: 719px) {
+  .funil,
+  .abas--carrossel .abas__paineis {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: var(--space-24);
+    /* A trilha sangra até a beirada da tela e devolve a margem por
+       dentro. Assim o primeiro cartão nasce na margem da página,
+       como todo o resto, e o último sai por baixo da beirada em vez
+       de parar num degrau no meio do nada. */
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    /* A barra de rolagem sai: o corte do cartão já diz que há mais
+       coisa, e uma barra horizontal dentro de uma página que rola na
+       vertical vira um segundo controle disputando o mesmo dedo. */
+    scrollbar-width: none;
+  }
+  .funil::-webkit-scrollbar,
+  .abas--carrossel .abas__paineis::-webkit-scrollbar { display: none; }
+
+  /* A largura do cartão é a que sobra depois de guardar a beirada do
+     próximo. Os trezentos pixels são o teto: numa tela grande de
+     celular o cartão para de crescer e a beirada aparece maior, o
+     que é o mesmo recado. */
+  .funil > .fase,
+  .abas--carrossel .aba-painel {
+    flex: 0 0 min(300px, 78%);
+    scroll-snap-align: start;
+  }
+
+  /* align-items: stretch dá a mesma altura aos cinco cartões, e é o
+     mesmo arranjo de reserva do desktop: o texto estica até o fim do
+     espaço livre e "quem conduz" encosta embaixo dele, então o que
+     alinha entre as fases é o pé, não o fio. Aqui isso ganha uma
+     segunda função, que no desktop não fazia falta: a trilha tem a
+     altura do cartão mais alto de uma vez por todas, e a página não
+     muda de tamanho a cada gesto do polegar. */
+  .funil > .fase { display: flex; flex-direction: column; }
+
+  /* Os painéis eram abas e viram cartões. Sem o índice, quem nomeia
+     cada um é o título dentro dele, que é o mesmo elemento que
+     aparece quando não há script. */
+  .abas--carrossel .abas__lista { display: none; }
+  .abas--carrossel .aba-painel {
+    padding-top: var(--space-16);
+    border-top: 2px solid var(--highlighter-green);
+  }
+  /* O empilhado sem script separava um painel do outro com fio e
+     respiro. Deitados, quem separa é o vão entre os cartões. */
+  .abas.abas--carrossel .aba-painel + .aba-painel,
+  .tinta .abas.abas--carrossel .aba-painel + .aba-painel {
+    margin-top: 0;
+    padding-top: var(--space-16);
+    border-top: 2px solid var(--highlighter-green);
+  }
+  /* O nome da entrega é rótulo, e o título embaixo dele é a frase.
+     Dentro do estágio ele estava herdando o corpo de letra dos
+     títulos do estágio e saía do mesmo tamanho e da mesma serifa da
+     frase, com as duas disputando quem abre o cartão. */
+  .abas--carrossel .aba-painel__nome {
+    display: block;
+    margin-bottom: var(--space-12);
+    font-family: var(--font-ui);
+    font-size: 17px;
+    font-weight: 550;
+    line-height: 1.25;
+  }
+
+  /* "Destino" nomeava a coluna da direita do painel aberto. Sem
+     colunas e sem índice ele fica sobrando logo abaixo de "saída",
+     dois rótulos empilhados sem nada entre eles, e o que ele nomeava
+     já é a frase que abre cada cartão. */
+  .abas--carrossel .entregas__cabeca { display: none; }
+  .abas--carrossel .aba-painel .aba__num {
+    display: block;
+    margin-bottom: var(--space-4);
+    color: var(--highlighter-green);
+  }
+
+  /* A trilha ganha foco de teclado no JS, então ela precisa mostrar
+     que está com o foco. O anel fica do lado de fora do sangramento,
+     onde não corta em nada. */
+  .funil:focus-visible,
+  .abas--carrossel .abas__paineis:focus-visible {
+    outline: 2px solid var(--highlighter-green);
+    outline-offset: -2px;
+  }
+}

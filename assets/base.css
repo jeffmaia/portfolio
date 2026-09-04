@@ -841,18 +841,26 @@ html.chegando .transicao__barra i { width: 100%; }
   color: var(--highlighter-green);
 }
 
-/* O alvo do dedo estava todo acima da seta: a caixa do link ia do
-   rótulo até a ponta de baixo do traço e parava ali, então um toque
-   um centímetro abaixo da seta caía fora do link, que é justamente
-   onde o dedo vai. O alvo passa a nascer centrado na seta, 56 por
-   56, sem aparecer no desenho. */
-.subir::after {
+/* O alvo do dedo é a região, não a letra e o traço dentro dela. O
+   rótulo tem a largura da frase, a seta tem dezesseis pixels, e
+   entre os dois havia um vão de meia onda que não pertencia a
+   ninguém: um toque no meio, que é onde o olho mira, caía fora do
+   link. Agora o alvo começa acima do rótulo, desce uma altura de
+   seta abaixo da ponta e sobra quase cem pixels para cada lado, com
+   duzentos e quarenta de piso para a seta sozinha nunca ficar mais
+   estreita que um dedo.
+
+   Embaixo ele entra um pouco no preto da onda, que é onde o dedo
+   sobra quando mira a seta. Não há nada clicável ali: o pé do rodapé
+   começa bem abaixo. Nada disso aparece no desenho. */
+.subir::after,
+.descer::after {
   content: "";
   position: absolute;
   left: 50%;
-  bottom: calc((var(--seta-h) - max(56px, var(--seta-h))) / 2);
-  width: 56px;
-  height: max(56px, var(--seta-h));
+  top: calc(var(--space-16) * -1);
+  bottom: calc(var(--seta-h) * -1);
+  width: max(calc(100% + 96px), 240px);
   transform: translateX(-50%);
 }
 @media (hover: hover) and (pointer: fine) {
