@@ -125,9 +125,10 @@
     <div class="onda onda--clara" aria-hidden="true"></div>
     <div class="wrap folha__inner">
 
-      <!-- 01. O parágrafo de abertura entra deslocado do eixo e a
-           ficha corre embaixo, em faixa, como crédito de matéria. -->
-      <section class="secao" id="contexto" aria-labelledby="t-contexto">
+      <!-- 01. O parágrafo de abertura abre na margem e a ficha corre
+           ao lado dele, na coluna da direita, começando na mesma
+           linha do rótulo da seção. -->
+      <section class="secao secao--ficha" id="contexto" aria-labelledby="t-contexto">
         <div class="secao__topo" data-revelar>
           <div class="secao__head">
             <span class="micro" id="t-contexto">01 · Contexto</span>
@@ -139,7 +140,7 @@
           <p>A Omni vende agentes conversacionais para varejo. Configurar esses agentes exige muita tentativa até a conversa ficar boa em&nbsp;produção, e o nosso processo não acompanhava esse&nbsp;ritmo.</p>
         </div>
 
-        <div class="bloco" data-revelar data-revelar-atraso="1">
+        <div class="bloco ficha-lateral" data-revelar data-revelar-atraso="1">
           <span class="micro rotulo">Ficha do projeto</span>
           <dl class="faixa-ficha">
             <div><dt class="micro">Duração</dt><dd>1 mês para validar o novo desenho, que segue evoluindo</dd></div>
@@ -149,7 +150,8 @@
         </div>
       </section>
 
-      <!-- 02. Duas linhas indexadas, não dois cartões iguais. -->
+      <!-- 02. Os dois problemas são simultâneos, não uma sequência:
+           correm lado a lado, uma coluna cada. -->
       <section class="secao" aria-labelledby="t-problema">
         <div class="secao__topo" data-revelar>
           <div class="secao__head">
@@ -158,7 +160,7 @@
           </div>
         </div>
 
-        <div class="linhas">
+        <div class="linhas linhas--par">
           <div class="linha" data-revelar>
             <span class="micro linha__num">01</span>
             <h2 class="linha__titulo">O&nbsp;trabalho vivia em&nbsp;reunião</h2>
@@ -199,44 +201,43 @@
 
           <div class="estagio estagio--saida">
             <span class="micro">saída</span>
-            <ul class="entregas">
-              <li class="entrega">
-                <h3 class="entrega__nome">Visão de produto</h3>
-                <div class="entrega__destino">
-                  <span class="micro entregas__cabeca">destino</span>
-                  <span class="entrega__titulo">Vira direção antes de virar backlog</span>
+            <div class="abas" data-abas>
+              <div class="abas__lista" role="tablist" aria-label="Saídas da camada">
+                <button class="aba" type="button" role="tab" id="aba-visao" aria-controls="painel-visao">Visão de produto</button>
+                <button class="aba" type="button" role="tab" id="aba-prd" aria-controls="painel-prd">PRD</button>
+                <button class="aba" type="button" role="tab" id="aba-us" aria-controls="painel-us">User stories (US)</button>
+                <button class="aba" type="button" role="tab" id="aba-usabilidade" aria-controls="painel-usabilidade">Relatório de usabilidade</button>
+                <button class="aba" type="button" role="tab" id="aba-prototipo" aria-controls="painel-prototipo">Protótipo</button>
+              </div>
+              <span class="micro entregas__cabeca">destino</span>
+              <div class="abas__paineis">
+                <div class="aba-painel" role="tabpanel" id="painel-visao" aria-labelledby="aba-visao" tabindex="0">
+                  <h3 class="aba-painel__nome">Visão de produto</h3>
+                  <span class="aba-painel__titulo">Vira direção antes de virar backlog</span>
                   <p>A habilidade lê a transcrição do ritual e devolve o rascunho da visão. O time revisa e ajusta, em vez de escrever do zero depois da conversa.</p>
                 </div>
-              </li>
-              <li class="entrega">
-                <h3 class="entrega__nome">PRD</h3>
-                <div class="entrega__destino">
-                  <span class="entrega__titulo">Chega pronto para discussão, não para redação</span>
+                <div class="aba-painel" role="tabpanel" id="painel-prd" aria-labelledby="aba-prd" tabindex="0">
+                  <h3 class="aba-painel__nome">PRD</h3>
+                  <span class="aba-painel__titulo">Chega pronto para discussão, não para redação</span>
                   <p>Com o PRD já rascunhado, a Planning deixou de ser um rito semanal. Acontece sob demanda, e a maior parte dela é assíncrona.</p>
                 </div>
-              </li>
-              <li class="entrega">
-                <h3 class="entrega__nome">User stories (US)</h3>
-                <div class="entrega__destino">
-                  <span class="entrega__titulo">Entram no Kanban já documentadas</span>
+                <div class="aba-painel" role="tabpanel" id="painel-us" aria-labelledby="aba-us" tabindex="0">
+                  <h3 class="aba-painel__nome">User stories (US)</h3>
+                  <span class="aba-painel__titulo">Entram no Kanban já documentadas</span>
                   <p>O refinamento virou tirar dúvida sobre o que já está escrito na story e desenhado no protótipo. Foi o que derrubou o ritual de quatro horas para quarenta minutos.</p>
                 </div>
-              </li>
-              <li class="entrega">
-                <h3 class="entrega__nome">Relatório de usabilidade</h3>
-                <div class="entrega__destino">
-                  <span class="entrega__titulo">Análise no lugar de rodada de teste</span>
+                <div class="aba-painel" role="tabpanel" id="painel-usabilidade" aria-labelledby="aba-usabilidade" tabindex="0">
+                  <h3 class="aba-painel__nome">Relatório de usabilidade</h3>
+                  <span class="aba-painel__titulo">Análise no lugar de rodada de teste</span>
                   <p>O Claude aponta problema de fluxo com consistência, usando heurística de Norman e Nielsen mais o que a gente já sabe do público da Omni.</p>
                 </div>
-              </li>
-              <li class="entrega">
-                <h3 class="entrega__nome">Protótipo</h3>
-                <div class="entrega__destino">
-                  <span class="entrega__titulo">Nasce desenvolvido e segue direto para a&nbsp;engenharia</span>
+                <div class="aba-painel" role="tabpanel" id="painel-prototipo" aria-labelledby="aba-prototipo" tabindex="0">
+                  <h3 class="aba-painel__nome">Protótipo</h3>
+                  <span class="aba-painel__titulo">Nasce desenvolvido e segue direto para a&nbsp;engenharia</span>
                   <p>O protótipo sai do Claude Design e vai para o Claude Code, de onde a engenharia assume. Design usa o Claude Code para manter a biblioteca fiel à do código, que é a referência principal.</p>
                 </div>
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -256,9 +257,10 @@
     <div class="onda onda--escura" aria-hidden="true"></div>
     <div class="wrap tinta__inner">
 
-      <!-- 04. Os três ritos sem moldura, separados pelo traço
-           verde curto. A usabilidade entra em degrau, deslocada. -->
-      <section class="secao" aria-labelledby="t-rituais">
+      <!-- 04. Duas colunas: os três ritos descem em fila de um lado,
+           a usabilidade corre do outro. Os dois assuntos não dependem
+           um do outro, então não fazem fila. -->
+      <section class="secao secao--par" aria-labelledby="t-rituais">
         <div class="secao__topo" data-revelar>
           <div class="secao__head">
             <span class="micro">04 · Rituais</span>
@@ -266,9 +268,9 @@
           </div>
           <h2 class="secao__titulo" id="t-rituais">Saímos de&nbsp;Scrum para&nbsp;Kanban</h2>
         </div>
-        <p class="corpo-texto" data-revelar data-revelar-atraso="1">Com o rascunho já pronto antes do encontro, o que sobrou para a agenda foi dúvida, não&nbsp;redação.</p>
+        <p class="corpo-texto" data-revelar data-revelar-atraso="1">Com o rascunho já pronto antes do encontro, o que sobrou para a agenda foi&nbsp;dúvida, não&nbsp;redação.</p>
 
-        <div class="ritos" data-revelar>
+        <div class="ritos coluna-a" data-revelar>
           <div class="rito">
             <span class="rito__nome">Planning</span>
             <span class="rito__desc">Virou assíncrona e sob&nbsp;demanda, não&nbsp;mais um rito&nbsp;semanal.</span>
@@ -283,7 +285,7 @@
           </div>
         </div>
 
-        <div class="recuado" data-revelar>
+        <div class="bloco coluna-b" data-revelar>
           <span class="micro rotulo">Usabilidade</span>
           <p class="corpo-texto">Reduzimos bastante teste de usabilidade, porque o Claude passou a apontar problema de fluxo com consistência, usando heurística de Norman e Nielsen mais o que a gente já sabe do&nbsp;nosso público.</p>
 
@@ -295,9 +297,11 @@
         </div>
       </section>
 
-      <!-- 05. A pergunta do time ocupa a página inteira. É a única
-           frase do caso que ganha corpo de manchete. -->
-      <section class="secao" aria-labelledby="t-lideranca">
+      <!-- 05. A seção que só existe pela ordem: a pergunta, de onde
+           ela veio, o que eu respondi e o que destravou. Tudo na
+           mesma margem, numa coluna só, sem nada correndo ao lado
+           para o olho escapar no meio do caminho. -->
+      <section class="secao secao--sequencia" aria-labelledby="t-lideranca">
         <div class="secao__topo" data-revelar>
           <div class="secao__head">
             <span class="micro">05 · Liderança</span>
@@ -311,7 +315,7 @@
           <p class="legenda">A pergunta que o time fez quando ficou claro que o rascunho do documento e da primeira tela sairia automático.</p>
         </div>
 
-        <div class="corpo-texto colunas" data-revelar>
+        <div class="corpo-texto" data-revelar>
           <p>Eu respondi com produtividade, mostrando o tempo que aquilo liberava na semana, e foi a resposta errada. Ninguém se acalma ouvindo que vai produzir mais rápido quando a dúvida é se ainda precisa existir.</p>
           <p>Por algumas semanas o time usou as skills no mínimo, entregando o suficiente e sem melhorar nada.</p>
         </div>
@@ -475,7 +479,7 @@
           <h2 class="secao__titulo" id="t-resultado">Sobrou tempo justamente onde o&nbsp;produto precisa de&nbsp;experimentação</h2>
         </div>
 
-        <div class="corpo-texto colunas" data-revelar>
+        <div class="corpo-texto" data-revelar>
           <p>E muito mais experimento rodando, que é o que decide a qualidade da conversa em produção.</p>
           <p>Design segue revisando tudo que vira PR.</p>
         </div>
@@ -531,11 +535,11 @@
           </div>
           <div class="numero-caso">
             <span class="numero-caso__valor">30–40 min</span>
-            <p class="numero-caso__label">de refinamento por semana, no&nbsp;lugar de 4 a 5 horas</p>
+            <p class="numero-caso__label">de refinamento por semana, no&nbsp;lugar de&nbsp;4&nbsp;a&nbsp;5&nbsp;horas</p>
           </div>
           <div class="numero-caso">
             <span class="numero-caso__valor">Kanban</span>
-            <p class="numero-caso__label">no lugar do Scrum, com Planning só quando&nbsp;necessário</p>
+            <p class="numero-caso__label">no lugar do&nbsp;Scrum, com&nbsp;Planning só&nbsp;quando&nbsp;necessário</p>
           </div>
           <div class="numero-caso">
             <span class="numero-caso__valor">100%</span>
@@ -543,23 +547,17 @@
           </div>
         </div>
 
-        <div class="fecho" data-revelar>
+        <div class="fecho fecho--unido" data-revelar>
           <div>
             <span class="micro rotulo">O que eu levo daqui</span>
-            <p class="declaracao">O trabalho de design não é mais desenhar a&nbsp;tela primeiro.</p>
-          </div>
-          <div class="corpo-texto">
-            <p>É decidir, entre tantas coisas que a IA já gera sozinha, onde a atenção humana ainda faz&nbsp;diferença.</p>
+            <p class="declaracao">O trabalho de design não é mais desenhar a&nbsp;tela primeiro. É decidir, entre tantas coisas que a IA já gera sozinha, onde a atenção humana ainda faz&nbsp;diferença.</p>
           </div>
         </div>
 
         <div class="acoes" data-revelar>
-          <p>Esse desenho segue em construção na Omni. Se quiser entender como aplicar algo parecido no seu time, me&nbsp;chama no WhatsApp ou veja o próximo caso.</p>
+          <p>Esse desenho segue em construção na Omni. Se quiser entender como aplicar algo parecido no seu time, <a class="link" href="https://wa.me/5511977346175" target="_blank" rel="noopener">me&nbsp;chama no&nbsp;WhatsApp</a> ou veja o próximo caso.</p>
           <div class="acoes__ir">
             <a class="proximo-link" href="case-omnichat.html">Próximo caso <i aria-hidden="true">→</i></a>
-            <a class="btn-green" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
-            </a>
           </div>
         </div>
       </section>

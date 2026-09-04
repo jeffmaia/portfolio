@@ -132,6 +132,15 @@
   padding-block: var(--section-gap) calc(var(--space-48) + var(--onda-h));
 }
 
+/* A seta de voltar ao topo mora no rodapé, mas sobe para dentro da
+   última seção da página. Quem vem logo antes do rodapé abre o chão
+   que ela ocupa, senão ela cai em cima do texto. É a mesma conta que
+   o fecho da Home já faz. */
+main > .folha:last-child .folha__inner,
+main > .tinta:last-child .tinta__inner {
+  padding-bottom: calc(var(--space-48) + var(--onda-bolha-h) * 2);
+}
+
 /* ============================================================
    A grade
 
@@ -188,13 +197,18 @@
    para quanto passou a ser.
    ============================================================ */
 
+/* A barra é fixa e o corpo abre o vão dela lá em base.css. Num caso
+   o topo é escuro, e esse vão claro deixava uma tira de papel na
+   altura da barra, com a marca clara em cima dela. O topo sobe para
+   debaixo da barra e devolve a altura dela como respiro de dentro. */
+.caso-topo { margin-top: calc(var(--nav-h) * -1); }
 .caso-topo__inner {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: var(--calha);
   row-gap: var(--space-32);
   align-content: start;
-  padding-block: var(--space-32) calc(var(--space-64) + var(--onda-h));
+  padding-block: calc(var(--nav-h) + var(--space-32)) calc(var(--space-64) + var(--onda-h));
 }
 .caso-topo__inner > * { grid-column: 1 / -1; }
 
@@ -269,15 +283,18 @@
 /* O salto: o número velho riscado em verde, o novo em corpo grande
    logo abaixo. */
 .salto { grid-column: 8 / -1; }
+/* O número riscado é a metade de cima do salto: se ele não se lê, o
+   número grande embaixo perde a comparação e vira só um número. Por
+   isso ele sai do corpo miúdo e sobe para perto do corpo de texto. */
 .salto__de {
   display: block;
-  margin-bottom: var(--space-8);
-  font-size: var(--text-body-sm);
+  margin-bottom: var(--space-12);
+  font-size: clamp(18px, 1.7vw, 24px);
   font-weight: 400;
   color: var(--muted-sage);
   text-decoration: line-through;
   text-decoration-color: var(--highlighter-green);
-  text-decoration-thickness: 2px;
+  text-decoration-thickness: 3px;
 }
 .salto__para {
   display: block;
@@ -342,8 +359,7 @@
    o ritmo vertical é a linha da grade, e uma margem de navegador
    somada a ela seria um respiro que não veio da régua. */
 .secao > p,
-.bloco > p,
-.recuado > p { margin: 0; }
+.bloco > p { margin: 0; }
 /* Um link que fecha um bloco abre um degrau a mais que o respiro
    de dentro dele: ele é ação, não continuação do texto. */
 .bloco > .link-solto { margin-top: var(--space-16); }
@@ -368,16 +384,17 @@
 /* ============================================================
    Abertura
 
-   O parágrafo de entrada da seção começa na quarta coluna. O
-   deslocamento não é decorativo: ele deixa o rótulo da seção
-   sozinho na margem e diz, sem escrever, que ali começa a leitura.
+   O parágrafo de entrada da seção, em corpo grande, na margem
+   esquerda e no mesmo prumo do rótulo que abre a seção.
    ============================================================ */
 
-/* Sete colunas a partir da quarta: a linha de leitura de um corpo
+/* Sete colunas a partir da primeira: a linha de leitura de um corpo
    grande fica em pouco mais de sessenta caracteres, e a margem que
    sobra à direita é o que mantém o parágrafo com cara de entrada e
-   não de bloco de texto. */
-.abertura { grid-column: 4 / span 7; }
+   não de bloco de texto. Ele começa na margem, no mesmo prumo do
+   rótulo da seção: um recuo aqui só faria a leitura procurar onde
+   começa. */
+.abertura { grid-column: 1 / span 7; }
 .abertura p {
   margin: 0;
   font-family: var(--font-display);
@@ -387,32 +404,48 @@
   letter-spacing: -0.01em;
 }
 
-/* Um bloco que entra deslocado do eixo, para a leitura descer em
-   degrau. Duas colunas de recuo, não uma margem inventada.
+/* ============================================================
+   Duas colunas de leitura dentro de uma seção
 
-   Ele ocupa dez colunas e redesenha essas dez por dentro, então o
-   que está aqui continua caindo nas colunas da página: a coluna 1
-   daqui é a coluna 3 de lá. */
-.recuado {
-  grid-column: 3 / -1;
-  display: grid;
-  grid-template-columns: repeat(10, minmax(0, 1fr));
-  column-gap: var(--calha);
-  row-gap: var(--space-16);
-  align-content: start;
-}
-.recuado > * { grid-column: 1 / -1; }
-.recuado > .corpo-texto { grid-column: 1 / span 6; max-width: none; }
-/* O atrito abre um grupo novo dentro do bloco, então ganha o
+   Quando dois assuntos da mesma seção não dependem um do outro, eles
+   correm lado a lado em vez de virar uma fila. Cada coluna tem a
+   própria sequência de cima para baixo, e o olho escolhe por onde
+   começar sem perder nenhuma das duas.
+   ============================================================ */
+
+.secao--par > .coluna-a { grid-column: 1 / span 5; }
+.secao--par > .coluna-b { grid-column: 7 / -1; }
+/* Dentro de uma coluna nada corre lado a lado: o que estava em
+   fileira desce em fila. */
+.secao--par > .coluna-a > * { grid-column: 1 / -1; }
+/* A coluna tem pouco mais de meia página, e a medida de leitura dela
+   sai daí, não do que caberia na página inteira. */
+.coluna-b .corpo-texto { max-width: 52ch; }
+.coluna-b .atrito p { max-width: 50ch; }
+/* O atrito abre um grupo novo dentro da coluna, então ganha o
    respiro de fora, não o de dentro. */
-.recuado > .atrito { margin-top: var(--space-32); }
+.coluna-b > .atrito { margin-top: var(--space-32); }
 
 /* ============================================================
    Ficha do projeto
 
    Três campos, quatro colunas cada. Corre embaixo da abertura, em
    faixa, como o crédito de uma matéria.
+
+   Na abertura do caso ela sai da faixa e vira coluna: os três campos
+   empilhados na margem direita, começando na mesma linha do rótulo
+   da seção. Assim a ficha se lê de uma vez, e o texto de entrada
+   fica com a página inteira à esquerda dele.
    ============================================================ */
+
+.secao--ficha > .secao__topo,
+.secao--ficha > .abertura { grid-column: 1 / span 7; }
+.ficha-lateral {
+  grid-column: 9 / -1;
+  grid-row: 1 / span 2;
+}
+.ficha-lateral .faixa-ficha { display: block; }
+.ficha-lateral .faixa-ficha > div + div { margin-top: var(--space-24); }
 
 .faixa-ficha {
   display: grid;
@@ -447,6 +480,34 @@
 
 .linhas { border-top: 1px solid rgba(18, 22, 19, .22); }
 .tinta .linhas { border-top-color: var(--slate-verdant); }
+
+/* Quando são só dois itens, empilhar um debaixo do outro faz parecer
+   que o segundo vem depois do primeiro. Eles são simultâneos, então
+   correm lado a lado, seis colunas cada, cada um abrindo no próprio
+   fio verde. */
+.linhas--par {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-32);
+  border-top: 0;
+}
+.linhas--par .linha {
+  grid-column: span 6;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  row-gap: var(--space-16);
+  padding: var(--space-16) 0 0;
+  border-top: 2px solid var(--highlighter-green);
+  border-bottom: 0;
+  align-items: start;
+  align-content: start;
+}
+.linhas--par .linha__num,
+.linhas--par .linha__titulo { grid-column: 1 / -1; }
+/* Cinco das seis colunas do bloco: na sexta a linha de texto passava
+   de oitenta caracteres, e nessa largura o olho perde o começo da
+   linha seguinte. */
+.linhas--par .linha > p { grid-column: 1 / span 5; }
 
 .linha {
   display: grid;
@@ -588,6 +649,119 @@
 .entregas__cabeca { display: block; margin-bottom: var(--space-8); color: var(--newsprint-gray); }
 
 /* ============================================================
+   Abas
+
+   Cinco saídas da mesma camada. Empilhadas, elas viravam uma lista
+   de cinco itens quase iguais, lida na diagonal e esquecida. Em
+   abas, os cinco nomes ficam à vista de uma vez, na horizontal, e
+   quem escolhe o que ler é o leitor.
+
+   Sem script nenhum painel se esconde: as cinco saídas aparecem
+   uma debaixo da outra, com o nome de cada uma em cima do texto
+   dela. É o mesmo conteúdo, sem a escolha.
+   ============================================================ */
+
+/* As abas caem nas mesmas dez colunas que a lista ocupava: da
+   terceira em diante, que é onde o título dos outros estágios
+   começa. */
+.estagio--saida > .abas { grid-column: 3 / -1; }
+.abas {
+  display: grid;
+  row-gap: var(--space-24);
+}
+.abas__lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8) var(--space-32);
+  padding-bottom: var(--space-16);
+  border-bottom: 1px solid rgba(18, 22, 19, .22);
+}
+.aba {
+  appearance: none;
+  padding: 0 0 var(--space-8);
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--newsprint-gray);
+  font-family: var(--font-ui);
+  font-size: 17px;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+  text-align: left;
+  cursor: pointer;
+  transition: color .25s, border-color .25s;
+}
+.aba[aria-selected="true"] {
+  color: var(--press-black);
+  border-bottom-color: var(--highlighter-green);
+}
+@media (hover: hover) and (pointer: fine) {
+  .aba:hover { color: var(--press-black); }
+}
+
+/* Sem script a lista de nomes não tem função: quem nomeia cada
+   saída é o título dentro do painel. */
+.abas:not(.abas--js) .abas__lista { display: none; }
+.abas:not(.abas--js) .aba-painel + .aba-painel {
+  margin-top: var(--space-32);
+  padding-top: var(--space-32);
+  border-top: 1px solid rgba(18, 22, 19, .22);
+}
+
+/* Com script os cinco painéis dividem a mesma célula, então a altura
+   do bloco é a do maior deles e a página não pula de tamanho a cada
+   troca de aba. Quem está fora de cena sai da árvore de acessibilidade
+   pela visibilidade, não pelo display: se saísse pelo display, a
+   célula encolheria e o pulo voltaria. */
+.abas--js .abas__paineis { display: grid; }
+.abas--js .aba-painel { grid-area: 1 / 1; }
+.abas--js .aba-painel[hidden] {
+  display: block;
+  visibility: hidden;
+  pointer-events: none;
+}
+.aba-painel__nome {
+  display: block;
+  margin: 0;
+  font-size: 17px;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+}
+.abas--js .aba-painel__nome { display: none; }
+/* Dentro do painel, o mesmo arranjo que a lista tinha: o destino nas
+   quatro primeiras colunas das dez, o texto nas seis seguintes. Em
+   uma coluna só, o painel ficava com metade da largura vazia à
+   direita e o dobro de altura reservada para o maior deles. */
+.aba-painel {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-12);
+  align-content: start;
+}
+.aba-painel__nome { grid-column: 1 / -1; }
+.aba-painel__titulo { grid-column: 1 / span 4; }
+.aba-painel p { grid-column: 5 / span 6; }
+
+.aba-painel__titulo {
+  display: block;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(24px, 2.8vw, 36px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.aba-painel p {
+  margin: 0;
+  max-width: 52ch;
+  font-size: var(--text-body);
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--newsprint-gray);
+}
+
+/* ============================================================
    Atrito
 
    Onde a coisa deu errado. Bloco escuro dentro do papel: é o que
@@ -604,7 +778,7 @@
   color: var(--bone-white);
 }
 .secao > .atrito { grid-column: 1 / span 5; }
-.recuado > .atrito { grid-column: 1 / span 5; }
+.coluna-b > .atrito { grid-column: 1 / -1; }
 /* Já estando no escuro, o bloco não precisa de fundo: o traço
    verde e o recuo bastam. */
 .tinta .atrito { padding: 0 0 0 var(--space-24); background: none; border-radius: 0; }
@@ -713,17 +887,53 @@
 .folha .linha-nota p { font-weight: 300; }
 
 /* ============================================================
+   Sequência: uma seção que só se lê de cima para baixo
+
+   Há seção em que a ordem é o conteúdo. Se a frase grande está de um
+   lado, de onde ela veio está do outro e a resposta volta para o
+   primeiro, o leitor tem que adivinhar por onde continuar, e o corpo
+   de letra mudando a cada bloco não ajuda a decidir.
+
+   Aqui tudo assenta na mesma margem esquerda e desce numa coluna só,
+   em corpo que vai diminuindo: a pergunta, de onde ela veio, o que eu
+   respondi, o que destravou. Não há segunda coluna para onde o olho
+   possa escapar.
+   ============================================================ */
+
+.secao--sequencia > .grito-par { grid-column: 1 / span 9; }
+.secao--sequencia > .corpo-texto,
+.secao--sequencia > .linha-nota { grid-column: 1 / span 6; }
+
+.secao--sequencia .grito-par { display: block; }
+/* Duas linhas de manchete, não uma linha e meia atravessando a
+   página: o grito perde um pouco de corpo para caber na coluna de
+   leitura e ficar no mesmo prumo de tudo que vem depois. */
+.secao--sequencia .grito { font-size: clamp(40px, 5.4vw, 76px); }
+.secao--sequencia .grito-par .legenda {
+  max-width: 52ch;
+  margin-top: var(--space-24);
+}
+
+.secao--sequencia .linha-nota { display: block; }
+.secao--sequencia .linha-nota .micro {
+  display: block;
+  margin-bottom: var(--space-16);
+}
+.secao--sequencia .linha-nota p { max-width: 62ch; }
+
+/* ============================================================
    Funil
 
-   Cinco fases que estreitam da esquerda para a direita: 3, 3, 2, 2
-   e 2 colunas. A forma do funil é a própria grade, não um desenho
-   por cima dela, e mesmo estreitando as cinco continuam presas às
-   mesmas doze colunas do resto da página.
+   Cinco fases, cinco colunas de mesma largura. Colunas que estreitam
+   desenhavam a forma do funil e cobravam por isso: a última fase
+   ficava com metade da linha da primeira, e o mesmo parágrafo passava
+   a custar o dobro de linhas para ser lido. Comparar cinco coisas
+   pede cinco lugares iguais.
    ============================================================ */
 
 .funil {
   display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   column-gap: var(--calha);
   row-gap: var(--space-32);
   margin: 0;
@@ -736,11 +946,6 @@
   padding-top: var(--space-16);
   border-top: 2px solid var(--highlighter-green);
 }
-.fase:nth-child(1),
-.fase:nth-child(2) { grid-column: span 3; }
-.fase:nth-child(3),
-.fase:nth-child(4),
-.fase:nth-child(5) { grid-column: span 2; }
 .fase__num { display: block; margin-bottom: var(--space-16); color: var(--newsprint-gray); }
 .fase__nome {
   display: block;
@@ -753,11 +958,33 @@
 }
 .fase p { margin: 0; font-size: var(--text-body-sm); font-weight: 350; line-height: 1.55; color: var(--newsprint-gray); }
 /* O texto estica até o fim do espaço livre e o rodapé encosta
-   embaixo dele: assim o fio de "quem conduz" cai na mesma altura
-   nas cinco colunas, mesmo com textos de tamanhos diferentes. */
+   embaixo dele. Isso alinha o pé das cinco colunas, e não o fio de
+   "quem conduz": onde o texto de baixo tem três linhas em vez de
+   uma, o fio sobe. É o arranjo de reserva. */
 .fase > p { flex: 1; margin-bottom: var(--space-24); }
 .fase__quem { margin-top: auto; padding-top: var(--space-16); border-top: 1px solid rgba(18, 22, 19, .18); }
 .fase__quem .micro { display: block; margin-bottom: var(--space-8); color: var(--newsprint-gray); }
+
+/* Onde o subgrid existe, as cinco fases assinam as mesmas quatro
+   faixas da lista: número, nome, texto e quem conduz. O fio de "quem
+   conduz" passa a cair na mesma altura nas cinco, com texto de
+   qualquer tamanho dos dois lados dele, porque quem decide a altura
+   da faixa é a lista inteira e não cada fase por si. */
+@supports (grid-template-rows: subgrid) {
+  .funil {
+    grid-auto-rows: auto auto 1fr auto;
+    row-gap: var(--space-16);
+  }
+  .fase {
+    display: grid;
+    grid-row: span 4;
+    grid-template-rows: subgrid;
+  }
+  .fase__num,
+  .fase__nome { margin-bottom: 0; }
+  .fase > p { flex: none; margin-bottom: 0; }
+  .fase__quem { margin-top: 0; }
+}
 
 /* ============================================================
    Rail: a trilha do componente
@@ -815,7 +1042,10 @@
   border-bottom: 1px solid rgba(18, 22, 19, .22);
   align-items: baseline;
 }
-.confronto__cabeca { padding: 0 0 var(--space-16); border-bottom: 0; }
+/* As três etiquetas nascem logo abaixo do fio que abre a tabela, e
+   sem respiro elas encostam nele. O respiro de cima é o que faz o
+   fio ler como abertura da tabela e não como sublinhado do título. */
+.confronto__cabeca { padding: var(--space-16) 0 var(--space-24); border-bottom: 0; }
 .confronto__cabeca .micro { color: var(--newsprint-gray); }
 .confronto__cabeca .micro:nth-child(1) { grid-column: 1 / span 3; }
 .confronto__cabeca .micro:nth-child(2) { grid-column: 4 / span 4; }
@@ -932,6 +1162,12 @@
 }
 .fecho > *:first-child { grid-column: 1 / span 5; }
 .fecho > *:last-child { grid-column: 7 / -1; }
+/* Quando o que fecha o caso é uma frase só, ela não se parte em duas
+   colunas: partir aqui obrigava a ler metade de um lado e a outra
+   metade do outro, sem nada explicar por quê. */
+.fecho--unido { align-items: start; }
+.fecho--unido > *:first-child,
+.fecho--unido > *:last-child { grid-column: 1 / span 8; }
 .fecho .rotulo { margin-bottom: var(--space-16); }
 .fecho .corpo-texto { max-width: none; }
 
@@ -1236,15 +1472,22 @@
 
   .secao__titulo,
   .secao__titulo--sm { grid-column: 1 / -1; }
-  .secao > .corpo-texto,
-  .recuado > .corpo-texto { grid-column: 1 / span 8; }
+  .secao > .corpo-texto { grid-column: 1 / span 8; }
   .secao > .legenda,
   .secao__topo > .legenda { grid-column: 1 / span 8; }
 
-  .abertura { grid-column: 3 / -1; }
-  .recuado { grid-column: 2 / -1; grid-template-columns: repeat(11, minmax(0, 1fr)); }
-  .secao > .atrito,
-  .recuado > .atrito { grid-column: 1 / span 8; }
+  .abertura { grid-column: 1 / span 9; }
+  .secao--ficha > .secao__topo,
+  .secao--ficha > .abertura { grid-column: 1 / span 8; }
+  .ficha-lateral { grid-column: 10 / -1; }
+  .secao > .atrito { grid-column: 1 / span 8; }
+
+  .secao--par > .coluna-a { grid-column: 1 / span 5; }
+  .secao--par > .coluna-b { grid-column: 7 / -1; }
+
+  .secao--sequencia > .grito-par { grid-column: 1 / -1; }
+  .secao--sequencia > .corpo-texto,
+  .secao--sequencia > .linha-nota { grid-column: 1 / span 9; }
 
   .linha__titulo { grid-column: 2 / span 5; }
   .linha > p,
@@ -1254,14 +1497,33 @@
   .estagio > p { grid-column: 8 / -1; }
 
   .faixa-ficha > div,
-  .rito,
-  .rail__marco { grid-column: span 6; }
+  .rito { grid-column: span 6; }
+  /* A trilha continua sendo uma trilha: os três marcos ficam na
+     mesma fileira. Quebrada em duas, o fio que os liga só cobre a
+     primeira, e o terceiro fica com um ponto verde solto no meio
+     do nada. */
+  .rail__marco { grid-column: span 4; }
 
-  .fase:nth-child(1),
-  .fase:nth-child(2),
-  .fase:nth-child(3),
-  .fase:nth-child(4),
-  .fase:nth-child(5) { grid-column: span 4; }
+  /* Cinco colunas não cabem aqui sem virar cinco tiras de duas
+     palavras por linha. Duas por fileira, e o pé de cada fase volta
+     a se alinhar por dentro dela. */
+  .funil {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    row-gap: var(--space-32);
+  }
+  .fase {
+    display: flex;
+    flex-direction: column;
+    grid-row: auto;
+    grid-template-rows: none;
+  }
+  .fase__num,
+  .fase__nome { margin-bottom: var(--space-16); }
+  .fase > p { flex: 1; margin-bottom: var(--space-24); }
+  .fase__quem { margin-top: auto; }
+
+  .linhas--par .linha { grid-column: span 6; }
 
   .numero-caso { grid-column: span 6; }
 
@@ -1272,6 +1534,10 @@
   .fecho > *:first-child,
   .fecho > *:last-child { grid-column: 1 / -1; }
   .fecho { align-items: start; }
+  /* Empilhado, o texto do fecho ocupa as doze colunas, e nessa
+     largura a linha passa dos noventa caracteres. A medida volta a
+     ser a do texto, não a da grade. */
+  .fecho .corpo-texto { max-width: 52ch; }
 
   .acoes p { grid-column: 1 / span 8; }
   .acoes__ir { grid-column: 1 / -1; }
@@ -1295,8 +1561,6 @@
   .secao > .legenda,
   .secao__topo > .legenda,
   .abertura,
-  .recuado,
-  .recuado > .corpo-texto,
   .faixa-ficha > div,
   .rito,
   .rail__marco,
@@ -1307,11 +1571,26 @@
   .grito-par .legenda,
   .acoes p { grid-column: 1 / -1; }
 
-  .fase:nth-child(1),
-  .fase:nth-child(2),
-  .fase:nth-child(3),
-  .fase:nth-child(4),
-  .fase:nth-child(5) { grid-column: 1 / -1; }
+  .funil { grid-template-columns: minmax(0, 1fr); }
+
+  /* Empilhado, o bloco de atrito não tem motivo para parar antes da
+     margem: a coluna estreita já é a medida de leitura, e o corte em
+     oito colunas só deixava o texto caindo em três palavras por
+     linha dentro de uma caixa com espaço de sobra ao lado. */
+  .secao > .atrito,
+  .secao--ficha > .secao__topo,
+  .secao--ficha > .abertura,
+  .ficha-lateral,
+  .secao--par > .coluna-a,
+  .secao--par > .coluna-b,
+  .secao--sequencia > .grito-par,
+  .secao--sequencia > .corpo-texto,
+  .secao--sequencia > .linha-nota,
+  .linhas--par .linha { grid-column: 1 / -1; }
+
+  /* A ficha já está empilhada; na coluna única ela volta a ser um
+     bloco atrás do outro, e não uma faixa presa à linha do topo. */
+  .ficha-lateral { grid-row: auto; }
 
   /* Texto em duas colunas não sobrevive a uma tela estreita: vira
      duas colunas de três palavras. */
@@ -1327,21 +1606,38 @@
   .estagio h3,
   .estagio > p,
   .estagio--saida > .micro,
+  .estagio--saida > .abas,
   .confronto__rotulo,
   .confronto__antes,
   .confronto__depois,
   .linha-nota .micro,
   .linha-nota p { grid-column: 1 / -1; }
 
+  /* Na coluna estreita os cinco nomes não cabem numa fileira: em vez
+     de quebrar em duas linhas e meia, com um item sozinho no meio,
+     eles descem em lista. Cada nome ganha a largura toda, que é
+     também o alvo de toque que um dedo pede. */
+  .abas__lista {
+    flex-direction: column;
+    gap: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+  .aba {
+    padding: var(--space-12) 0;
+    border-bottom: 1px solid rgba(18, 22, 19, .18);
+  }
+  .aba[aria-selected="true"] { border-bottom-color: var(--highlighter-green); }
+
   .entregas { grid-column: 1 / -1; }
   .entrega__nome,
-  .entrega__destino { grid-column: 1 / -1; }
+  .entrega__destino,
+  .aba-painel__titulo,
+  .aba-painel p { grid-column: 1 / -1; }
 
   .confronto__cabeca { display: none; }
   .confronto__depois { padding-left: 0; border-left: 0; }
   .confronto__marca { display: block; }
-
-  .recuado { grid-template-columns: repeat(12, minmax(0, 1fr)); }
 
   /* Empilhada, a trilha deixa de ser um caminho horizontal. O fio
      que ligava os três marcos sai, e cada um passa a abrir com o

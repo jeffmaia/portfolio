@@ -58,7 +58,20 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
     pintar();
   }
 
+  /* A barra atravessa de cor em 0,35s quando o fundo debaixo dela
+     troca. Na primeira pintura não há travessia nenhuma a fazer: ela
+     tem que nascer já na cor do fundo. Sem isso, uma página que abre
+     no escuro passa esse terço de segundo com a marca preta em cima
+     de preto, invisível. */
+  let primeira = true;
+
   function pintar() {
+    if (primeira) {
+      primeira = false;
+      barra.classList.add("nav--sem-travessia");
+      requestAnimationFrame(() => barra.classList.remove("nav--sem-travessia"));
+    }
+
     const y = window.scrollY;
     barra.classList.toggle("nav--rolada", y > 8);
     barra.classList.toggle("nav--reduzida", y > 90);

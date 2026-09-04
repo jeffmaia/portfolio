@@ -67,3 +67,53 @@
     }
   }, 1500);
 })();
+
+
+/* ── 3. As abas da saída ────────────────────────────
+   Cinco entregas que saem da mesma camada. Empilhadas elas viravam
+   uma lista de cinco itens quase iguais; em abas os cinco nomes
+   ficam à vista de uma vez e quem escolhe o que ler é o leitor.
+
+   Sem JS nada se esconde: os cinco painéis aparecem um debaixo do
+   outro, cada um com o próprio nome em cima. A classe que a folha
+   de estilo espera para esconder os painéis é escrita aqui, então
+   ela só existe quando existe alguém para trocar de aba.
+   ──────────────────────────────────────────────── */
+(() => {
+  for (const caixa of document.querySelectorAll("[data-abas]")) {
+    const abas = [...caixa.querySelectorAll('[role="tab"]')];
+    const paineis = abas.map(a => document.getElementById(a.getAttribute("aria-controls")));
+    if (abas.length < 2 || paineis.some(p => !p)) continue;
+
+    caixa.classList.add("abas--js");
+
+    function mostrar(i, comFoco) {
+      abas.forEach((aba, j) => {
+        const ativa = j === i;
+        aba.setAttribute("aria-selected", String(ativa));
+        /* Uma parada de tabulação para o conjunto, não cinco: dentro
+           da fila quem anda é a seta. */
+        aba.tabIndex = ativa ? 0 : -1;
+        paineis[j].hidden = !ativa;
+      });
+      if (comFoco) abas[i].focus();
+    }
+
+    abas.forEach((aba, i) => {
+      aba.addEventListener("click", () => mostrar(i));
+      aba.addEventListener("keydown", e => {
+        const n = abas.length;
+        let alvo = null;
+        if (e.key === "ArrowRight" || e.key === "ArrowDown") alvo = (i + 1) % n;
+        else if (e.key === "ArrowLeft" || e.key === "ArrowUp") alvo = (i - 1 + n) % n;
+        else if (e.key === "Home") alvo = 0;
+        else if (e.key === "End") alvo = n - 1;
+        if (alvo === null) return;
+        e.preventDefault();
+        mostrar(alvo, true);
+      });
+    });
+
+    mostrar(0);
+  }
+})();

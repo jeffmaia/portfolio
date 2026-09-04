@@ -273,6 +273,13 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--space-24)); }
 /* Com o menu aberto o fundo é o painel, que já é escuro. */
 .nav--aberta::before { opacity: 0; }
 
+/* A marca de um quadro só: na primeira pintura a barra assume a cor
+   do fundo sem atravessar até ela. Quem põe e tira é o JS, no mesmo
+   quadro em que decide a cor pela primeira vez. */
+.nav--sem-travessia,
+.nav--sem-travessia .wordmark__papel,
+.nav--sem-travessia::before { transition: none; }
+
 /* ── A marca que encolhe ───────────────────────────────── */
 
 .wordmark {
