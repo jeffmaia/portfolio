@@ -29,14 +29,15 @@
 /* ============================================================
    Hero
 
-   O bloco de impacto é a página inteira até a onda: título,
-   fotografias e a linha de baixo, sem nada cortando o meio. As
-   fotografias andam dentro das frases em vez de embaixo delas, e
-   agora com corpo: quase a altura da caixa alta, largas o
-   bastante para se lerem como imagem e não como marcador.
+   A grade editorial: cada palavra e cada fotografia pesam o
+   mesmo, em fileiras que se alternam lado a lado até fechar um
+   retângulo só, sem vão entre elas. O fundo continua claro, como
+   sempre foi: quem muda de cor é só a onda que abre a cena logo
+   abaixo, escurecendo para receber a seta, igual a onda que abre
+   o rodapé.
 
-   A seta de descer não fica mais solta no canto. Ela desceu para
-   dentro da onda preta, no morro que a onda faz para recebê-la.
+   A seta de descer mora dentro da onda preta da cena, no morro
+   que ela faz para recebê-la; ver .descer, em base.css.
    ============================================================ */
 
 /* O hero é o berço da seta, e a onda da cena passa por cima dele:
@@ -44,97 +45,128 @@
 .hero {
   position: relative;
   z-index: 2;
+}
+.hero__inner {
+  container-type: inline-size;
   padding-block: clamp(24px, 4vw, 56px) calc(clamp(40px, 5vw, 76px) + var(--onda-bolha-h) * 2);
 }
 
-.hero__eyebrow { color: var(--newsprint-gray); margin: 0 0 clamp(24px, 4vw, 46px); }
-
 .hero__titulo {
   margin: 0;
+  width: min(920px, 100%);
+  margin-inline: auto;
   display: flex;
   flex-direction: column;
-  gap: .04em;
+  gap: clamp(4px, .7cqi, 8px);
+}
+
+/* A frase mais longa ("continua o mesmo.") é quem decide o teto:
+   num corpo maior ela sozinha já enche a coluna de 920px e a foto
+   desaparece. O tamanho aqui é o maior que ainda deixa uma faixa
+   de foto visível nessa fileira, mesmo com uma só tipografia para
+   as quatro. */
+.hero__linha {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(10px, 2.2cqi, 20px);
+  height: clamp(40px, 11.5cqi, 106px);
+}
+.hero__linha .txt {
+  display: flex;
+  align-items: center;
   font-family: var(--font-ui);
-  font-size: clamp(34px, 7.4vw, 104px);
-  line-height: 1.06;
-  letter-spacing: -0.045em;
-  text-wrap: pretty;
+  font-weight: 600;
+  font-size: clamp(22px, 10cqi, 92px);
+  line-height: 1;
+  letter-spacing: -0.048em;
+  white-space: nowrap;
 }
-/* A primeira frase é o que continua igual: cheia, preta. A segunda
-   é o que muda: mesma face, peso leve, cor mais baixa. É toda a
-   diferença de que as duas precisam. */
-.hero__linha { display: block; font-weight: 550; }
-/* O selo e a palavra que vem depois viajam juntos. Não dá para
-   fazer isso com espaço rígido: o navegador abre uma quebra na
-   borda de um bloco inline mesmo com um espaço rígido do lado, e
-   a foto acabaria pendurada no fim de uma linha. */
-.hero__titulo .grupo { white-space: nowrap; }
-.hero__linha--eco { font-weight: 300; color: var(--newsprint-gray); letter-spacing: -0.035em; }
+/* Cada foto guarda duas imagens sobrepostas, e a troca não
+   acontece uma vez só: ela roda em looping. As duas imagens sobem
+   juntas, como um filme vertical de dois quadros. A de baixo entra
+   e a de cima sai no mesmo movimento, sempre a exatamente uma
+   altura de distância, então nunca abre um vão entre elas.
 
-/* ── O selo: uma fotografia do tamanho de uma palavra ─────────
-   Sem vertical-align: em `baseline`, a borda de baixo do
-   inline-block encosta na linha de base do texto, que é
-   exatamente onde a foto tem que sentar.
+   As quatro trocas são uma sequência, não um acorde: a de cima
+   termina antes de a de baixo começar. Por isso o intervalo entre
+   fileiras (--foto-passo) é maior que a subida em si.
 
-   A altura fica logo abaixo da ascendente da fonte (0.969em na
-   Inter): é o teto até onde a foto pode crescer sem empurrar a
-   entrelinha. Passa da altura das maiúsculas, e é isso que faz
-   ela pesar como imagem em vez de sumir entre as palavras.
-   ──────────────────────────────────────────────── */
-.selo {
-  /* inline-flex e não inline-block: as duas câmaras são absolutas,
-     então o bloco não tem conteúdo em fluxo e a linha de base dele
-     é a própria borda de baixo, que é onde a foto tem que sentar.
-     No inline-flex qualquer espaço em branco solto lá dentro é
-     ignorado, e a linha de base não escorrega por causa dele. */
-  display: inline-flex;
-  position: relative;
-  width: 1.66em;
-  height: .92em;
-  margin-inline: .1em;
-  border-radius: .1em;
-  /* O recorte fica aqui: assim a foto desliza dentro do selo sem
-     estourar o canto arredondado. */
-  overflow: hidden;
-  background: var(--echo-green);
-  vertical-align: baseline;
+   A conta não pode sair de --atraso: aquele é o escalonamento
+   curto do texto, de 90ms, e ele existe para as frases entrarem
+   quase juntas. A foto quer o contrário.
+
+   Sem movimento (JS desligado, ou movimento reduzido) nada roda e
+   só a primeira imagem aparece. */
+.hero__titulo { --foto-ciclo: 12s; --foto-passo: 1.05s; --foto-espera: .8s; }
+.hero__linha .foto { position: relative; flex: 1 1 auto; min-width: 0; border-radius: var(--radius-images); overflow: hidden; background: var(--slate-verdant); }
+.hero__linha .foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: contrast(1.1); }
+.hero__linha .foto__nova { transform: translateY(100%); }
+
+/* Os dois quadros do filme. A subida ocupa os últimos 8,33% de
+   cada meia volta, que em 12s dá 1s de movimento e 5s de imagem
+   parada. Entre 50% e 91,67% a nova cobre o quadro inteiro, e é
+   nessa janela que a base atravessa escondida de volta para
+   baixo: em nenhum instante as duas deixam de somar uma altura,
+   então nunca se abre um vão entre elas. */
+@keyframes hero-foto-nova {
+  0%, 41.67%  { transform: translateY(100%); }
+  50%, 91.67% { transform: translateY(0); }
+  100%        { transform: translateY(-100%); }
 }
-.selo__cam { position: absolute; inset: 0; }
-/* A segunda foto sobe por dentro da máscara: a janela abre da borda
-   de baixo para cima conforme --troca vai de 0 a 1. Sem JS, --troca
-   nunca é escrita, o recorte fica em 100% e só a primeira aparece. */
-.selo__cam--nova { clip-path: inset(calc((1 - var(--troca, 0)) * 100%) 0 0 0); }
-.selo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Escala de cinza já gravada no arquivo; o contraste aqui é só o
-     acabamento documental. */
-  filter: contrast(1.06);
-  /* Folga para o deslocamento do parallax não descobrir a borda. O
-     quanto dela dá para usar é o JS que decide, medindo. */
-  scale: 1.22;
-  will-change: transform;
+@keyframes hero-foto-base {
+  0%, 41.67%  { transform: translateY(0); }
+  50%         { transform: translateY(-100%); }
+  70%, 91.67% { transform: translateY(100%); }
+  100%        { transform: translateY(0); }
 }
+/* Em longhand de propósito: o atalho `animation` zera o nome, e
+   aqui o nome vem de outra regra. */
+.js-mov .hero__linha.revelado .foto img {
+  animation-duration: var(--foto-ciclo);
+  animation-timing-function: var(--ease-saida);
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-delay: calc(var(--foto-espera) + var(--foto-vez, 0) * var(--foto-passo));
+}
+.js-mov .hero__linha.revelado .foto img.foto__base { animation-name: hero-foto-base; }
+.js-mov .hero__linha.revelado .foto img.foto__nova { animation-name: hero-foto-nova; }
+.hero__linha:nth-child(1) { --foto-vez: 0; }
+.hero__linha:nth-child(2) { --foto-vez: 1; }
+.hero__linha:nth-child(3) { --foto-vez: 2; }
+.hero__linha:nth-child(4) { --foto-vez: 3; }
+
 @media (prefers-reduced-motion: reduce) {
-  .selo img { transform: none !important; }
+  .js-mov .hero__linha.revelado .foto img { animation: none; }
 }
 
-/* A linha de baixo abre a largura inteira do impacto, numa linha
-   só. O corpo dela sai de vw pelo mesmo motivo que o do título:
-   é a largura da página que decide onde a frase termina. */
-.hero__foot { margin-top: clamp(30px, 4vw, 54px); }
+/* Empilhada, a fileira lê de cima para baixo, e a ordem do HTML
+   deixa de valer: o texto vem sempre primeiro e a foto embaixo
+   dele, nas quatro. Alternar aqui só faria a frase pular de lado
+   sem que houvesse lados. E a foto vira uma faixa: metade da
+   altura de antes, para a frase continuar sendo o que se lê e não
+   uma legenda entre duas imagens. */
+@media (max-width: 720px) {
+  /* Empilhado, o vão entre fileiras tem que ser maior que o vão
+     entre a frase e a foto dela: senão cada frase parece legenda
+     da foto de cima, e não título da foto de baixo. */
+  .hero__titulo { gap: clamp(22px, 6vw, 30px); }
+  .hero__linha { flex-direction: column; height: auto; gap: 10px; }
+  .hero__linha .txt { order: -1; white-space: normal; text-wrap: pretty; font-size: clamp(30px, 11vw, 46px); }
+  .hero__linha .foto { width: 100%; aspect-ratio: 16 / 5; }
+}
+
+/* A linha de baixo mora na mesma coluna estreita da grade, numa
+   linha só enquanto couber. */
+.hero__foot { width: min(920px, 100%); margin: clamp(24px, 4vw, 36px) auto 0; }
 .hero__lead {
   margin: 0;
   max-width: none;
-  font-size: clamp(15px, 2.11vw, 30px);
+  font-size: clamp(15px, 2.2cqi, 20px);
   font-weight: 300;
   line-height: 1.35;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   text-wrap: nowrap;
 }
-/* Numa tela estreita não existe corpo que caiba a frase inteira
-   numa linha sem virar letra miúda. Ali ela volta a quebrar. */
 @media (max-width: 720px) {
   .hero__lead { font-size: var(--text-body); line-height: 1.45; text-wrap: pretty; }
 }
@@ -363,6 +395,10 @@
   font-size: var(--text-heading-sm);
   line-height: 1;
   letter-spacing: -0.045em;
-  text-wrap: pretty;
+  /* balance, não pretty: aqui são quatro linhas de título, e o que
+     se quer é o rio parelho dos quatro. Os espaços rígidos da frase
+     já impedem que uma linha comece ou termine em "o", "que" ou
+     "e"; o balance escolhe entre as quebras que sobraram. */
+  text-wrap: balance;
 }
 .fecho__link { color: var(--press-black); }

@@ -194,8 +194,14 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
   const BOLHA_X = 0.5;
   /* O morro tem largura em pixels, não em fração: uma tela larga
      não deve ganhar um morro largo, senão ele deixa de ser um
-     morro e vira a onda toda. */
-  const BOLHA_SIG_PX = 40;
+     morro e vira a onda toda.
+
+     Em tela estreita a conta se inverte. A altura do morro para de
+     encolher antes da tela, porque --onda-bolha-h tem um mínimo (a
+     seta que mora dentro dele não encolhe), então os mesmos 40px de
+     largura viram um espeto. Abaixo de 900px a largura abre até
+     47px, e o morro volta a ser morro. */
+  const BOLHA_SIG_PX = 40, BOLHA_SIG_PX_ESTREITO = 47, BOLHA_ESTREITO = 900, BOLHA_CURSO = 420;
   /* O morro da cena não muda de tamanho. O do rodapé cresce de
      BOLHA_MIN a BOLHA_MAX conforme a página chega ao fim, e é esse
      crescimento que levanta a seta: ela não sobe por conta, ela
@@ -225,7 +231,9 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
      ou o morro sairia poligonal, ou a onda inteira sairia cara. */
   function medirAmostras() {
     const largura = (ondas.length && ondas[0].el.getBoundingClientRect().width) || window.innerWidth;
-    sig = Math.min(0.09, Math.max(0.014, BOLHA_SIG_PX / (largura || 1)));
+    const abre = Math.min(1, Math.max(0, (BOLHA_ESTREITO - largura) / BOLHA_CURSO));
+    const sigPx = BOLHA_SIG_PX + (BOLHA_SIG_PX_ESTREITO - BOLHA_SIG_PX) * abre;
+    sig = Math.min(0.14, Math.max(0.014, sigPx / (largura || 1)));
     const a = Math.max(0, BOLHA_X - 3.6 * sig), b = Math.min(1, BOLHA_X + 3.6 * sig);
     const xs = [];
     for (let i = 0; i <= 48; i++) { const x = i / 48; if (x <= a || x >= b) xs.push(x); }

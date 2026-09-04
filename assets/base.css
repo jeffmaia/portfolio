@@ -397,12 +397,22 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--space-20)); }
   max-height: 100%;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding-top: calc(var(--nav-h) + var(--space-20));
-  padding-bottom: clamp(24px, 5vh, 56px);
+  /* A barra de rolagem não aparece: o painel é uma superfície
+     inteira, e um trilho cinza no canto direito quebra isso. A
+     rolagem continua existindo, para o caso de a tela ser baixa
+     demais; ela só não se anuncia. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-top: calc(var(--nav-h) + var(--space-15));
+  padding-bottom: clamp(18px, 3.5vh, 40px);
 }
-.menu__grupo + .menu__grupo { margin-top: clamp(18px, 3.5vh, 40px); }
+.menu__inner::-webkit-scrollbar { width: 0; height: 0; display: none; }
+.menu__grupo + .menu__grupo { margin-top: clamp(14px, 2.6vh, 30px); }
 .menu__rotulo { margin: 0 0 var(--space-15); color: var(--muted-sage); }
-.menu__lista { margin: 0; padding: 0; list-style: none; }
+/* Um vão entre os itens, para o contorno de uma linha nunca cruzar
+   o da linha vizinha: só assim ele fecha só a borda externa da
+   letra, sem risco por dentro. */
+.menu__lista { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: clamp(4px, .8vw, 12px); }
 .menu__lista li {
   opacity: 0;
   transform: translateY(16px);
@@ -419,26 +429,64 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--space-20)); }
   padding-block: .02em;
   font-family: var(--font-ui);
   font-size: clamp(26px, 4.2vw, 52px);
-  font-weight: 550;
-  line-height: 1.16;
-  letter-spacing: -0.035em;
+  font-weight: 500;
+  /* Folga de sobra: se um item futuro for longo o bastante para
+     quebrar em duas linhas dentro do mesmo link, o contorno de uma
+     linha não pode cruzar o da outra. */
+  line-height: 1.22;
+  /* Tracking zero por obrigação, não por gosto. O contorno é
+     desenhado letra a letra: com tracking negativo as letras
+     encostam, e os contornos de duas letras vizinhas se cruzam. */
+  letter-spacing: 0;
   color: var(--bone-white);
   text-decoration: none;
   transition: color .3s, -webkit-text-stroke-color .3s;
 }
-/* Contorno de verdade só onde o navegador sabe desenhar; onde não
-   sabe, o item fica preenchido, que é o estado legível. */
-@supports (-webkit-text-stroke: 1px currentColor) {
+
+/* ── O contorno vazado ───────────────────────────────
+   O desenho que se quer é o da referência: a letra fechada só na
+   borda de fora, o miolo inteiro vazado, sem nenhum risco por
+   dentro.
+
+   Contorno puro não dá isso. Uma fonte variável guarda a letra
+   como partes que se sobrepõem: o "A" são duas diagonais e um
+   travessão, o "P" é a haste mais a barriga, o "x" são dois
+   riscos cruzados. Preenchida, a sobreposição some. Contornada,
+   cada parte é contornada por inteiro, e as costuras internas
+   aparecem, que é o X no meio do "x" e o risco no encontro da
+   haste com a barriga.
+
+   A saída é pintar na ordem inversa: primeiro o traço, depois o
+   preenchimento na cor do painel por cima. O preenchimento usa a
+   regra de dentro-e-fora, então cobre a união das partes de uma
+   vez e apaga com ela todas as costuras. Sobra a metade de fora
+   do traço, que é o contorno.
+
+   Por isso o traço vai com o dobro da espessura: metade dele fica
+   debaixo do preenchimento.
+   ──────────────────────────────────────────────── */
+@supports (-webkit-text-stroke: 1px currentColor) and (paint-order: stroke) {
   .menu__item {
-    color: transparent;
-    -webkit-text-stroke: 1px var(--bone-white);
+    paint-order: stroke fill;
+    color: var(--press-black);
+    -webkit-text-stroke: 2px var(--bone-white);
   }
   .menu__item:hover,
   .menu__item:focus-visible { color: var(--bone-white); }
+  /* A página em que se está já vem preenchida, em verde: com o
+     traço embaixo e o preenchimento por cima, na mesma cor, a
+     letra fecha sólida. */
   .menu__item[aria-current="page"] {
     color: var(--highlighter-green);
     -webkit-text-stroke-color: var(--highlighter-green);
   }
+}
+
+/* Onde o navegador não sabe inverter a ordem de pintura, o
+   contorno sairia riscado por dentro. Item preenchido é melhor
+   desenho que item riscado, então é esse o estado. */
+@supports not (paint-order: stroke) {
+  .menu__item[aria-current="page"] { color: var(--highlighter-green); }
 }
 
 /* O segundo grupo sai daqui: corpo menor, cor mais baixa e a seta
@@ -599,7 +647,11 @@ html.chegando .transicao__barra i { width: 100%; }
 .onda {
   position: absolute;
   left: 0;
-  bottom: 100%;
+  /* 1px a menos que 100%: a onda pisa 1px dentro da própria seção
+     em vez de só encostar nela. Sem esse afogamento, o
+     antialiasing da curva deixa um traço claro exatamente na
+     emenda, por cima de uma cor idêntica dos dois lados. */
+  bottom: calc(100% - 1px);
   display: block;
   width: 100%;
   height: var(--onda-h);
@@ -622,7 +674,7 @@ html.chegando .transicao__barra i { width: 100%; }
 /* A mesma onda virada: pendurada abaixo do elemento em vez de
    acima dele. É a borda de baixo do painel do menu. */
 .onda--pe {
-  top: 100%;
+  top: calc(100% - 1px);
   bottom: auto;
   background-position: left top;
   transform: scaleY(-1);
@@ -758,8 +810,10 @@ html.chegando .transicao__barra i { width: 100%; }
   display: block;
   width: auto;
   /* A seta é medida na altura da onda, não em pixels próprios: é o
-     que garante que ela caiba no morro em qualquer largura. */
-  height: calc(var(--onda-bolha-h) * 0.38);
+     que garante que ela caiba no morro em qualquer largura. O piso
+     de 28px é para o outro lado: no celular a onda encolhe até o
+     mínimo dela e a seta sairia fina demais para se ler como seta. */
+  height: max(28px, calc(var(--onda-bolha-h) * 0.38));
   color: var(--highlighter-green);
 }
 @media (hover: hover) and (pointer: fine) {
@@ -787,7 +841,7 @@ html.chegando .transicao__barra i { width: 100%; }
 .descer__seta {
   display: block;
   width: auto;
-  height: calc(var(--onda-bolha-h) * 0.38);
+  height: max(28px, calc(var(--onda-bolha-h) * 0.38));
   color: var(--highlighter-green);
   animation: boiar 2.4s ease-in-out infinite;
 }
