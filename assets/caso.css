@@ -1435,6 +1435,12 @@ main > .tinta:last-child .tinta__inner {
   list-style: none;
 }
 .galeria > li { grid-column: span 6; }
+/* A primeira figura de uma galeria pode ser o todo de que as outras
+   são recorte. Quando for, ela abre com as doze colunas: um desenho
+   denso em meia página fica bonito e ilegível, e a diferença de
+   largura é o que diz, sem escrever, que as quatro seguintes são
+   pedaços dela. */
+.galeria--abertura > li:first-child { grid-column: 1 / -1; }
 .galeria figure { margin: 0; }
 .galeria img {
   width: 100%;
@@ -1831,6 +1837,14 @@ main > .tinta:last-child .tinta__inner {
   .confronto__depois,
   .linha-nota .micro,
   .linha-nota p { grid-column: 1 / -1; }
+
+  /* Na página larga o texto da linha para na quinta coluna, e é esse
+     corte que segura a medida de leitura. Empilhado ele ia até a
+     margem, e numa tela de 719 isso dá quase noventa caracteres por
+     linha: a largura em que o olho perde o começo da linha seguinte,
+     que é justamente o que o corte de cinco colunas evita lá em
+     cima. */
+  .linha p { max-width: 62ch; }
 
   /* Na coluna estreita os cinco nomes não cabem numa fileira: em vez
      de quebrar em duas linhas e meia, com um item sozinho no meio,
