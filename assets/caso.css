@@ -762,6 +762,99 @@ main > .tinta:last-child .tinta__inner {
 }
 
 /* ============================================================
+   Abas na vertical
+
+   O mesmo componente, com os nomes descendo em índice na coluna da
+   esquerda e o painel abrindo na direita. É o arranjo de quando os
+   nomes são frases: numa fileira horizontal eles só caberiam
+   encurtados, e encurtar aqui seria reescrever o conteúdo para
+   acomodar o formato.
+
+   A altura é a mesma nas cinco abas, e quem tem texto mais longo
+   rola por dentro. Duas coisas dependem disso: a página nunca dá um
+   salto quando alguém troca de aba, e a aba curta não deixa um vão
+   do tamanho da aba mais longa embaixo dela.
+   ============================================================ */
+
+.abas--lado {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-24);
+}
+.abas--lado .abas__lista {
+  grid-column: 1 / span 4;
+  flex-direction: column;
+  gap: 0;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.abas--lado .aba {
+  padding: var(--space-16) 0;
+  border-bottom: 1px solid rgba(18, 22, 19, .18);
+  line-height: 1.3;
+}
+
+/* A janela de leitura do painel. A altura não é um número escrito
+   aqui: as duas colunas dividem a mesma fileira da grade, e a fileira
+   fica do tamanho da mais alta das duas. Como os cinco painéis se
+   empilham na mesma célula, a fileira é a mesma para as cinco abas, e
+   a página nunca dá um salto quando alguém troca de camada.
+
+   A rolagem por dentro é a válvula: se um dia o texto de uma camada
+   passar da janela, ele rola ali e não empurra a seção seguinte. O
+   min-height é o que deixa o painel encolher dentro da célula; sem
+   ele o painel cresce e leva a fileira junto. */
+.abas--lado .abas__paineis {
+  grid-column: 6 / -1;
+  min-height: 0;
+}
+.abas--lado .aba-painel {
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 0;
+  padding-right: var(--space-24);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(18, 22, 19, .28) transparent;
+}
+.abas--lado .aba-painel > * { grid-column: 1 / -1; }
+/* A barra fica fina e no tom do fio da página: ela avisa que há mais
+   texto embaixo, e não vira um objeto de interface no meio da
+   leitura. */
+.abas--lado .aba-painel::-webkit-scrollbar { width: 4px; }
+.abas--lado .aba-painel::-webkit-scrollbar-track { background: transparent; }
+.abas--lado .aba-painel::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(18, 22, 19, .28);
+}
+.aba-painel .linha__efeito { margin-top: var(--space-24); }
+
+/* O número da camada abre o nome dela. Ele não é enfeite: a seção do
+   antes e depois aponta para "camada 02" e "camada 03", e sem o número
+   aqui essa referência não teria para onde apontar. */
+.aba__num {
+  display: block;
+  margin-bottom: var(--space-4);
+  color: var(--highlighter-green);
+}
+
+/* Sobre o escuro as mesmas peças trocam de tom. */
+.tinta .aba { color: var(--muted-sage); }
+.tinta .abas__lista { border-bottom-color: var(--slate-verdant); }
+.tinta .abas--lado .aba { border-bottom-color: var(--slate-verdant); }
+.tinta .aba[aria-selected="true"] {
+  color: var(--bone-white);
+  border-bottom-color: var(--highlighter-green);
+}
+.tinta .abas:not(.abas--js) .aba-painel + .aba-painel { border-top-color: var(--slate-verdant); }
+.tinta .aba-painel p { color: var(--muted-sage); }
+.tinta .abas--lado .aba-painel { scrollbar-color: var(--slate-verdant) transparent; }
+.tinta .abas--lado .aba-painel::-webkit-scrollbar-thumb { background: var(--slate-verdant); }
+@media (hover: hover) and (pointer: fine) {
+  .tinta .aba:hover { color: var(--bone-white); }
+}
+
+/* ============================================================
    Atrito
 
    Onde a coisa deu errado. Bloco escuro dentro do papel: é o que
@@ -1162,14 +1255,20 @@ main > .tinta:last-child .tinta__inner {
 }
 .fecho > *:first-child { grid-column: 1 / span 5; }
 .fecho > *:last-child { grid-column: 7 / -1; }
-/* Quando o que fecha o caso é uma frase só, ela não se parte em duas
-   colunas: partir aqui obrigava a ler metade de um lado e a outra
-   metade do outro, sem nada explicar por quê. */
+/* O que fecha o caso não se parte em duas colunas: partir aqui obrigava
+   a ler metade de um lado e a outra metade do outro, sem nada explicar
+   por quê. A frase e o que a explica descem na mesma coluna, um sob o
+   outro, na mesma margem. */
 .fecho--unido { align-items: start; }
 .fecho--unido > *:first-child,
 .fecho--unido > *:last-child { grid-column: 1 / span 8; }
 .fecho .rotulo { margin-bottom: var(--space-16); }
 .fecho .corpo-texto { max-width: none; }
+/* Junto, o texto do fecho ocupa oito colunas, e nessa largura a linha
+   passa dos noventa caracteres. Quem manda aqui é a medida, não a
+   grade. Vem depois da regra de cima de propósito: as duas têm o mesmo
+   peso, e a última é a que vale. */
+.fecho--unido .corpo-texto { max-width: 52ch; }
 
 .acoes {
   display: grid;
@@ -1628,6 +1727,16 @@ main > .tinta:last-child .tinta__inner {
     border-bottom: 1px solid rgba(18, 22, 19, .18);
   }
   .aba[aria-selected="true"] { border-bottom-color: var(--highlighter-green); }
+
+  /* Numa coluna só, o índice volta a ser uma lista e o painel volta
+     a ter a altura do texto: rolagem dentro de rolagem, num celular,
+     é o leitor perdendo o controle da página. */
+  .abas--lado .abas__lista,
+  .abas--lado .abas__paineis { grid-column: 1 / -1; }
+  .abas--lado .aba-painel {
+    padding-right: 0;
+    overflow: visible;
+  }
 
   .entregas { grid-column: 1 / -1; }
   .entrega__nome,

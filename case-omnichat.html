@@ -27,7 +27,7 @@
 })();
 </script>
 <title>Redesenhando a verificação de intenção dos agentes conversacionais · Jeff Maia</title>
-<meta name="description" content="A maior perda de conversão não estava na interface. Estava na camada onde a intenção do lead entra no sistema. A conversão de leads qualificados saiu de 24% para 32% nas origens redesenhadas, medida em produção ao longo de 8 semanas.">
+<meta name="description" content="A maior perda de conversão não estava na interface. Estava na&nbsp;camada onde a intenção do lead entra no sistema. A conversão de leads qualificados saiu de 24% para 32% nas origens redesenhadas, medida em produção ao longo de 8 semanas.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23fafffa'/%3E%3Ctext x='50' y='72' font-family='Arial, Helvetica, sans-serif' font-weight='800' font-size='64' text-anchor='middle' fill='%23121613'%3EJ%3C/text%3E%3Crect x='27' y='78' width='46' height='7' rx='2' fill='%232bee4b'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -111,12 +111,12 @@
       <h1 data-revelar>Redesenhando a&nbsp;verificação de&nbsp;intenção dos&nbsp;agentes conversacionais</h1>
 
       <div class="caso-topo__pe">
-        <p class="caso-topo__lead" data-revelar data-revelar-atraso="1">A maior perda de conversão não estava na interface. Estava na camada onde a&nbsp;intenção do&nbsp;lead entra no&nbsp;sistema.</p>
+        <p class="caso-topo__lead" data-revelar data-revelar-atraso="1">A maior perda de conversão não estava na&nbsp;interface. Estava na&nbsp;camada onde a&nbsp;intenção do&nbsp;lead entra no&nbsp;sistema.</p>
 
         <div class="salto" data-revelar data-revelar-atraso="2">
           <span class="salto__de">24%</span>
           <span class="salto__para">32%</span>
-          <p class="salto__que">A conversão de leads qualificados nas origens redesenhadas, medida em produção ao longo de 8 semanas sobre cerca de 40 mil conversas, comparando com o fluxo anterior no&nbsp;mesmo período.</p>
+          <p class="salto__que">A conversão de leads qualificados nas origens redesenhadas, medida em&nbsp;produção ao longo de 8 semanas sobre cerca de 40 mil conversas, comparando com&nbsp;o&nbsp;fluxo anterior no&nbsp;mesmo período.</p>
         </div>
       </div>
     </div>
@@ -126,9 +126,9 @@
     <div class="onda onda--clara" aria-hidden="true"></div>
     <div class="wrap folha__inner">
 
-      <!-- 01. Abertura deslocada do eixo e a ficha correndo em
-           faixa embaixo, como crédito de matéria. -->
-      <section class="secao" id="contexto" aria-labelledby="t-contexto">
+      <!-- 01. A abertura começa na margem e a ficha corre ao lado
+           dela, na coluna da direita, na mesma linha do rótulo. -->
+      <section class="secao secao--ficha" id="contexto" aria-labelledby="t-contexto">
         <div class="secao__topo" data-revelar>
           <div class="secao__head">
             <span class="micro" id="t-contexto">01 · Contexto</span>
@@ -140,18 +140,19 @@
           <p>A Omnichat opera agentes de vendas conversacionais que atendem leads em escala, vindos de origens diferentes. Cada origem carrega um tipo de intenção, e o agente tratava todo lead do mesmo jeito, como se toda conversa começasse do&nbsp;zero.</p>
         </div>
 
-        <div class="bloco" data-revelar data-revelar-atraso="1">
+        <div class="bloco ficha-lateral" data-revelar data-revelar-atraso="1">
           <span class="micro rotulo">Ficha do projeto</span>
           <dl class="faixa-ficha">
             <div><dt class="micro">Duração</dt><dd>4 meses, com 8 semanas de medição em produção</dd></div>
-            <div><dt class="micro">Jeff</dt><dd>Product Design Manager, responsável pelo desenho da camada de decisão e pelo recorte do experimento</dd></div>
+            <div><dt class="micro">Jeff</dt><dd>Product Design Manager, responsável pelo desenho da&nbsp;camada de decisão e&nbsp;pelo recorte do experimento</dd></div>
             <div><dt class="micro">Time</dt><dd>2 engenheiros de IA e 1 analista de dados</dd></div>
           </dl>
         </div>
       </section>
 
-      <!-- 02. O problema em texto e as duas origens como linhas
-           indexadas, não como dois cartões iguais lado a lado. -->
+      <!-- 02. O problema em texto corrido e as duas origens lado a
+           lado: elas chegam ao mesmo tempo, por canais diferentes.
+           Em fila, a segunda pareceria consequência da primeira. -->
       <section class="secao" aria-labelledby="t-problema">
         <div class="secao__topo" data-revelar>
           <div class="secao__head">
@@ -161,21 +162,21 @@
           <h2 class="secao__titulo" id="t-problema">Ninguém tinha desenhado a&nbsp;fronteira de&nbsp;entrada</h2>
         </div>
 
-        <div class="corpo-texto colunas" data-revelar>
-          <p>Não existia visão clara da jornada conversacional. O time via o resultado final, lead convertido ou lead perdido, mas não enxergava o caminho entre a mensagem de entrada e a decisão do&nbsp;agente.</p>
-          <p>O erro não era de capacidade do modelo, era de design. A fronteira onde a intenção do lead entra no sistema ficava por conta do acaso de cada canal de&nbsp;origem.</p>
+        <div class="corpo-texto" data-revelar>
+          <p>Não existia visão clara da jornada conversacional. O time via o&nbsp;resultado final, lead convertido ou lead perdido, mas não enxergava o caminho entre a mensagem de entrada e a decisão do&nbsp;agente.</p>
+          <p>O erro não era de capacidade do modelo, era de design. A&nbsp;fronteira onde a intenção do lead entra no sistema ficava por&nbsp;conta do&nbsp;acaso de cada canal de&nbsp;origem.</p>
         </div>
 
-        <div class="linhas" data-revelar>
+        <div class="linhas linhas--par" data-revelar>
           <div class="linha">
             <span class="micro linha__num">01</span>
             <h3 class="linha__titulo">Instagram</h3>
-            <p>Chegavam com um objetivo implícito, moldado pelo anúncio que clicaram. O agente não tinha acesso a esse contexto e tratava a primeira mensagem como uma pergunta genérica.</p>
+            <p>Chegavam com um objetivo implícito, moldado pelo anúncio que&nbsp;clicaram. O agente não tinha acesso a esse contexto e&nbsp;tratava a primeira mensagem como uma pergunta genérica.</p>
           </div>
           <div class="linha">
             <span class="micro linha__num">02</span>
             <h3 class="linha__titulo">Disparos de&nbsp;WhatsApp</h3>
-            <p>Chegavam ainda mais comprimidos, muitas vezes respondendo a um gatilho automático sem nunca ter formulado a própria intenção com clareza.</p>
+            <p>Chegavam ainda mais comprimidos, muitas vezes respondendo a&nbsp;um&nbsp;gatilho automático sem nunca ter formulado a própria intenção com clareza.</p>
           </div>
         </div>
       </section>
@@ -199,52 +200,48 @@
           <h2 class="secao__titulo" id="t-camadas">Cinco camadas de&nbsp;um&nbsp;artefato de&nbsp;design</h2>
         </div>
 
-        <div class="linhas" data-revelar>
-          <div class="linha">
-            <span class="micro linha__num">01</span>
-            <h3 class="linha__titulo">A&nbsp;arquitetura de&nbsp;prompt como superfície de&nbsp;design</h3>
-            <div class="linha__par">
+        <!-- As cinco camadas em abas na vertical. Na horizontal os
+             nomes não cabem numa fileira sem serem encurtados, e
+             encurtar aqui seria reescrever o conteúdo para acomodar o
+             formato. Então a fila vira índice. Sem script os cinco
+             painéis aparecem abertos, um debaixo do outro. -->
+        <div class="abas abas--lado" data-abas data-revelar>
+          <div class="abas__lista" role="tablist" aria-label="Camadas do artefato">
+            <button class="aba" type="button" role="tab" id="aba-prompt" aria-controls="painel-prompt"><span class="micro aba__num">01</span>A&nbsp;arquitetura de&nbsp;prompt como superfície de&nbsp;design</button>
+            <button class="aba" type="button" role="tab" id="aba-jornada" aria-controls="painel-jornada"><span class="micro aba__num">02</span>Jornada mapeada por&nbsp;origem do&nbsp;lead</button>
+            <button class="aba" type="button" role="tab" id="aba-limites" aria-controls="painel-limites"><span class="micro aba__num">03</span>Limites de&nbsp;decisão do&nbsp;agente redesenhados</button>
+            <button class="aba" type="button" role="tab" id="aba-desvio" aria-controls="painel-desvio"><span class="micro aba__num">04</span>Leitura de&nbsp;desvio no&nbsp;lugar de&nbsp;leitura completa</button>
+            <button class="aba" type="button" role="tab" id="aba-teste" aria-controls="painel-teste"><span class="micro aba__num">05</span>Teste controlado em&nbsp;produção</button>
+          </div>
+          <div class="abas__paineis">
+            <div class="aba-painel" role="tabpanel" id="painel-prompt" aria-labelledby="aba-prompt" tabindex="0">
+              <h3 class="aba-painel__nome"><span class="micro aba__num">01</span>A&nbsp;arquitetura de&nbsp;prompt como superfície de&nbsp;design</h3>
               <p>Parar de tratar o prompt como configuração técnica. Cada ponto em que o agente decide algo, seguir a conversa, pedir mais contexto ou escalar para um vendedor, virou um ponto de decisão desenhado com intenção, no mesmo nível de uma interface visual.</p>
               <p class="linha__efeito"><span class="micro">Efeito</span> Tornou a conversa um objeto de design, com pontos de falha localizáveis em vez de um resultado opaco.</p>
             </div>
-          </div>
-
-          <div class="linha">
-            <span class="micro linha__num">02</span>
-            <h3 class="linha__titulo">Jornada mapeada por&nbsp;origem do&nbsp;lead</h3>
-            <div class="linha__par">
+            <div class="aba-painel" role="tabpanel" id="painel-jornada" aria-labelledby="aba-jornada" tabindex="0">
+              <h3 class="aba-painel__nome"><span class="micro aba__num">02</span>Jornada mapeada por&nbsp;origem do&nbsp;lead</h3>
               <p>Em vez de um fluxo único, a entrada da conversa virou uma fronteira distinta por canal. Leads de Instagram passaram a receber uma pergunta inicial que resgata o contexto do anúncio. Leads de disparos de WhatsApp ganharam uma etapa extra de verificação de intenção.</p>
               <p class="linha__efeito"><span class="micro">Efeito</span> Recuperou contexto que antes se perdia no primeiro turno, justamente nas duas origens de maior perda.</p>
             </div>
-          </div>
-
-          <div class="linha">
-            <span class="micro linha__num">03</span>
-            <h3 class="linha__titulo">Limites de&nbsp;decisão do&nbsp;agente redesenhados</h3>
-            <div class="linha__par">
+            <div class="aba-painel" role="tabpanel" id="painel-limites" aria-labelledby="aba-limites" tabindex="0">
+              <h3 class="aba-painel__nome"><span class="micro aba__num">03</span>Limites de&nbsp;decisão do&nbsp;agente redesenhados</h3>
               <p>A primeira ideia do time era fazer o agente sempre pedir confirmação antes de ofertar. Descartamos porque isso adicionava um turno em toda conversa e derrubava a conversão de quem já chegava com intenção clara. Optamos por um limite condicionado à origem: com a intenção confirmada o agente segue com a oferta sozinho, e havendo sinal de ambiguidade ele para e verifica antes de agir.</p>
-              <p class="linha__efeito"><span class="micro">Efeito</span> Reduziu ofertas erradas apresentadas cedo demais, um dos principais pontos de abandono.</p>
+              <p class="linha__efeito"><span class="micro">Efeito</span> Reduziu ofertas erradas apresentadas cedo demais, um&nbsp;dos&nbsp;principais pontos de abandono.</p>
             </div>
-          </div>
-
-          <div class="linha">
-            <span class="micro linha__num">04</span>
-            <h3 class="linha__titulo">Leitura de&nbsp;desvio no&nbsp;lugar de&nbsp;leitura completa</h3>
-            <div class="linha__par">
-              <p>O time passou a revisar apenas os pontos em que a conversa fugiu do padrão esperado para aquela origem, em vez de ler transcrições inteiras.</p>
+            <div class="aba-painel" role="tabpanel" id="painel-desvio" aria-labelledby="aba-desvio" tabindex="0">
+              <h3 class="aba-painel__nome"><span class="micro aba__num">04</span>Leitura de&nbsp;desvio no&nbsp;lugar de&nbsp;leitura completa</h3>
+              <p>O time passou a revisar apenas os pontos em&nbsp;que&nbsp;a&nbsp;conversa fugiu do padrão esperado para&nbsp;aquela origem, em vez de&nbsp;ler transcrições inteiras.</p>
               <p class="linha__efeito"><span class="micro">Efeito</span> Permitiu revisar volume alto de conversas em pouco tempo e ajustar a fronteira de entrada com base em dado real.</p>
             </div>
-          </div>
-
-          <div class="linha">
-            <span class="micro linha__num">05</span>
-            <h3 class="linha__titulo">Teste controlado em&nbsp;produção</h3>
-            <div class="linha__par">
+            <div class="aba-painel" role="tabpanel" id="painel-teste" aria-labelledby="aba-teste" tabindex="0">
+              <h3 class="aba-painel__nome"><span class="micro aba__num">05</span>Teste controlado em&nbsp;produção</h3>
               <p>Rodar o redesenho em produção com testes controlados, comparando taxa de conversão por origem antes e depois, em vez de validar a mudança isolada em ambiente de teste.</p>
-              <p class="linha__efeito"><span class="micro">Efeito</span> Isolou o ganho de 8 pontos na conversão de leads qualificados por origem de lead.</p>
+              <p class="linha__efeito"><span class="micro">Efeito</span> Isolou o ganho de 8 pontos na conversão de&nbsp;leads qualificados por origem de lead.</p>
             </div>
           </div>
         </div>
+
       </section>
 
     </div>
@@ -265,7 +262,7 @@
             <span class="secao__rule"></span>
           </div>
           <h2 class="secao__titulo" id="t-conversa">O&nbsp;mesmo lead de&nbsp;Instagram, nas&nbsp;duas versões da&nbsp;fronteira de&nbsp;entrada</h2>
-          <p class="legenda">Conversa ilustrativa. As marcas de camada ligam cada correção ao ponto correspondente da&nbsp;lista acima.</p>
+          <p class="legenda">Conversa ilustrativa. As marcas de&nbsp;camada ligam cada correção ao&nbsp;ponto correspondente da&nbsp;lista acima.</p>
         </div>
 
         <div class="conversas" data-revelar>
@@ -278,7 +275,7 @@
               </li>
               <li class="turno turno--agente">
                 <span class="micro turno__quem">Agente</span>
-                <p class="turno__fala">Olá! Tudo bem? Posso te ajudar com informações sobre nossos produtos. Qual o seu nome?</p>
+                <p class="turno__fala">Olá! Tudo bem? Posso te ajudar com&nbsp;informações sobre nossos produtos. Qual o seu nome?</p>
                 <span class="micro turno__nota">Trata a primeira mensagem como pergunta genérica</span>
               </li>
               <li class="turno">
@@ -307,7 +304,7 @@
               </li>
               <li class="turno turno--agente">
                 <span class="micro turno__quem">Agente</span>
-                <p class="turno__fala">Oi! Você chegou pelo anúncio da campanha de inverno. É sobre isso que quer falar, ou é outro assunto?</p>
+                <p class="turno__fala">Oi! Você chegou pelo anúncio da&nbsp;campanha de inverno. É sobre isso que quer falar, ou é outro assunto?</p>
                 <span class="micro turno__nota"><b>Camada 02</b> jornada por origem</span>
               </li>
               <li class="turno">
@@ -316,7 +313,7 @@
               </li>
               <li class="turno turno--agente">
                 <span class="micro turno__quem">Agente</span>
-                <p class="turno__fala">Fechado. Antes de te passar valores, só confirmando: é para uso próprio ou para revenda?</p>
+                <p class="turno__fala">Fechado. Antes de te passar valores, só confirmando: é para&nbsp;uso próprio ou para revenda?</p>
                 <span class="micro turno__nota"><b>Camada 03</b> verifica antes de ofertar</span>
               </li>
               <li class="turno">
@@ -325,7 +322,7 @@
               </li>
               <li class="turno turno--agente">
                 <span class="micro turno__quem">Agente</span>
-                <p class="turno__fala">Então a opção que faz sentido é a que estava no anúncio, com entrega para a sua região. Quero já reservar para você?</p>
+                <p class="turno__fala">Então a opção que faz sentido é a&nbsp;que&nbsp;estava no anúncio, com entrega para&nbsp;a&nbsp;sua região. Quero já reservar para você?</p>
                 <span class="micro turno__nota"><b>Camada 03</b> segue sozinho com a intenção confirmada</span>
               </li>
               <li class="turno">
@@ -347,15 +344,15 @@
           <h2 class="secao__titulo" id="t-resultado">O&nbsp;agente parou de&nbsp;responder à&nbsp;mensagem e&nbsp;passou a&nbsp;responder à&nbsp;intenção</h2>
         </div>
 
-        <div class="corpo-texto colunas" data-revelar>
-          <p>A conversão de leads qualificados subiu 8 pontos, medida pela taxa dos agentes de vendas conversacionais. O ganho não veio de uma oferta melhor nem de um texto mais persuasivo.</p>
-          <p>Veio das duas origens que mais perdiam conversão antes da mudança, Instagram e disparos de&nbsp;WhatsApp.</p>
+        <div class="corpo-texto" data-revelar>
+          <p>A conversão de leads qualificados subiu 8 pontos, medida pela taxa dos&nbsp;agentes de vendas conversacionais. O ganho não veio de uma&nbsp;oferta melhor nem de um texto mais persuasivo.</p>
+          <p>Veio das duas origens que mais perdiam conversão antes da mudança, Instagram e&nbsp;disparos de&nbsp;WhatsApp.</p>
         </div>
 
         <div class="numeros" data-revelar>
           <div class="numero-caso">
             <span class="numero-caso__valor">+8 pts</span>
-            <p class="numero-caso__label">de conversão de leads qualificados, de 24% para&nbsp;32%</p>
+            <p class="numero-caso__label">de conversão de leads qualificados, de&nbsp;24% para&nbsp;32%</p>
           </div>
           <div class="numero-caso">
             <span class="numero-caso__valor">~40 mil</span>
@@ -367,11 +364,11 @@
           </div>
           <div class="numero-caso">
             <span class="numero-caso__valor">2 origens</span>
-            <p class="numero-caso__label">redesenhadas, Instagram e disparos de&nbsp;WhatsApp</p>
+            <p class="numero-caso__label">redesenhadas, Instagram e&nbsp;disparos de&nbsp;WhatsApp</p>
           </div>
         </div>
 
-        <div class="fecho" data-revelar>
+        <div class="fecho fecho--unido" data-revelar>
           <div>
             <span class="micro rotulo">O que eu levo daqui</span>
             <p class="declaracao">A&nbsp;interface não é&nbsp;mais o&nbsp;objeto principal do&nbsp;trabalho. O&nbsp;objeto é&nbsp;a&nbsp;decisão.</p>
@@ -382,12 +379,9 @@
         </div>
 
         <div class="acoes" data-revelar>
-          <p>Trabalho com design de decisão em produtos conversacionais. Se esse tipo de camada é um problema no seu produto, me&nbsp;chama no WhatsApp ou veja o próximo caso.</p>
+          <p>Trabalho com design de decisão em produtos conversacionais. Se&nbsp;esse tipo de&nbsp;camada é um problema no seu produto, <a class="link" href="https://wa.me/5511977346175" target="_blank" rel="noopener">me&nbsp;chama no&nbsp;WhatsApp</a> ou veja o próximo caso.</p>
           <div class="acoes__ir">
             <a class="proximo-link" href="case-inpulse.html">Próximo caso <i aria-hidden="true">→</i></a>
-            <a class="btn-green" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
-            </a>
           </div>
         </div>
       </section>
