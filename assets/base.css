@@ -41,20 +41,24 @@
   --text-heading-sm: clamp(34px, 4.6vw, 60px);
   --text-heading: clamp(40px, 6vw, 82px);
 
+  /* A régua de espaço do site. Unidade base de 8, com 4 para o
+     ajuste fino, e cada degrau pelo menos 25% maior que o
+     anterior: abaixo disso o olho não vê diferença e a hierarquia
+     de espaço se perde. Nenhuma medida de respiro do site nasce
+     fora daqui. */
   --space-4: 4px;
   --space-8: 8px;
-  --space-10: 10px;
-  --space-15: 15px;
-  --space-20: 20px;
-  --space-25: 25px;
-  --space-30: 30px;
-  --space-40: 40px;
-  --space-50: 50px;
-  --space-60: 60px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-96: 96px;
 
   --nav-h: clamp(66px, 7vw, 84px);
   --page-max: 1400px;
-  --gutter: clamp(20px, 4vw, 50px);
+  --gutter: clamp(24px, 4vw, 48px);
   --section-gap: clamp(64px, 9vw, 120px);
   --onda-h: clamp(34px, 4.6vw, 84px);
   /* A onda que carrega uma seta é mais alta que as outras: ela
@@ -112,7 +116,7 @@ img { max-width: 100%; display: block; }
   position: absolute;
   left: -9999px;
   z-index: 100;
-  padding: var(--space-15) var(--space-20);
+  padding: var(--space-16) var(--space-24);
   background: var(--highlighter-green);
   color: var(--ink);
   font-size: var(--text-caption);
@@ -120,7 +124,7 @@ img { max-width: 100%; display: block; }
   text-transform: uppercase;
   text-decoration: none;
 }
-.pular:focus { left: var(--gutter); top: var(--space-10); }
+.pular:focus { left: var(--gutter); top: var(--space-12); }
 
 .wrap {
   width: 100%;
@@ -172,8 +176,8 @@ img { max-width: 100%; display: block; }
 .btn-green {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-10);
-  padding: var(--space-20) var(--space-30);
+  gap: var(--space-12);
+  padding: var(--space-24) var(--space-32);
   border: 0;
   border-radius: var(--radius-buttons);
   background: var(--highlighter-green);
@@ -228,7 +232,7 @@ img { max-width: 100%; display: block; }
 /* A barra saiu do fluxo; o corpo abre o vão dela. O scroll-padding
    é para as âncoras não pararem debaixo da barra. */
 body { padding-top: var(--nav-h); }
-html { scroll-padding-top: calc(var(--nav-h) + var(--space-20)); }
+html { scroll-padding-top: calc(var(--nav-h) + var(--space-24)); }
 
 .nav {
   position: fixed;
@@ -243,7 +247,7 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--space-20)); }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-20);
+  gap: var(--space-24);
   height: var(--nav-h);
 }
 
@@ -403,12 +407,12 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--space-20)); }
      demais; ela só não se anuncia. */
   scrollbar-width: none;
   -ms-overflow-style: none;
-  padding-top: calc(var(--nav-h) + var(--space-15));
-  padding-bottom: clamp(18px, 3.5vh, 40px);
+  padding-top: calc(var(--nav-h) + var(--space-16));
+  padding-bottom: clamp(16px, 3.5vh, 48px);
 }
 .menu__inner::-webkit-scrollbar { width: 0; height: 0; display: none; }
-.menu__grupo + .menu__grupo { margin-top: clamp(14px, 2.6vh, 30px); }
-.menu__rotulo { margin: 0 0 var(--space-15); color: var(--muted-sage); }
+.menu__grupo + .menu__grupo { margin-top: clamp(16px, 2.6vh, 32px); }
+.menu__rotulo { margin: 0 0 var(--space-16); color: var(--muted-sage); }
 /* Um vão entre os itens, para o contorno de uma linha nunca cruzar
    o da linha vizinha: só assim ele fecha só a borda externa da
    letra, sem risco por dentro. */
@@ -517,7 +521,7 @@ html:not(.js) .menu {
 html:not(.js) .menu .onda,
 html:not(.js) .menu-btn { display: none; }
 /* No fluxo, o vão da barra fixa já é o padding do corpo. */
-html:not(.js) .menu__inner { padding-top: var(--space-20); }
+html:not(.js) .menu__inner { padding-top: var(--space-24); }
 html:not(.js) .menu__lista li { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -546,7 +550,7 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-30);
+  gap: var(--space-32);
   background-color: var(--press-black);
   background-image: url("bg-weave-dark.svg");
   color: var(--bone-white);
@@ -600,8 +604,8 @@ html.chegando .transicao__barra i { width: 100%; }
 .secao__head {
   display: flex;
   align-items: center;
-  gap: var(--space-20);
-  margin-bottom: var(--space-40);
+  gap: var(--space-24);
+  margin-bottom: var(--space-48);
 }
 .secao__head .micro { color: var(--newsprint-gray); white-space: nowrap; }
 .secao__rule { flex: 1; height: 1px; background: currentColor; opacity: .25; }
@@ -614,12 +618,12 @@ html.chegando .transicao__barra i { width: 100%; }
    que é onde ela nasceu.
    ============================================================ */
 
-.ficha { margin: 0 0 var(--space-40); display: flex; flex-direction: column; gap: var(--space-15); }
+.ficha { margin: 0 0 var(--space-48); display: flex; flex-direction: column; gap: var(--space-16); }
 .ficha > div {
   display: grid;
-  grid-template-columns: 90px minmax(0, 1fr);
-  gap: var(--space-20);
-  padding-top: var(--space-15);
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: var(--space-24);
+  padding-top: var(--space-16);
   border-top: 1px solid var(--slate-verdant);
 }
 .ficha dt { color: var(--muted-sage); padding-top: 2px; }
@@ -709,15 +713,22 @@ html.chegando .transicao__barra i { width: 100%; }
   background-color: var(--press-black);
   background-image: url("bg-weave-dark.svg");
   color: var(--bone-white);
-  padding-block: clamp(50px, 7vw, 100px) var(--space-50);
+  padding-block: clamp(48px, 7vw, 96px) var(--space-48);
 }
+/* O rodapé também mora na grade de doze colunas: seis para o
+   contato, três para cada lista. Antes ele corria em frações
+   próprias (1.6fr, 1fr, 1fr), que é justamente o tipo de medida
+   que não se alinha a nada no resto da página. */
 .footer__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr);
-  gap: var(--space-50) var(--space-40);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: clamp(var(--space-16), 2vw, var(--space-32));
+  row-gap: var(--space-48);
 }
+.footer__grid > :first-child { grid-column: span 6; }
+.footer__col { grid-column: span 3; }
 .footer h2 {
-  margin: 0 0 var(--space-20);
+  margin: 0 0 var(--space-24);
   max-width: 14ch;
   font-family: var(--font-display);
   font-weight: 400;
@@ -726,20 +737,20 @@ html.chegando .transicao__barra i { width: 100%; }
   letter-spacing: -0.03em;
 }
 .footer__contact {
-  margin: 0 0 var(--space-30);
+  margin: 0 0 var(--space-32);
   font-size: var(--text-body);
   font-weight: 200;
   letter-spacing: -0.02em;
 }
 .footer__col h3 {
-  margin: 0 0 var(--space-20);
+  margin: 0 0 var(--space-24);
   color: var(--muted-sage);
   font-size: var(--text-caption);
   font-weight: 550;
   letter-spacing: .01em;
   text-transform: uppercase;
 }
-.footer__col ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-10); }
+.footer__col ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--space-12); }
 .footer__col a {
   color: var(--bone-white);
   font-size: var(--text-body-sm);
@@ -757,13 +768,13 @@ html.chegando .transicao__barra i { width: 100%; }
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: var(--space-15);
-  margin-top: clamp(48px, 7vw, 100px);
+  gap: var(--space-16);
+  margin-top: clamp(48px, 7vw, 96px);
   color: var(--muted-sage);
 }
 @media (max-width: 760px) {
-  .footer__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .footer__grid > :first-child { grid-column: 1 / -1; }
+  .footer__col { grid-column: span 6; }
 }
 
 

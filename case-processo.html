@@ -128,30 +128,34 @@
       <!-- 01. O parágrafo de abertura entra deslocado do eixo e a
            ficha corre embaixo, em faixa, como crédito de matéria. -->
       <section class="secao" id="contexto" aria-labelledby="t-contexto">
-        <div class="secao__head" data-revelar>
-          <span class="micro" id="t-contexto">01 · Contexto</span>
-          <span class="secao__rule"></span>
+        <div class="secao__topo" data-revelar>
+          <div class="secao__head">
+            <span class="micro" id="t-contexto">01 · Contexto</span>
+            <span class="secao__rule"></span>
+          </div>
         </div>
 
         <div class="abertura" data-revelar>
           <p>A Omni vende agentes conversacionais para varejo. Configurar esses agentes exige muita tentativa até a conversa ficar boa em&nbsp;produção, e o nosso processo não acompanhava esse&nbsp;ritmo.</p>
         </div>
 
-        <div class="ficha-bloco" data-revelar data-revelar-atraso="1">
-        <span class="micro rotulo">Ficha do projeto</span>
-        <dl class="faixa-ficha">
-          <div><dt class="micro">Duração</dt><dd>1 mês para validar o novo desenho, que segue evoluindo</dd></div>
-          <div><dt class="micro">Jeff</dt><dd>Liderei o processo de produto e design, conectando delivery, GA e GTM</dd></div>
-          <div><dt class="micro">Time</dt><dd>Produto, design, engenharia e dados</dd></div>
-        </dl>
+        <div class="bloco" data-revelar data-revelar-atraso="1">
+          <span class="micro rotulo">Ficha do projeto</span>
+          <dl class="faixa-ficha">
+            <div><dt class="micro">Duração</dt><dd>1 mês para validar o novo desenho, que segue evoluindo</dd></div>
+            <div><dt class="micro">Jeff</dt><dd>Liderei o processo de produto e design, conectando delivery, GA e GTM</dd></div>
+            <div><dt class="micro">Time</dt><dd>Produto, design, engenharia e dados</dd></div>
+          </dl>
         </div>
       </section>
 
       <!-- 02. Duas linhas indexadas, não dois cartões iguais. -->
       <section class="secao" aria-labelledby="t-problema">
-        <div class="secao__head" data-revelar>
-          <span class="micro" id="t-problema">02 · O problema</span>
-          <span class="secao__rule"></span>
+        <div class="secao__topo" data-revelar>
+          <div class="secao__head">
+            <span class="micro" id="t-problema">02 · O problema</span>
+            <span class="secao__rule"></span>
+          </div>
         </div>
 
         <div class="linhas">
@@ -172,11 +176,13 @@
            que acontece no meio, o texto na direita. A saída abre em
            cinco entregas, cada uma com o destino do lado. -->
       <section class="secao" aria-labelledby="t-fluxo">
-        <div class="secao__head" data-revelar>
-          <span class="micro">03 · O que a gente fez</span>
-          <span class="secao__rule"></span>
+        <div class="secao__topo" data-revelar>
+          <div class="secao__head">
+            <span class="micro">03 · O que a gente fez</span>
+            <span class="secao__rule"></span>
+          </div>
+          <h2 class="secao__titulo" id="t-fluxo">Da&nbsp;transcrição ao&nbsp;entregável</h2>
         </div>
-        <h2 class="secao__titulo" id="t-fluxo" data-revelar>Da&nbsp;transcrição ao&nbsp;entregável</h2>
 
         <div class="estagios" data-revelar>
           <div class="estagio">
@@ -234,7 +240,7 @@
           </div>
         </div>
 
-        <div class="atrito respiro" data-revelar>
+        <div class="atrito" data-revelar>
           <h3>A primeira tentativa não foi&nbsp;essa</h3>
           <p>Cada um usava o Claude do seu jeito, e a gente passou a gerar documento mais rápido e alinhar menos. Dois PRDs da mesma semana com estruturas diferentes, e a engenharia perguntando qual era o padrão. Não existia.</p>
           <p>A skill compartilhada nasceu como conserto disso, não como ideia de eficiência.</p>
@@ -253,12 +259,14 @@
       <!-- 04. Os três ritos sem moldura, separados pelo traço
            verde curto. A usabilidade entra em degrau, deslocada. -->
       <section class="secao" aria-labelledby="t-rituais">
-        <div class="secao__head" data-revelar>
-          <span class="micro">04 · Rituais</span>
-          <span class="secao__rule"></span>
+        <div class="secao__topo" data-revelar>
+          <div class="secao__head">
+            <span class="micro">04 · Rituais</span>
+            <span class="secao__rule"></span>
+          </div>
+          <h2 class="secao__titulo" id="t-rituais">Saímos de&nbsp;Scrum para&nbsp;Kanban</h2>
         </div>
-        <h2 class="secao__titulo" id="t-rituais" data-revelar>Saímos de&nbsp;Scrum para&nbsp;Kanban</h2>
-        <p class="corpo-texto" data-revelar data-revelar-atraso="1" style="margin-bottom: var(--space-50)">Com o rascunho já pronto antes do encontro, o que sobrou para a agenda foi dúvida, não&nbsp;redação.</p>
+        <p class="corpo-texto" data-revelar data-revelar-atraso="1">Com o rascunho já pronto antes do encontro, o que sobrou para a agenda foi dúvida, não&nbsp;redação.</p>
 
         <div class="ritos" data-revelar>
           <div class="rito">
@@ -275,11 +283,11 @@
           </div>
         </div>
 
-        <div class="recuado respiro" data-revelar>
+        <div class="recuado" data-revelar>
           <span class="micro rotulo">Usabilidade</span>
           <p class="corpo-texto">Reduzimos bastante teste de usabilidade, porque o Claude passou a apontar problema de fluxo com consistência, usando heurística de Norman e Nielsen mais o que a gente já sabe do&nbsp;nosso público.</p>
 
-          <div class="atrito respiro">
+          <div class="atrito">
             <h3>Aqui eu cortei rápido demais</h3>
             <p>A análise pegava tudo que é padrão de interface e não pegou a única coisa que travava um fluxo de configuração de agente, que era o nome de um campo no vocabulário de quem trabalha dentro de um varejista. Heurística não pega linguagem de domínio.</p>
             <p>Hoje a regra é que teste com gente continua obrigatório quando a entrega traz vocabulário novo ou muda modelo mental.</p>
@@ -290,13 +298,15 @@
       <!-- 05. A pergunta do time ocupa a página inteira. É a única
            frase do caso que ganha corpo de manchete. -->
       <section class="secao" aria-labelledby="t-lideranca">
-        <div class="secao__head" data-revelar>
-          <span class="micro">05 · Liderança</span>
-          <span class="secao__rule"></span>
+        <div class="secao__topo" data-revelar>
+          <div class="secao__head">
+            <span class="micro">05 · Liderança</span>
+            <span class="secao__rule"></span>
+          </div>
+          <h2 class="secao__titulo secao__titulo--sm" id="t-lideranca">A&nbsp;conversa mais difícil não&nbsp;foi sobre&nbsp;ferramenta</h2>
         </div>
-        <h2 class="secao__titulo secao__titulo--sm" id="t-lideranca" data-revelar>A&nbsp;conversa mais difícil não&nbsp;foi sobre&nbsp;ferramenta</h2>
 
-        <div class="grito-par respiro" data-revelar>
+        <div class="grito-par" data-revelar>
           <p class="grito">O que sobra pra&nbsp;gente?</p>
           <p class="legenda">A pergunta que o time fez quando ficou claro que o rascunho do documento e da primeira tela sairia automático.</p>
         </div>
@@ -322,11 +332,13 @@
       <!-- 06. As cinco fases são cinco colunas que estreitam: a
            forma do funil é a própria grade. -->
       <section class="secao" aria-labelledby="t-funil">
-        <div class="secao__head" data-revelar>
-          <span class="micro">06 · O novo funil</span>
-          <span class="secao__rule"></span>
+        <div class="secao__topo" data-revelar>
+          <div class="secao__head">
+            <span class="micro">06 · O novo funil</span>
+            <span class="secao__rule"></span>
+          </div>
+          <h2 class="secao__titulo" id="t-funil">Cinco fases, do&nbsp;sinal ao&nbsp;pós-lançamento</h2>
         </div>
-        <h2 class="secao__titulo" id="t-funil" data-revelar>Cinco fases, do&nbsp;sinal ao&nbsp;pós-lançamento</h2>
 
         <ol class="funil" data-revelar>
           <li class="fase">
@@ -380,20 +392,20 @@
       <!-- 07. Texto de um lado, a trilha do componente correndo na
            horizontal embaixo, porque ela é um caminho. -->
       <section class="secao" aria-labelledby="t-ds">
-        <div class="secao__head" data-revelar>
-          <span class="micro">07 · Fluxo paralelo</span>
-          <span class="secao__rule"></span>
-        </div>
-
-        <div class="abertura" data-revelar>
-          <h2 class="secao__titulo secao__titulo--sm" id="t-ds" style="grid-column: 1; margin: 0">O&nbsp;Design System corre por&nbsp;fora do&nbsp;funil</h2>
-          <div class="corpo-texto">
-            <p>Em paralelo ao funil roda o fluxo do Design System, com componente aprovado direto no código antes de subir para o&nbsp;GitHub.</p>
-            <p>Hoje áreas fora de design também prototipam, CS inclusive, o que abriu uma discussão interna sobre controle. Resolvi separando o que cada protótipo pode prometer, não restringindo quem&nbsp;cria.</p>
+        <div class="secao__topo" data-revelar>
+          <div class="secao__head">
+            <span class="micro">07 · Fluxo paralelo</span>
+            <span class="secao__rule"></span>
           </div>
+          <h2 class="secao__titulo secao__titulo--sm" id="t-ds">O&nbsp;Design System corre por&nbsp;fora do&nbsp;funil</h2>
         </div>
 
-        <div class="respiro" data-revelar data-revelar-atraso="1">
+        <div class="corpo-texto" data-revelar>
+          <p>Em paralelo ao funil roda o fluxo do Design System, com componente aprovado direto no código antes de subir para o&nbsp;GitHub.</p>
+          <p>Hoje áreas fora de design também prototipam, CS inclusive, o que abriu uma discussão interna sobre controle. Resolvi separando o que cada protótipo pode prometer, não restringindo quem&nbsp;cria.</p>
+        </div>
+
+        <div class="bloco" data-revelar data-revelar-atraso="1">
           <span class="micro rotulo">A trilha do componente</span>
           <div class="rail">
             <div class="rail__marco">
@@ -415,11 +427,13 @@
       <!-- 08. Os dois estados lado a lado, separados por um fio.
            Antes ficava metade escondida atrás de um botão. -->
       <section class="secao" aria-labelledby="t-confronto">
-        <div class="secao__head" data-revelar>
-          <span class="micro">08 · Antes e depois</span>
-          <span class="secao__rule"></span>
+        <div class="secao__topo" data-revelar>
+          <div class="secao__head">
+            <span class="micro">08 · Antes e depois</span>
+            <span class="secao__rule"></span>
+          </div>
+          <h2 class="secao__titulo" id="t-confronto">O&nbsp;mesmo time, com&nbsp;o&nbsp;eixo do&nbsp;trabalho deslocado</h2>
         </div>
-        <h2 class="secao__titulo" id="t-confronto" data-revelar>O&nbsp;mesmo time, com&nbsp;o&nbsp;eixo do&nbsp;trabalho deslocado</h2>
 
         <div class="confronto" data-revelar>
           <div class="confronto__linha confronto__cabeca">
@@ -453,18 +467,20 @@
       <!-- 09. O resultado: o gráfico ocupa a largura, o atrito
            entra escuro e os quatro números fecham a conta. -->
       <section class="secao" aria-labelledby="t-resultado">
-        <div class="secao__head" data-revelar>
-          <span class="micro">09 · Resultado</span>
-          <span class="secao__rule"></span>
+        <div class="secao__topo" data-revelar>
+          <div class="secao__head">
+            <span class="micro">09 · Resultado</span>
+            <span class="secao__rule"></span>
+          </div>
+          <h2 class="secao__titulo" id="t-resultado">Sobrou tempo justamente onde o&nbsp;produto precisa de&nbsp;experimentação</h2>
         </div>
-        <h2 class="secao__titulo" id="t-resultado" data-revelar>Sobrou tempo justamente onde o&nbsp;produto precisa de&nbsp;experimentação</h2>
 
         <div class="corpo-texto colunas" data-revelar>
           <p>E muito mais experimento rodando, que é o que decide a qualidade da conversa em produção.</p>
           <p>Design segue revisando tudo que vira PR.</p>
         </div>
 
-        <div class="respiro" data-revelar data-revelar-atraso="1">
+        <div class="bloco" data-revelar data-revelar-atraso="1">
           <span class="micro barras__titulo">Tempo antes e depois</span>
           <div class="barras" data-barras>
             <div>
@@ -473,14 +489,14 @@
                   <span class="barra__rotulo">Discovery, antes</span>
                   <span class="barra__valor">1 a 2 meses</span>
                 </div>
-                <div class="barra__trilho"><div class="barra__preenche" style="--larg: 100%"></div></div>
+                <div class="barra__trilho" style="--larg: 100%"><div class="barra__preenche"></div></div>
               </div>
               <div class="barra barra--depois">
                 <div class="barra__cabeca">
                   <span class="barra__rotulo">Discovery, depois</span>
                   <span class="barra__valor">~1 semana</span>
                 </div>
-                <div class="barra__trilho"><div class="barra__preenche" style="--larg: 12.5%"></div></div>
+                <div class="barra__trilho" style="--larg: 12.5%"><div class="barra__preenche"></div></div>
               </div>
             </div>
             <div>
@@ -489,26 +505,26 @@
                   <span class="barra__rotulo">Refinamento semanal, antes</span>
                   <span class="barra__valor">4 a 5 h</span>
                 </div>
-                <div class="barra__trilho"><div class="barra__preenche" style="--larg: 100%"></div></div>
+                <div class="barra__trilho" style="--larg: 100%"><div class="barra__preenche"></div></div>
               </div>
               <div class="barra barra--depois">
                 <div class="barra__cabeca">
                   <span class="barra__rotulo">Refinamento semanal, depois</span>
                   <span class="barra__valor">30 a 40 min</span>
                 </div>
-                <div class="barra__trilho"><div class="barra__preenche" style="--larg: 13%"></div></div>
+                <div class="barra__trilho" style="--larg: 13%"><div class="barra__preenche"></div></div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="atrito respiro" data-revelar>
+        <div class="atrito" data-revelar>
           <h3>A conta estava sendo lida ao&nbsp;contrário</h3>
           <p>Um número desses também gera a pergunta que eu não queria receber, se dá para fazer com menos gente. O gargalo nunca foi produzir documento, era decidir com informação suficiente.</p>
           <p>O que ganhamos não foi vaga a menos, foi aposta a mais no mesmo trimestre. E mais aposta exige mais gente sabendo julgar resultado.</p>
         </div>
 
-        <div class="numeros respiro" data-revelar>
+        <div class="numeros" data-revelar>
           <div class="numero-caso">
             <span class="numero-caso__valor">~1 sem</span>
             <p class="numero-caso__label">de Discovery, no&nbsp;lugar de um a dois&nbsp;meses</p>
@@ -527,7 +543,7 @@
           </div>
         </div>
 
-        <div class="fecho respiro" data-revelar>
+        <div class="fecho" data-revelar>
           <div>
             <span class="micro rotulo">O que eu levo daqui</span>
             <p class="declaracao">O trabalho de design não é mais desenhar a&nbsp;tela primeiro.</p>
@@ -539,10 +555,12 @@
 
         <div class="acoes" data-revelar>
           <p>Esse desenho segue em construção na Omni. Se quiser entender como aplicar algo parecido no seu time, me&nbsp;chama no WhatsApp ou veja o próximo caso.</p>
-          <a class="proximo-link" href="case-omnichat.html">Próximo caso <i aria-hidden="true">→</i></a>
-          <a class="btn-green" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
-          </a>
+          <div class="acoes__ir">
+            <a class="proximo-link" href="case-omnichat.html">Próximo caso <i aria-hidden="true">→</i></a>
+            <a class="btn-green" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
+            </a>
+          </div>
         </div>
       </section>
 

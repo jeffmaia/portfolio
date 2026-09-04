@@ -1,21 +1,52 @@
 /* ============================================================
-   Caso — a página de um caso, por dentro
+   Caso: a página de um caso, por dentro
 
    Continua de onde o cartão da Home parou: quem clica no caso em
    destaque, que lá é o bloco escuro, chega num topo escuro igual.
    Daí em diante a página alterna papel e tinta, e cada troca é uma
-   onda — o mesmo recorte da Home.
-
-   A diagramação vem das páginas internas da referência
-   (newformcap.com/team e as seções de baixo da home dela):
-   linhas indexadas com número à esquerda, coluna fixa de título ao
-   lado de uma pilha de linhas, traço verde curto como separador,
-   texto deslocado do eixo em vez de centralizado em caixas iguais.
-   Nenhuma seção usa o mesmo arranjo da anterior — é isso que dá
-   ritmo a uma página longa.
+   onda, o mesmo recorte da Home.
 
    Só o que é da página de caso mora aqui. Tokens, barra do topo,
    ficha, onda, rodapé e movimento vêm de base.css.
+
+   ── A grade ──────────────────────────────────────────────
+
+   Esta folha foi refeita sobre uma grade de 12 colunas. Ela nunca
+   aparece, mas tudo se apoia nela: não existe mais bloco que
+   invente o próprio arranjo de colunas, e nenhuma margem nasce de
+   um número escolhido no olho.
+
+   Doze porque divide bem: 2, 3, 4 e 6 colunas iguais saem da mesma
+   grade, e é isso que faz três ritos, quatro números, cinco fases
+   e duas conversas caberem no mesmo desenho sem cada seção virar
+   uma exceção.
+
+   Três regras seguram a coisa toda:
+
+   1. A calha é uma só na página inteira (--calha), e a margem
+      externa também (--gutter, de base.css).
+
+   2. Todo elemento começa e termina numa coluna. Nada de largura
+      solta: onde antes havia max-width em ch ou uma fração
+      inventada (1.35fr, .62fr), agora há um intervalo de colunas.
+
+   3. As larguras mudam por faixa de tela trocando o intervalo de
+      colunas, nunca a grade. São três faixas: larga (1100 para
+      cima), média (720 a 1099) e estreita (abaixo de 720), e na
+      estreita quase tudo ocupa as doze.
+
+   ── O respiro ────────────────────────────────────────────
+
+   Três níveis, e cada um pelo menos o dobro do de dentro, que é o
+   que faz o olho agrupar sem precisar de moldura nem de fio:
+
+     dentro de um grupo   16   rótulo e o que ele nomeia
+     entre blocos         48   linha da seção
+     entre seções         96   e a troca de papel para tinta soma
+                               o recuo da superfície a isso
+
+   As medidas saem todas da régua de base.css. Nesta folha não
+   existe valor de espaço escrito à mão.
    ============================================================ */
 
 /* ============================================================
@@ -32,10 +63,16 @@
    preposição na palavra que eles regem.
    ============================================================ */
 
-/* Uma página de caso é longa: o intervalo entre seções fica um
-   pouco menor que o do resto do site, para o vazio continuar sendo
-   pausa e não interrupção. */
-.caso { --section-gap: clamp(56px, 6.5vw, 96px); }
+.caso {
+  /* A calha cresce com a tela, mas sai da mesma régua: 16 no
+     celular, 32 no desktop. É a mesma distância entre duas colunas
+     em qualquer ponto da página. */
+  --calha: clamp(var(--space-16), 2vw, var(--space-32));
+  /* Uma página de caso é longa: o intervalo entre seções fica um
+     pouco menor que o do resto do site, para o vazio continuar
+     sendo pausa e não interrupção. */
+  --section-gap: clamp(var(--space-48), 7vw, var(--space-96));
+}
 
 .caso h1,
 .caso h2,
@@ -87,35 +124,85 @@
   color: var(--bone-white);
 }
 
-/* O recuo de baixo precisa caber a onda da seção seguinte, que fica
-   pendurada por cima desta — e por isso ele já vem com altura de
-   sobra. O intervalo próprio da seção entra reduzido embaixo, senão
-   a soma vira um vão de mais de 200px em cada troca de fundo. */
+/* O recuo de baixo precisa caber a onda da seção seguinte, que
+   fica pendurada por cima desta, e por isso soma a altura dela ao
+   respiro. */
 .folha__inner,
 .tinta__inner {
-  padding-block: var(--section-gap) calc(var(--section-gap) * .5 + var(--onda-h));
+  padding-block: var(--section-gap) calc(var(--space-48) + var(--onda-h));
 }
 
+/* ============================================================
+   A grade
+
+   Doze colunas, uma calha só. Quem quiser participar da grade
+   herda esta classe, e é ela que faz o miolo de um componente
+   cair exatamente nas mesmas colunas do resto da página.
+
+   Um contêiner que ocupa as doze colunas pode redesenhar as doze
+   por dentro sem sair do prumo: as pistas são iguais e a calha é a
+   mesma, então a coluna 7 de dentro cai em cima da coluna 7 de
+   fora. É o que .linhas, .estagios e .confronto fazem.
+   ============================================================ */
+
+.grade,
+.secao {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+}
+
+/* Entre blocos de uma seção, sempre a mesma linha de respiro. */
+.secao { row-gap: var(--space-48); align-content: start; }
+
+/* O padrão é ocupar a largura toda. Quem for mais estreito diz
+   abaixo em quais colunas cabe, e assim nenhum bloco fica com uma
+   largura que não veio da grade. */
+.secao > * { grid-column: 1 / -1; }
+
 .secao + .secao { margin-top: var(--section-gap); }
+
+/* Um grupo: o rótulo e aquilo que ele nomeia. O respiro aqui
+   dentro é a metade do respiro que existe em volta, e é esse
+   contraste que faz o olho ler os dois como uma coisa só. */
+.bloco,
+.secao__topo {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-16);
+  align-content: start;
+}
+.bloco > *,
+.secao__topo > * { grid-column: 1 / -1; }
+
+/* O cabeçalho de seção vem de base.css; aqui ele perde a margem
+   própria, porque quem dá o respiro é a linha da grade. */
+.secao__topo .secao__head { margin-bottom: 0; }
 
 /* ============================================================
    Topo do caso
 
-   A referência abre as páginas internas com o título grande à
-   esquerda, o texto de apoio logo abaixo dele e o número sozinho
-   do outro lado. Aqui o número é o salto: de quanto era para
-   quanto passou a ser.
+   O título grande à esquerda, o texto de apoio e o número
+   dividindo a linha de baixo. O número é o salto: de quanto era
+   para quanto passou a ser.
    ============================================================ */
 
 .caso-topo__inner {
-  padding-block: var(--space-30) calc(clamp(50px, 6vw, 80px) + var(--onda-h));
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-32);
+  align-content: start;
+  padding-block: var(--space-32) calc(var(--space-64) + var(--onda-h));
 }
+.caso-topo__inner > * { grid-column: 1 / -1; }
 
 .voltar {
+  justify-self: start;
   display: inline-flex;
   align-items: center;
-  gap: var(--space-10);
-  margin-bottom: clamp(24px, 4vw, 44px);
+  gap: var(--space-12);
   color: var(--muted-sage);
   text-decoration: none;
   transition: color .25s;
@@ -126,20 +213,21 @@
   .voltar:hover i { transform: translateX(-4px); }
 }
 
-/* As etiquetas de assunto, sem fundo e sem moldura, como o
-   DESIGN.md manda. A última é a que muda de cor. */
+/* As etiquetas de assunto, sem fundo e sem moldura. A última é a
+   que muda de cor. */
 .etiquetas {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-10) var(--space-25);
-  margin-bottom: var(--space-30);
+  gap: var(--space-12) var(--space-24);
+  margin: 0;
   color: var(--muted-sage);
 }
+.folha .etiquetas { color: var(--newsprint-gray); }
 .etiquetas .etiqueta--verde { color: var(--highlighter-green); }
 
 .caso-topo h1 {
+  grid-column: 1 / span 8;
   margin: 0;
-  max-width: 20ch;
   font-family: var(--font-display);
   font-weight: 400;
   font-size: var(--text-heading);
@@ -152,8 +240,8 @@
 .caso-topo h1::after {
   content: "";
   display: inline-block;
-  width: clamp(40px, 5vw, 76px);
-  height: clamp(6px, .7vw, 10px);
+  width: clamp(var(--space-48), 5vw, var(--space-64));
+  height: var(--space-8);
   margin-left: .18em;
   vertical-align: baseline;
   background: var(--highlighter-green);
@@ -161,24 +249,26 @@
 
 .caso-topo__pe {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  gap: clamp(30px, 4vw, 70px);
-  margin-top: var(--space-40);
-  padding-top: var(--space-30);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-32);
+  margin-top: var(--space-32);
+  padding-top: var(--space-32);
   border-top: 1px solid var(--slate-verdant);
   align-items: start;
 }
 .caso-topo__lead {
+  grid-column: 1 / span 6;
   margin: 0;
-  max-width: 46ch;
   font-size: var(--text-body);
   font-weight: 200;
   line-height: 1.55;
   letter-spacing: -0.02em;
 }
 
-/* — O salto: o número velho riscado em verde, o novo em corpo
-     grande logo abaixo. — */
+/* O salto: o número velho riscado em verde, o novo em corpo grande
+   logo abaixo. */
+.salto { grid-column: 8 / -1; }
 .salto__de {
   display: block;
   margin-bottom: var(--space-8);
@@ -198,26 +288,24 @@
   color: var(--bone-white);
 }
 .salto__que {
-  margin: var(--space-15) 0 0;
-  max-width: 40ch;
+  margin: var(--space-16) 0 0;
   font-size: var(--text-body-sm);
   font-weight: 350;
   line-height: 1.45;
   color: var(--muted-sage);
 }
 
-@media (max-width: 900px) {
-  .caso-topo h1 { max-width: none; }
-  .caso-topo__pe { grid-template-columns: minmax(0, 1fr); gap: var(--space-40); }
-}
-
 /* ============================================================
    Peças de texto
+
+   A medida de leitura também sai da grade: seis colunas na tela
+   larga dão a linha de texto que se lê sem cansar, e é por isso
+   que o corpo não ocupa a largura toda.
    ============================================================ */
 
 .secao__titulo {
-  margin: 0 0 var(--space-25);
-  max-width: 30ch;
+  grid-column: 1 / span 9;
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(30px, 3.6vw, 50px);
@@ -225,7 +313,7 @@
   letter-spacing: -0.02em;
 }
 .tinta .secao__titulo { color: var(--bone-white); }
-.secao__titulo--sm { font-size: clamp(24px, 2.6vw, 34px); max-width: 26ch; }
+.secao__titulo--sm { grid-column: 1 / span 7; font-size: clamp(24px, 2.6vw, 34px); }
 
 .corpo-texto {
   max-width: 60ch;
@@ -234,28 +322,42 @@
   line-height: 1.6;
   letter-spacing: -0.01em;
 }
-.corpo-texto p { margin: 0 0 var(--space-20); }
+.secao > .corpo-texto { grid-column: 1 / span 6; max-width: none; }
+.corpo-texto p { margin: 0 0 var(--space-24); }
 .corpo-texto p:last-child { margin-bottom: 0; }
 .tinta .corpo-texto { font-weight: 200; }
 
 /* Duas colunas de texto corrido, do jeito que um jornal resolve um
-   bloco largo: mais curto de ler e mais baixo na página. */
-.colunas {
+   bloco largo. A calha entre elas é a mesma da grade, então as
+   duas caem exatamente nas colunas 1 a 6 e 7 a 12. */
+.secao > .colunas {
+  grid-column: 1 / -1;
   columns: 2;
-  column-gap: clamp(30px, 4vw, 60px);
+  column-gap: var(--calha);
   max-width: none;
 }
 .colunas p { break-inside: avoid; }
-@media (max-width: 780px) { .colunas { columns: 1; } }
 
-/* O rótulo miúdo que abre um bloco dentro da seção. */
-.rotulo { display: block; margin-bottom: var(--space-20); color: var(--newsprint-gray); }
+/* Nenhum parágrafo solto na grade carrega margem própria: quem dá
+   o ritmo vertical é a linha da grade, e uma margem de navegador
+   somada a ela seria um respiro que não veio da régua. */
+.secao > p,
+.bloco > p,
+.recuado > p { margin: 0; }
+/* Um link que fecha um bloco abre um degrau a mais que o respiro
+   de dentro dele: ele é ação, não continuação do texto. */
+.bloco > .link-solto { margin-top: var(--space-16); }
+
+/* O rótulo miúdo que abre um bloco. Sem margem própria: quem dá o
+   respiro é a linha do grupo. */
+.rotulo { display: block; margin: 0; color: var(--newsprint-gray); }
 .tinta .rotulo { color: var(--muted-sage); }
 
 /* A linha de apoio embaixo de uma frase: explica de onde ela veio. */
+.secao > .legenda,
+.secao__topo > .legenda { grid-column: 1 / span 5; }
 .legenda {
-  margin: var(--space-15) 0 0;
-  max-width: 34ch;
+  margin: 0;
   font-size: var(--text-body-sm);
   font-weight: 350;
   line-height: 1.45;
@@ -264,22 +366,20 @@
 .tinta .legenda { color: var(--muted-sage); }
 
 /* ============================================================
-   Contexto — o parágrafo de abertura
+   Abertura
 
-   Deslocado do eixo, como a referência faz com o texto de entrada
-   das páginas internas: começa depois do primeiro terço, e o
-   rótulo da seção fica sozinho na margem.
+   O parágrafo de entrada da seção começa na quarta coluna. O
+   deslocamento não é decorativo: ele deixa o rótulo da seção
+   sozinho na margem e diz, sem escrever, que ali começa a leitura.
    ============================================================ */
 
-.abertura {
-  display: grid;
-  grid-template-columns: minmax(0, .62fr) minmax(0, 2fr);
-  gap: clamp(20px, 3vw, 50px);
-}
-.abertura > p {
-  grid-column: 2;
+/* Sete colunas a partir da quarta: a linha de leitura de um corpo
+   grande fica em pouco mais de sessenta caracteres, e a margem que
+   sobra à direita é o que mantém o parágrafo com cara de entrada e
+   não de bloco de texto. */
+.abertura { grid-column: 4 / span 7; }
+.abertura p {
   margin: 0;
-  max-width: 40ch;
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(22px, 2.4vw, 30px);
@@ -287,37 +387,62 @@
   letter-spacing: -0.01em;
 }
 
-/* A ficha corre embaixo, em faixa, como o crédito de uma matéria. */
-.ficha-bloco { margin-top: clamp(36px, 4vw, 56px); }
-.ficha-bloco .rotulo { margin-bottom: var(--space-15); }
+/* Um bloco que entra deslocado do eixo, para a leitura descer em
+   degrau. Duas colunas de recuo, não uma margem inventada.
+
+   Ele ocupa dez colunas e redesenha essas dez por dentro, então o
+   que está aqui continua caindo nas colunas da página: a coluna 1
+   daqui é a coluna 3 de lá. */
+.recuado {
+  grid-column: 3 / -1;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-16);
+  align-content: start;
+}
+.recuado > * { grid-column: 1 / -1; }
+.recuado > .corpo-texto { grid-column: 1 / span 6; max-width: none; }
+/* O atrito abre um grupo novo dentro do bloco, então ganha o
+   respiro de fora, não o de dentro. */
+.recuado > .atrito { margin-top: var(--space-32); }
+
+/* ============================================================
+   Ficha do projeto
+
+   Três campos, quatro colunas cada. Corre embaixo da abertura, em
+   faixa, como o crédito de uma matéria.
+   ============================================================ */
+
 .faixa-ficha {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(20px, 3vw, 50px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-24);
+  margin: 0;
 }
-.faixa-ficha > div { padding-top: var(--space-15); border-top: 1px solid rgba(18, 22, 19, .25); }
-.faixa-ficha dt { margin-bottom: var(--space-10); color: var(--newsprint-gray); }
+.faixa-ficha > div {
+  grid-column: span 4;
+  padding-top: var(--space-16);
+  border-top: 1px solid rgba(18, 22, 19, .25);
+}
+.tinta .faixa-ficha > div { border-top-color: var(--slate-verdant); }
+.faixa-ficha dt { margin-bottom: var(--space-12); color: var(--newsprint-gray); }
+.tinta .faixa-ficha dt { color: var(--muted-sage); }
 .faixa-ficha dd {
   margin: 0;
-  max-width: 32ch;
   font-size: var(--text-body-sm);
   font-weight: 350;
   line-height: 1.5;
 }
 
-@media (max-width: 820px) {
-  .abertura { grid-template-columns: minmax(0, 1fr); }
-  .abertura p { grid-column: 1; }
-  .faixa-ficha { grid-template-columns: minmax(0, 1fr); gap: var(--space-25); }
-}
-
 /* ============================================================
-   Contas — as duas linhas do problema
+   Linhas indexadas
 
-   Linha indexada: número verde na margem, título em serifa e o
-   texto na coluna larga. É o arranjo que a referência usa para
-   listar as empresas do portfólio, e ele resolve dois itens sem
-   virar dois cartões iguais lado a lado.
+   Número na primeira coluna, título nas quatro seguintes, texto da
+   sexta em diante. É o arranjo que resolve uma lista de itens
+   longos sem virar uma fileira de cartões iguais, e as três
+   colunas dele são colunas da própria página.
    ============================================================ */
 
 .linhas { border-top: 1px solid rgba(18, 22, 19, .22); }
@@ -325,15 +450,17 @@
 
 .linha {
   display: grid;
-  grid-template-columns: 3.5rem minmax(0, 1fr) minmax(0, 1.35fr);
-  gap: clamp(16px, 2.5vw, 40px);
-  padding: clamp(24px, 3vw, 40px) 0;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-12);
+  padding: var(--space-32) 0;
   border-bottom: 1px solid rgba(18, 22, 19, .22);
   align-items: baseline;
 }
 .tinta .linha { border-bottom-color: var(--slate-verdant); }
-.linha__num { color: var(--highlighter-green); }
+.linha__num { grid-column: 1 / span 1; color: var(--highlighter-green); }
 .linha__titulo {
+  grid-column: 2 / span 4;
   margin: 0;
   font-family: var(--font-display);
   font-weight: 400;
@@ -341,42 +468,49 @@
   line-height: 1.05;
   letter-spacing: -0.02em;
 }
+/* Cinco colunas, não sete: a linha de texto que vai até a margem
+   direita passa de cem caracteres, e nessa largura o olho perde o
+   começo da linha seguinte. */
+.linha > p,
+.linha__par { grid-column: 6 / span 5; }
 .linha p {
   margin: 0;
-  max-width: 56ch;
   font-size: var(--text-body-sm);
   font-weight: 350;
   line-height: 1.55;
   color: var(--newsprint-gray);
 }
 .tinta .linha p { color: var(--muted-sage); }
-
-@media (max-width: 820px) {
-  .linha { grid-template-columns: 2.5rem minmax(0, 1fr); gap: var(--space-15); }
-  .linha p { grid-column: 2; margin-top: var(--space-10); }
+.linha__par p + p { margin-top: var(--space-16); }
+.linha__efeito .micro {
+  display: block;
+  margin-bottom: var(--space-4);
+  color: var(--highlighter-green);
 }
 
 /* ============================================================
-   Estágios — da transcrição ao entregável
+   Estágios
 
    Uma tabela de três estágios em vez de três caixas com setas: o
-   rótulo na margem, o que acontece no meio, o texto na direita. O
-   estágio do meio é o que a seção explica, e é o único que ganha
-   fundo.
+   rótulo nas duas primeiras colunas, o que acontece nas quatro
+   seguintes, o texto no resto. O estágio do meio é o que a seção
+   explica, e é o único que ganha fundo.
    ============================================================ */
 
 .estagios { border-top: 1px solid rgba(18, 22, 19, .22); }
 
 .estagio {
   display: grid;
-  grid-template-columns: 7.5rem minmax(0, 1fr) minmax(0, 1.35fr);
-  gap: clamp(16px, 2.5vw, 40px);
-  padding: clamp(22px, 2.6vw, 34px) 0;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-12);
+  padding: var(--space-32) 0;
   border-bottom: 1px solid rgba(18, 22, 19, .22);
   align-items: baseline;
 }
-.estagio > .micro { color: var(--newsprint-gray); }
+.estagio > .micro { grid-column: 1 / span 2; color: var(--newsprint-gray); }
 .estagio h3 {
+  grid-column: 3 / span 4;
   margin: 0;
   font-family: var(--font-display);
   font-weight: 400;
@@ -384,49 +518,64 @@
   line-height: 1.05;
   letter-spacing: -0.02em;
 }
-.estagio p {
+.estagio > p {
+  grid-column: 7 / span 5;
   margin: 0;
-  max-width: 52ch;
   font-size: var(--text-body-sm);
   font-weight: 350;
   line-height: 1.55;
   color: var(--newsprint-gray);
 }
 
-/* O estágio do meio: a camada que faz o trabalho. */
+/* O estágio do meio: a camada que faz o trabalho. O fundo sangra
+   uma calha para cada lado, e só isso, para o texto de dentro
+   continuar nas mesmas colunas dos estágios de cima e de baixo. */
 .estagio--nucleo {
-  padding-inline: clamp(16px, 2vw, 28px);
-  margin-inline: calc(-1 * clamp(16px, 2vw, 28px));
+  padding-inline: var(--calha);
+  margin-inline: calc(-1 * var(--calha));
   background-color: var(--press-black);
   background-image: url("bg-weave-dark.svg");
   border-bottom-color: var(--press-black);
   color: var(--bone-white);
 }
 .estagio--nucleo > .micro { color: var(--highlighter-green); }
-.estagio--nucleo p { color: var(--muted-sage); }
+.estagio--nucleo > p { color: var(--muted-sage); }
 
-/* A saída: cinco entregas, cada uma com o destino dela. O rótulo
-   do estágio segura a coluna da esquerda e a lista ocupa o resto,
-   então as cinco linhas continuam alinhadas com as de cima. */
-.estagio--saida { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); padding-bottom: 0; border-bottom: 0; }
-
-.entregas { margin: 0; padding: 0; list-style: none; }
-.entrega {
+/* A saída abre em cinco entregas. A lista ocupa da terceira coluna
+   em diante, que é onde o título dos outros estágios começa, e por
+   dentro ela redesenha essas dez colunas: o nome da entrega cai
+   nas mesmas quatro do título, e o destino nas mesmas seis do
+   texto. */
+.estagio--saida { padding-bottom: 0; border-bottom: 0; }
+.estagio--saida > .micro { grid-column: 1 / span 2; }
+.entregas {
+  grid-column: 3 / -1;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
-  gap: clamp(16px, 2.5vw, 40px);
-  padding: var(--space-20) 0;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  column-gap: var(--calha);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.entrega {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-12);
+  padding: var(--space-24) 0;
   border-bottom: 1px solid rgba(18, 22, 19, .22);
   align-items: baseline;
 }
 .entrega:first-child { padding-top: 0; }
 .entrega__nome {
+  grid-column: 1 / span 4;
   margin: 0;
   font-size: 17px;
   font-weight: 550;
   letter-spacing: -0.02em;
 }
-.entrega__destino { max-width: 56ch; }
+.entrega__destino { grid-column: 5 / span 5; }
 .entrega__titulo {
   display: block;
   margin-bottom: var(--space-8);
@@ -436,13 +585,7 @@
   letter-spacing: -0.02em;
 }
 .entrega p { margin: 0; font-size: var(--text-body-sm); font-weight: 350; line-height: 1.55; color: var(--newsprint-gray); }
-.entregas__cabeca { display: block; margin-bottom: var(--space-15); color: var(--newsprint-gray); }
-
-@media (max-width: 900px) {
-  .estagio,
-  .estagio--saida { grid-template-columns: minmax(0, 1fr); gap: var(--space-15); }
-  .entrega { grid-template-columns: minmax(0, 1fr); gap: var(--space-10); }
-}
+.entregas__cabeca { display: block; margin-bottom: var(--space-8); color: var(--newsprint-gray); }
 
 /* ============================================================
    Atrito
@@ -453,20 +596,21 @@
    ============================================================ */
 
 .atrito {
-  max-width: 68ch;
-  padding: clamp(24px, 3vw, 36px);
+  padding: var(--space-32);
   border-left: 2px solid var(--highlighter-green);
   border-radius: 0 var(--radius-pills) var(--radius-pills) 0;
   background-color: var(--press-black);
   background-image: url("bg-weave-dark.svg");
   color: var(--bone-white);
 }
+.secao > .atrito { grid-column: 1 / span 5; }
+.recuado > .atrito { grid-column: 1 / span 5; }
 /* Já estando no escuro, o bloco não precisa de fundo: o traço
    verde e o recuo bastam. */
-.tinta .atrito { padding: 0 0 0 var(--space-25); background: none; border-radius: 0; }
+.tinta .atrito { padding: 0 0 0 var(--space-24); background: none; border-radius: 0; }
 
 .atrito h3 {
-  margin: 0 0 var(--space-15);
+  margin: 0 0 var(--space-16);
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(24px, 2.4vw, 32px);
@@ -474,7 +618,7 @@
   letter-spacing: -0.02em;
 }
 .atrito p {
-  margin: 0 0 var(--space-15);
+  margin: 0 0 var(--space-16);
   font-size: var(--text-body-sm);
   font-weight: 350;
   line-height: 1.6;
@@ -482,26 +626,23 @@
 }
 .atrito p:last-child { margin-bottom: 0; }
 
-/* Respiro entre dois blocos da mesma seção. Menor que o intervalo
-   entre seções, para a seção continuar lendo como uma coisa só. */
-.respiro { margin-top: clamp(36px, 4vw, 56px); }
-
 /* ============================================================
-   Ritos — os três rituais
+   Ritos
 
-   Sem moldura e sem fio em cima: o traço verde curto embaixo do
-   nome é o que separa, igual ao que a referência usa no cartão de
-   cada pessoa do time.
+   Três itens, quatro colunas cada. Sem moldura e sem fio em cima:
+   o traço verde curto embaixo do nome é o que separa.
    ============================================================ */
 
 .ritos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
-  gap: clamp(24px, 3vw, 48px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-32);
 }
+.rito { grid-column: span 4; }
 .rito__nome {
   display: block;
-  margin-bottom: var(--space-15);
+  margin-bottom: var(--space-16);
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(22px, 2.2vw, 28px);
@@ -511,26 +652,20 @@
 .rito__nome::after {
   content: "";
   display: block;
-  width: 34px;
+  width: var(--space-32);
   height: 3px;
-  margin-top: var(--space-15);
+  margin-top: var(--space-16);
   background: var(--highlighter-green);
 }
-.rito__desc { display: block; max-width: 34ch; font-size: var(--text-body-sm); font-weight: 350; line-height: 1.55; color: var(--muted-sage); }
+.rito__desc { display: block; font-size: var(--text-body-sm); font-weight: 350; line-height: 1.55; color: var(--muted-sage); }
 .folha .rito__desc { color: var(--newsprint-gray); }
 
-/* Um bloco que entra deslocado do eixo, para a leitura descer em
-   degrau em vez de correr sempre pela mesma margem. */
-.recuado { margin-left: clamp(0px, 12vw, 200px); }
-@media (max-width: 900px) { .recuado { margin-left: 0; } }
-
 /* ============================================================
-   Grito — a frase que a seção existe para carregar
+   Grito: a frase que a seção existe para carregar
    ============================================================ */
 
 .grito {
   margin: 0;
-  max-width: 16ch;
   font-family: var(--font-display);
   font-weight: 400;
   font-style: italic;
@@ -539,8 +674,7 @@
   letter-spacing: -0.03em;
 }
 .declaracao {
-  margin: 0 0 var(--space-20);
-  max-width: 22ch;
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 400;
   font-style: italic;
@@ -549,68 +683,68 @@
   letter-spacing: -0.02em;
 }
 
-/* O grito e a nota dele dividem uma linha: a frase à esquerda, de
-   onde ela veio à direita, alinhadas pela base. */
+/* O grito e a nota dele dividem uma linha: a frase nas sete
+   primeiras colunas, de onde ela veio nas últimas cinco,
+   alinhadas pela base. */
 .grito-par {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-  gap: clamp(24px, 3vw, 60px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-24);
   align-items: end;
-  margin-bottom: clamp(36px, 4vw, 56px);
 }
-@media (max-width: 820px) {
-  .grito-par { grid-template-columns: minmax(0, 1fr); align-items: start; }
-}
+.grito-par .grito { grid-column: 1 / span 7; }
+.grito-par .legenda { grid-column: 8 / -1; }
 
 /* A linha final da seção: rótulo na margem, texto do lado. */
 .linha-nota {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr);
-  gap: clamp(20px, 3vw, 50px);
-  margin-top: clamp(36px, 4vw, 56px);
-  padding-top: var(--space-25);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-16);
+  padding-top: var(--space-24);
   border-top: 1px solid var(--slate-verdant);
   align-items: baseline;
 }
 .folha .linha-nota { border-top-color: rgba(18, 22, 19, .25); }
-.linha-nota .micro { color: var(--muted-sage); }
+.linha-nota .micro { grid-column: 1 / span 3; color: var(--muted-sage); }
 .folha .linha-nota .micro { color: var(--newsprint-gray); }
-.linha-nota p { margin: 0; max-width: 62ch; font-size: var(--text-body); font-weight: 200; line-height: 1.55; }
+.linha-nota p { grid-column: 4 / span 6; margin: 0; font-size: var(--text-body); font-weight: 200; line-height: 1.55; }
 .folha .linha-nota p { font-weight: 300; }
-@media (max-width: 820px) {
-  .linha-nota { grid-template-columns: minmax(0, 1fr); gap: var(--space-15); }
-}
 
 /* ============================================================
-   Funil — as cinco fases
+   Funil
 
-   Cinco colunas que estreitam da esquerda para a direita: a forma
-   do funil é a própria grade, não um desenho por cima dela. Cada
-   coluna é uma fase inteira, aberta, sem clique.
+   Cinco fases que estreitam da esquerda para a direita: 3, 3, 2, 2
+   e 2 colunas. A forma do funil é a própria grade, não um desenho
+   por cima dela, e mesmo estreitando as cinco continuam presas às
+   mesmas doze colunas do resto da página.
    ============================================================ */
 
 .funil {
   display: grid;
-  grid-template-columns: 1.24fr 1.12fr 1fr .92fr .86fr;
-  gap: clamp(16px, 2vw, 32px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-32);
   margin: 0;
   padding: 0;
   list-style: none;
 }
-/* Cada fase é uma coluna inteira, e o "quem conduz" é empurrado
-   para o pé dela: assim os cinco rodapés ficam na mesma linha,
-   mesmo com textos de tamanhos diferentes em cima. */
 .fase {
   display: flex;
   flex-direction: column;
-  padding-top: var(--space-20);
+  padding-top: var(--space-16);
   border-top: 2px solid var(--highlighter-green);
 }
-.fase__quem { margin-top: auto; }
-.fase__num { display: block; margin-bottom: var(--space-15); color: var(--newsprint-gray); }
+.fase:nth-child(1),
+.fase:nth-child(2) { grid-column: span 3; }
+.fase:nth-child(3),
+.fase:nth-child(4),
+.fase:nth-child(5) { grid-column: span 2; }
+.fase__num { display: block; margin-bottom: var(--space-16); color: var(--newsprint-gray); }
 .fase__nome {
   display: block;
-  margin-bottom: var(--space-15);
+  margin-bottom: var(--space-16);
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(19px, 1.9vw, 24px);
@@ -621,27 +755,25 @@
 /* O texto estica até o fim do espaço livre e o rodapé encosta
    embaixo dele: assim o fio de "quem conduz" cai na mesma altura
    nas cinco colunas, mesmo com textos de tamanhos diferentes. */
-.fase > p { flex: 1; margin-bottom: var(--space-20); }
-.fase__quem { padding-top: var(--space-15); border-top: 1px solid rgba(18, 22, 19, .18); }
+.fase > p { flex: 1; margin-bottom: var(--space-24); }
+.fase__quem { margin-top: auto; padding-top: var(--space-16); border-top: 1px solid rgba(18, 22, 19, .18); }
 .fase__quem .micro { display: block; margin-bottom: var(--space-8); color: var(--newsprint-gray); }
 
-@media (max-width: 1100px) {
-  .funil { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
-}
-
 /* ============================================================
-   Rail — a trilha do componente
+   Rail: a trilha do componente
 
-   Três marcos numa linha só, com o fio passando por trás dos
-   pontos. Horizontal porque é um caminho, não uma lista.
+   Três marcos numa linha só, quatro colunas cada, com o fio
+   passando por trás dos pontos. Horizontal porque é um caminho,
+   não uma lista.
    ============================================================ */
 
 .rail {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(20px, 3vw, 44px);
-  padding-top: var(--space-30);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-32);
+  padding-top: var(--space-32);
 }
 .rail::before {
   content: "";
@@ -650,76 +782,69 @@
   height: 1px;
   background: rgba(18, 22, 19, .25);
 }
-.rail__marco { position: relative; }
+.rail__marco { grid-column: span 4; position: relative; }
 .rail__marco::before {
   content: "";
   position: absolute;
-  top: -30px;
+  top: calc(-1 * var(--space-32) + 4px);
   left: 0;
   width: 9px;
   height: 9px;
   border-radius: 999px;
   background: var(--highlighter-green);
 }
-.rail__nome { display: block; margin-bottom: var(--space-10); font-size: 17px; font-weight: 550; letter-spacing: -0.02em; }
-.rail__desc { display: block; max-width: 34ch; font-size: var(--text-body-sm); font-weight: 350; line-height: 1.55; color: var(--newsprint-gray); }
-
-@media (max-width: 780px) {
-  .rail { grid-template-columns: minmax(0, 1fr); gap: var(--space-30); padding-top: 0; padding-left: var(--space-25); }
-  .rail::before { inset: 4px auto 4px 4px; width: 1px; height: auto; }
-  .rail__marco::before { top: 6px; left: -25px; }
-}
+.rail__nome { display: block; margin-bottom: var(--space-12); font-size: 17px; font-weight: 550; letter-spacing: -0.02em; }
+.rail__desc { display: block; font-size: var(--text-body-sm); font-weight: 350; line-height: 1.55; color: var(--newsprint-gray); }
 
 /* ============================================================
-   Confronto — antes e depois
+   Confronto: antes e depois
 
-   As duas colunas ficam à vista ao mesmo tempo, separadas por um
-   fio vertical. O "depois" é o lado que a página defende, então é
-   ele que fica na cor cheia.
+   Três colunas de conteúdo em cima das doze: a dimensão nas três
+   primeiras, o antes nas quatro seguintes, o depois no resto. As
+   duas ficam à vista ao mesmo tempo, separadas por um fio, e o
+   depois é o lado que a página defende.
    ============================================================ */
 
 .confronto { border-top: 1px solid rgba(18, 22, 19, .22); }
 .confronto__linha {
   display: grid;
-  grid-template-columns: minmax(0, .85fr) minmax(0, 1fr) minmax(0, 1.25fr);
-  gap: clamp(16px, 2.5vw, 40px);
-  padding: var(--space-25) 0;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-12);
+  padding: var(--space-24) 0;
   border-bottom: 1px solid rgba(18, 22, 19, .22);
   align-items: baseline;
 }
-.confronto__cabeca { padding: 0 0 var(--space-15); border-bottom: 0; }
+.confronto__cabeca { padding: 0 0 var(--space-16); border-bottom: 0; }
 .confronto__cabeca .micro { color: var(--newsprint-gray); }
+.confronto__cabeca .micro:nth-child(1) { grid-column: 1 / span 3; }
+.confronto__cabeca .micro:nth-child(2) { grid-column: 4 / span 4; }
 /* A terceira etiqueta acompanha o recuo que o fio vertical cria na
    coluna do depois, senão o cabeçalho fica fora do prumo. */
-.confronto__cabeca .micro:last-child { padding-left: clamp(16px, 2.5vw, 40px); }
+.confronto__cabeca .micro:nth-child(3) { grid-column: 8 / -1; padding-left: var(--calha); }
 .confronto__rotulo {
+  grid-column: 1 / span 3;
   font-family: var(--font-display);
   font-size: clamp(20px, 2vw, 26px);
   line-height: 1.05;
   letter-spacing: -0.02em;
 }
 .confronto__antes,
-.confronto__depois { margin: 0; max-width: 46ch; font-size: var(--text-body-sm); line-height: 1.55; }
-.confronto__antes { font-weight: 350; color: var(--newsprint-gray); }
+.confronto__depois { margin: 0; font-size: var(--text-body-sm); line-height: 1.55; }
+.confronto__antes { grid-column: 4 / span 4; font-weight: 350; color: var(--newsprint-gray); }
 /* O fio entre as colunas divide os dois estados; ele nasce no
    texto do depois para não precisar de um elemento só para isso. */
 .confronto__depois {
-  padding-left: clamp(16px, 2.5vw, 40px);
+  grid-column: 8 / -1;
+  padding-left: var(--calha);
   border-left: 1px solid rgba(18, 22, 19, .22);
   font-weight: 400;
   color: var(--press-black);
 }
 .confronto__marca { display: none; margin-bottom: var(--space-8); color: var(--newsprint-gray); }
 
-@media (max-width: 820px) {
-  .confronto__cabeca { display: none; }
-  .confronto__linha { grid-template-columns: minmax(0, 1fr); gap: var(--space-15); }
-  .confronto__depois { padding-left: 0; border-left: 0; }
-  .confronto__marca { display: block; }
-}
-
 /* ============================================================
-   Barras — o tempo antes e depois
+   Barras: o tempo antes e depois
 
    A barra do "antes" é a régua; a do "depois" é a mesma medida em
    verde. A largura é escrita pelo JS quando o bloco entra na tela;
@@ -728,19 +853,24 @@
 
 .barras {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-  gap: clamp(30px, 4vw, 60px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-32);
 }
-.barras__titulo { display: block; margin-bottom: var(--space-25); color: var(--newsprint-gray); }
+.barras > div { grid-column: span 6; }
+.barras > div:only-child { grid-column: 1 / span 8; }
+.barras__titulo { display: block; color: var(--newsprint-gray); }
 .barra__cabeca {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: var(--space-15);
-  margin-bottom: var(--space-10);
+  gap: var(--space-16);
+  margin-bottom: var(--space-8);
 }
 .barra__rotulo { font-size: var(--text-body-sm); font-weight: 350; color: var(--newsprint-gray); }
-.barra__valor { font-size: 17px; font-weight: 550; letter-spacing: -0.02em; }
+/* O valor fica encostado na direita, junto do fim do trilho: é
+   assim que dois números viram comparação em vez de duas frases. */
+.barra__valor { font-size: 17px; font-weight: 550; letter-spacing: -0.02em; text-align: right; font-variant-numeric: tabular-nums; }
 .barra__trilho { height: 10px; border-radius: 999px; background: rgba(18, 22, 19, .1); overflow: hidden; }
 .barra__preenche {
   height: 100%;
@@ -750,7 +880,7 @@
   transition: width .9s var(--ease-saida);
 }
 .barra--depois .barra__preenche { background: var(--highlighter-green); }
-.barra + .barra { margin-top: var(--space-20); }
+.barra + .barra { margin-top: var(--space-24); }
 .js-mov .barras[data-barras] .barra__preenche { width: 0; }
 .js-mov .barras[data-barras].crescido .barra__preenche { width: var(--larg, 100%); }
 @media (prefers-reduced-motion: reduce) {
@@ -760,14 +890,23 @@
 
 /* ============================================================
    Números do resultado
+
+   Quatro números, três colunas cada. As doze colunas divididas em
+   quatro partes iguais, e não uma fileira que se acomoda sozinha.
    ============================================================ */
 
 .numeros {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
-  gap: clamp(20px, 3vw, 40px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-32);
 }
-.numero-caso { padding-top: var(--space-20); border-top: 1px solid rgba(18, 22, 19, .25); }
+.numero-caso {
+  grid-column: span 3;
+  padding-top: var(--space-16);
+  border-top: 1px solid rgba(18, 22, 19, .25);
+}
+.tinta .numero-caso { border-top-color: var(--slate-verdant); }
 .numero-caso__valor {
   display: block;
   font-size: clamp(30px, 3.2vw, 46px);
@@ -775,37 +914,46 @@
   line-height: 1;
   letter-spacing: -0.04em;
 }
-.numero-caso__label { margin: var(--space-15) 0 0; max-width: 26ch; font-size: var(--text-body-sm); font-weight: 350; line-height: 1.45; color: var(--newsprint-gray); }
+.numero-caso__label { margin: var(--space-16) 0 0; font-size: var(--text-body-sm); font-weight: 350; line-height: 1.45; color: var(--newsprint-gray); }
+.tinta .numero-caso__label { color: var(--muted-sage); }
 
 /* ============================================================
-   Fecho — o que fica do caso e para onde ir
+   Fecho: o que fica do caso e para onde ir
    ============================================================ */
 
 .fecho {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-  gap: clamp(24px, 3vw, 60px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-32);
   align-items: end;
-  padding-top: var(--space-30);
+  padding-top: var(--space-32);
   border-top: 2px solid var(--highlighter-green);
 }
-.fecho .corpo-texto { max-width: 46ch; }
-@media (max-width: 820px) {
-  .fecho { grid-template-columns: minmax(0, 1fr); align-items: start; }
-}
+.fecho > *:first-child { grid-column: 1 / span 5; }
+.fecho > *:last-child { grid-column: 7 / -1; }
+.fecho .rotulo { margin-bottom: var(--space-16); }
+.fecho .corpo-texto { max-width: none; }
 
 .acoes {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-24);
+  align-items: center;
+}
+.acoes p { grid-column: 1 / span 6; margin: 0; font-size: var(--text-body); font-weight: 300; line-height: 1.55; }
+.acoes__ir {
+  grid-column: 8 / -1;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-25);
-  margin-top: clamp(36px, 4vw, 56px);
+  gap: var(--space-24);
 }
-.acoes p { margin: 0; flex: 1 1 34ch; max-width: 56ch; font-size: var(--text-body); font-weight: 300; line-height: 1.55; }
 .proximo-link {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-10);
+  gap: var(--space-12);
   padding-bottom: var(--space-4);
   border-bottom: 1px solid currentColor;
   color: inherit;
@@ -823,70 +971,31 @@
   .proximo-link:hover i { transform: translateX(4px); }
 }
 
-
-/* ============================================================
-   O que os outros três casos trouxeram
-
-   A página de processo foi a primeira a nascer neste sistema, e
-   por isso ele começou com o vocabulário dela. Omnichat, Inpulse e
-   Mapa de Experiência chegaram depois com o que ela não tinha:
-   fala de gente, citada e em conversa, imagem de produto, contagem
-   de reação e uma escala com sinal. Cada peça entra aqui com os
-   mesmos tokens e o mesmo jeito de separar por fio e por espaço,
-   nunca por moldura.
-
-   Nenhuma delas guarda conteúdo atrás de clique. O que a versão
-   antiga escondia em aba, carrossel e acordeão está aberto no
-   HTML, que é a mesma regra da página de processo.
-   ============================================================ */
-
-/* As etiquetas do topo servem também no papel, onde o cinza de
-   jornal é quem dá o recuo que o sage dá no escuro. */
-.folha .etiquetas { color: var(--newsprint-gray); }
-
-/* Uma linha indexada pode carregar dois parágrafos: o que foi
-   decidido e o que aquilo produziu. O segundo entra com o rótulo
-   na frente, para a consequência não se confundir com a decisão. */
-.linha__par { display: block; }
-.linha__par p + p { margin-top: var(--space-15); }
-.linha__efeito .micro {
-  display: block;
-  margin-bottom: var(--space-4);
-  color: var(--highlighter-green);
-}
-.folha .linha__efeito p,
-.linha__efeito p { color: inherit; }
-/* Na coluna única do celular a linha vira duas colunas, o número e
-   o resto. O par de parágrafos precisa cair na segunda igual ao
-   parágrafo solto, senão ele encolhe até a largura do número e o
-   texto sai uma palavra por linha. */
-@media (max-width: 820px) {
-  .linha__par { grid-column: 2; margin-top: var(--space-10); }
-}
-
 /* ============================================================
    Citação
 
    A fala de quem usou. Sem aspas desenhadas e sem cartão: o traço
    verde na margem já diz que a voz mudou, e é o mesmo traço do
-   bloco de atrito.
+   bloco de atrito. Duas falas, seis colunas cada.
    ============================================================ */
 
 .citacoes {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-  gap: clamp(24px, 3vw, 48px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-32);
 }
 .citacao {
+  grid-column: span 6;
   margin: 0;
-  padding-left: var(--space-25);
+  padding-left: var(--space-24);
   border-left: 2px solid rgba(18, 22, 19, .18);
 }
 .citacao--depois { border-left-color: var(--highlighter-green); }
-.citacao__quando { display: block; margin-bottom: var(--space-15); color: var(--newsprint-gray); }
+.citacao__quando { display: block; margin-bottom: var(--space-16); color: var(--newsprint-gray); }
 .citacao--depois .citacao__quando { color: var(--highlighter-green); }
 .citacao p {
-  margin: 0 0 var(--space-15);
+  margin: 0 0 var(--space-16);
   font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(20px, 2.1vw, 27px);
@@ -901,11 +1010,11 @@
 }
 
 /* ============================================================
-   Moldura
+   Moldura e galeria
 
-   Onde entra pixel de produto: protótipo incorporado, tela, faixa
-   de imagem. A moldura é só o canto arredondado e o fundo escuro
-   por baixo, para a imagem não flutuar solta no papel.
+   Onde entra pixel de produto. A moldura ocupa a largura da grade
+   e não tem borda: o canto arredondado e o fundo escuro por baixo
+   bastam para a imagem não flutuar solta no papel.
    ============================================================ */
 
 .moldura {
@@ -917,23 +1026,25 @@
 .moldura iframe {
   display: block;
   width: 100%;
-  height: clamp(520px, 68vh, 720px);
+  height: clamp(480px, 68vh, 720px);
   border: 0;
 }
 .moldura img { width: 100%; height: auto; }
 
-/* A galeria de telas: figuras abertas lado a lado, cada uma com a
+/* A galeria: figuras abertas lado a lado, seis colunas cada, com a
    legenda embaixo. Sem seta e sem ponto, porque estão todas à
-   vista. A coluna é larga de propósito: são telas densas, e três
-   por fileira deixaria cada uma pequena demais para se ler. */
+   vista. Seis e não quatro porque são telas densas, e três por
+   fileira deixaria cada uma pequena demais para se ler. */
 .galeria {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
-  gap: clamp(20px, 2.6vw, 36px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-32);
   margin: 0;
   padding: 0;
   list-style: none;
 }
+.galeria > li { grid-column: span 6; }
 .galeria figure { margin: 0; }
 .galeria img {
   width: 100%;
@@ -941,30 +1052,32 @@
   border-radius: var(--radius-images);
   background: var(--echo-green);
 }
-.galeria figcaption { margin-top: var(--space-15); color: var(--newsprint-gray); }
+.galeria figcaption { margin-top: var(--space-16); color: var(--newsprint-gray); }
 
 /* ============================================================
    Pilhas
 
    Dez participantes por funcionalidade, e a barra inteira são os
-   dez. O que muda de uma para outra é quanto de cada reação
-   ocupa: entusiasmo em verde, receptividade em cinza de jornal, a
+   dez. O que muda de uma para outra é quanto de cada reação ocupa:
+   entusiasmo em verde, receptividade em cinza de jornal, a
    indiferença quase apagada. Uma barra por funcionalidade, não
-   três, porque a soma é sempre a mesma e é a proporção que se
-   quer ler.
+   três, porque a soma é sempre a mesma e é a proporção que se quer
+   ler.
    ============================================================ */
 
 .pilhas { margin: 0; padding: 0; list-style: none; }
-.pilha + .pilha { margin-top: var(--space-25); }
+.pilha + .pilha { margin-top: var(--space-24); }
 .pilha__cabeca {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: var(--space-15);
-  margin-bottom: var(--space-10);
+  gap: var(--space-16);
+  margin: 0 0 var(--space-8);
 }
 .pilha__nome { font-size: var(--text-body-sm); font-weight: 350; }
-.pilha__valor { font-size: 17px; font-weight: 550; letter-spacing: -0.02em; white-space: nowrap; }
+/* Os valores se comparam entre si, então alinham à direita e
+   correm em algarismos de mesma largura. */
+.pilha__valor { font-size: 17px; font-weight: 550; letter-spacing: -0.02em; white-space: nowrap; text-align: right; font-variant-numeric: tabular-nums; }
 .pilha__trilho {
   display: flex;
   height: 10px;
@@ -981,8 +1094,8 @@
 .cores {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-10) var(--space-25);
-  margin-top: var(--space-25);
+  gap: var(--space-12) var(--space-24);
+  margin: 0;
   color: var(--newsprint-gray);
 }
 .cores span { display: inline-flex; align-items: center; gap: var(--space-8); }
@@ -1011,8 +1124,8 @@
 }
 .nps__zero {
   position: absolute;
-  top: -5px;
-  bottom: -5px;
+  top: -4px;
+  bottom: -4px;
   left: 50%;
   width: 1px;
   background: var(--newsprint-gray);
@@ -1029,14 +1142,14 @@
 .nps__regua {
   display: flex;
   justify-content: space-between;
-  margin-top: var(--space-15);
+  margin: var(--space-16) 0 0;
   color: var(--newsprint-gray);
 }
 .nps__valores {
   display: flex;
-  gap: clamp(30px, 4vw, 60px);
-  margin-top: var(--space-30);
-  padding-top: var(--space-20);
+  gap: var(--space-48);
+  margin: var(--space-32) 0 0;
+  padding-top: var(--space-24);
   border-top: 1px solid rgba(18, 22, 19, .25);
 }
 .nps__valor {
@@ -1048,13 +1161,13 @@
   color: var(--newsprint-gray);
 }
 .nps__valor--depois { color: var(--press-black); }
-.nps__rotulo { display: block; margin-top: var(--space-10); color: var(--newsprint-gray); }
+.nps__rotulo { display: block; margin-top: var(--space-12); color: var(--newsprint-gray); }
 
 /* ============================================================
    Conversa
 
-   Os dois estados de um mesmo atendimento, um ao lado do outro.
-   Não é o componente de antes e depois em linha: aqui a ordem dos
+   Os dois estados de um mesmo atendimento, seis colunas cada. Não
+   é o componente de antes e depois em linha: aqui a ordem dos
    turnos é o conteúdo, então cada coluna é a conversa inteira, de
    cima para baixo. A da direita é a que a página defende, e é ela
    que ganha o fio verde.
@@ -1062,28 +1175,29 @@
 
 .conversas {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-  gap: clamp(24px, 3vw, 50px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--calha);
+  row-gap: var(--space-48);
 }
-.conversa { padding-top: var(--space-20); border-top: 2px solid rgba(18, 22, 19, .22); }
+.conversa { grid-column: span 6; padding-top: var(--space-16); border-top: 2px solid rgba(18, 22, 19, .22); }
 .conversa--depois { border-top-color: var(--highlighter-green); }
 .conversa__cabeca {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: var(--space-15);
-  margin-bottom: var(--space-25);
+  gap: var(--space-16);
+  margin: 0 0 var(--space-24);
   color: var(--newsprint-gray);
 }
-.conversa--depois .conversa__cabeca .conversa__fim { color: var(--highlighter-green); }
+.conversa--depois .conversa__fim { color: var(--highlighter-green); }
 
 .turnos { margin: 0; padding: 0; list-style: none; }
-.turno + .turno { margin-top: var(--space-15); }
+.turno + .turno { margin-top: var(--space-16); }
 .turno__quem { display: block; margin-bottom: var(--space-8); color: var(--newsprint-gray); }
 .turno__fala {
   margin: 0;
   max-width: 40ch;
-  padding: var(--space-15) var(--space-20);
+  padding: var(--space-16) var(--space-24);
   border-radius: var(--radius-pills);
   background: rgba(18, 22, 19, .06);
   font-size: var(--text-body-sm);
@@ -1106,3 +1220,139 @@
 }
 .turno--agente .turno__nota { margin-left: auto; text-align: right; }
 .turno__nota b { color: var(--highlighter-green); font-weight: 550; }
+
+/* ============================================================
+   Tela média: de 720 a 1099
+
+   A grade continua de doze colunas. O que muda é o intervalo que
+   cada bloco ocupa: o que era metade passa a ser quase tudo, e o
+   que corria em quatro por fileira passa a correr em dois.
+   ============================================================ */
+
+@media (max-width: 1099px) {
+  .caso-topo h1 { grid-column: 1 / -1; }
+  .caso-topo__lead { grid-column: 1 / span 7; }
+  .salto { grid-column: 8 / -1; }
+
+  .secao__titulo,
+  .secao__titulo--sm { grid-column: 1 / -1; }
+  .secao > .corpo-texto,
+  .recuado > .corpo-texto { grid-column: 1 / span 8; }
+  .secao > .legenda,
+  .secao__topo > .legenda { grid-column: 1 / span 8; }
+
+  .abertura { grid-column: 3 / -1; }
+  .recuado { grid-column: 2 / -1; grid-template-columns: repeat(11, minmax(0, 1fr)); }
+  .secao > .atrito,
+  .recuado > .atrito { grid-column: 1 / span 8; }
+
+  .linha__titulo { grid-column: 2 / span 5; }
+  .linha > p,
+  .linha__par { grid-column: 7 / -1; }
+
+  .estagio h3 { grid-column: 3 / span 5; }
+  .estagio > p { grid-column: 8 / -1; }
+
+  .faixa-ficha > div,
+  .rito,
+  .rail__marco { grid-column: span 6; }
+
+  .fase:nth-child(1),
+  .fase:nth-child(2),
+  .fase:nth-child(3),
+  .fase:nth-child(4),
+  .fase:nth-child(5) { grid-column: span 4; }
+
+  .numero-caso { grid-column: span 6; }
+
+  .grito-par .grito { grid-column: 1 / -1; }
+  .grito-par .legenda { grid-column: 1 / span 8; }
+  .grito-par { align-items: start; }
+
+  .fecho > *:first-child,
+  .fecho > *:last-child { grid-column: 1 / -1; }
+  .fecho { align-items: start; }
+
+  .acoes p { grid-column: 1 / span 8; }
+  .acoes__ir { grid-column: 1 / -1; }
+
+  .barras > div,
+  .barras > div:only-child { grid-column: 1 / -1; }
+}
+
+/* ============================================================
+   Tela estreita: abaixo de 720
+
+   Uma coluna de leitura. A grade não some, mas quase tudo passa a
+   ocupar as doze colunas, e o que era lado a lado empilha na ordem
+   em que se lê.
+   ============================================================ */
+
+@media (max-width: 719px) {
+  .caso-topo__lead,
+  .salto,
+  .secao > .corpo-texto,
+  .secao > .legenda,
+  .secao__topo > .legenda,
+  .abertura,
+  .recuado,
+  .recuado > .corpo-texto,
+  .faixa-ficha > div,
+  .rito,
+  .rail__marco,
+  .numero-caso,
+  .citacao,
+  .conversa,
+  .galeria > li,
+  .grito-par .legenda,
+  .acoes p { grid-column: 1 / -1; }
+
+  .fase:nth-child(1),
+  .fase:nth-child(2),
+  .fase:nth-child(3),
+  .fase:nth-child(4),
+  .fase:nth-child(5) { grid-column: 1 / -1; }
+
+  /* Texto em duas colunas não sobrevive a uma tela estreita: vira
+     duas colunas de três palavras. */
+  .secao > .colunas { columns: 1; }
+
+  /* Na linha indexada o número passa a abrir a linha, e título e
+     texto correm embaixo dele, nas mesmas colunas. */
+  .linha__num,
+  .linha__titulo,
+  .linha > p,
+  .linha__par,
+  .estagio > .micro,
+  .estagio h3,
+  .estagio > p,
+  .estagio--saida > .micro,
+  .confronto__rotulo,
+  .confronto__antes,
+  .confronto__depois,
+  .linha-nota .micro,
+  .linha-nota p { grid-column: 1 / -1; }
+
+  .entregas { grid-column: 1 / -1; }
+  .entrega__nome,
+  .entrega__destino { grid-column: 1 / -1; }
+
+  .confronto__cabeca { display: none; }
+  .confronto__depois { padding-left: 0; border-left: 0; }
+  .confronto__marca { display: block; }
+
+  .recuado { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+
+  /* Empilhada, a trilha deixa de ser um caminho horizontal. O fio
+     que ligava os três marcos sai, e cada um passa a abrir com o
+     mesmo fio de topo das fases, com o ponto verde acima do nome.
+     Um recuo à esquerda para caber a linha jogaria os três para
+     fora da coluna, e não vale furar a grade por um enfeite. */
+  .rail { padding-top: 0; }
+  .rail::before { display: none; }
+  .rail__marco {
+    padding-top: var(--space-16);
+    border-top: 1px solid rgba(18, 22, 19, .25);
+  }
+  .rail__marco::before { position: static; margin-bottom: var(--space-12); }
+}
