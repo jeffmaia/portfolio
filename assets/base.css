@@ -65,6 +65,11 @@
      precisa de corpo para a bolha subir sem virar um espeto, e o
      mínimo dela é maior porque a seta não encolhe junto. */
   --onda-bolha-h: clamp(58px, 5.2vw, 88px);
+  /* A seta tem altura própria porque ela para de encolher antes da
+     onda: abaixo de certo tamanho deixaria de se ler como seta. Ter
+     o número aqui é o que permite sentá-la no morro pela altura
+     dela, e não por uma fração da onda que só bate no desktop. */
+  --seta-h: max(28px, calc(var(--onda-bolha-h) * 0.38));
 
   --radius-buttons: 5px;
   --radius-pills: 10px;
@@ -800,21 +805,26 @@ html.chegando .transicao__barra i { width: 100%; }
    alto do morro já desenhado no HTML.
    ============================================================ */
 
-/* A seta senta 0.58 de uma altura de onda abaixo do alto do morro,
-   que é onde ele ainda é largo o bastante para contê-la. Quem
-   escreve --pico-subir é o JS, no mesmo quadro em que redesenha a
-   curva: a seta não sobe por conta, ela sobe porque o morro subiu.
-   Sem JS o número cai no padrão, que é o alto do morro já
-   desenhado no HTML. */
+/* A seta pendura pelo alto do morro: desce a altura dela mais um
+   pouco mais de meia altura de folga, e é aí que ela senta. A conta
+   é na altura da seta, não numa fração da onda, porque a seta para
+   de encolher antes da onda: no celular uma fração fixa dava cinco
+   pixels de preto acima da ponta e a seta encostava no contorno.
+
+   Quem escreve --pico-subir é o JS, no mesmo quadro em que redesenha
+   a curva: a seta não sobe por conta, ela sobe porque o morro subiu.
+   Sem JS o número cai no padrão, que é o alto do morro já desenhado
+   no HTML. */
 .footer__subir {
   position: absolute;
   left: 50%;
-  bottom: calc(100% + var(--onda-bolha-h) * (2 * var(--pico-subir, 0.792) - 0.58));
+  bottom: calc(100% + var(--onda-bolha-h) * 2 * var(--pico-subir, 0.792) - var(--seta-h) * 1.53);
   z-index: 2;
   transform: translateX(-50%);
 }
 
 .subir {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -827,12 +837,23 @@ html.chegando .transicao__barra i { width: 100%; }
 .subir__seta {
   display: block;
   width: auto;
-  /* A seta é medida na altura da onda, não em pixels próprios: é o
-     que garante que ela caiba no morro em qualquer largura. O piso
-     de 28px é para o outro lado: no celular a onda encolhe até o
-     mínimo dela e a seta sairia fina demais para se ler como seta. */
-  height: max(28px, calc(var(--onda-bolha-h) * 0.38));
+  height: var(--seta-h);
   color: var(--highlighter-green);
+}
+
+/* O alvo do dedo estava todo acima da seta: a caixa do link ia do
+   rótulo até a ponta de baixo do traço e parava ali, então um toque
+   um centímetro abaixo da seta caía fora do link, que é justamente
+   onde o dedo vai. O alvo passa a nascer centrado na seta, 56 por
+   56, sem aparecer no desenho. */
+.subir::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc((var(--seta-h) - max(56px, var(--seta-h))) / 2);
+  width: 56px;
+  height: max(56px, var(--seta-h));
+  transform: translateX(-50%);
 }
 @media (hover: hover) and (pointer: fine) {
   .subir:hover { color: var(--press-black); }
@@ -844,7 +865,7 @@ html.chegando .transicao__barra i { width: 100%; }
 .descer {
   position: absolute;
   left: 50%;
-  bottom: calc(var(--onda-bolha-h) * (2 * var(--pico-cena, 0.792) - 0.58));
+  bottom: calc(var(--onda-bolha-h) * 2 * var(--pico-cena, 0.792) - var(--seta-h) * 1.53);
   z-index: 2;
   display: flex;
   flex-direction: column;
@@ -859,7 +880,7 @@ html.chegando .transicao__barra i { width: 100%; }
 .descer__seta {
   display: block;
   width: auto;
-  height: max(28px, calc(var(--onda-bolha-h) * 0.38));
+  height: var(--seta-h);
   color: var(--highlighter-green);
   animation: boiar 2.4s ease-in-out infinite;
 }

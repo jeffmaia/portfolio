@@ -1501,38 +1501,86 @@ main > .tinta:last-child .tinta__inner {
 /* ============================================================
    Conversa
 
-   Os dois estados de um mesmo atendimento, seis colunas cada. Não
-   é o componente de antes e depois em linha: aqui a ordem dos
-   turnos é o conteúdo, então cada coluna é a conversa inteira, de
-   cima para baixo. A da direita é a que a página defende, e é ela
-   que ganha o fio verde.
+   Os dois estados de um mesmo atendimento. A conversa aconteceu num
+   celular, então ela se lê dentro de um: cada estado ganha o
+   contorno de uma tela, e as duas telas ficam no meio da página,
+   com respiro nas laterais e entre elas.
+
+   O contorno é estreito de propósito. Uma tela de celular que ocupa
+   meia página deixa de ser uma tela de celular, e era isso que as
+   duas colunas faziam antes: a conversa tinha a largura de um
+   texto, não a de um aparelho.
+
+   O aparelho é o mesmo nos dois lados, então o contorno também é.
+   Quem separa os dois estados continua sendo o fio em cima do
+   rótulo, cinza de um lado e verde do outro.
    ============================================================ */
 
 .conversas {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: var(--calha);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: clamp(32px, 6vw, 96px);
   row-gap: var(--space-48);
 }
-.conversa { grid-column: span 6; padding-top: var(--space-16); border-top: 2px solid rgba(18, 22, 19, .22); }
+.conversa {
+  width: min(340px, 100%);
+  padding-top: var(--space-16);
+  border-top: 2px solid rgba(18, 22, 19, .22);
+}
 .conversa--depois { border-top-color: var(--highlighter-green); }
 .conversa__cabeca {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
   gap: var(--space-16);
-  margin: 0 0 var(--space-24);
+  margin: 0 0 var(--space-16);
   color: var(--newsprint-gray);
 }
 .conversa--depois .conversa__fim { color: var(--highlighter-green); }
 
-.turnos { margin: 0; padding: 0; list-style: none; }
+/* A lista de turnos é a tela. Fio de 2px com o raio de um aparelho,
+   o mesmo fio de qualquer moldura da página: o celular aqui é
+   desenho de contorno, não fotografia. O alto-falante em cima e a
+   barra em baixo são o que basta para o olho ler aparelho, e são
+   dois riscos, não um desenho.
+
+   Dentro do contorno o papel perde a trama. É a única superfície do
+   site que não é papel, e tem que ser: é uma tela. */
+.turnos {
+  position: relative;
+  margin: 0;
+  padding: var(--space-32) var(--space-16);
+  border: 2px solid rgba(18, 22, 19, .22);
+  border-radius: 26px;
+  background: var(--bone-white);
+  list-style: none;
+}
+.turnos::before,
+.turnos::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(18, 22, 19, .22);
+  transform: translateX(-50%);
+}
+.turnos::before { top: var(--space-16); width: 44px; }
+.turnos::after { bottom: var(--space-12); width: 96px; background: rgba(18, 22, 19, .14); }
+
 .turno + .turno { margin-top: var(--space-16); }
-.turno__quem { display: block; margin-bottom: var(--space-8); color: var(--newsprint-gray); }
+.turno__quem { display: block; margin-bottom: var(--space-4); color: var(--newsprint-gray); }
+/* Dentro da tela a fala não se mede em caracteres e sim na largura
+   do aparelho: ela para antes da borda oposta, e é essa sobra que
+   diz de que lado da conversa cada bolha está. Bolha curta encolhe
+   até o texto, que é como uma conversa se parece; uma bolha de duas
+   palavras com a largura da tela pareceria um campo vazio. */
 .turno__fala {
   margin: 0;
-  max-width: 40ch;
-  padding: var(--space-16) var(--space-24);
+  width: fit-content;
+  max-width: 86%;
+  padding: var(--space-12) var(--space-16);
   border-radius: var(--radius-pills);
   background: rgba(18, 22, 19, .06);
   font-size: var(--text-body-sm);
@@ -1542,15 +1590,14 @@ main > .tinta:last-child .tinta__inner {
 /* A fala do agente encosta na margem direita e troca de tom: é o
    suficiente para separar os dois lados sem pintar cada um de uma
    cor. */
-.turno--agente { margin-left: auto; max-width: 40ch; }
 .turno--agente .turno__quem { text-align: right; }
-.turno--agente .turno__fala { background: var(--echo-green); }
+.turno--agente .turno__fala { margin-left: auto; background: var(--echo-green); }
 /* A nota embaixo da fala diz o que aquele turno custou, ou qual
-   camada o consertou. */
+   camada o consertou. Ela é a única coisa ali dentro que não é da
+   conversa, então ocupa a largura toda da tela e não a da bolha. */
 .turno__nota {
   display: block;
   margin-top: var(--space-8);
-  max-width: 40ch;
   color: var(--newsprint-gray);
 }
 .turno--agente .turno__nota { margin-left: auto; text-align: right; }
@@ -1665,7 +1712,6 @@ main > .tinta:last-child .tinta__inner {
   .rail__marco,
   .numero-caso,
   .citacao,
-  .conversa,
   .galeria > li,
   .grito-par .legenda,
   .acoes p { grid-column: 1 / -1; }
