@@ -172,14 +172,20 @@
     </div>
   </div>
 
-  <!-- A parada escura: o que a descoberta encontrou e o protótipo
-       que saiu dela. O escuro aqui existe para a tela do app ser a
-       única coisa clara da seção. -->
+  <!-- A parada escura: o que a descoberta encontrou de um lado e o
+       protótipo que saiu dela do outro. O protótipo é uma tela de
+       celular, vertical: ocupando a página inteira ele deixava duas
+       faixas de fundo escuro do tamanho dele em volta. Numa coluna,
+       a altura que ele pede passa a ser a altura da seção, e o texto
+       corre ao lado em vez de empurrar o protótipo para longe.
+
+       O escuro aqui existe para a tela do app ser a única coisa
+       clara da seção. -->
   <div class="tinta">
     <div class="onda onda--escura" aria-hidden="true"></div>
     <div class="wrap tinta__inner">
 
-      <section class="secao" aria-labelledby="t-descoberta">
+      <section class="secao secao--par secao--par--largo" aria-labelledby="t-descoberta">
         <div class="secao__topo" data-revelar>
           <div class="secao__head">
             <span class="micro">02 · Descoberta</span>
@@ -188,19 +194,21 @@
           <h2 class="secao__titulo" id="t-descoberta">Qual a&nbsp;melhor maneira de&nbsp;entregar um&nbsp;boletim que&nbsp;o&nbsp;aluno use</h2>
         </div>
 
-        <div class="corpo-texto" data-revelar>
-          <p>Depois de analisar o NPS, as pesquisas que o time já tinha feito e um dia na vida conduzido por um dos designers, ficou claro que esse aluno está sempre em movimento e precisava de algo de fácil acesso, que estivesse com ele o&nbsp;tempo todo.</p>
-          <p>Depois de várias sessões de cocriação com&nbsp;a&nbsp;área acadêmica e&nbsp;com&nbsp;todo o&nbsp;time de produto e desenvolvimento, saímos com&nbsp;um&nbsp;protótipo navegável de alta fidelidade, pronto para&nbsp;validação.</p>
+        <div class="bloco coluna-a" data-revelar>
+          <div class="corpo-texto">
+            <p>Depois de analisar o NPS, as pesquisas que o time já tinha feito e um dia na vida conduzido por um dos designers, ficou claro que esse aluno está sempre em movimento e precisava de algo de fácil acesso, que estivesse com ele o&nbsp;tempo todo.</p>
+            <p>Depois de várias sessões de cocriação com&nbsp;a&nbsp;área acadêmica e&nbsp;com&nbsp;todo o&nbsp;time de produto e desenvolvimento, saímos com&nbsp;um&nbsp;protótipo navegável de alta fidelidade, pronto para&nbsp;validação.</p>
+          </div>
+
+          <div class="linha-nota">
+            <span class="micro">O aluno de medicina</span>
+            <p>O curso é integral e exige muito. Devolver tempo para&nbsp;o&nbsp;que&nbsp;importa, o&nbsp;estudo e&nbsp;o&nbsp;descanso, era o&nbsp;critério que&nbsp;separava uma boa solução de&nbsp;uma&nbsp;solução bonita.</p>
+          </div>
         </div>
 
-        <div class="linha-nota" data-revelar>
-          <span class="micro">O aluno de medicina</span>
-          <p>O curso é integral e exige muito. Devolver tempo para&nbsp;o&nbsp;que&nbsp;importa, o&nbsp;estudo e&nbsp;o&nbsp;descanso, era o&nbsp;critério que&nbsp;separava uma boa solução de&nbsp;uma&nbsp;solução bonita.</p>
-        </div>
-
-        <div class="bloco" data-revelar data-revelar-atraso="1">
+        <div class="bloco coluna-b" data-revelar data-revelar-atraso="1">
           <span class="micro rotulo">Protótipo navegável</span>
-          <div class="moldura">
+          <div class="moldura moldura--retrato">
             <iframe src="https://embed.figma.com/proto/w5TixfaNOqjwjYoY8hZ0cg/Painel-Longitudinal---Aluno?page-id=2891%3A23975&amp;node-id=2891-27267&amp;starting-point-node-id=2891%3A27267&amp;scaling=scale-down&amp;content-scaling=fixed&amp;embed-host=share" title="Protótipo do aplicativo Inpulse" allowfullscreen loading="lazy"></iframe>
           </div>
           <p class="legenda">Navegue pelo app aqui mesmo, ou&nbsp;abra o&nbsp;protótipo em&nbsp;tela cheia.</p>
@@ -216,9 +224,17 @@
     <div class="wrap folha__inner">
 
       <!-- 03. O experimento. Os três níveis de desejabilidade usam
-           o mesmo arranjo dos rituais da página de processo, e a
-           contagem virou uma barra por funcionalidade: são sempre
-           dez participantes, então o que se lê é a proporção. -->
+           o mesmo arranjo dos rituais da página de processo.
+
+           A contagem é uma barra por funcionalidade: são sempre dez
+           participantes, então a barra inteira é a mesma em todas e
+           o que se lê é a proporção. Antes havia um número solto à
+           direita do nome, "8 de 10", que não dizia de que dos três
+           grupos estava falando. Agora as três contagens vêm
+           escritas embaixo da barra, na mesma ordem das cores e
+           começando sempre na mesma margem: assim dá para correr o
+           olho pela coluna e ver quem teve mais entusiasta, que é a
+           pergunta que a seção faz. -->
       <section class="secao" aria-labelledby="t-experimento">
         <div class="secao__topo" data-revelar>
           <div class="secao__head">
@@ -229,7 +245,7 @@
         </div>
 
         <div class="corpo-texto" data-revelar>
-          <p>Estruturamos um experimento para medir a desejabilidade de cada funcionalidade, e assim priorizar o que já sabíamos ser dor do aluno e da&nbsp;empresa.</p>
+          <p>Estruturamos um experimento para medir a desejabilidade de&nbsp;cada funcionalidade, e assim priorizar o que já sabíamos ser dor do&nbsp;aluno e da&nbsp;empresa.</p>
           <p>Usamos a estrutura de um teste de usabilidade, com tarefas oferecidas aos participantes, mas não para medir facilidade: para registrar a reação espontânea a cada&nbsp;funcionalidade.</p>
         </div>
 
@@ -252,49 +268,56 @@
         </div>
 
         <div class="bloco" data-revelar data-revelar-atraso="1">
-          <span class="micro rotulo">Reações por funcionalidade, com 10 participantes</span>
+          <span class="micro rotulo">Reações de 10 participantes, em seis das dez funcionalidades testadas</span>
           <ul class="pilhas">
             <li class="pilha">
-              <p class="pilha__cabeca"><span class="pilha__nome">Próximas avaliações</span><span class="pilha__valor">8 de 10</span></p>
+              <p class="pilha__nome">Próximas avaliações</p>
               <div class="pilha__trilho">
                 <span class="pilha__parte pilha__parte--receptivo" style="--frac: 80%"></span>
                 <span class="pilha__parte pilha__parte--indiferente" style="--frac: 20%"></span>
               </div>
+              <p class="pilha__conta">8 receptivos · 2 indiferentes</p>
             </li>
             <li class="pilha">
-              <p class="pilha__cabeca"><span class="pilha__nome">Faltas</span><span class="pilha__valor">10 de 10</span></p>
+              <p class="pilha__nome">Faltas</p>
               <div class="pilha__trilho">
                 <span class="pilha__parte pilha__parte--receptivo" style="--frac: 100%"></span>
               </div>
+              <p class="pilha__conta">10 receptivos</p>
             </li>
             <li class="pilha">
-              <p class="pilha__cabeca"><span class="pilha__nome">Situação atual</span><span class="pilha__valor">10 de 10</span></p>
+              <p class="pilha__nome">Situação atual</p>
               <div class="pilha__trilho">
                 <span class="pilha__parte pilha__parte--entusiasta" style="--frac: 10%"></span>
                 <span class="pilha__parte pilha__parte--receptivo" style="--frac: 90%"></span>
               </div>
+              <p class="pilha__conta">1 entusiasta · 9 receptivos</p>
             </li>
             <li class="pilha">
-              <p class="pilha__cabeca"><span class="pilha__nome">Últimas avaliações</span><span class="pilha__valor">9 de 10</span></p>
-              <div class="pilha__trilho">
-                <span class="pilha__parte pilha__parte--entusiasta" style="--frac: 10%"></span>
-                <span class="pilha__parte pilha__parte--receptivo" style="--frac: 80%"></span>
-              </div>
-            </li>
-            <li class="pilha">
-              <p class="pilha__cabeca"><span class="pilha__nome">Calendário</span><span class="pilha__valor">10 de 10</span></p>
-              <div class="pilha__trilho">
-                <span class="pilha__parte pilha__parte--entusiasta" style="--frac: 30%"></span>
-                <span class="pilha__parte pilha__parte--receptivo" style="--frac: 70%"></span>
-              </div>
-            </li>
-            <li class="pilha">
-              <p class="pilha__cabeca"><span class="pilha__nome">Planejar estudos</span><span class="pilha__valor">9 de 10</span></p>
+              <p class="pilha__nome">Últimas avaliações</p>
               <div class="pilha__trilho">
                 <span class="pilha__parte pilha__parte--entusiasta" style="--frac: 10%"></span>
                 <span class="pilha__parte pilha__parte--receptivo" style="--frac: 80%"></span>
                 <span class="pilha__parte pilha__parte--indiferente" style="--frac: 10%"></span>
               </div>
+              <p class="pilha__conta">1 entusiasta · 8 receptivos · 1 indiferente</p>
+            </li>
+            <li class="pilha">
+              <p class="pilha__nome">Calendário</p>
+              <div class="pilha__trilho">
+                <span class="pilha__parte pilha__parte--entusiasta" style="--frac: 30%"></span>
+                <span class="pilha__parte pilha__parte--receptivo" style="--frac: 70%"></span>
+              </div>
+              <p class="pilha__conta">3 entusiastas · 7 receptivos</p>
+            </li>
+            <li class="pilha">
+              <p class="pilha__nome">Planejar estudos</p>
+              <div class="pilha__trilho">
+                <span class="pilha__parte pilha__parte--entusiasta" style="--frac: 10%"></span>
+                <span class="pilha__parte pilha__parte--receptivo" style="--frac: 80%"></span>
+                <span class="pilha__parte pilha__parte--indiferente" style="--frac: 10%"></span>
+              </div>
+              <p class="pilha__conta">1 entusiasta · 8 receptivos · 1 indiferente</p>
             </li>
           </ul>
           <p class="cores micro">
@@ -315,7 +338,10 @@
         </div>
       </section>
 
-      <!-- 04. O resultado, com as telas do app e a conta final. -->
+      <!-- 04. O resultado. As telas do app atravessam a página de
+           beira a beira, sem moldura e sem margem: é a única imagem
+           do caso que mostra o produto pronto, e cortada na altura
+           ela vira uma faixa, não um retrato pendurado no papel. -->
       <section class="secao" aria-labelledby="t-resultado">
         <div class="secao__topo" data-revelar>
           <div class="secao__head">
@@ -330,11 +356,9 @@
           <p>A primeira versão já mostrou números de&nbsp;engajamento altos no&nbsp;primeiro semestre de&nbsp;lançamento.</p>
         </div>
 
-        <div class="bloco" data-revelar data-revelar-atraso="1">
-          <div class="moldura">
-            <img src="https://framerusercontent.com/images/aV4KtUaueCwZ17TJ4mz299XAw.png" alt="Telas do aplicativo Inpulse: boletim por complexo temático, calendário acadêmico e situação atual do aluno." width="1600" height="900" loading="lazy" decoding="async">
-          </div>
-        </div>
+        <figure class="sangria" data-revelar data-revelar-atraso="1">
+          <img src="https://framerusercontent.com/images/aV4KtUaueCwZ17TJ4mz299XAw.png" alt="Telas do aplicativo Inpulse: boletim por complexo temático, calendário acadêmico e situação atual do aluno." width="1600" height="900" loading="lazy" decoding="async">
+        </figure>
 
         <div class="numeros" data-revelar>
           <div class="numero-caso">
@@ -355,33 +379,18 @@
           </div>
         </div>
 
-        <div class="bloco" data-revelar>
-          <span class="micro rotulo">Ferramentas e métodos</span>
-          <p class="etiquetas micro">
-            <span>Mapa de afinidade</span>
-            <span>Análise temática</span>
-            <span>Experimento de desejabilidade</span>
-            <span>Story mapping</span>
-            <span>Benchmark</span>
-            <span>Dinâmica de cocriação</span>
-            <span>Prototipagem navegável</span>
-            <span>Componentização</span>
-            <span>Teste de usabilidade</span>
-          </p>
-        </div>
-
         <div class="fecho fecho--unido" data-revelar>
           <div>
             <span class="micro rotulo">O que eu levo daqui</span>
             <p class="declaracao">Desejo do&nbsp;usuário e&nbsp;aposta do&nbsp;time raramente são a&nbsp;mesma coisa.</p>
           </div>
           <div class="corpo-texto">
-            <p>O experimento não serviu para confirmar o que a gente queria construir. Serviu para mudar a ordem: o que doía mais entrou antes, mesmo sendo o&nbsp;mais caro.</p>
+            <p>O experimento não serviu para confirmar o que a gente queria construir. Serviu para mudar a ordem: o que&nbsp;doía mais entrou antes, mesmo sendo o&nbsp;mais caro.</p>
           </div>
         </div>
 
         <div class="acoes" data-revelar>
-          <p>Quer conversar sobre produto em educação, ou&nbsp;sobre&nbsp;como medir desejo antes de&nbsp;construir? <a class="link" href="https://wa.me/5511977346175" target="_blank" rel="noopener">Me&nbsp;chama no&nbsp;WhatsApp</a> ou veja o&nbsp;próximo caso.</p>
+          <p>Quer conversar sobre produto em educação, ou&nbsp;sobre&nbsp;como medir desejo antes de&nbsp;construir? <a class="link" href="https://wa.me/5511977346175" target="_blank" rel="noopener">Me&nbsp;chama no&nbsp;WhatsApp</a> ou&nbsp;veja o&nbsp;próximo caso.</p>
           <div class="acoes__ir">
             <a class="proximo-link" href="case-mapa-experiencia.html">Próximo caso <i aria-hidden="true">→</i></a>
           </div>

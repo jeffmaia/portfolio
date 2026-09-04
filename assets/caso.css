@@ -423,8 +423,24 @@ main > .tinta:last-child .tinta__inner {
 .coluna-b .corpo-texto { max-width: 52ch; }
 .coluna-b .atrito p { max-width: 50ch; }
 /* O atrito abre um grupo novo dentro da coluna, então ganha o
-   respiro de fora, não o de dentro. */
-.coluna-b > .atrito { margin-top: var(--space-32); }
+   respiro de fora, não o de dentro. O mesmo vale para a linha de
+   nota que fecha uma coluna. */
+.coluna-b > .atrito,
+.coluna-a > .linha-nota,
+.coluna-b > .linha-nota { margin-top: var(--space-32); }
+
+/* A linha de nota nasceu para a página inteira: rótulo em três
+   colunas, texto em seis ao lado. Dentro de meia página essas três
+   colunas viram uma tira de duas palavras por linha. Na coluna ela
+   se lê como se lê na sequência, o rótulo em cima do que ele
+   nomeia. */
+.coluna-a .linha-nota,
+.coluna-b .linha-nota { display: block; }
+.coluna-a .linha-nota .micro,
+.coluna-b .linha-nota .micro {
+  display: block;
+  margin-bottom: var(--space-16);
+}
 
 /* ============================================================
    Ficha do projeto
@@ -1369,6 +1385,42 @@ main > .tinta:last-child .tinta__inner {
 }
 .moldura img { width: 100%; height: auto; }
 
+/* Quando o que está dentro é uma tela de celular, a moldura para de
+   crescer antes de virar paisagem. Passando disso, o que ganha
+   largura é o fundo em volta do aparelho, não o aparelho: o
+   protótipo fica do mesmo tamanho e mais longe do texto. */
+.moldura--retrato { max-width: 520px; }
+
+/* A sangria: a imagem sai da grade e atravessa a página de beira a
+   beira. Não é moldura sem borda, é o contrário da moldura: aqui a
+   imagem não é um objeto pousado no papel, é uma faixa que o papel
+   atravessa.
+
+   A conta do recuo negativo sai da própria caixa: metade da largura
+   da coluna menos metade da largura da tela põe a beirada esquerda
+   no zero da viewport, qualquer que seja a margem da página. O corpo
+   já esconde o que passar da largura, então a barra de rolagem, que
+   entra em vw e não na tela, não abre estouro horizontal.
+
+   A altura é fixa e a imagem enche por cima, porque o que interessa
+   é a faixa ter sempre a mesma proporção de página. No celular a
+   faixa fica mais alta em relação à largura: as telas do app são
+   pequenas ali, e um corte baixo demais não mostraria nenhuma. */
+.sangria {
+  margin: 0;
+  margin-inline: calc(50% - 50vw);
+  width: auto;
+  height: clamp(260px, 38vw, 560px);
+  overflow: hidden;
+  background-color: var(--press-black);
+}
+.sangria img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 /* A galeria: figuras abertas lado a lado, seis colunas cada, com a
    legenda embaixo. Sem seta e sem ponto, porque estão todas à
    vista. Seis e não quatro porque são telas densas, e três por
@@ -1401,21 +1453,32 @@ main > .tinta:last-child .tinta__inner {
    indiferença quase apagada. Uma barra por funcionalidade, não
    três, porque a soma é sempre a mesma e é a proporção que se quer
    ler.
+
+   Três reações são três quantidades, e um número só no lugar delas
+   não diz de qual está falando. Elas vêm escritas embaixo da barra,
+   na ordem das cores, e embaixo é de propósito: à direita do nome,
+   cada linha começaria num lugar diferente, e a comparação que
+   interessa, quem teve mais entusiasta, é justamente a que se faz
+   descendo o olho pela mesma margem.
    ============================================================ */
 
 .pilhas { margin: 0; padding: 0; list-style: none; }
 .pilha + .pilha { margin-top: var(--space-24); }
-.pilha__cabeca {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: var(--space-16);
+.pilha__nome {
   margin: 0 0 var(--space-8);
+  font-size: var(--text-body-sm);
+  font-weight: 350;
 }
-.pilha__nome { font-size: var(--text-body-sm); font-weight: 350; }
-/* Os valores se comparam entre si, então alinham à direita e
-   correm em algarismos de mesma largura. */
-.pilha__valor { font-size: 17px; font-weight: 550; letter-spacing: -0.02em; white-space: nowrap; text-align: right; font-variant-numeric: tabular-nums; }
+/* A contagem é letra miúda: quem compara é a barra, e o número está
+   ali para quem quiser a conta exata. */
+.pilha__conta {
+  margin: var(--space-8) 0 0;
+  font-size: var(--text-caption);
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--newsprint-gray);
+  font-variant-numeric: tabular-nums;
+}
 .pilha__trilho {
   display: flex;
   height: 10px;
@@ -1633,6 +1696,19 @@ main > .tinta:last-child .tinta__inner {
 
   .secao--par > .coluna-a { grid-column: 1 / span 5; }
   .secao--par > .coluna-b { grid-column: 7 / -1; }
+
+  /* Há par que só existe onde cabem duas leituras. Quando um dos
+     lados é um objeto de altura fixa, o outro fica com o que sobra,
+     e o que sobra numa página de 900 são trinta e poucos caracteres
+     por linha: metade de uma medida de leitura. Aqui o par desmancha
+     e as duas peças voltam para a fila, cada uma com a página
+     inteira. A linha de nota volta junto para a forma larga, rótulo
+     na margem e texto ao lado, que é a forma dela em toda a página
+     que não é coluna. */
+  .secao--par--largo > .coluna-a,
+  .secao--par--largo > .coluna-b { grid-column: 1 / -1; }
+  .secao--par--largo .linha-nota { display: grid; }
+  .secao--par--largo .linha-nota .micro { margin-bottom: 0; }
 
   .secao--sequencia > .grito-par { grid-column: 1 / -1; }
   .secao--sequencia > .corpo-texto,
