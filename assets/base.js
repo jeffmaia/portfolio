@@ -414,9 +414,13 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   /* Fixo, e não medido: a barra debaixo do J não sabe nada sobre a
      página que vem, então o que ela mostra é sempre o mesmo tempo.
-     1000ms é o traço terminando de encher; os 40ms de sobra são
+     1180ms é o traço terminando de encher; os 40ms de sobra são
      para ele ser visto cheio antes de a página trocar. */
-  const ESPERA = 1040;
+  const ESPERA = 1220;
+
+  /* Um clique só. Sem isto, um segundo clique durante a passagem
+     marcaria outro destino e os dois relógios correriam juntos. */
+  let passando = false;
 
   /* A volta pelo histórico pode devolver a página do cache com a
      cortina ainda por cima; limpar aí é obrigatório. Só aí: numa
@@ -425,7 +429,8 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
   window.addEventListener("pageshow", e => {
     if (!e.persisted) return;
     cortina.classList.remove("saindo");
-    document.documentElement.classList.remove("chegando", "saindo--menu");
+    document.documentElement.classList.remove("chegando", "saindo--menu", "saindo--pagina");
+    passando = false;
     destravar();
   });
 
@@ -459,6 +464,7 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
      que o faz desistir, porque na passagem o painel não fecha, ele
      cresce até cobrir a tela. */
   document.addEventListener("click", e => {
+    if (passando) { e.preventDefault(); return; }
     if (e.defaultPrevented || e.button !== 0) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
 
@@ -468,6 +474,7 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     e.preventDefault();
     a.dataset.passagem = "1";
+    passando = true;
 
     const raiz = document.documentElement;
 
@@ -488,6 +495,13 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
       raiz.classList.add("saindo--menu");
       void painel.offsetHeight;
       painel.style.height = "calc(100vh + var(--onda-h))";
+    } else {
+      /* Saindo de um link da página, quem se apaga é a página: barra,
+         conteúdo e rodapé somem juntos, e a cortina chega depois,
+         sobre um fundo que já não tem nada escrito. É o mesmo primeiro
+         tempo da saída de dentro do menu, onde quem se apaga é o
+         miolo do painel. */
+      raiz.classList.add("saindo--pagina");
     }
 
     cortina.classList.add("saindo");
@@ -509,7 +523,8 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
        para sempre. */
     setTimeout(() => {
       cortina.classList.remove("saindo");
-      raiz.classList.remove("saindo--menu");
+      raiz.classList.remove("saindo--menu", "saindo--pagina");
+      passando = false;
       destravar();
     }, ESPERA + 4000);
   }, true);

@@ -624,6 +624,11 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .menu, .menu__lista li, .wordmark__dobra, .menu-btn__traco, .reticula { transition: none; }
+  html.saindo--pagina .nav,
+  html.saindo--pagina .menu,
+  html.saindo--pagina .reticula,
+  html.saindo--pagina main,
+  html.saindo--pagina .footer { animation: none; }
 }
 
 /* ============================================================
@@ -632,12 +637,16 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
    Quatro tempos, e nenhum deles se move: a passagem inteira é
    feita de opacidade.
 
-   1. A tela fica coberta. Saindo de dentro do menu, quem cobre é o
-      painel crescendo até a tela toda, e a cortina só chega depois,
-      por baixo do que já está preto. Saindo de um link da página,
-      é a cortina que aparece por cima, e a página se apaga debaixo
-      dela.
-   2. O que estava escrito se apaga.
+   1. O que estava escrito se apaga. Saindo de dentro do menu é o
+      miolo do painel; saindo de um link da página são a barra, o
+      conteúdo e o rodapé, os três de uma vez. A ordem é a mesma nos
+      dois casos, e é essa a razão de ela existir aqui: o que a
+      pessoa estava lendo vai embora antes de a tela fechar, em vez
+      de ser tapado no meio da leitura.
+   2. A tela fica coberta. De dentro do menu, quem cobre é o painel
+      crescendo até a tela toda, e a cortina só chega depois, por
+      baixo do que já está preto. De um link da página, é a cortina
+      que chega, sobre uma página que já se apagou.
    3. O J entra, com a barra enchendo embaixo dele.
    4. Do outro lado, o J sai, a cortina sai atrás dele e a página
       nova aparece por baixo.
@@ -704,19 +713,46 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
 
 /* ── Saída ─────────────────────────────────────────── */
 
-.transicao.saindo { visibility: visible; animation: cortina-cobre .40s var(--ease-saida) forwards; }
+/* Saindo de um link da página, a página se apaga primeiro, sobre o
+   fundo dela mesma, e só depois o preto entra. Antes o preto entrava
+   por cima de tudo de uma vez, e a diferença entre esta saída e a do
+   menu era grande demais para duas coisas que são a mesma coisa.
+
+   Nomeados um a um, e não `body > *`: o que se apaga é o que a
+   pessoa está vendo. Os desenhos das ondas também moram no corpo, e
+   apagá-los junto seria apagar a definição de um recorte que ainda
+   está em uso. */
+html.saindo--pagina .nav,
+html.saindo--pagina .menu,
+html.saindo--pagina .reticula,
+html.saindo--pagina main,
+html.saindo--pagina .footer {
+  /* Animação e não transição, como todo o resto da passagem: a barra
+     e o painel já têm transições próprias de outras coisas, e um
+     `transition` aqui entraria numa disputa que a animação não tem. */
+  animation: pagina-apaga .30s var(--ease-saida) forwards;
+}
+
+/* A cortina entra por cima do fim do apagamento, e não depois dele.
+   Não é pressa: o rodapé é preto e o corpo da página é claro, então
+   um rodapé se apagando clareia antes de sumir. Sem a sobreposição,
+   a passagem daria um susto de luz no meio do caminho justamente
+   para depois escurecer. */
+.transicao.saindo { visibility: visible; animation: cortina-cobre .32s var(--ease-saida) .18s forwards; }
 
 /* Saindo de dentro do menu a cortina não cobre nada: o painel já
    cobriu. Ela só precisa estar acesa quando o J entrar, e por isso
    troca de tempo em vez de trocar de papel. */
-html.saindo--menu .transicao.saindo { animation: cortina-cobre .22s linear .28s forwards; }
+html.saindo--menu .transicao.saindo { animation: cortina-cobre .22s linear .30s forwards; }
 
-.transicao.saindo .transicao__marca { animation: miolo-entra .28s var(--ease-saida) .32s both; }
+/* O J entra depois de a tela estar fechada, nos dois caminhos: é o
+   terceiro tempo, e ele não divide a cena com o segundo. */
+.transicao.saindo .transicao__marca { animation: miolo-entra .30s var(--ease-saida) .50s both; }
 /* Linear, e não com a curva de saída: uma barra que acelera e
    desacelera está contando uma história sobre o carregamento que
    ela não tem como saber. Passo constante é a única coisa honesta
    que uma barra de tempo fixo pode dizer. */
-.transicao.saindo .transicao__marca i { animation: traco-enche .64s linear .36s forwards; }
+.transicao.saindo .transicao__marca i { animation: traco-enche .64s linear .54s forwards; }
 
 /* ── Chegada ───────────────────────────────────────── */
 
@@ -739,6 +775,7 @@ html.chegando .transicao__marca i { width: 100%; }
   from { opacity: 1; }
   to { opacity: 0; visibility: hidden; }
 }
+@keyframes pagina-apaga { from { opacity: 1; } to { opacity: 0; } }
 @keyframes miolo-entra { from { opacity: 0; } to { opacity: 1; } }
 @keyframes miolo-sai { from { opacity: 1; } to { opacity: 0; } }
 @keyframes traco-enche { from { width: 0; } to { width: 100%; } }
