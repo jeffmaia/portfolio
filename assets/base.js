@@ -395,8 +395,8 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 /* ── A passagem de uma página para outra ────────────────────────
    Ao clicar num link interno: a tela fica coberta, o que estava
-   escrito se apaga, o J entra e a barra enche. Só então a página
-   seguinte é pedida. Do outro lado o J sai, a cortina sai atrás
+   escrito se apaga, o J entra e o traço debaixo dele enche. Só
+   então a página seguinte é pedida. Do outro lado o J sai, a cortina sai atrás
    dele e a página nova aparece por baixo.
 
    Quem cobre depende de onde veio o clique. De dentro do menu, é o
@@ -412,7 +412,11 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
   const cortina = document.querySelector(".transicao");
   if (!cortina || CALMO.matches) return;
 
-  const ESPERA = 860;   // cobre, apaga, o J entra e a barra enche (820ms)
+  /* Fixo, e não medido: a barra debaixo do J não sabe nada sobre a
+     página que vem, então o que ela mostra é sempre o mesmo tempo.
+     1000ms é o traço terminando de encher; os 40ms de sobra são
+     para ele ser visto cheio antes de a página trocar. */
+  const ESPERA = 1040;
 
   /* A volta pelo histórico pode devolver a página do cache com a
      cortina ainda por cima; limpar aí é obrigatório. Só aí: numa
@@ -488,6 +492,15 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     cortina.classList.add("saindo");
     try { sessionStorage.setItem("jm-passagem", "1"); } catch (_) {}
+
+    /* O pedido sai agora, um segundo antes da troca, e não em
+       file://, onde ele só daria erro. Não é otimização de carga: é
+       o que faz o buraco preto entre uma página e outra ser sempre
+       do mesmo tamanho. A parte roteirizada da passagem já tem tempo
+       fixo; a espera pela rede é a única coisa que ainda variava. */
+    if (location.protocol === "http:" || location.protocol === "https:") {
+      try { fetch(destino, { credentials: "same-origin" }).catch(() => {}); } catch (_) {}
+    }
 
     setTimeout(() => { location.href = destino; }, ESPERA);
 

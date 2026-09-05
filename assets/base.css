@@ -669,46 +669,70 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
   visibility: hidden;
   pointer-events: none;
 }
+/* O traço verde debaixo do J é a barra. Eram duas coisas, o traço
+   parado que é a marca e uma barra à parte mais abaixo, dizendo a
+   mesma coisa duas vezes em dois lugares. Agora o traço nasce sem
+   largura nenhuma e enche até a largura da letra: quando ele
+   fecha, a marca está inteira e a página está pedida.
+
+   O trilho apagado atrás diz onde o traço vai chegar. Sem ele, um
+   traço crescendo é um enfeite se mexendo; com ele, é uma barra. */
 .transicao__marca {
+  position: relative;
+  /* O par de medidas embaixo é o vão entre a perna do J e o traço.
+     Com line-height 1 sobra a altura do descendente dentro da
+     caixa, e um traço encostado na borda de baixo dela cairia
+     longe demais da letra. O padding dá lugar ao traço dentro da
+     caixa; o bottom o traz de volta para perto da perna. */
+  padding-bottom: .1em;
   font-family: var(--font-ui);
   font-size: clamp(52px, 9vw, 108px);
   font-weight: 550;
   line-height: 1;
   letter-spacing: -0.05em;
-  box-shadow: inset 0 -4px 0 0 var(--highlighter-green);
 }
-.transicao__barra {
-  width: min(200px, 42vw);
-  height: 2px;
-  overflow: hidden;
-  background: rgba(250, 255, 250, .2);
+.transicao__marca::before,
+.transicao__marca i {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: .08em;
+  height: max(4px, .05em);
 }
-.transicao__barra i { display: block; width: 0; height: 100%; background: var(--highlighter-green); }
+.transicao__marca::before { width: 100%; background: rgba(250, 255, 250, .18); }
+.transicao__marca i { width: 0; background: var(--highlighter-green); }
 
 /* ── Saída ─────────────────────────────────────────── */
 
-.transicao.saindo { visibility: visible; animation: cortina-cobre .42s var(--ease-saida) forwards; }
+.transicao.saindo { visibility: visible; animation: cortina-cobre .40s var(--ease-saida) forwards; }
 
 /* Saindo de dentro do menu a cortina não cobre nada: o painel já
    cobriu. Ela só precisa estar acesa quando o J entrar, e por isso
    troca de tempo em vez de trocar de papel. */
-html.saindo--menu .transicao.saindo { animation: cortina-cobre .24s linear .30s forwards; }
+html.saindo--menu .transicao.saindo { animation: cortina-cobre .22s linear .28s forwards; }
 
-.transicao.saindo .transicao__marca,
-.transicao.saindo .transicao__barra { animation: miolo-entra .30s var(--ease-saida) .34s both; }
-.transicao.saindo .transicao__barra i { animation: cortina-carrega .46s var(--ease-saida) .36s forwards; }
+.transicao.saindo .transicao__marca { animation: miolo-entra .28s var(--ease-saida) .32s both; }
+/* Linear, e não com a curva de saída: uma barra que acelera e
+   desacelera está contando uma história sobre o carregamento que
+   ela não tem como saber. Passo constante é a única coisa honesta
+   que uma barra de tempo fixo pode dizer. */
+.transicao.saindo .transicao__marca i { animation: traco-enche .64s linear .36s forwards; }
 
 /* ── Chegada ───────────────────────────────────────── */
 
-/* `both` e não `forwards`: com um atraso e sem o preenchimento
-   para trás, a cortina ficaria transparente durante esses 300ms e
-   a página nova apareceria por um instante antes de ser coberta.
-   O atraso é o tempo do J sair primeiro: primeiro some o que
-   estava escrito, depois some o fundo em que estava escrito. */
-html.chegando .transicao { visibility: visible; animation: cortina-abre .42s var(--ease-saida) .30s both; }
-html.chegando .transicao__marca,
-html.chegando .transicao__barra { animation: miolo-sai .26s var(--ease-saida) both; }
-html.chegando .transicao__barra i { width: 100%; }
+/* Do lado de cá o J chega com o traço cheio e fica parado um tempo
+   antes de sair. Esses 300ms não são enfeite: a animação começa
+   quando a página é lida, não quando ela é pintada, e sem a parada
+   o J gastaria a saída dele antes do primeiro quadro na tela, numa
+   página que carrega rápido. É o que garante que sempre se veja o
+   mesmo tanto, e não o que a rede daquele momento deixou ver.
+
+   `both` e não `forwards`: com um atraso e sem o preenchimento
+   para trás, a cortina ficaria transparente durante esses 440ms e
+   a página nova apareceria por um instante antes de ser coberta. */
+html.chegando .transicao { visibility: visible; animation: cortina-abre .42s var(--ease-saida) .44s both; }
+html.chegando .transicao__marca { animation: miolo-sai .24s var(--ease-saida) .30s both; }
+html.chegando .transicao__marca i { width: 100%; }
 
 @keyframes cortina-cobre { from { opacity: 0; } to { opacity: 1; } }
 @keyframes cortina-abre {
@@ -717,7 +741,7 @@ html.chegando .transicao__barra i { width: 100%; }
 }
 @keyframes miolo-entra { from { opacity: 0; } to { opacity: 1; } }
 @keyframes miolo-sai { from { opacity: 1; } to { opacity: 0; } }
-@keyframes cortina-carrega { from { width: 0; } to { width: 100%; } }
+@keyframes traco-enche { from { width: 0; } to { width: 100%; } }
 
 @media (prefers-reduced-motion: reduce) {
   .transicao { display: none; }
