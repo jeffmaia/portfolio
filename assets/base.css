@@ -388,7 +388,13 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--space-24)); }
   z-index: 55;
   display: flex;
   align-items: flex-end;
-  height: min(78vh, 680px);
+  /* O piso é o painel de sempre; daí para cima ele cresce só o
+     quanto o conteúdo pedir, e nunca passa de 88vh, para a onda do
+     pé nunca sair da tela. Numa janela baixa é isso que segura os
+     sete itens dentro do painel em vez de mandá-los para a rolagem. */
+  height: auto;
+  min-height: min(78vh, 680px);
+  max-height: 88vh;
   background-color: var(--press-black);
   background-image: url("bg-weave-dark.svg");
   color: var(--bone-white);
@@ -396,14 +402,9 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--space-24)); }
   visibility: hidden;
   transition:
     transform .55s var(--ease-saida),
-    height .5s var(--ease-saida),
     visibility .55s;
 }
 .menu.aberto { transform: none; visibility: visible; }
-/* Na saída para outra página o painel cresce até cobrir tudo; é
-   o começo da passagem, antes da cortina. */
-.menu.crescendo { height: 100vh; }
-.menu.crescendo .onda { opacity: 0; }
 
 /* A rolagem, quando o painel não couber, é do miolo, não do
    painel: a onda fica pendurada abaixo dele, e um overflow no
@@ -428,7 +429,7 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--space-24)); }
 /* Um vão entre os itens, para o contorno de uma linha nunca cruzar
    o da linha vizinha: só assim ele fecha só a borda externa da
    letra, sem risco por dentro. */
-.menu__lista { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: clamp(4px, .8vw, 12px); }
+.menu__lista { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: clamp(6px, 1.6vw, 12px); }
 .menu__lista li {
   opacity: 0;
   transform: translateY(16px);
@@ -444,7 +445,16 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--space-24)); }
   display: inline-block;
   padding-block: .02em;
   font-family: var(--font-ui);
-  font-size: clamp(26px, 4.2vw, 52px);
+  /* O corpo cresce com a largura, e o piso do celular é alto de
+     propósito: numa tela estreita o menu é a tela inteira, e um
+     item de 26px ali é um link de rodapé, não a porta da página.
+     O coeficiente 9vw é o maior que ainda deixa "Mapa de
+     experiência", o item mais longo, numa linha só em 320.
+
+     O segundo termo é a altura, e existe por causa da janela baixa
+     de notebook: lá a largura pediria o corpo máximo e os sete
+     itens não caberiam no painel. Quem manda é o menor dos dois. */
+  font-size: clamp(28px, min(9vw, 6.4vh), 52px);
   font-weight: 500;
   /* Folga de sobra: se um item futuro for longo o bastante para
      quebrar em duas linhas dentro do mesmo link, o contorno de uma
@@ -508,7 +518,7 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--space-24)); }
 /* O segundo grupo sai daqui: corpo menor, cor mais baixa e a seta
    ao lado dizem isso antes do clique. */
 .menu__lista--fora .menu__item {
-  font-size: clamp(17px, 1.8vw, 24px);
+  font-size: clamp(19px, 5vw, 24px);
   font-weight: 400;
   letter-spacing: -0.02em;
   color: var(--muted-sage);
@@ -527,6 +537,8 @@ body.menu-aberto { overflow: hidden; }
 html:not(.js) .menu {
   position: static;
   height: auto;
+  min-height: 0;
+  max-height: none;
   transform: none;
   visibility: visible;
 }
@@ -543,10 +555,18 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
 /* ============================================================
    A passagem de uma página para outra
 
-   O painel cresce até cobrir a tela, a cortina desce por cima com
-   a marca e uma barra que carrega, e só então a página seguinte é
-   pedida. Do outro lado ela continua o mesmo movimento: sai por
-   baixo em vez de voltar por cima.
+   A cortina não é uma tampa que desce reta. Ela sobe de baixo com
+   a mesma borda do rodapé e do morro do hero: a onda que incha num
+   biquinho. O biquinho toca a página primeiro e fecha; do outro
+   lado ele desce de novo e a página abre por baixo dele.
+
+   Subir, e não descer, é o que amarra a passagem ao resto do site:
+   é o movimento do rodapé sendo puxado para dentro da tela.
+
+   Sobre fundo escuro, preto sobre preto não se vê. Por isso a
+   borda carrega um fio verde: são duas ondas iguais, a verde
+   parada e a preta três pixels abaixo, e o que sobra da verde é o
+   fio que corre em cima da curva.
 
    A cortina que chega é animação de CSS puro, disparada por uma
    classe posta no <html> ainda no <head>. Se o script de baixo
@@ -555,6 +575,9 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
    ============================================================ */
 
 .transicao {
+  /* Onde a cortina descansa: fora da tela por inteiro, e mais duas
+     alturas de onda, senão o biquinho ficaria à mostra no pé. */
+  --fora: calc(101% + var(--onda-bolha-h) * 2);
   position: fixed;
   inset: 0;
   z-index: 90;
@@ -566,10 +589,37 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
   background-color: var(--press-black);
   background-image: url("bg-weave-dark.svg");
   color: var(--bone-white);
-  transform: translateY(-101%);
+  transform: translateY(var(--fora));
   visibility: hidden;
   pointer-events: none;
 }
+
+/* A borda de cima da cortina. Fica pendurada acima dela e leva o
+   mesmo fundo, então a cortina e a onda são uma superfície só. */
+.transicao__onda {
+  position: absolute;
+  left: 0;
+  bottom: calc(100% - 1px);
+  display: block;
+  width: 100%;
+  height: calc(var(--onda-bolha-h) * 2);
+  background: var(--highlighter-green);
+  clip-path: url(#onda-recorte-bolha);
+}
+.transicao__onda i {
+  position: absolute;
+  inset: 0;
+  display: block;
+  /* Três pixels abaixo da verde: o que a preta não cobre é o fio.
+     A borda de baixo dela pisa dentro da cortina, então a emenda
+     entre as duas nunca aparece. */
+  transform: translateY(3px);
+  background-color: var(--press-black);
+  background-image: url("bg-weave-dark.svg");
+  background-position: left bottom;
+  clip-path: url(#onda-recorte-bolha);
+}
+
 .transicao__marca {
   font-family: var(--font-ui);
   font-size: clamp(52px, 9vw, 108px);
@@ -586,20 +636,22 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
 }
 .transicao__barra i { display: block; width: 0; height: 100%; background: var(--highlighter-green); }
 
-.transicao.saindo { visibility: visible; animation: cortina-desce .42s var(--ease-saida) forwards; }
-.transicao.saindo .transicao__barra i { animation: cortina-carrega .6s var(--ease-saida) forwards; }
+.transicao.saindo { visibility: visible; animation: cortina-fecha .62s var(--ease-saida) forwards; }
+.transicao.saindo .transicao__barra i { animation: cortina-carrega .7s var(--ease-saida) forwards; }
 
 /* `both` e não `forwards`: com um atraso e sem o preenchimento
-   para trás, a cortina ficaria fora da tela durante esses 50ms e
-   a página nova apareceria por um instante antes de ser coberta. */
-html.chegando .transicao { visibility: visible; animation: cortina-sai .6s var(--ease-saida) .05s both; }
+   para trás, a cortina ficaria fora da tela durante esses 120ms e
+   a página nova apareceria por um instante antes de ser coberta.
+   O atraso existe para a cortina ser vista parada antes de abrir;
+   sem ele a passagem acaba antes de alguém perceber que houve uma. */
+html.chegando .transicao { visibility: visible; animation: cortina-abre .72s var(--ease-saida) .12s both; }
 html.chegando .transicao__barra i { width: 100%; }
 
-@keyframes cortina-desce { from { transform: translateY(-101%); } to { transform: none; } }
+@keyframes cortina-fecha { from { transform: translateY(var(--fora)); } to { transform: none; } }
 @keyframes cortina-carrega { from { width: 0; } to { width: 100%; } }
-@keyframes cortina-sai {
+@keyframes cortina-abre {
   from { transform: none; }
-  to { transform: translateY(101%); visibility: hidden; }
+  to { transform: translateY(var(--fora)); visibility: hidden; }
 }
 
 @media (prefers-reduced-motion: reduce) {

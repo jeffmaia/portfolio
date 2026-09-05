@@ -394,10 +394,10 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 
 /* ── A passagem de uma página para outra ────────────────────────
-   Ao clicar num link interno: o painel cresce até cobrir a tela, a
-   cortina desce por cima com a marca e a barra que carrega, e só
-   então a página seguinte é pedida. Do outro lado ela continua o
-   mesmo movimento: sai por baixo, não volta por cima.
+   Ao clicar num link interno: a cortina sobe de baixo com a onda
+   na frente, cobre a tela com a marca e a barra que carrega, e só
+   então a página seguinte é pedida. Do outro lado a mesma onda
+   desce e a página abre por baixo dela.
 
    O que diz à página seguinte que ela deve entrar assim é uma
    marca no sessionStorage, lida por um script no <head> dela. Se
@@ -408,7 +408,7 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
   const cortina = document.querySelector(".transicao");
   if (!cortina || CALMO.matches) return;
 
-  const ESPERA = 560;   // cobre (420ms) e segura um instante
+  const ESPERA = 660;   // fecha (620ms) e segura um instante
 
   /* A volta pelo histórico pode devolver a página do cache com a
      cortina ainda por cima; limpar aí é obrigatório. Só aí: numa
@@ -446,11 +446,9 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
     e.preventDefault();
     a.dataset.passagem = "1";
 
-    /* Se a saída foi de dentro do menu, é ele que começa o
-       movimento: cresce até a tela toda e a cortina continua. */
-    const menu = window.__menu;
-    if (menu && menu.estaAberto()) menu.painel.classList.add("crescendo");
-
+    /* O painel do menu fica onde está: quem fecha é a cortina, que
+       sobe por cima dele. Duas superfícies escuras se movendo em
+       sentidos opostos seriam dois movimentos onde se quer um. */
     cortina.classList.add("saindo");
     try { sessionStorage.setItem("jm-passagem", "1"); } catch (_) {}
 
@@ -459,9 +457,6 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
     /* Se a navegação não acontecer (pedido recusado, destino que
        não responde), a cortina não pode ficar cobrindo a página
        para sempre. */
-    setTimeout(() => {
-      cortina.classList.remove("saindo");
-      if (menu) menu.painel.classList.remove("crescendo");
-    }, ESPERA + 4000);
+    setTimeout(() => { cortina.classList.remove("saindo"); }, ESPERA + 4000);
   }, true);
 })();
