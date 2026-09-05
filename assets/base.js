@@ -394,11 +394,14 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 
 /* ── A passagem de uma página para outra ────────────────────────
-   Ao clicar num link interno: o painel do menu sobe e sai, a
-   cortina sobe de baixo com a onda na frente, e as duas bordas
-   fecham a faixa de página que estava entre elas. Só então a
-   página seguinte é pedida. Do outro lado a mesma onda desce e a
-   página abre por baixo dela.
+   Ao clicar num link interno: a tela fica coberta, o que estava
+   escrito se apaga, o J entra e a barra enche. Só então a página
+   seguinte é pedida. Do outro lado o J sai, a cortina sai atrás
+   dele e a página nova aparece por baixo.
+
+   Quem cobre depende de onde veio o clique. De dentro do menu, é o
+   painel crescendo até a tela toda; de um link da página, é a
+   cortina aparecendo por cima.
 
    O que diz à página seguinte que ela deve entrar assim é uma
    marca no sessionStorage, lida por um script no <head> dela. Se
@@ -409,7 +412,7 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
   const cortina = document.querySelector(".transicao");
   if (!cortina || CALMO.matches) return;
 
-  const ESPERA = 660;   // fecha (620ms) e segura um instante
+  const ESPERA = 860;   // cobre, apaga, o J entra e a barra enche (820ms)
 
   /* A volta pelo histórico pode devolver a página do cache com a
      cortina ainda por cima; limpar aí é obrigatório. Só aí: numa
@@ -418,8 +421,22 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
   window.addEventListener("pageshow", e => {
     if (!e.persisted) return;
     cortina.classList.remove("saindo");
-    document.documentElement.classList.remove("chegando", "saindo");
+    document.documentElement.classList.remove("chegando", "saindo--menu");
+    destravar();
   });
+
+  /* O painel cresce por medida escrita nele, não por regra de
+     folha: height:auto não transiciona, então a altura de partida
+     precisa ser um número. Isso deixa três propriedades presas no
+     elemento, e voltar do cache do histórico com elas presas
+     entregaria o painel do tamanho da tela. */
+  function destravar() {
+    const menu = window.__menu;
+    if (!menu) return;
+    menu.painel.style.height = "";
+    menu.painel.style.minHeight = "";
+    menu.painel.style.maxHeight = "";
+  }
 
   function interno(a) {
     if (!a || !a.href) return false;
@@ -434,9 +451,9 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
   }
 
   /* Na captura, e não na subida: o painel do menu também escuta o
-     clique e fecharia sozinho, no tempo dele. A marca posta aqui
-     primeiro é o que o faz desistir, para o painel sair no tempo
-     da cortina e não no seu. */
+     clique e se fecharia sozinho. A marca posta aqui primeiro é o
+     que o faz desistir, porque na passagem o painel não fecha, ele
+     cresce até cobrir a tela. */
   document.addEventListener("click", e => {
     if (e.defaultPrevented || e.button !== 0) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -448,14 +465,26 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
     e.preventDefault();
     a.dataset.passagem = "1";
 
-    /* A marca no <html> põe o painel por cima da cortina e segura a
-       retícula acesa até a tela fechar. */
-    document.documentElement.classList.add("saindo");
+    const raiz = document.documentElement;
 
-    /* O painel sai no mesmo gesto: é a borda de baixo dele que
-       fecha contra o biquinho da cortina que sobe. */
+    /* Saindo de dentro do menu, quem cobre a tela é o painel. Ele
+       precisa de três medidas antes de a altura começar a andar:
+       onde o miolo está, para prendê-lo ali; e a altura de agora,
+       porque uma transição de altura precisa de um número dos dois
+       lados. O reflow no meio é o que separa os dois números em
+       dois estados; sem ele o navegador vê só o segundo. */
     const menu = window.__menu;
-    if (menu && menu.estaAberto()) menu.abrir(false);
+    if (menu && menu.estaAberto()) {
+      const painel = menu.painel;
+      const miolo = painel.querySelector(".menu__inner");
+      if (miolo) painel.style.setProperty("--saida-topo", miolo.offsetTop + "px");
+      painel.style.height = painel.offsetHeight + "px";
+      painel.style.minHeight = "0px";
+      painel.style.maxHeight = "none";
+      raiz.classList.add("saindo--menu");
+      void painel.offsetHeight;
+      painel.style.height = "calc(100vh + var(--onda-h))";
+    }
 
     cortina.classList.add("saindo");
     try { sessionStorage.setItem("jm-passagem", "1"); } catch (_) {}
@@ -467,7 +496,8 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
        para sempre. */
     setTimeout(() => {
       cortina.classList.remove("saindo");
-      document.documentElement.classList.remove("saindo");
+      raiz.classList.remove("saindo--menu");
+      destravar();
     }, ESPERA + 4000);
   }, true);
 })();

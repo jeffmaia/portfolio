@@ -418,7 +418,7 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--space-24)); }
   transition: opacity .45s var(--ease-saida), visibility .45s;
 }
 body.menu-aberto .reticula,
-html.saindo .reticula { opacity: 1; visibility: visible; }
+html.saindo--menu .reticula { opacity: 1; visibility: visible; }
 
 .menu {
   position: fixed;
@@ -446,19 +446,35 @@ html.saindo .reticula { opacity: 1; visibility: visible; }
 }
 .menu.aberto { transform: none; visibility: visible; }
 
-/* Na saída para outra página o painel sobe, e sobe por cima da
-   cortina: é o que faz as duas bordas serem vistas se fechando
-   uma contra a outra. O tempo é o mesmo da cortina, então a faixa
-   de página entre elas fecha de uma vez só. */
-html.saindo .menu {
-  z-index: 95;
-  transition-duration: .62s;
+/* ── A saída de dentro do menu ──────────────────────────
+   O painel não sai: ele termina de chegar. Cresce até cobrir a
+   tela inteira, mais uma altura de onda, para a onda do pé passar
+   da borda de baixo em vez de parar em cima dela.
+
+   A altura de partida é escrita no elemento pelo script, porque
+   height:auto não transiciona: sem um número dos dois lados o
+   painel pularia para a tela cheia em um quadro.
+
+   O miolo, enquanto isso, se apaga. E se apaga parado: o painel
+   alinha o conteúdo pela borda de baixo, então crescendo ele
+   arrastaria os sete itens para baixo junto. O script mede onde o
+   miolo está e o prende ali antes de a altura começar a andar.
+   ──────────────────────────────────────────────── */
+html.saindo--menu .menu { transition: height .42s var(--ease-saida); }
+
+html.saindo--menu .menu__inner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--saida-topo, 0);
+  opacity: 0;
+  transition: opacity .30s var(--ease-saida) .04s;
 }
-/* Na saída os itens não se apagam um a um como fazem ao fechar o
-   menu: o painel está indo embora inteiro, e uma superfície só que
-   sobe se lê melhor do que uma superfície mais sete coisas
-   sumindo dentro dela. */
-html.saindo .menu__lista li {
+/* Os itens somem com o miolo inteiro, de uma vez. A escadinha de
+   atrasos é da entrada, e na saída ela só atrapalharia: são sete
+   coisas sumindo em fila dentro de uma superfície que já está
+   indo embora. */
+html.saindo--menu .menu__lista li {
   opacity: 1;
   transform: none;
   transition: none;
@@ -613,26 +629,23 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
 /* ============================================================
    A passagem de uma página para outra
 
-   A cortina não é uma tampa que desce reta, e não é uma peça à
-   parte do menu. Ela sobe de baixo com a borda do rodapé e do
-   morro do hero, a onda que incha num biquinho, enquanto o painel
-   do menu sobe e sai por cima. São duas bordas de onda andando
-   uma contra a outra, e a faixa de página que ainda se via fecha
-   entre elas. O biquinho é o primeiro ponto a encostar; os cantos
-   fecham depois.
+   Quatro tempos, e nenhum deles se move: a passagem inteira é
+   feita de opacidade.
 
-   Isso é a passagem inteira: sair do menu e entrar na outra página
-   são o mesmo movimento, não dois. Quando o link clicado não está
-   no menu, sobra a metade de baixo, que é a mesma onda subindo.
+   1. A tela fica coberta. Saindo de dentro do menu, quem cobre é o
+      painel crescendo até a tela toda, e a cortina só chega depois,
+      por baixo do que já está preto. Saindo de um link da página,
+      é a cortina que aparece por cima, e a página se apaga debaixo
+      dela.
+   2. O que estava escrito se apaga.
+   3. O J entra, com a barra enchendo embaixo dele.
+   4. Do outro lado, o J sai, a cortina sai atrás dele e a página
+      nova aparece por baixo.
 
-   Do outro lado, a mesma onda desce e a página abre por baixo
-   dela. Subir e depois descer, e não voltar por cima, é o que faz
-   a passagem ter um sentido só de ponta a ponta.
-
-   Sobre fundo escuro, preto sobre preto não se vê. Por isso a
-   borda carrega um fio verde: são duas ondas iguais, a verde
-   parada e a preta três pixels abaixo, e o que sobra da verde é o
-   fio que corre em cima da curva.
+   Fade e não deslize, porque o que está sendo dito aqui não é
+   direção, é troca: uma coisa acaba e outra começa no mesmo lugar.
+   Onda e biquinho continuam sendo a borda entre as seções e a
+   borda do painel; a passagem deixou de disputar isso com elas.
 
    A cortina que chega é animação de CSS puro, disparada por uma
    classe posta no <html> ainda no <head>. Se o script de baixo
@@ -641,9 +654,6 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
    ============================================================ */
 
 .transicao {
-  /* Onde a cortina descansa: fora da tela por inteiro, e mais duas
-     alturas de onda, senão o biquinho ficaria à mostra no pé. */
-  --fora: calc(101% + var(--onda-bolha-h) * 2);
   position: fixed;
   inset: 0;
   z-index: 90;
@@ -655,37 +665,10 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
   background-color: var(--press-black);
   background-image: url("bg-weave-dark.svg");
   color: var(--bone-white);
-  transform: translateY(var(--fora));
+  opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
-
-/* A borda de cima da cortina. Fica pendurada acima dela e leva o
-   mesmo fundo, então a cortina e a onda são uma superfície só. */
-.transicao__onda {
-  position: absolute;
-  left: 0;
-  bottom: calc(100% - 1px);
-  display: block;
-  width: 100%;
-  height: calc(var(--onda-bolha-h) * 2);
-  background: var(--highlighter-green);
-  clip-path: url(#onda-recorte-bolha);
-}
-.transicao__onda i {
-  position: absolute;
-  inset: 0;
-  display: block;
-  /* Três pixels abaixo da verde: o que a preta não cobre é o fio.
-     A borda de baixo dela pisa dentro da cortina, então a emenda
-     entre as duas nunca aparece. */
-  transform: translateY(3px);
-  background-color: var(--press-black);
-  background-image: url("bg-weave-dark.svg");
-  background-position: left bottom;
-  clip-path: url(#onda-recorte-bolha);
-}
-
 .transicao__marca {
   font-family: var(--font-ui);
   font-size: clamp(52px, 9vw, 108px);
@@ -702,23 +685,39 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
 }
 .transicao__barra i { display: block; width: 0; height: 100%; background: var(--highlighter-green); }
 
-.transicao.saindo { visibility: visible; animation: cortina-fecha .62s var(--ease-saida) forwards; }
-.transicao.saindo .transicao__barra i { animation: cortina-carrega .7s var(--ease-saida) forwards; }
+/* ── Saída ─────────────────────────────────────────── */
+
+.transicao.saindo { visibility: visible; animation: cortina-cobre .42s var(--ease-saida) forwards; }
+
+/* Saindo de dentro do menu a cortina não cobre nada: o painel já
+   cobriu. Ela só precisa estar acesa quando o J entrar, e por isso
+   troca de tempo em vez de trocar de papel. */
+html.saindo--menu .transicao.saindo { animation: cortina-cobre .24s linear .30s forwards; }
+
+.transicao.saindo .transicao__marca,
+.transicao.saindo .transicao__barra { animation: miolo-entra .30s var(--ease-saida) .34s both; }
+.transicao.saindo .transicao__barra i { animation: cortina-carrega .46s var(--ease-saida) .36s forwards; }
+
+/* ── Chegada ───────────────────────────────────────── */
 
 /* `both` e não `forwards`: com um atraso e sem o preenchimento
-   para trás, a cortina ficaria fora da tela durante esses 120ms e
+   para trás, a cortina ficaria transparente durante esses 300ms e
    a página nova apareceria por um instante antes de ser coberta.
-   O atraso existe para a cortina ser vista parada antes de abrir;
-   sem ele a passagem acaba antes de alguém perceber que houve uma. */
-html.chegando .transicao { visibility: visible; animation: cortina-abre .72s var(--ease-saida) .12s both; }
+   O atraso é o tempo do J sair primeiro: primeiro some o que
+   estava escrito, depois some o fundo em que estava escrito. */
+html.chegando .transicao { visibility: visible; animation: cortina-abre .42s var(--ease-saida) .30s both; }
+html.chegando .transicao__marca,
+html.chegando .transicao__barra { animation: miolo-sai .26s var(--ease-saida) both; }
 html.chegando .transicao__barra i { width: 100%; }
 
-@keyframes cortina-fecha { from { transform: translateY(var(--fora)); } to { transform: none; } }
-@keyframes cortina-carrega { from { width: 0; } to { width: 100%; } }
+@keyframes cortina-cobre { from { opacity: 0; } to { opacity: 1; } }
 @keyframes cortina-abre {
-  from { transform: none; }
-  to { transform: translateY(var(--fora)); visibility: hidden; }
+  from { opacity: 1; }
+  to { opacity: 0; visibility: hidden; }
 }
+@keyframes miolo-entra { from { opacity: 0; } to { opacity: 1; } }
+@keyframes miolo-sai { from { opacity: 1; } to { opacity: 0; } }
+@keyframes cortina-carrega { from { width: 0; } to { width: 100%; } }
 
 @media (prefers-reduced-motion: reduce) {
   .transicao { display: none; }
