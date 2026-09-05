@@ -414,9 +414,9 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   /* Fixo, e não medido: a barra debaixo do J não sabe nada sobre a
      página que vem, então o que ela mostra é sempre o mesmo tempo.
-     1180ms é o traço terminando de encher; os 40ms de sobra são
+     1240ms é o traço terminando de encher; os 40ms de sobra são
      para ele ser visto cheio antes de a página trocar. */
-  const ESPERA = 1220;
+  const ESPERA = 1280;
 
   /* Um clique só. Sem isto, um segundo clique durante a passagem
      marcaria outro destino e os dois relógios correriam juntos. */
