@@ -41,14 +41,62 @@
    ============================================================ */
 
 /* O hero é o berço da seta, e a onda da cena passa por cima dele:
-   sem o z-index, o preto da onda cobriria a seta. */
+   sem o z-index, o preto da onda cobriria a seta.
+
+   E ele abre uma tela inteira, nem mais nem menos. Antes tinha a
+   altura do que havia dentro dele e mais nada, que numa janela de
+   notebook dava oitocentos pixels de conteúdo dentro de seiscentos e
+   poucos de tela: a onda e a seta caíam abaixo da dobra, e quem
+   chegava não via que a página continuava.
+
+   svh, e não vh: no celular vh é a tela sem as barras do navegador,
+   que só somem depois de rolar. A promessa aqui é justamente a de
+   antes de rolar, então a medida tem que ser a da tela com as barras
+   à vista. */
 .hero {
   position: relative;
   z-index: 2;
+  min-height: calc(100svh - var(--nav-h));
+  display: flex;
+  flex-direction: column;
+
+  /* O orçamento vertical, parcela por parcela. Tudo que não é fileira
+     é dado: o respiro de cima, a frase de baixo com a margem dela, e
+     o pé, que é a altura da onda com o morro mais o ar entre ela e a
+     frase. O que sobra é --hero-sobra, e é dele que sai a fileira.
+
+     As parcelas ficam declaradas aqui, e não escritas de novo lá
+     embaixo, porque a conta só fecha enquanto as duas pontas disserem
+     o mesmo número. */
+  --hero-topo: clamp(24px, 4vw, 56px);
+  --hero-vao: clamp(4px, .7cqi, 8px);
+  --hero-respiro: clamp(24px, 4vw, 36px);
+  --hero-frase: calc(var(--hero-respiro) + clamp(15px, 2.2cqi, 20px) * 1.35);
+  --hero-pe: calc(clamp(40px, 5vw, 76px) + var(--onda-bolha-h) * 2);
+  --hero-sobra: calc(
+    100svh - var(--nav-h)
+    - var(--hero-topo) - var(--hero-frase) - var(--hero-pe)
+    - var(--hero-vao) * 3
+  );
+
+  /* A largura ainda manda enquanto couber. Quando não couber, quem
+     manda é a altura da tela, e a fileira fica com um quarto do que
+     sobrou. O piso de 40px é o ponto em que a frase deixa de ser
+     legível: daí para baixo a tela é curta demais e a seta volta a
+     ficar abaixo da dobra, o que é honesto. */
+  --hero-linha: clamp(40px, min(11.5cqi, var(--hero-sobra) / 4), 106px);
 }
 .hero__inner {
   container-type: inline-size;
-  padding-block: clamp(24px, 4vw, 56px) calc(clamp(40px, 5vw, 76px) + var(--onda-bolha-h) * 2);
+  padding-block: var(--hero-topo) var(--hero-pe);
+  /* Numa tela alta sobra altura depois de as fileiras baterem no teto
+     delas. A sobra se reparte igual em cima e embaixo, e o bloco de
+     título e frase fica no meio do vão entre a barra e a onda, em vez
+     de encostar no alto e deixar um buraco antes da seta. */
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .hero__titulo {
@@ -57,7 +105,7 @@
   margin-inline: auto;
   display: flex;
   flex-direction: column;
-  gap: clamp(4px, .7cqi, 8px);
+  gap: var(--hero-vao);
 }
 
 /* A frase mais longa ("continua o mesmo.") é quem decide o teto:
@@ -69,14 +117,19 @@
   display: flex;
   align-items: stretch;
   gap: clamp(10px, 2.2cqi, 20px);
-  height: clamp(40px, 11.5cqi, 106px);
+  height: var(--hero-linha);
 }
 .hero__linha .txt {
   display: flex;
   align-items: center;
   font-family: var(--font-ui);
   font-weight: 600;
-  font-size: clamp(22px, 10cqi, 92px);
+  /* O corpo sai da altura da fileira, e não da largura por conta
+     própria: a fileira agora encolhe quando a tela é baixa, e uma
+     letra dimensionada por outro caminho transbordaria dela. 0.87 é
+     exatamente a proporção que as duas medidas já tinham quando cada
+     uma vinha do seu lado. */
+  font-size: calc(var(--hero-linha) * .87);
   line-height: 1;
   letter-spacing: -0.048em;
   white-space: nowrap;
@@ -146,18 +199,41 @@
    altura de antes, para a frase continuar sendo o que se lê e não
    uma legenda entre duas imagens. */
 @media (max-width: 720px) {
+  /* Empilhada, a fileira muda de forma e a conta muda junto: não são
+     mais quatro fileiras iguais, são quatro frases mais quatro
+     faixas. A frase é a parte que não se aperta, porque ela é o que
+     se lê; quem paga a conta da tela baixa é a faixa.
+
+     E a frase de baixo deixa de ser uma linha: na coluna estreita ela
+     ocupa três, e o orçamento precisa saber disso, senão reserva um
+     terço do que ela vai pedir. */
+  .hero {
+    --hero-vao: clamp(12px, min(6vw, 2.8svh), 30px);
+    --hero-respiro: clamp(16px, 4vw, 36px);
+    --hero-frase: calc(var(--hero-respiro) + var(--text-body) * 1.45 * 3);
+    --hero-txt: clamp(24px, min(11vw, 5.6svh), 46px);
+  }
   /* Empilhado, o vão entre fileiras tem que ser maior que o vão
      entre a frase e a foto dela: senão cada frase parece legenda
      da foto de cima, e não título da foto de baixo. */
-  .hero__titulo { gap: clamp(22px, 6vw, 30px); }
+  .hero__titulo { gap: var(--hero-vao); }
   .hero__linha { flex-direction: column; height: auto; gap: 10px; }
-  .hero__linha .txt { order: -1; white-space: normal; text-wrap: pretty; font-size: clamp(30px, 11vw, 46px); }
-  .hero__linha .foto { width: 100%; aspect-ratio: 16 / 5; }
+  .hero__linha .txt { order: -1; white-space: normal; text-wrap: pretty; font-size: var(--hero-txt); }
+  .hero__linha .foto {
+    width: 100%;
+    aspect-ratio: 16 / 5;
+    /* A faixa fica com o que sobrar depois das quatro frases e dos
+       quatro vãos entre frase e faixa. O piso de 36px é onde ela para
+       de encolher: mais fina que isso não é mais fotografia, é um
+       risco atravessado, e aí prefiro que a seta fique um dedo abaixo
+       da dobra a entregar quatro riscos. */
+    max-height: max(30px, calc((var(--hero-sobra) - (var(--hero-txt) + 10px) * 4) / 4));
+  }
 }
 
 /* A linha de baixo mora na mesma coluna estreita da grade, numa
    linha só enquanto couber. */
-.hero__foot { width: min(920px, 100%); margin: clamp(24px, 4vw, 36px) auto 0; }
+.hero__foot { width: min(920px, 100%); margin: var(--hero-respiro) auto 0; }
 .hero__lead {
   margin: 0;
   max-width: none;
