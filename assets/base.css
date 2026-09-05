@@ -380,6 +380,46 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--space-24)); }
    página em que se está já vem preenchida, em verde.
    ============================================================ */
 
+/* ============================================================
+   A retícula
+
+   Com o painel aberto, a faixa de página que ainda se vê não fica
+   crua: ela recebe um véu e uma trama de pontos por cima, como
+   quem passa uma retícula de impressão sobre a foto. Serve a duas
+   coisas ao mesmo tempo. Diz que aquilo ali está fora de foco
+   agora, e diz que continua existindo, porque a página não some,
+   ela só é vista através de alguma coisa.
+
+   Três malhas quadradas de passo primo entre si, 3, 4 e 5: uma
+   malha sozinha vira papel quadriculado; as três juntas só
+   repetem a cada 60px, e a essa distância o olho já leu grão em
+   vez de grade. Quadradas por obrigação: com passo diferente na
+   horizontal e na vertical, os pontos se enfileiram em colunas e a
+   trama vira listra.
+
+   Fica abaixo da barra fixa: a marca e o botão de fechar são o que
+   não se olha através de nada.
+   ============================================================ */
+
+.reticula {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  background-color: rgba(18, 22, 19, .46);
+  background-image:
+    radial-gradient(rgba(250, 255, 250, .34) .55px, transparent .75px),
+    radial-gradient(rgba(18, 22, 19, .34) .55px, transparent .75px),
+    radial-gradient(rgba(250, 255, 250, .24) .55px, transparent .75px);
+  background-size: 3px 3px, 4px 4px, 5px 5px;
+  background-position: 0 0, 1px 2px, 3px 1px;
+  transition: opacity .45s var(--ease-saida), visibility .45s;
+}
+body.menu-aberto .reticula,
+html.saindo .reticula { opacity: 1; visibility: visible; }
+
 .menu {
   position: fixed;
   top: 0;
@@ -405,6 +445,24 @@ html { scroll-padding-top: calc(var(--nav-h) + var(--space-24)); }
     visibility .55s;
 }
 .menu.aberto { transform: none; visibility: visible; }
+
+/* Na saída para outra página o painel sobe, e sobe por cima da
+   cortina: é o que faz as duas bordas serem vistas se fechando
+   uma contra a outra. O tempo é o mesmo da cortina, então a faixa
+   de página entre elas fecha de uma vez só. */
+html.saindo .menu {
+  z-index: 95;
+  transition-duration: .62s;
+}
+/* Na saída os itens não se apagam um a um como fazem ao fechar o
+   menu: o painel está indo embora inteiro, e uma superfície só que
+   sobe se lê melhor do que uma superfície mais sete coisas
+   sumindo dentro dela. */
+html.saindo .menu__lista li {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
 
 /* A rolagem, quando o painel não couber, é do miolo, não do
    painel: a onda fica pendurada abaixo dele, e um overflow no
@@ -549,19 +607,27 @@ html:not(.js) .menu__inner { padding-top: var(--space-24); }
 html:not(.js) .menu__lista li { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .menu, .menu__lista li, .wordmark__dobra, .menu-btn__traco { transition: none; }
+  .menu, .menu__lista li, .wordmark__dobra, .menu-btn__traco, .reticula { transition: none; }
 }
 
 /* ============================================================
    A passagem de uma página para outra
 
-   A cortina não é uma tampa que desce reta. Ela sobe de baixo com
-   a mesma borda do rodapé e do morro do hero: a onda que incha num
-   biquinho. O biquinho toca a página primeiro e fecha; do outro
-   lado ele desce de novo e a página abre por baixo dele.
+   A cortina não é uma tampa que desce reta, e não é uma peça à
+   parte do menu. Ela sobe de baixo com a borda do rodapé e do
+   morro do hero, a onda que incha num biquinho, enquanto o painel
+   do menu sobe e sai por cima. São duas bordas de onda andando
+   uma contra a outra, e a faixa de página que ainda se via fecha
+   entre elas. O biquinho é o primeiro ponto a encostar; os cantos
+   fecham depois.
 
-   Subir, e não descer, é o que amarra a passagem ao resto do site:
-   é o movimento do rodapé sendo puxado para dentro da tela.
+   Isso é a passagem inteira: sair do menu e entrar na outra página
+   são o mesmo movimento, não dois. Quando o link clicado não está
+   no menu, sobra a metade de baixo, que é a mesma onda subindo.
+
+   Do outro lado, a mesma onda desce e a página abre por baixo
+   dela. Subir e depois descer, e não voltar por cima, é o que faz
+   a passagem ter um sentido só de ponta a ponta.
 
    Sobre fundo escuro, preto sobre preto não se vê. Por isso a
    borda carrega um fio verde: são duas ondas iguais, a verde

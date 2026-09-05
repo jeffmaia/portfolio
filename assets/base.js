@@ -114,7 +114,7 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
   medir();
   abrir(false);
 
-  /* O módulo da passagem precisa fechar o painel e crescê-lo. */
+  /* O módulo da passagem precisa fechar o painel no tempo dele. */
   window.__menu = { abrir, painel, estaAberto: () => aberto };
 })();
 
@@ -394,10 +394,11 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 
 /* ── A passagem de uma página para outra ────────────────────────
-   Ao clicar num link interno: a cortina sobe de baixo com a onda
-   na frente, cobre a tela com a marca e a barra que carrega, e só
-   então a página seguinte é pedida. Do outro lado a mesma onda
-   desce e a página abre por baixo dela.
+   Ao clicar num link interno: o painel do menu sobe e sai, a
+   cortina sobe de baixo com a onda na frente, e as duas bordas
+   fecham a faixa de página que estava entre elas. Só então a
+   página seguinte é pedida. Do outro lado a mesma onda desce e a
+   página abre por baixo dela.
 
    O que diz à página seguinte que ela deve entrar assim é uma
    marca no sessionStorage, lida por um script no <head> dela. Se
@@ -417,7 +418,7 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
   window.addEventListener("pageshow", e => {
     if (!e.persisted) return;
     cortina.classList.remove("saindo");
-    document.documentElement.classList.remove("chegando");
+    document.documentElement.classList.remove("chegando", "saindo");
   });
 
   function interno(a) {
@@ -433,8 +434,9 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
   }
 
   /* Na captura, e não na subida: o painel do menu também escuta o
-     clique, e é este módulo que precisa marcar o link primeiro,
-     é a marca que diz ao painel para crescer em vez de fechar. */
+     clique e fecharia sozinho, no tempo dele. A marca posta aqui
+     primeiro é o que o faz desistir, para o painel sair no tempo
+     da cortina e não no seu. */
   document.addEventListener("click", e => {
     if (e.defaultPrevented || e.button !== 0) return;
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
@@ -446,9 +448,15 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
     e.preventDefault();
     a.dataset.passagem = "1";
 
-    /* O painel do menu fica onde está: quem fecha é a cortina, que
-       sobe por cima dele. Duas superfícies escuras se movendo em
-       sentidos opostos seriam dois movimentos onde se quer um. */
+    /* A marca no <html> põe o painel por cima da cortina e segura a
+       retícula acesa até a tela fechar. */
+    document.documentElement.classList.add("saindo");
+
+    /* O painel sai no mesmo gesto: é a borda de baixo dele que
+       fecha contra o biquinho da cortina que sobe. */
+    const menu = window.__menu;
+    if (menu && menu.estaAberto()) menu.abrir(false);
+
     cortina.classList.add("saindo");
     try { sessionStorage.setItem("jm-passagem", "1"); } catch (_) {}
 
@@ -457,6 +465,9 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
     /* Se a navegação não acontecer (pedido recusado, destino que
        não responde), a cortina não pode ficar cobrindo a página
        para sempre. */
-    setTimeout(() => { cortina.classList.remove("saindo"); }, ESPERA + 4000);
+    setTimeout(() => {
+      cortina.classList.remove("saindo");
+      document.documentElement.classList.remove("saindo");
+    }, ESPERA + 4000);
   }, true);
 })();
