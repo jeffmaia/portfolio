@@ -269,6 +269,17 @@
   background-color: var(--press-black);
   background-image: url("bg-weave-dark.svg");
   color: var(--bone-white);
+
+  /* A seta e o link de pular apontam para cá, e aqui a folga que
+     protege as âncoras da barra fixa trabalha contra: parando 108px
+     abaixo do começo da seção, sobrava no alto da tela uma tira do
+     hero claro com o morro da onda no meio dela. A folga existe para
+     texto não parar debaixo da barra, e o que começa aqui não é
+     texto, é o fundo: o primeiro rótulo está a mais de 400px daqui.
+     Desfazendo a folga, a seção encosta no topo e a tela inteira é
+     preta, que é o que a seta prometeu ao apontar para dentro do
+     morro. */
+  scroll-margin-top: calc(-1 * var(--ancora-topo));
 }
 /* A altura é o que dá curso à rolagem: uma tela para ler o
    primeiro caso, mais um passo para cada passagem. */

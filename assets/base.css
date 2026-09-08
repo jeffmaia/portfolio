@@ -235,9 +235,11 @@ img { max-width: 100%; display: block; }
    ============================================================ */
 
 /* A barra saiu do fluxo; o corpo abre o vão dela. O scroll-padding
-   é para as âncoras não pararem debaixo da barra. */
+   é para as âncoras não pararem debaixo da barra. Num nome, porque
+   há seção que precisa desfazer exatamente esta folga e um número
+   repetido ali viraria uma discordância silenciosa. */
 body { padding-top: var(--nav-h); }
-html { scroll-padding-top: calc(var(--nav-h) + var(--space-24)); }
+html { --ancora-topo: calc(var(--nav-h) + var(--space-24)); scroll-padding-top: var(--ancora-topo); }
 
 .nav {
   position: fixed;
