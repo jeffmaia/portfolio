@@ -1,0 +1,491 @@
+/* ============================================================
+   Home
+
+   Só o que é da página inicial. O resto (tokens, barra do topo,
+   menu, onda, rodapé, movimento) vem de base.css, carregada antes
+   desta.
+
+   Uma tipografia só
+
+   A referência tem uma face e nada mais: a hierarquia inteira sai
+   de corpo, peso e cor. A Home fazia diferente, misturando a
+   grotesca com a serifada, e a mistura era o que mais destoava.
+   Aqui a serifada é desligada no ponto em que ela é escolhida
+   (--font-display passa a apontar para a mesma face da
+   interface), então tudo que já pedia display continua pedindo, e recebe Inter.
+   ============================================================ */
+
+.face-unica { --font-display: var(--font-ui); }
+
+/* Inter no corpo de display precisa de peso e de aperto para
+   segurar o que a serifada segurava com a forma da letra. As peças
+   desta folha já pedem os dois; a única que vem de fora e não sabe
+   disso é a chamada do rodapé. */
+.face-unica .footer h2 {
+  font-weight: 550;
+  letter-spacing: -0.04em;
+}
+
+/* ============================================================
+   Hero
+
+   A grade editorial: cada palavra e cada fotografia pesam o
+   mesmo, em fileiras que se alternam lado a lado até fechar um
+   retângulo só, sem vão entre elas. O fundo continua claro, como
+   sempre foi: quem muda de cor é só a onda que abre a cena logo
+   abaixo, escurecendo para receber a seta, igual a onda que abre
+   o rodapé.
+
+   A seta de descer mora dentro da onda preta da cena, no morro
+   que ela faz para recebê-la; ver .descer, em base.css.
+   ============================================================ */
+
+/* O hero é o berço da seta, e a onda da cena passa por cima dele:
+   sem o z-index, o preto da onda cobriria a seta.
+
+   E ele abre uma tela inteira, nem mais nem menos. Antes tinha a
+   altura do que havia dentro dele e mais nada, que numa janela de
+   notebook dava oitocentos pixels de conteúdo dentro de seiscentos e
+   poucos de tela: a onda e a seta caíam abaixo da dobra, e quem
+   chegava não via que a página continuava.
+
+   svh, e não vh: no celular vh é a tela sem as barras do navegador,
+   que só somem depois de rolar. A promessa aqui é justamente a de
+   antes de rolar, então a medida tem que ser a da tela com as barras
+   à vista. */
+.hero {
+  position: relative;
+  z-index: 2;
+  min-height: calc(100svh - var(--nav-h));
+  display: flex;
+  flex-direction: column;
+
+  /* O orçamento vertical, parcela por parcela. Tudo que não é fileira
+     é dado: o respiro de cima, a frase de baixo com a margem dela, e
+     o pé, que é a altura da onda com o morro mais o ar entre ela e a
+     frase. O que sobra é --hero-sobra, e é dele que sai a fileira.
+
+     As parcelas ficam declaradas aqui, e não escritas de novo lá
+     embaixo, porque a conta só fecha enquanto as duas pontas disserem
+     o mesmo número. */
+  --hero-topo: clamp(24px, 4vw, 56px);
+  --hero-vao: clamp(4px, .7cqi, 8px);
+  --hero-respiro: clamp(24px, 4vw, 36px);
+  --hero-frase: calc(var(--hero-respiro) + clamp(15px, 2.2cqi, 20px) * 1.35);
+  --hero-pe: calc(clamp(40px, 5vw, 76px) + var(--onda-bolha-h) * 2);
+  --hero-sobra: calc(
+    100svh - var(--nav-h)
+    - var(--hero-topo) - var(--hero-frase) - var(--hero-pe)
+    - var(--hero-vao) * 3
+  );
+
+  /* A largura ainda manda enquanto couber. Quando não couber, quem
+     manda é a altura da tela, e a fileira fica com um quarto do que
+     sobrou. O piso de 40px é o ponto em que a frase deixa de ser
+     legível: daí para baixo a tela é curta demais e a seta volta a
+     ficar abaixo da dobra, o que é honesto. */
+  --hero-linha: clamp(40px, min(11.5cqi, var(--hero-sobra) / 4), 106px);
+}
+.hero__inner {
+  container-type: inline-size;
+  padding-block: var(--hero-topo) var(--hero-pe);
+  /* Numa tela alta sobra altura depois de as fileiras baterem no teto
+     delas. A sobra se reparte igual em cima e embaixo, e o bloco de
+     título e frase fica no meio do vão entre a barra e a onda, em vez
+     de encostar no alto e deixar um buraco antes da seta. */
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero__titulo {
+  margin: 0;
+  width: min(920px, 100%);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--hero-vao);
+}
+
+/* A frase mais longa ("continua o mesmo.") é quem decide o teto:
+   num corpo maior ela sozinha já enche a coluna de 920px e a foto
+   desaparece. O tamanho aqui é o maior que ainda deixa uma faixa
+   de foto visível nessa fileira, mesmo com uma só tipografia para
+   as quatro. */
+.hero__linha {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(10px, 2.2cqi, 20px);
+  height: var(--hero-linha);
+}
+.hero__linha .txt {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  /* O corpo sai da altura da fileira, e não da largura por conta
+     própria: a fileira agora encolhe quando a tela é baixa, e uma
+     letra dimensionada por outro caminho transbordaria dela. 0.87 é
+     exatamente a proporção que as duas medidas já tinham quando cada
+     uma vinha do seu lado. */
+  font-size: calc(var(--hero-linha) * .87);
+  line-height: 1;
+  letter-spacing: -0.048em;
+  white-space: nowrap;
+}
+/* Cada foto guarda duas imagens sobrepostas, e a troca não
+   acontece uma vez só: ela roda em looping. As duas imagens sobem
+   juntas, como um filme vertical de dois quadros. A de baixo entra
+   e a de cima sai no mesmo movimento, sempre a exatamente uma
+   altura de distância, então nunca abre um vão entre elas.
+
+   As quatro trocas são uma sequência, não um acorde: a de cima
+   termina antes de a de baixo começar. Por isso o intervalo entre
+   fileiras (--foto-passo) é maior que a subida em si.
+
+   A conta não pode sair de --atraso: aquele é o escalonamento
+   curto do texto, de 90ms, e ele existe para as frases entrarem
+   quase juntas. A foto quer o contrário.
+
+   Sem movimento (JS desligado, ou movimento reduzido) nada roda e
+   só a primeira imagem aparece. */
+.hero__titulo { --foto-ciclo: 12s; --foto-passo: 1.05s; --foto-espera: .8s; }
+.hero__linha .foto { position: relative; flex: 1 1 auto; min-width: 0; border-radius: var(--radius-images); overflow: hidden; background: var(--slate-verdant); }
+.hero__linha .foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: contrast(1.1); }
+.hero__linha .foto__nova { transform: translateY(100%); }
+
+/* Os dois quadros do filme. A subida ocupa os últimos 8,33% de
+   cada meia volta, que em 12s dá 1s de movimento e 5s de imagem
+   parada. Entre 50% e 91,67% a nova cobre o quadro inteiro, e é
+   nessa janela que a base atravessa escondida de volta para
+   baixo: em nenhum instante as duas deixam de somar uma altura,
+   então nunca se abre um vão entre elas. */
+@keyframes hero-foto-nova {
+  0%, 41.67%  { transform: translateY(100%); }
+  50%, 91.67% { transform: translateY(0); }
+  100%        { transform: translateY(-100%); }
+}
+@keyframes hero-foto-base {
+  0%, 41.67%  { transform: translateY(0); }
+  50%         { transform: translateY(-100%); }
+  70%, 91.67% { transform: translateY(100%); }
+  100%        { transform: translateY(0); }
+}
+/* Em longhand de propósito: o atalho `animation` zera o nome, e
+   aqui o nome vem de outra regra. */
+.js-mov .hero__linha.revelado .foto img {
+  animation-duration: var(--foto-ciclo);
+  animation-timing-function: var(--ease-saida);
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-delay: calc(var(--foto-espera) + var(--foto-vez, 0) * var(--foto-passo));
+}
+.js-mov .hero__linha.revelado .foto img.foto__base { animation-name: hero-foto-base; }
+.js-mov .hero__linha.revelado .foto img.foto__nova { animation-name: hero-foto-nova; }
+.hero__linha:nth-child(1) { --foto-vez: 0; }
+.hero__linha:nth-child(2) { --foto-vez: 1; }
+.hero__linha:nth-child(3) { --foto-vez: 2; }
+.hero__linha:nth-child(4) { --foto-vez: 3; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js-mov .hero__linha.revelado .foto img { animation: none; }
+}
+
+/* Empilhada, a fileira lê de cima para baixo, e a ordem do HTML
+   deixa de valer: o texto vem sempre primeiro e a foto embaixo
+   dele, nas quatro. Alternar aqui só faria a frase pular de lado
+   sem que houvesse lados. E a foto vira uma faixa: metade da
+   altura de antes, para a frase continuar sendo o que se lê e não
+   uma legenda entre duas imagens. */
+@media (max-width: 720px) {
+  /* Empilhada, a fileira muda de forma e a conta muda junto: não são
+     mais quatro fileiras iguais, são quatro frases mais quatro
+     faixas. A frase é a parte que não se aperta, porque ela é o que
+     se lê; quem paga a conta da tela baixa é a faixa.
+
+     E a frase de baixo deixa de ser uma linha: na coluna estreita ela
+     ocupa três, e o orçamento precisa saber disso, senão reserva um
+     terço do que ela vai pedir. */
+  .hero {
+    --hero-vao: clamp(12px, min(6vw, 2.8svh), 30px);
+    --hero-respiro: clamp(16px, 4vw, 36px);
+    --hero-frase: calc(var(--hero-respiro) + var(--text-body) * 1.45 * 3);
+    --hero-txt: clamp(24px, min(11vw, 5.6svh), 46px);
+  }
+  /* Empilhado, o vão entre fileiras tem que ser maior que o vão
+     entre a frase e a foto dela: senão cada frase parece legenda
+     da foto de cima, e não título da foto de baixo. */
+  .hero__titulo { gap: var(--hero-vao); }
+  .hero__linha { flex-direction: column; height: auto; gap: 10px; }
+  .hero__linha .txt { order: -1; white-space: normal; text-wrap: pretty; font-size: var(--hero-txt); }
+  .hero__linha .foto {
+    width: 100%;
+    aspect-ratio: 16 / 5;
+    /* A faixa fica com o que sobrar depois das quatro frases e dos
+       quatro vãos entre frase e faixa. O piso de 36px é onde ela para
+       de encolher: mais fina que isso não é mais fotografia, é um
+       risco atravessado, e aí prefiro que a seta fique um dedo abaixo
+       da dobra a entregar quatro riscos. */
+    max-height: max(30px, calc((var(--hero-sobra) - (var(--hero-txt) + 10px) * 4) / 4));
+  }
+}
+
+/* A linha de baixo mora na mesma coluna estreita da grade, numa
+   linha só enquanto couber. */
+.hero__foot { width: min(920px, 100%); margin: var(--hero-respiro) auto 0; }
+.hero__lead {
+  margin: 0;
+  max-width: none;
+  font-size: clamp(15px, 2.2cqi, 20px);
+  font-weight: 300;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  text-wrap: nowrap;
+}
+@media (max-width: 720px) {
+  .hero__lead { font-size: var(--text-body); line-height: 1.45; text-wrap: pretty; }
+}
+
+/* ============================================================
+   A cena dos casos
+
+   A segunda seção não é uma lista: é uma cena que abre. O palco
+   gruda no alto da tela e a rolagem passa a mover o que está
+   dentro dele: um caso de cada vez, do destaque para os outros
+   três. O orbe desce ao longo do percurso e encolhe no meio de
+   cada passagem, como quem toma fôlego antes da próxima cena.
+
+   Nada disso é obrigatório. Sem script, com movimento reduzido ou
+   em tela curta, .cena--viva nunca é posta: os quatro casos ficam
+   empilhados no fluxo normal, cada um com o seu número à vista, e
+   a página inteira continua legível rolando de cima a baixo.
+   ============================================================ */
+
+.cena {
+  position: relative;
+  --atos: 4;
+  --passo: 88vh;
+  background-color: var(--press-black);
+  background-image: url("bg-weave-dark.svg");
+  color: var(--bone-white);
+
+  /* A seta e o link de pular apontam para cá, e aqui a folga que
+     protege as âncoras da barra fixa trabalha contra: parando 108px
+     abaixo do começo da seção, sobrava no alto da tela uma tira do
+     hero claro com o morro da onda no meio dela. A folga existe para
+     texto não parar debaixo da barra, e o que começa aqui não é
+     texto, é o fundo: o primeiro rótulo está a mais de 400px daqui.
+     Desfazendo a folga, a seção encosta no topo e a tela inteira é
+     preta, que é o que a seta prometeu ao apontar para dentro do
+     morro. */
+  scroll-margin-top: calc(-1 * var(--ancora-topo));
+}
+/* A altura é o que dá curso à rolagem: uma tela para ler o
+   primeiro caso, mais um passo para cada passagem. */
+.cena--viva { height: calc(100vh + (var(--atos) - 1) * var(--passo)); }
+
+.cena__palco { padding-block: var(--section-gap); }
+.cena--viva .cena__palco {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  padding-block: calc(var(--nav-h) + clamp(12px, 2.5vh, 32px)) clamp(20px, 4vh, 48px);
+  overflow: hidden;
+}
+.cena__quadro { width: 100%; }
+
+.cena__cabeca {
+  display: flex;
+  align-items: center;
+  gap: var(--space-24);
+  margin-bottom: clamp(18px, 3vh, 44px);
+}
+.cena__cabeca .micro { color: var(--highlighter-green); white-space: nowrap; }
+.cena__contador { margin-left: auto; color: var(--muted-sage) !important; font-variant-numeric: tabular-nums; }
+.cena__contador b { color: var(--bone-white); font-weight: inherit; }
+/* Fora da cena o contador não conta nada: os quatro estão à vista. */
+.cena:not(.cena--viva) .cena__contador { display: none; }
+
+.cena__grade { display: grid; gap: clamp(30px, 5vw, 80px); align-items: center; }
+.cena--viva .cena__grade { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+
+/* Empilhados: no modo cena os quatro ocupam a mesma célula da
+   grade, então a altura é a do mais alto e ninguém salta na
+   passagem. Fora dele, viram uma coluna comum. */
+.cena__atos { display: flex; flex-direction: column; gap: var(--section-gap); }
+.cena--viva .cena__atos { display: grid; }
+.cena--viva .ato { grid-area: 1 / 1; opacity: 0; pointer-events: none; }
+.cena--viva .ato.ato--frente { pointer-events: auto; }
+
+.ato__num { margin: 0 0 var(--space-24); color: var(--muted-sage); }
+.ato__num b { color: var(--highlighter-green); font-weight: inherit; }
+.ato__titulo {
+  margin: 0 0 var(--space-24);
+  max-width: 17ch;
+  font-family: var(--font-display);
+  font-weight: 550;
+  font-size: var(--text-heading);
+  line-height: .98;
+  letter-spacing: -0.045em;
+  text-wrap: pretty;
+}
+.ato__desc {
+  margin: 0 0 var(--space-32);
+  max-width: 52ch;
+  font-size: var(--text-body);
+  font-weight: 200;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
+}
+.ato__ficha { margin: 0 0 var(--space-32); color: var(--muted-sage); text-transform: none; letter-spacing: 0; font-size: var(--text-body-sm); font-weight: 400; }
+.ato .ficha { margin-bottom: var(--space-32); }
+
+/* O número do caso mora no orbe enquanto a cena está viva; fora
+   dela, ele volta para dentro do próprio caso. */
+.ato__stat { margin: 0 0 var(--space-32); display: flex; flex-direction: column; gap: var(--space-8); }
+.ato__stat b {
+  font-size: clamp(34px, 3.6vw, 52px);
+  font-weight: 550;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.ato__stat span { max-width: 34ch; font-size: var(--text-body-sm); font-weight: 350; line-height: 1.35; color: var(--muted-sage); }
+.cena--viva .ato__stat { display: none; }
+
+/* Dentro do palco a altura é fixa (uma tela), e o caso mais
+   cheio é o que decide. Os respiros passam a ser medidos em vh
+   para o ato inteiro caber de pé em qualquer tela funda o
+   bastante, em vez de estourar por baixo. */
+.cena--viva .ato__num { margin-bottom: clamp(12px, 2vh, 20px); }
+.cena--viva .ato__titulo { margin-bottom: clamp(12px, 2.2vh, 25px); font-size: clamp(34px, 4.3vw, 64px); }
+.cena--viva .ato__desc { margin-bottom: clamp(14px, 2.4vh, 30px); }
+.cena--viva .ato__ficha { margin-bottom: clamp(16px, 2.8vh, 30px); }
+.cena--viva .ato .ficha { margin-bottom: clamp(16px, 2.8vh, 30px); gap: clamp(6px, 1.2vh, 15px); }
+.cena--viva .ato .ficha > div { padding-top: clamp(6px, 1.2vh, 15px); }
+
+/* ── O orbe ────────────────────────────────
+   Desce ao longo da cena e pulsa: cheio quando um caso está
+   parado à frente, encolhido no meio do caminho entre dois. É o
+   relógio da cena: quem olha para ele sabe que ainda está
+   andando.
+   ──────────────────────────────────────────────── */
+.cena__orbe { display: none; }
+.cena--viva .cena__orbe {
+  display: block;
+  justify-self: center;
+  width: min(100%, 330px);
+  transform: translateY(calc(var(--orbe-y, 0) * clamp(40px, 8vh, 110px)));
+}
+.orbe__disco {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  padding: 12%;
+  border: 1px solid var(--highlighter-green);
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, rgba(43, 238, 75, .16), rgba(43, 238, 75, 0) 70%);
+  box-shadow: var(--shadow-green);
+  transform: scale(var(--orbe-esc, 1));
+}
+.orbe__valor {
+  grid-area: 1 / 1;
+  font-size: clamp(28px, 3.2vw, 50px);
+  font-weight: 550;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  text-align: center;
+  opacity: 0;
+}
+.orbe__legendas { display: grid; margin-top: var(--space-24); }
+.orbe__legenda {
+  grid-area: 1 / 1;
+  margin: 0;
+  font-size: var(--text-body-sm);
+  font-weight: 350;
+  line-height: 1.35;
+  text-align: center;
+  color: var(--muted-sage);
+  opacity: 0;
+}
+
+/* ── O trilho ────────────────────────────────
+   Quatro traços dizendo quantos atos existem e em qual se está.
+   Numa cena que prende a rolagem, saber que há fim é metade do
+   conforto, e cada traço leva direto ao seu ato.
+   ──────────────────────────────────────────────── */
+.cena__trilho { display: none; }
+.cena--viva .cena__trilho {
+  position: absolute;
+  /* Fica na calha, encostado por fora da coluna de texto: o traço
+     tem 26px, então a borda esquerda dele cai exatamente na borda
+     do conteúdo em qualquer largura. */
+  right: max(8px, calc(var(--gutter) - 26px));
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cena__trilho button {
+  display: block;
+  width: 26px;
+  height: 22px;
+  padding: 10px 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.cena__trilho i {
+  display: block;
+  height: 2px;
+  width: 12px;
+  margin-left: auto;
+  background: var(--muted-sage);
+  opacity: .45;
+  transition: width .35s var(--ease-saida), opacity .35s, background-color .35s;
+}
+.cena__trilho [aria-current="true"] i { width: 26px; opacity: 1; background: var(--highlighter-green); }
+@media (hover: hover) and (pointer: fine) {
+  .cena__trilho button:hover i { opacity: 1; width: 20px; }
+}
+
+@media (max-width: 900px) {
+  .ato__titulo { max-width: none; font-size: clamp(30px, 7vw, 46px); }
+  .cena__atos { gap: clamp(48px, 9vw, 80px); }
+}
+
+/* ============================================================
+   Fecho
+
+   Um respiro claro entre a cena e o rodapé, e o lugar próprio do
+   manifesto, que antes disputava espaço com o lead do hero.
+   ============================================================ */
+
+.fecho {
+  position: relative;
+  background-color: var(--bone-white);
+  background-image: url("bg-weave.svg");
+}
+.fecho__inner { padding-block: clamp(60px, 8vw, 110px) calc(clamp(40px, 5vw, 70px) + var(--onda-bolha-h) * 2); }
+.fecho__micro { margin: 0 0 var(--space-24); color: var(--newsprint-gray); }
+.fecho h2 {
+  margin: 0 0 var(--space-32);
+  max-width: 22ch;
+  font-family: var(--font-display);
+  font-weight: 550;
+  font-size: var(--text-heading-sm);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  /* balance, não pretty: aqui são quatro linhas de título, e o que
+     se quer é o rio parelho dos quatro. Os espaços rígidos da frase
+     já impedem que uma linha comece ou termine em "o", "que" ou
+     "e"; o balance escolhe entre as quebras que sobraram. */
+  text-wrap: balance;
+}
+.fecho__link { color: var(--press-black); }

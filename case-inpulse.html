@@ -3,256 +3,478 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Case Inpulse — Solução que ajudou a diminuir a recuperação dos alunos</title>
-<meta name="description" content="Boletim, calendário acadêmico e comunicação em um app para alunos de medicina. A média de recuperação caiu de 8 para 6 a cada 10 avaliações por aluno, numa base de 420 alunos.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E✅%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/styles.css">
+
+<!-- Duas marcas postas antes do primeiro pixel.
+
+     .js: a folha de estilo só esconde o painel do menu quando
+     esta classe existe, então sem script nenhum link do site fica
+     inalcançável.
+
+     .chegando: a página anterior pediu a passagem, e a cortina
+     entra cobrindo e sai por baixo. A animação é de CSS puro; se
+     o script do rodapé falhar, ela sai sozinha e nunca deixa a
+     página coberta. -->
+<script>
+(function () {
+  var h = document.documentElement;
+  h.classList.add("js");
+  try {
+    if (sessionStorage.getItem("jm-passagem")) {
+      sessionStorage.removeItem("jm-passagem");
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) h.classList.add("chegando");
+    }
+  } catch (e) {}
+})();
+</script>
+<title>Solução que ajudou a diminuir a recuperação dos alunos · Jeff Maia</title>
+<meta name="description" content="Boletim, calendário acadêmico e comunicação num app para alunos de medicina. A média de recuperação caiu de 8 para 6 a cada 10 avaliações por aluno, numa base de 420 alunos.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23fafffa'/%3E%3Ctext x='50' y='72' font-family='Arial, Helvetica, sans-serif' font-weight='800' font-size='64' text-anchor='middle' fill='%23121613'%3EJ%3C/text%3E%3Crect x='27' y='78' width='46' height='7' rx='2' fill='%232bee4b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/base.css">
+<link rel="stylesheet" href="assets/caso.css">
 <script src="assets/analytics.js"></script>
 </head>
-<body>
+<body class="caso">
 
-<nav class="site-nav">
-  <a class="nav-brand" href="index.html">Jeff Maia | Product Designer Manager</a>
-  <button class="nav-toggle" id="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Abrir menu">
-    <span class="nav-toggle__bar"></span>
-    <span class="nav-toggle__bar"></span>
-    <span class="nav-toggle__bar"></span>
-  </button>
-  <div class="nav-menu" id="nav-menu">
-    <a href="index.html">Home</a>
-    <a href="case-processo.html">Processo com IA</a>
-    <a href="case-omnichat.html">Omnichat</a>
-    <a href="case-inpulse.html" aria-current="page">Inpulse</a>
-    <a href="case-mapa-experiencia.html">Mapa de experiência</a>
-    <span class="nav-sep"></span>
-    <a href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn</a>
-    <a class="btn btn-primary" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp</a>
+<!-- O recorte da onda é um só para todas: elas são desenhadas no
+     mesmo quadro e na mesma fase, e o clipPath em objectBoundingBox
+     estica a forma até a largura de cada seção. O caminho já vem
+     desenhado aqui, então a borda ondulada existe sem JS. -->
+<svg class="onda-defs" aria-hidden="true" focusable="false"><defs><clipPath id="onda-recorte" clipPathUnits="objectBoundingBox"><path id="onda-caminho" d="M0,1 L0.0000,0.5167 L0.0250,0.4905 L0.0500,0.4658 L0.0750,0.4438 L0.1000,0.4256 L0.1250,0.4120 L0.1500,0.4035 L0.1750,0.4001 L0.2000,0.4016 L0.2250,0.4074 L0.2500,0.4167 L0.2750,0.4284 L0.3000,0.4416 L0.3250,0.4551 L0.3500,0.4681 L0.3750,0.4800 L0.4000,0.4903 L0.4250,0.4988 L0.4500,0.5058 L0.4750,0.5116 L0.5000,0.5167 L0.5250,0.5218 L0.5500,0.5276 L0.5750,0.5346 L0.6000,0.5431 L0.6250,0.5534 L0.6500,0.5653 L0.6750,0.5783 L0.7000,0.5918 L0.7250,0.6050 L0.7500,0.6167 L0.7750,0.6260 L0.8000,0.6318 L0.8250,0.6333 L0.8500,0.6299 L0.8750,0.6214 L0.9000,0.6078 L0.9250,0.5896 L0.9500,0.5676 L0.9750,0.5429 L1.0000,0.5167 L1,1 Z"/></clipPath><clipPath id="onda-recorte-bolha" clipPathUnits="objectBoundingBox"><path id="onda-caminho-bolha" d="M0,1 L0.0000,0.7583 L0.0208,0.7474 L0.0417,0.7369 L0.0625,0.7272 L0.0833,0.7186 L0.1042,0.7115 L0.1250,0.7060 L0.1458,0.7023 L0.1667,0.7003 L0.1875,0.7001 L0.2083,0.7015 L0.2292,0.7041 L0.2480,0.7071 L0.2606,0.7091 L0.2732,0.7109 L0.2858,0.7119 L0.2984,0.7117 L0.3110,0.7094 L0.3236,0.7042 L0.3362,0.6949 L0.3488,0.6804 L0.3614,0.6594 L0.3740,0.6309 L0.3866,0.5944 L0.3992,0.5500 L0.4118,0.4986 L0.4244,0.4424 L0.4370,0.3843 L0.4496,0.3284 L0.4622,0.2790 L0.4748,0.2403 L0.4874,0.2159 L0.5000,0.2083 L0.5126,0.2185 L0.5252,0.2454 L0.5378,0.2870 L0.5504,0.3394 L0.5630,0.3987 L0.5756,0.4604 L0.5882,0.5208 L0.6008,0.5767 L0.6134,0.6261 L0.6260,0.6681 L0.6386,0.7024 L0.6512,0.7296 L0.6638,0.7506 L0.6764,0.7665 L0.6890,0.7786 L0.7016,0.7876 L0.7142,0.7946 L0.7268,0.8000 L0.7394,0.8044 L0.7520,0.8079 L0.7708,0.8120 L0.7917,0.8151 L0.8125,0.8165 L0.8333,0.8164 L0.8542,0.8144 L0.8750,0.8107 L0.8958,0.8052 L0.9167,0.7981 L0.9375,0.7895 L0.9583,0.7798 L0.9792,0.7693 L1.0000,0.7584 L1,1 Z"/></clipPath><clipPath id="onda-recorte-subir" clipPathUnits="objectBoundingBox"><path id="onda-caminho-subir" d="M0,1 L0.0000,0.7583 L0.0208,0.7474 L0.0417,0.7369 L0.0625,0.7272 L0.0833,0.7186 L0.1042,0.7115 L0.1250,0.7060 L0.1458,0.7023 L0.1667,0.7003 L0.1875,0.7001 L0.2083,0.7015 L0.2292,0.7041 L0.2480,0.7071 L0.2606,0.7091 L0.2732,0.7109 L0.2858,0.7119 L0.2984,0.7117 L0.3110,0.7094 L0.3236,0.7042 L0.3362,0.6949 L0.3488,0.6804 L0.3614,0.6594 L0.3740,0.6309 L0.3866,0.5944 L0.3992,0.5500 L0.4118,0.4986 L0.4244,0.4424 L0.4370,0.3843 L0.4496,0.3284 L0.4622,0.2790 L0.4748,0.2403 L0.4874,0.2159 L0.5000,0.2083 L0.5126,0.2185 L0.5252,0.2454 L0.5378,0.2870 L0.5504,0.3394 L0.5630,0.3987 L0.5756,0.4604 L0.5882,0.5208 L0.6008,0.5767 L0.6134,0.6261 L0.6260,0.6681 L0.6386,0.7024 L0.6512,0.7296 L0.6638,0.7506 L0.6764,0.7665 L0.6890,0.7786 L0.7016,0.7876 L0.7142,0.7946 L0.7268,0.8000 L0.7394,0.8044 L0.7520,0.8079 L0.7708,0.8120 L0.7917,0.8151 L0.8125,0.8165 L0.8333,0.8164 L0.8542,0.8144 L0.8750,0.8107 L0.8958,0.8052 L0.9167,0.7981 L0.9375,0.7895 L0.9583,0.7798 L0.9792,0.7693 L1.0000,0.7584 L1,1 Z"/></clipPath></defs></svg>
+
+<a class="pular" href="#contexto">Pular para o caso</a>
+
+<!-- Quanto falta para o fim da página. Sem JS fica em zero e some. -->
+<div class="regua" id="regua" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap nav__inner">
+    <a class="wordmark" href="index.html" aria-label="Jeff Maia, Product Design Manager">
+      <span class="wordmark__nome">J<span class="wordmark__dobra">eff</span></span>
+      <span class="wordmark__dobra wordmark__sobrenome">Maia</span>
+      <span class="wordmark__dobra wordmark__papel">Product Design Manager</span>
+    </a>
+
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
+      <span class="menu-btn__traco"></span>
+      <span class="menu-btn__traco"></span>
+    </button>
   </div>
-</nav>
+</header>
+
+<!-- Sem aria-hidden aqui: sem script o painel fica aberto no
+     fluxo, e a marca fixa esconderia do leitor de tela um menu que
+     está à vista. Quem escreve o estado é o JS, que já começa
+     fechando o painel. -->
+<!-- A retícula: o véu de pontos que cai sobre a faixa de página que
+     o painel não cobre. Fica fora do painel de propósito, porque o
+     que ela cobre é a página, não o menu. -->
+<div class="reticula" aria-hidden="true"></div>
+
+<div class="menu" id="menu">
+  <nav class="wrap menu__inner" aria-label="Principal">
+    <div class="menu__grupo">
+      <p class="micro menu__rotulo">Casos</p>
+      <ul class="menu__lista">
+        <li style="--i:0"><a class="menu__item" href="case-processo.html">Processo com IA</a></li>
+        <li style="--i:1"><a class="menu__item" href="case-omnichat.html">Omnichat</a></li>
+        <li style="--i:2"><a class="menu__item" href="case-inpulse.html" aria-current="page">Inpulse</a></li>
+        <li style="--i:3"><a class="menu__item" href="case-mapa-experiencia.html">Mapa de experiência</a></li>
+      </ul>
+    </div>
+
+    <div class="menu__grupo">
+      <p class="micro menu__rotulo">Fora daqui</p>
+      <ul class="menu__lista menu__lista--fora">
+        <li style="--i:4"><a class="menu__item" href="index.html">Home</a></li>
+        <li style="--i:5"><a class="menu__item" href="manifesto/index.html">Manifesto<i aria-hidden="true">↗</i></a></li>
+        <li style="--i:6"><a class="menu__item" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn<i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="onda onda--escura onda--pe" aria-hidden="true"></div>
+</div>
+
 
 <main>
-<div class="wrap page" style="padding-bottom: 24px">
 
-  <header class="case-header">
-    <div>
-      <div class="tag-row">
-        <span class="tag tag-outline">Ideação</span>
-        <span class="tag tag-outline">Experimentação</span>
-        <span class="tag tag-accent">Graduação em medicina</span>
+  <header class="caso-topo tinta">
+    <div class="wrap caso-topo__inner">
+      <a class="voltar micro" href="index.html#casos"><i aria-hidden="true">←</i> Todos os casos</a>
+
+      <p class="etiquetas micro" data-revelar>
+        <span>Inpulse</span>
+        <span>Ideação e experimentação</span>
+        <span class="etiqueta--verde">Graduação em medicina</span>
+      </p>
+
+      <h1 data-revelar>Solução que&nbsp;ajudou a&nbsp;diminuir a&nbsp;recuperação dos&nbsp;alunos</h1>
+
+      <div class="caso-topo__pe">
+        <p class="caso-topo__lead" data-revelar data-revelar-atraso="1">Uma prova de medicina vira cinco notas separadas e cinco recuperações independentes. Não existia lugar nenhum onde o&nbsp;aluno visse isso junto antes de&nbsp;já estar em&nbsp;recuperação.</p>
+
+        <div class="salto" data-revelar data-revelar-atraso="2">
+          <span class="salto__de">8 em 10</span>
+          <span class="salto__para">6 em 10</span>
+          <p class="salto__que">A média de recuperação por aluno, comparando o semestre anterior ao&nbsp;lançamento com&nbsp;o&nbsp;primeiro semestre completo de&nbsp;uso, numa base de 420 alunos. O app não ensina conteúdo: o efeito veio de o aluno enxergar cedo qual eixo estava abaixo da&nbsp;média.</p>
+        </div>
       </div>
-      <h1>Solução que ajudou a diminuir a recuperação dos alunos</h1>
-      <p class="subhead">Cada avaliação da graduação de medicina gera cerca de 5 notas separadas, e o aluno fica de recuperação em cada nota abaixo da média de forma independente. Uma prova só vira vários eixos de estudo espalhados, e não existia lugar nenhum onde o aluno visse isso junto. Ele descobria nota em grupo de WhatsApp ou indo até a coordenação, e anotava tudo à mão para tentar entender onde estava mal.</p>
     </div>
-    <figure class="blueprint stat-figure">
-      <div class="stat-figure__num">−25%</div>
-      <figcaption class="stat-figure__cap">A média de recuperação caiu de 8 para 6 a cada 10 avaliações por aluno, comparando o semestre anterior ao lançamento com o primeiro semestre completo de uso, numa base de 420 alunos. O app não ensina conteúdo, o efeito veio de o aluno enxergar cedo qual eixo estava abaixo da média e conseguir agir antes da recuperação.</figcaption>
-    </figure>
   </header>
 
-  <section class="grid-2 section--tight">
-    <div>
-      <h6 class="eyebrow">01 — Contexto</h6>
-      <div class="lead">
-        <p>Por limitações técnicas, não conseguíamos entregar aos alunos um boletim, um calendário acadêmico e uma comunicação eficaz até a entrega do Inpulse.</p>
-        <p>Antes do Inpulse os alunos precisavam correr atrás das informações por grupos de WhatsApp ou indo até a coordenação, e tinham que anotar suas notas em algum lugar para ter uma visão geral do seu estudo.</p>
-      </div>
-    </div>
-    <div>
-      <h6 class="eyebrow">Ficha do projeto</h6>
-      <dl class="spec">
-        <div class="spec__row"><dt>Duração</dt><dd>10 meses</dd></div>
-        <div class="spec__row"><dt>Jeff</dt><dd>Idealizador, mentor, designer UX e UI</dd></div>
-        <div class="spec__row"><dt>Pedro Anjos</dt><dd>Designer UI</dd></div>
-      </dl>
-    </div>
-  </section>
+  <div class="folha">
+    <div class="onda onda--clara" aria-hidden="true"></div>
+    <div class="wrap folha__inner">
 
-  <section class="quote-grid" style="padding-top: 44px">
-    <blockquote class="blueprint quote">
-      <span class="tag tag-outline">Antes</span>
-      <p>“Precisamos correr atrás de nota, elas levam dias para sair, e quando saem a gente tem que anotar pra ver todas em um mesmo lugar. Difícil se preparar dessa maneira, não existem ensino personalizados como vocês pregam dessa forma. Isso é o básico.”</p>
-      <footer>Nota 2 no NPS, de uma estudante no 3º semestre.</footer>
-    </blockquote>
-    <blockquote class="blueprint quote quote--after">
-      <span class="tag tag-accent">Depois</span>
-      <p>“Com Inpulse eu não preciso ficar anotando as notas dos complexos temáticos, e isso facilitou pra eu achar o que devo estudar para as recuperações. Hoje consigo saber qual CT preciso estudar mais.”</p>
-      <footer>Aluna do 5º semestre de medicina.</footer>
-    </blockquote>
-  </section>
-
-  <section class="section">
-    <div class="grid-2">
-      <div>
-        <h6 class="eyebrow">02 — Descoberta</h6>
-        <h2 style="font-size: clamp(26px, 3.2vw, 38px); max-width: 24ch; margin: 0 0 16px; text-wrap: pretty">Qual a melhor maneira de entregar um boletim e informações eficazes</h2>
-        <div class="lead">
-          <p>Depois de analisar o NPS, pesquisas previamente realizadas pelo time e um “dia na vida” feito por um dos designers, ficou claro que esse aluno está sempre em movimento e precisava de algo de fácil acesso, que estivesse com ele o tempo todo. Um aplicativo seria também a plataforma perfeita para sugestões de estudo personalizadas para cada estudante.</p>
-          <p>Depois de diversas sessões de cocriação com a área acadêmica e todo o time de produto e desenvolvimento, saímos com um protótipo navegável de alta fidelidade com diversas funcionalidades, pronto para validação.</p>
+      <!-- 01. A entrada de um lado e a ficha correndo na coluna da
+           direita, começando na mesma linha de "01 · Contexto".
+           Embaixo, as duas falas de aluno: a de antes e a de depois.
+           Elas eram dois cartões iguais lado a lado; agora o que
+           separa as duas é o traço na margem, verde só no depois. -->
+      <section class="secao secao--ficha" id="contexto" aria-labelledby="t-contexto">
+        <div class="secao__topo" data-revelar>
+          <div class="secao__head">
+            <span class="micro" id="t-contexto">01 · Contexto</span>
+            <span class="secao__rule"></span>
+          </div>
         </div>
-        <div class="section--divided" style="margin-top: 22px">
-          <h6 class="eyebrow">O aluno de medicina</h6>
-          <p class="lead" style="margin-bottom: 16px">O dia a dia desse aluno melhorou, deixando mais tempo para dedicar ao que importa, como os estudos e os momentos de descanso. O curso de medicina, além de ser integral, exige bastante dos alunos.</p>
-          <a class="btn btn-secondary" href="https://www.figma.com/proto/w5TixfaNOqjwjYoY8hZ0cg/Painel-Longitudinal---Aluno?page-id=2891%3A23975&amp;node-id=2891-27267&amp;p=f&amp;viewport=521%2C589%2C0.07&amp;t=N9ol2L7UQFaCxwX8-1&amp;scaling=scale-down&amp;content-scaling=fixed&amp;starting-point-node-id=2891%3A27267" target="_blank" rel="noopener">Abrir o protótipo completo</a>
+
+        <div class="abertura" data-revelar>
+          <p>Por limitação técnica, a instituição não conseguia entregar ao&nbsp;aluno um&nbsp;boletim, um calendário acadêmico e&nbsp;uma&nbsp;comunicação que&nbsp;funcionasse.</p>
         </div>
-      </div>
-      <div>
-        <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 14px">
-          <h6 class="eyebrow" style="margin: 0">Protótipo navegável</h6>
-          <span class="caption">Navegue pelo app aqui.</span>
+
+        <div class="corpo-texto" data-revelar data-revelar-atraso="1">
+          <p>Antes do Inpulse, o aluno corria atrás da informação em grupo de WhatsApp ou indo até a coordenação, e anotava as próprias notas em algum lugar para conseguir ter uma visão geral do&nbsp;estudo. Cada avaliação da graduação gera cerca de cinco notas separadas, e ele fica de recuperação em cada nota abaixo da média de forma independente: uma prova só vira vários eixos de estudo espalhados.</p>
         </div>
-        <div class="blueprint embed-frame">
-          <iframe src="https://embed.figma.com/proto/w5TixfaNOqjwjYoY8hZ0cg/Painel-Longitudinal---Aluno?page-id=2891%3A23975&amp;node-id=2891-27267&amp;starting-point-node-id=2891%3A27267&amp;scaling=scale-down&amp;content-scaling=fixed&amp;embed-host=share" title="Protótipo do aplicativo Inpulse" allowfullscreen loading="lazy"></iframe>
+
+        <div class="bloco ficha-lateral" style="--ficha-faixas: 3" data-revelar data-revelar-atraso="2">
+          <span class="micro rotulo">Ficha do projeto</span>
+          <dl class="faixa-ficha">
+            <div><dt class="micro">Duração</dt><dd>10 meses, do primeiro experimento ao&nbsp;primeiro semestre completo de&nbsp;uso</dd></div>
+            <div><dt class="micro">Jeff</dt><dd>Idealizador, mentor, designer UX e UI</dd></div>
+            <div><dt class="micro">Time</dt><dd>Pedro Anjos, designer UI, com&nbsp;a&nbsp;área acadêmica na&nbsp;cocriação</dd></div>
+          </dl>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="section">
-    <div style="margin-bottom: 34px">
-      <h6 class="eyebrow" style="margin-bottom: 12px">03 — Experimento</h6>
-      <h2 style="font-size: clamp(26px, 3.2vw, 38px); margin: 0 0 16px">Qual funcionalidade o aluno quer primeiro</h2>
-      <div class="lead" style="max-width: 78ch">
-        <p>Estruturamos um experimento com o objetivo principal de analisar a desejabilidade dos alunos em relação a cada funcionalidade, para ajudar a priorizar aquilo que já sabíamos ser dor dos alunos e da empresa.</p>
-        <p>Usamos a mesma estrutura de um teste de usabilidade, com tarefas oferecidas aos participantes, mas não para analisar a facilidade e sim para identificar as reações espontâneas sobre as funcionalidades. Elas foram classificadas em três níveis de desejabilidade.</p>
-      </div>
-    </div>
-
-    <div class="grid-cards" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px">
-      <div class="blueprint" style="padding: 18px">
-        <div style="font-family: var(--font-heading); font-size: 20px; margin-bottom: 6px">Entusiasta</div>
-        <p style="font-size: 15px; color: var(--color-neutral-800); margin: 0">Demonstra interesse de maneira espontânea.</p>
-      </div>
-      <div class="blueprint" style="padding: 18px">
-        <div style="font-family: var(--font-heading); font-size: 20px; margin-bottom: 6px">Receptivo</div>
-        <p style="font-size: 15px; color: var(--color-neutral-800); margin: 0">Demonstra interesse a partir de uma interação ou pergunta com o facilitador.</p>
-      </div>
-      <div class="blueprint" style="padding: 18px">
-        <div style="font-family: var(--font-heading); font-size: 20px; margin-bottom: 6px">Indiferente</div>
-        <p style="font-size: 15px; color: var(--color-neutral-800); margin: 0">Verbaliza a falta de interesse ou apenas ignora a existência da funcionalidade.</p>
-      </div>
-    </div>
-
-    <div class="grid-2" style="gap: 40px; padding: 64px 0 26px">
-      <h3 style="font-size: clamp(22px, 2.6vw, 30px); margin: 0; max-width: 26ch; text-wrap: pretty">Aparentemente a falta de um calendário doía mais que um boletim</h3>
-      <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px">
-        <p class="lead" style="max-width: 52ch">De 10 funcionalidades testadas com 10 participantes, 4 tiveram entusiastas espontâneos e mais da metade gerou algum interesse. Faltas e Situação Atual foram as que mais reagiram, e o boletim completo, que era a aposta inicial do time, ficou atrás delas. Com isso cortamos 4 funcionalidades da primeira versão e priorizamos o acompanhamento por complexo temático, que era o mais caro de construir, porque era o único que respondia à recuperação fragmentada.</p>
-      </div>
-    </div>
-
-    <div class="blueprint chart-panel">
-      <div class="chart-panel__head">
-        <span class="chart-panel__title">Reações por funcionalidade</span>
-        <span class="caption">de 10 participantes</span>
-      </div>
-      <div class="chart-grid">
-        <div class="chart-group">
-          <span class="chart-group__name">Próximas Avaliações</span>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill" data-value="8"></div></div><span class="bar-value">8</span></div>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill bar-fill--enthusiast" data-value="0"></div></div><span class="bar-value">0</span></div>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill bar-fill--indifferent" data-value="2"></div></div><span class="bar-value">2</span></div>
+        <div class="bloco" data-revelar>
+          <span class="micro rotulo">O que o aluno dizia</span>
+          <div class="citacoes">
+            <blockquote class="citacao">
+              <span class="micro citacao__quando">Antes</span>
+              <p>“Precisamos correr atrás de&nbsp;nota, elas levam dias para&nbsp;sair, e quando saem a gente tem que&nbsp;anotar pra ver todas em&nbsp;um&nbsp;mesmo lugar. Difícil se preparar dessa maneira.”</p>
+              <footer>Nota 2 no NPS, de uma estudante no 3º semestre.</footer>
+            </blockquote>
+            <blockquote class="citacao citacao--depois">
+              <span class="micro citacao__quando">Depois</span>
+              <p>“Com o Inpulse eu não preciso ficar anotando as&nbsp;notas dos complexos temáticos, e isso facilitou pra eu achar o&nbsp;que devo estudar para&nbsp;as recuperações.”</p>
+              <footer>Aluna do 5º semestre de medicina.</footer>
+            </blockquote>
+          </div>
         </div>
-        <div class="chart-group">
-          <span class="chart-group__name">Faltas</span>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill" data-value="10"></div></div><span class="bar-value">10</span></div>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill bar-fill--enthusiast" data-value="0"></div></div><span class="bar-value">0</span></div>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill bar-fill--indifferent" data-value="0"></div></div><span class="bar-value">0</span></div>
-        </div>
-        <div class="chart-group">
-          <span class="chart-group__name">Situação Atual</span>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill" data-value="9"></div></div><span class="bar-value">9</span></div>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill bar-fill--enthusiast" data-value="1"></div></div><span class="bar-value">1</span></div>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill bar-fill--indifferent" data-value="0"></div></div><span class="bar-value">0</span></div>
-        </div>
-        <div class="chart-group">
-          <span class="chart-group__name">Últimas Avaliações</span>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill" data-value="8"></div></div><span class="bar-value">8</span></div>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill bar-fill--enthusiast" data-value="1"></div></div><span class="bar-value">1</span></div>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill bar-fill--indifferent" data-value="0"></div></div><span class="bar-value">0</span></div>
-        </div>
-        <div class="chart-group">
-          <span class="chart-group__name">Calendário</span>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill" data-value="7"></div></div><span class="bar-value">7</span></div>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill bar-fill--enthusiast" data-value="3"></div></div><span class="bar-value">3</span></div>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill bar-fill--indifferent" data-value="0"></div></div><span class="bar-value">0</span></div>
-        </div>
-        <div class="chart-group">
-          <span class="chart-group__name">Planejar Estudos</span>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill" data-value="8"></div></div><span class="bar-value">8</span></div>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill bar-fill--enthusiast" data-value="1"></div></div><span class="bar-value">1</span></div>
-          <div class="bar-row"><div class="bar-track"><div class="bar-fill bar-fill--indifferent" data-value="1"></div></div><span class="bar-value">1</span></div>
-        </div>
-      </div>
-      <div class="legend">
-        <span><i></i>Receptivo</span>
-        <span><i class="is-enthusiast"></i>Entusiasta</span>
-        <span><i class="is-indifferent"></i>Indiferente</span>
-      </div>
+      </section>
+
     </div>
-  </section>
+  </div>
 
-</div>
+  <!-- A parada escura: o que a descoberta encontrou de um lado e o
+       protótipo que saiu dela do outro. O protótipo é uma tela de
+       celular, vertical: ocupando a página inteira ele deixava duas
+       faixas de fundo escuro do tamanho dele em volta. Numa coluna,
+       a altura que ele pede passa a ser a altura da seção, e o texto
+       corre ao lado em vez de empurrar o protótipo para longe.
 
-<div class="band">
-  <img src="https://framerusercontent.com/images/aV4KtUaueCwZ17TJ4mz299XAw.png" alt="Telas do aplicativo Inpulse" loading="lazy">
-</div>
+       O escuro aqui existe para a tela do app ser a única coisa
+       clara da seção. -->
+  <div class="tinta">
+    <div class="onda onda--escura" aria-hidden="true"></div>
+    <div class="wrap tinta__inner">
 
-<div class="wrap" style="padding-bottom: 96px">
-  <section style="padding-top: 24px">
-    <div class="section--divided">
-      <h6 class="eyebrow">05 — Resultado</h6>
-      <h2 style="font-size: clamp(26px, 3.2vw, 38px); margin: 0 0 18px; text-wrap: pretty">Agora alunos têm mais tempo para estudar</h2>
-      <p class="lead" style="max-width: 72ch">Os alunos passaram a ter acesso rápido e real às informações de aulas, com as notas centralizadas em um único lugar. A primeira versão do app já mostrou ótimos números de engajamento no primeiro semestre de lançamento.</p>
+      <section class="secao secao--par secao--par--largo" aria-labelledby="t-descoberta">
+        <div class="secao__topo" data-revelar>
+          <div class="secao__head">
+            <span class="micro">02 · Descoberta</span>
+            <span class="secao__rule"></span>
+          </div>
+          <h2 class="secao__titulo" id="t-descoberta">Qual a&nbsp;melhor maneira de&nbsp;entregar um&nbsp;boletim que&nbsp;o&nbsp;aluno use</h2>
+        </div>
+
+        <div class="bloco coluna-a" data-revelar>
+          <div class="corpo-texto">
+            <p>Depois de analisar o NPS, as pesquisas que o time já tinha feito e um dia na vida conduzido por um dos designers, ficou claro que esse aluno está sempre em movimento e precisava de algo de fácil acesso, que estivesse com ele o&nbsp;tempo todo.</p>
+            <p>Depois de várias sessões de cocriação com&nbsp;a&nbsp;área acadêmica e&nbsp;com&nbsp;todo o&nbsp;time de produto e desenvolvimento, saímos com&nbsp;um&nbsp;protótipo navegável de alta fidelidade, pronto para&nbsp;validação.</p>
+          </div>
+
+          <div class="linha-nota">
+            <span class="micro">O aluno de medicina</span>
+            <p>O curso é integral e exige muito. Devolver tempo para&nbsp;o&nbsp;que&nbsp;importa, o&nbsp;estudo e&nbsp;o&nbsp;descanso, era o&nbsp;critério que&nbsp;separava uma boa solução de&nbsp;uma&nbsp;solução bonita.</p>
+          </div>
+        </div>
+
+        <div class="bloco coluna-b" data-revelar data-revelar-atraso="1">
+          <span class="micro rotulo">Protótipo navegável</span>
+          <div class="moldura moldura--retrato">
+            <iframe src="https://embed.figma.com/proto/w5TixfaNOqjwjYoY8hZ0cg/Painel-Longitudinal---Aluno?page-id=2891%3A23975&amp;node-id=2891-27267&amp;starting-point-node-id=2891%3A27267&amp;scaling=scale-down&amp;content-scaling=fixed&amp;embed-host=share" title="Protótipo do aplicativo Inpulse" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <p class="legenda">Navegue pelo app aqui mesmo, ou&nbsp;abra o&nbsp;protótipo em&nbsp;tela cheia.</p>
+          <p class="link-solto"><a class="proximo-link" href="https://www.figma.com/proto/w5TixfaNOqjwjYoY8hZ0cg/Painel-Longitudinal---Aluno?page-id=2891%3A23975&amp;node-id=2891-27267&amp;p=f&amp;viewport=521%2C589%2C0.07&amp;t=N9ol2L7UQFaCxwX8-1&amp;scaling=scale-down&amp;content-scaling=fixed&amp;starting-point-node-id=2891%3A27267" target="_blank" rel="noopener">Abrir o protótipo completo <i aria-hidden="true">↗</i></a></p>
+        </div>
+      </section>
+
     </div>
+  </div>
 
-    <div class="grid-cards grid-cards--sm" style="padding-top: 28px">
-      <div class="blueprint stat-card">
-        <div class="stat-card__num">93%</div>
-        <div class="stat-card__label">dos alunos acessando o app</div>
-      </div>
-      <div class="blueprint stat-card">
-        <div class="stat-card__num">45%</div>
-        <div class="stat-card__label">acessando uma vez ao dia</div>
-      </div>
-      <div class="blueprint stat-card">
-        <div class="stat-card__num">4,8</div>
-        <div class="stat-card__label">de CSAT</div>
-      </div>
-      <div class="blueprint stat-card stat-card--highlight">
-        <div class="stat-card__num">−25%</div>
-        <div class="stat-card__label">de recuperação por semestre por aluno</div>
-      </div>
-    </div>
+  <div class="folha">
+    <div class="onda onda--clara" aria-hidden="true"></div>
+    <div class="wrap folha__inner">
 
-    <div style="padding-top: 56px">
-      <h6 class="eyebrow">Ferramentas e métodos</h6>
-      <div class="tag-row">
-        <span class="tag tag-outline">Mapa de afinidade</span>
-        <span class="tag tag-outline">Análise temática</span>
-        <span class="tag tag-outline">Experimento de desejabilidade</span>
-        <span class="tag tag-outline">Story mapping</span>
-        <span class="tag tag-outline">Brainstorm</span>
-        <span class="tag tag-outline">Benchmark</span>
-        <span class="tag tag-outline">Rascunho de ideias</span>
-        <span class="tag tag-outline">Dinâmica de cocriação</span>
-        <span class="tag tag-outline">Prototipagem navegável</span>
-        <span class="tag tag-outline">Desenho de interface</span>
-        <span class="tag tag-outline">Componetização</span>
-        <span class="tag tag-outline">Teste de usabilidade</span>
-      </div>
-    </div>
+      <!-- 03. O experimento. Os três níveis de desejabilidade usam
+           o mesmo arranjo dos rituais da página de processo.
 
-    <div class="blueprint cta-bar">
-      <p>Quer conversar sobre produto em educação? Me chama.</p>
-      <div class="cta-bar__actions">
-        <a class="btn btn-secondary" href="case-mapa-experiencia.html">Próximo caso →</a>
-        <a class="btn btn-primary" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp</a>
-      </div>
+           A contagem é uma barra por funcionalidade: são sempre dez
+           participantes, então a barra inteira é a mesma em todas e
+           o que se lê é a proporção. Antes havia um número solto à
+           direita do nome, "8 de 10", que não dizia de que dos três
+           grupos estava falando. Agora as três contagens vêm
+           escritas embaixo da barra, na mesma ordem das cores e
+           começando sempre na mesma margem: assim dá para correr o
+           olho pela coluna e ver quem teve mais entusiasta, que é a
+           pergunta que a seção faz. -->
+      <section class="secao" aria-labelledby="t-experimento">
+        <div class="secao__topo" data-revelar>
+          <div class="secao__head">
+            <span class="micro">03 · Experimento</span>
+            <span class="secao__rule"></span>
+          </div>
+          <h2 class="secao__titulo" id="t-experimento">Qual funcionalidade o&nbsp;aluno quer primeiro</h2>
+        </div>
+
+        <div class="corpo-texto" data-revelar>
+          <p>Estruturamos um experimento para medir a desejabilidade de&nbsp;cada funcionalidade, e assim priorizar o que já sabíamos ser dor do&nbsp;aluno e da&nbsp;empresa.</p>
+          <p>Usamos a estrutura de um teste de usabilidade, com tarefas oferecidas aos participantes, mas não para medir facilidade: para registrar a reação espontânea a cada&nbsp;funcionalidade.</p>
+        </div>
+
+        <div class="bloco" data-revelar>
+          <span class="micro rotulo">Três níveis de desejabilidade</span>
+          <div class="ritos">
+            <div class="rito">
+              <span class="rito__nome">Entusiasta</span>
+              <span class="rito__desc">Demonstra interesse de&nbsp;maneira espontânea.</span>
+            </div>
+            <div class="rito">
+              <span class="rito__nome">Receptivo</span>
+              <span class="rito__desc">Demonstra interesse a&nbsp;partir de&nbsp;uma&nbsp;interação ou&nbsp;pergunta do&nbsp;facilitador.</span>
+            </div>
+            <div class="rito">
+              <span class="rito__nome">Indiferente</span>
+              <span class="rito__desc">Verbaliza a falta de interesse, ou&nbsp;ignora que&nbsp;a&nbsp;funcionalidade existe.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bloco" data-revelar data-revelar-atraso="1">
+          <span class="micro rotulo">Reações de 10 participantes, em seis das dez funcionalidades testadas</span>
+          <ul class="pilhas">
+            <li class="pilha">
+              <p class="pilha__nome">Próximas avaliações</p>
+              <div class="pilha__trilho">
+                <span class="pilha__parte pilha__parte--receptivo" style="--frac: 80%"></span>
+                <span class="pilha__parte pilha__parte--indiferente" style="--frac: 20%"></span>
+              </div>
+              <p class="pilha__conta">8 receptivos · 2 indiferentes</p>
+            </li>
+            <li class="pilha">
+              <p class="pilha__nome">Faltas</p>
+              <div class="pilha__trilho">
+                <span class="pilha__parte pilha__parte--receptivo" style="--frac: 100%"></span>
+              </div>
+              <p class="pilha__conta">10 receptivos</p>
+            </li>
+            <li class="pilha">
+              <p class="pilha__nome">Situação atual</p>
+              <div class="pilha__trilho">
+                <span class="pilha__parte pilha__parte--entusiasta" style="--frac: 10%"></span>
+                <span class="pilha__parte pilha__parte--receptivo" style="--frac: 90%"></span>
+              </div>
+              <p class="pilha__conta">1 entusiasta · 9 receptivos</p>
+            </li>
+            <li class="pilha">
+              <p class="pilha__nome">Últimas avaliações</p>
+              <div class="pilha__trilho">
+                <span class="pilha__parte pilha__parte--entusiasta" style="--frac: 10%"></span>
+                <span class="pilha__parte pilha__parte--receptivo" style="--frac: 80%"></span>
+                <span class="pilha__parte pilha__parte--indiferente" style="--frac: 10%"></span>
+              </div>
+              <p class="pilha__conta">1 entusiasta · 8 receptivos · 1 indiferente</p>
+            </li>
+            <li class="pilha">
+              <p class="pilha__nome">Calendário</p>
+              <div class="pilha__trilho">
+                <span class="pilha__parte pilha__parte--entusiasta" style="--frac: 30%"></span>
+                <span class="pilha__parte pilha__parte--receptivo" style="--frac: 70%"></span>
+              </div>
+              <p class="pilha__conta">3 entusiastas · 7 receptivos</p>
+            </li>
+            <li class="pilha">
+              <p class="pilha__nome">Planejar estudos</p>
+              <div class="pilha__trilho">
+                <span class="pilha__parte pilha__parte--entusiasta" style="--frac: 10%"></span>
+                <span class="pilha__parte pilha__parte--receptivo" style="--frac: 80%"></span>
+                <span class="pilha__parte pilha__parte--indiferente" style="--frac: 10%"></span>
+              </div>
+              <p class="pilha__conta">1 entusiasta · 8 receptivos · 1 indiferente</p>
+            </li>
+          </ul>
+          <p class="cores micro">
+            <span><i class="cor--entusiasta"></i><b>Entusiasta</b></span>
+            <span><i class="cor--receptivo"></i><b>Receptivo</b></span>
+            <span><i class="cor--indiferente"></i><b>Indiferente</b></span>
+          </p>
+        </div>
+
+        <div class="grito-par" data-revelar>
+          <p class="grito">O calendário doía mais que&nbsp;o&nbsp;boletim.</p>
+          <p class="legenda">De 10 funcionalidades testadas, 4 tiveram entusiasta espontâneo, e&nbsp;o&nbsp;boletim completo, que era a&nbsp;aposta inicial do&nbsp;time, ficou atrás delas.</p>
+        </div>
+
+        <div class="linha-nota" data-revelar>
+          <span class="micro">O que a gente cortou</span>
+          <p>Quatro funcionalidades saíram da primeira versão, e no lugar delas priorizamos o acompanhamento por complexo temático, que era o mais caro de construir. Era também o único que respondia à recuperação fragmentada, que é a dor que o caso&nbsp;inteiro persegue.</p>
+        </div>
+      </section>
+
+      <!-- 04. O resultado. As telas do app atravessam a página de
+           beira a beira, sem moldura e sem margem: é a única imagem
+           do caso que mostra o produto pronto, e cortada na altura
+           ela vira uma faixa, não um retrato pendurado no papel. -->
+      <section class="secao" aria-labelledby="t-resultado">
+        <div class="secao__topo" data-revelar>
+          <div class="secao__head">
+            <span class="micro">04 · Resultado</span>
+            <span class="secao__rule"></span>
+          </div>
+          <h2 class="secao__titulo" id="t-resultado">Agora o&nbsp;aluno tem mais tempo para&nbsp;estudar</h2>
+        </div>
+
+        <div class="corpo-texto" data-revelar>
+          <p>O aluno passou a ter acesso rápido e&nbsp;real à&nbsp;informação de&nbsp;aula, com&nbsp;as&nbsp;notas centralizadas num lugar&nbsp;só.</p>
+          <p>A primeira versão já mostrou números de&nbsp;engajamento altos no&nbsp;primeiro semestre de&nbsp;lançamento.</p>
+        </div>
+
+        <figure class="sangria" data-revelar data-revelar-atraso="1">
+          <img src="https://framerusercontent.com/images/aV4KtUaueCwZ17TJ4mz299XAw.png" alt="Telas do aplicativo Inpulse: boletim por complexo temático, calendário acadêmico e situação atual do aluno." width="1600" height="900" loading="lazy" decoding="async">
+        </figure>
+
+        <div class="numeros" data-revelar>
+          <div class="numero-caso">
+            <span class="numero-caso__valor">93%</span>
+            <p class="numero-caso__label">dos alunos acessando o&nbsp;app</p>
+          </div>
+          <div class="numero-caso">
+            <span class="numero-caso__valor">45%</span>
+            <p class="numero-caso__label">acessando ao menos uma&nbsp;vez por&nbsp;dia</p>
+          </div>
+          <div class="numero-caso">
+            <span class="numero-caso__valor">4,8</span>
+            <p class="numero-caso__label">de CSAT na&nbsp;primeira versão</p>
+          </div>
+          <div class="numero-caso">
+            <span class="numero-caso__valor">−25%</span>
+            <p class="numero-caso__label">de recuperação por&nbsp;semestre por&nbsp;aluno</p>
+          </div>
+        </div>
+
+        <div class="fecho fecho--unido" data-revelar>
+          <div>
+            <span class="micro rotulo">O que eu levo daqui</span>
+            <p class="declaracao">Desejo do&nbsp;usuário e&nbsp;aposta do&nbsp;time raramente são a&nbsp;mesma coisa.</p>
+          </div>
+          <div class="corpo-texto">
+            <p>O experimento não serviu para confirmar o que a gente queria construir. Serviu para mudar a ordem: o que&nbsp;doía mais entrou antes, mesmo sendo o&nbsp;mais caro.</p>
+          </div>
+        </div>
+
+        <div class="acoes" data-revelar>
+          <p>Quer conversar sobre produto em educação, ou&nbsp;sobre&nbsp;como medir desejo antes de&nbsp;construir? <a class="link" href="https://wa.me/5511977346175" target="_blank" rel="noopener">Me&nbsp;chama no&nbsp;WhatsApp</a> ou&nbsp;veja o&nbsp;próximo caso.</p>
+          <div class="acoes__ir">
+            <a class="proximo-link" href="case-mapa-experiencia.html">Próximo caso <i aria-hidden="true">→</i></a>
+          </div>
+        </div>
+      </section>
+
     </div>
-  </section>
-</div>
+  </div>
+
 </main>
 
-<script src="assets/nav.js"></script>
-<script src="assets/inpulse.js"></script>
+
+<footer class="footer">
+  <div class="onda onda--escura onda--subir" aria-hidden="true"></div>
+  <!-- A seta de voltar ao topo mora dentro da onda preta, no morro
+       que a onda faz para recebê-la. Conforme a página chega ao
+       fim, o morro cresce e a seta sobe junto com ele: são os dois
+       dizendo, sem escrever, que dali em diante só se anda para
+       cima.
+
+       #top e não um id nosso: a barra é fixa, e uma âncora para um
+       elemento fixo não faz o navegador rolar nada. "#top" sem
+       elemento correspondente é o fragmento que o HTML define como
+       "o começo do documento". -->
+  <div class="footer__subir">
+    <a class="subir" href="#top">
+      <span class="micro">Voltar ao topo</span>
+      <svg class="subir__seta" width="16" height="26" viewBox="0 0 16 26" fill="none" aria-hidden="true" focusable="false"><path d="M8 26V2M1 9l7-7 7 7" stroke="currentColor" stroke-width="2.1"/></svg>
+    </a>
+  </div>
+
+  <div class="wrap">
+    <div class="footer__grid">
+      <div data-revelar>
+        <h2>Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <p class="footer__contact">
+          <a class="link" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff</a>
+        </p>
+        <a class="btn-green" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
+        </a>
+      </div>
+
+      <div class="footer__col" data-revelar data-revelar-atraso="1">
+        <h3>Casos</h3>
+        <ul>
+          <li><a href="case-processo.html">Processo com IA</a></li>
+          <li><a href="case-omnichat.html">Omnichat</a></li>
+          <li><a href="case-inpulse.html" aria-current="page">Inpulse</a></li>
+          <li><a href="case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col" data-revelar data-revelar-atraso="2">
+        <h3>Fora daqui</h3>
+        <ul>
+          <li><a href="manifesto/index.html">Manifesto<i aria-hidden="true">↗</i></a></li>
+          <li><a href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn<i aria-hidden="true">↗</i></a></li>
+          <li><a href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp<i aria-hidden="true">↗</i></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__meta">
+      <span class="micro">Jeff Maia · Product Design Manager</span>
+      <span class="micro">São Paulo, Brasil</span>
+
+    </div>
+  </div>
+</footer>
+
+<!-- A cortina da passagem entre páginas. Fica fora da tela até que
+     um link interno seja clicado, ou até que a página anterior peça
+     a entrada. -->
+<div class="transicao" aria-hidden="true">
+  <span class="transicao__marca">J<i></i></span>
+</div>
+
+<script src="assets/base.js"></script>
+<script src="assets/caso.js"></script>
 </body>
 </html>
