@@ -414,9 +414,12 @@ const CALMO = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   /* Fixo, e não medido: a barra debaixo do J não sabe nada sobre a
      página que vem, então o que ela mostra é sempre o mesmo tempo.
-     1240ms é o traço terminando de encher; os 40ms de sobra são
-     para ele ser visto cheio antes de a página trocar. */
-  const ESPERA = 1280;
+     1440ms é o traço chegando na fração onde ele para deste lado.
+     Nem um milissegundo a mais: a barra tem que estar andando no
+     instante em que a página troca, senão sobra um pedaço parado
+     antes do corte, que é justamente o que fazia a animação
+     parecer terminada antes de o carregamento começar. */
+  const ESPERA = 1440;
 
   /* Um clique só. Sem isto, um segundo clique durante a passagem
      marcaria outro destino e os dois relógios correriam juntos. */

@@ -634,8 +634,8 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
 /* ============================================================
    A passagem de uma página para outra
 
-   Três tempos, e nenhum deles se move: a passagem inteira é feita
-   de opacidade.
+   Quatro tempos, em fila, e nenhum deles se move: a passagem
+   inteira é feita de opacidade e de uma largura.
 
    1. A tela fecha. O que estava escrito se apaga e o preto sobe ao
       mesmo tempo, um cruzando o outro. Já foi em duas etapas, o
@@ -648,12 +648,19 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
       De dentro do menu quem se apaga é o miolo do painel, e quem
       cobre é o próprio painel crescendo até a tela toda; ali a
       cortina só precisa estar acesa a tempo do J.
-   2. O J entra, e só depois de ele estar inteiro na tela a barra
-      começa a encher. A barra é o que se veio ver: dividir o começo
-      dela com a entrada do J era gastar um terço do percurso por
-      baixo de uma letra que ainda estava chegando.
-   3. Do outro lado, o J sai, a cortina sai atrás dele e a página
-      nova aparece por baixo.
+   2. Com a tela já fechada e parada, o J entra, e só depois de ele
+      estar inteiro a barra começa a encher. A barra é o que se veio
+      ver: dividir o começo dela com a entrada do J era gastar um
+      terço do percurso por baixo de uma letra que ainda chegava.
+   3. A barra atravessa a troca de página. Ela vai até uma fração de
+      si mesma deste lado, a navegação acontece com ela em
+      movimento, e ela termina de encher já na página nova. Antes ela
+      fechava inteira antes da navegação, e o que a pessoa via era
+      uma animação terminando de contar o carregamento antes de o
+      carregamento começar: o tempo de espera de verdade ficava com
+      uma barra cheia e parada por cima.
+   4. Quando a barra fecha, o J sai, a cortina sai atrás dele e a
+      página nova aparece por baixo.
 
    Fade e não deslize, porque o que está sendo dito aqui não é
    direção, é troca: uma coisa acaba e outra começa no mesmo lugar.
@@ -713,7 +720,11 @@ html:not(.js) .menu__lista li { opacity: 1; transform: none; }
   height: max(4px, .05em);
 }
 .transicao__marca::before { width: 100%; background: rgba(250, 255, 250, .18); }
-.transicao__marca i { width: 0; background: var(--highlighter-green); }
+/* O traço enche em dois pedaços, um de cada lado da navegação, e a
+   fração onde ele para é a costura entre os dois. Fica num nome só
+   para os dois lados não poderem discordar: qualquer diferença aqui
+   apareceria como um salto da barra no instante da troca. */
+.transicao__marca i { width: 0; background: var(--highlighter-green); --traco-parcial: 62%; }
 
 /* ── Saída ─────────────────────────────────────────── */
 
@@ -739,8 +750,9 @@ html.saindo--pagina .footer {
 
 /* Sem atraso: a cortina sobe no mesmo instante em que a página se
    apaga, e uma cruza a outra. Qualquer folga aqui aparece do rodapé
-   como um quadro de tela clara e vazia. */
-.transicao.saindo { visibility: visible; animation: cortina-cobre .34s var(--ease-saida) forwards; }
+   como um quadro de tela clara e vazia. As duas são o mesmo tempo,
+   o apagamento; o que vem depois é outro. */
+.transicao.saindo { visibility: visible; animation: cortina-cobre .36s var(--ease-saida) forwards; }
 
 /* A cortina é fixa e cobre a área de rolagem, não a barra de rolagem:
    onde o navegador desenha barra clássica em vez de barra flutuante,
@@ -756,29 +768,43 @@ html.chegando { scrollbar-color: var(--press-black) var(--press-black); }
    troca de tempo em vez de trocar de papel. */
 html.saindo--menu .transicao.saindo { animation: cortina-cobre .20s linear .22s forwards; }
 
-/* O J entra com a tela já fechada, nos dois caminhos. */
-.transicao.saindo .transicao__marca { animation: miolo-entra .26s var(--ease-saida) .34s both; }
+/* O J entra com a tela já fechada, nos dois caminhos, e não em cima
+   do apagamento: entre um tempo e outro há 140ms de preto parado,
+   que é o que faz os dois serem lidos como duas coisas em fila e não
+   como uma coisa só acontecendo ao mesmo tempo. */
+.transicao.saindo .transicao__marca { animation: miolo-entra .26s var(--ease-saida) .50s both; }
 /* Linear, e não com a curva de saída: uma barra que acelera e
    desacelera está contando uma história sobre o carregamento que
    ela não tem como saber. Passo constante é a única coisa honesta
-   que uma barra de tempo fixo pode dizer. */
-.transicao.saindo .transicao__marca i { animation: traco-enche .64s linear .60s forwards; }
+   que uma barra de tempo fixo pode dizer.
+
+   Ela termina este pedaço no instante exato da navegação, e não
+   antes. Enchendo até o fim deste lado, a barra acabava enquanto a
+   página velha ainda estava lá, e o carregamento de verdade, que é
+   o que ela existe para cobrir, começava com ela já cheia. O resto
+   dela está do outro lado. */
+.transicao.saindo .transicao__marca i { animation: traco-sai .66s linear .78s forwards; }
 
 /* ── Chegada ───────────────────────────────────────── */
 
-/* Do lado de cá o J chega com o traço cheio e fica parado um tempo
-   antes de sair. Esses 300ms não são enfeite: a animação começa
-   quando a página é lida, não quando ela é pintada, e sem a parada
-   o J gastaria a saída dele antes do primeiro quadro na tela, numa
-   página que carrega rápido. É o que garante que sempre se veja o
-   mesmo tanto, e não o que a rede daquele momento deixou ver.
+/* Do lado de cá o J chega com o traço no ponto em que a outra
+   página o deixou, e o resto da barra enche aqui. É a única parte
+   da passagem que acontece de fato durante o carregamento: o que
+   está atrás dela é a página nova sendo montada, e não uma página
+   velha esperando a hora de sair. Só quando a barra fecha o J sai.
+
+   A animação começa quando a página é lida, não quando ela é
+   pintada, e por isso a barra não parte do primeiro quadro: os
+   120ms de folga são o que sobra para ela ser vista mesmo num
+   carregamento rápido.
 
    `both` e não `forwards`: com um atraso e sem o preenchimento
-   para trás, a cortina ficaria transparente durante esses 440ms e
-   a página nova apareceria por um instante antes de ser coberta. */
-html.chegando .transicao { visibility: visible; animation: cortina-abre .42s var(--ease-saida) .44s both; }
-html.chegando .transicao__marca { animation: miolo-sai .24s var(--ease-saida) .30s both; }
-html.chegando .transicao__marca i { width: 100%; }
+   para trás, a cortina ficaria transparente durante esses 580ms e
+   a página nova apareceria por um instante antes de ser coberta;
+   e a barra piscaria vazia antes de reaparecer onde parou. */
+html.chegando .transicao { visibility: visible; animation: cortina-abre .42s var(--ease-saida) .58s both; }
+html.chegando .transicao__marca { animation: miolo-sai .24s var(--ease-saida) .52s both; }
+html.chegando .transicao__marca i { animation: traco-chega .34s linear .12s both; }
 
 @keyframes cortina-cobre { from { opacity: 0; } to { opacity: 1; } }
 @keyframes cortina-abre {
@@ -788,7 +814,8 @@ html.chegando .transicao__marca i { width: 100%; }
 @keyframes pagina-apaga { from { opacity: 1; } to { opacity: 0; } }
 @keyframes miolo-entra { from { opacity: 0; } to { opacity: 1; } }
 @keyframes miolo-sai { from { opacity: 1; } to { opacity: 0; } }
-@keyframes traco-enche { from { width: 0; } to { width: 100%; } }
+@keyframes traco-sai { from { width: 0; } to { width: var(--traco-parcial); } }
+@keyframes traco-chega { from { width: var(--traco-parcial); } to { width: 100%; } }
 
 @media (prefers-reduced-motion: reduce) {
   .transicao { display: none; }
