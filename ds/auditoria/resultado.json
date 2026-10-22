@@ -1,0 +1,1535 @@
+{
+ "geradoEm": "2026-10-22T20:27:39.407Z",
+ "larguras": [
+  1440,
+  390,
+  768
+ ],
+ "paginas": [
+  {
+   "id": "home",
+   "nome": "Home",
+   "foraDaVersao": false
+  },
+  {
+   "id": "processo",
+   "nome": "Processo com IA",
+   "foraDaVersao": false
+  },
+  {
+   "id": "omnichat",
+   "nome": "Omnichat",
+   "foraDaVersao": false
+  },
+  {
+   "id": "inpulse",
+   "nome": "Inpulse",
+   "foraDaVersao": false
+  },
+  {
+   "id": "mapa",
+   "nome": "Mapa de experiência",
+   "foraDaVersao": false
+  },
+  {
+   "id": "manifesto",
+   "nome": "Manifesto",
+   "foraDaVersao": true
+  }
+ ],
+ "matriz": {
+  "Pular para o conteúdo": {
+   "home": 1,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 1
+  },
+  "Barra com assinatura": {
+   "home": 1,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 1
+  },
+  "Botão de menu": {
+   "home": 1,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 1
+  },
+  "Menu em painel": {
+   "home": 2,
+   "processo": 2,
+   "omnichat": 2,
+   "inpulse": 2,
+   "mapa": 2
+  },
+  "Superfícies papel e tinta": {
+   "home": 0,
+   "processo": 4,
+   "omnichat": 4,
+   "inpulse": 4,
+   "mapa": 4
+  },
+  "Onda": {
+   "home": 5,
+   "processo": 6,
+   "omnichat": 6,
+   "inpulse": 6,
+   "mapa": 6
+  },
+  "Rodapé de contato": {
+   "home": 1,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 1
+  },
+  "Voltar ao topo": {
+   "home": 1,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 1
+  },
+  "Passagem entre páginas": {
+   "home": 1,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 1
+  },
+  "Botão principal": {
+   "home": 5,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 1
+  },
+  "Link": {
+   "home": 2,
+   "processo": 2,
+   "omnichat": 2,
+   "inpulse": 3,
+   "mapa": 3
+  },
+  "Voltar para os casos": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 1
+  },
+  "Próximo caso": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 2,
+   "mapa": 2
+  },
+  "Seta de descer": {
+   "home": 1,
+   "processo": 0,
+   "omnichat": 0,
+   "inpulse": 0,
+   "mapa": 0
+  },
+  "Trilho de pontos": {
+   "home": 1,
+   "processo": 0,
+   "omnichat": 0,
+   "inpulse": 0,
+   "mapa": 0
+  },
+  "Micro rótulo": {
+   "home": 17,
+   "processo": 52,
+   "omnichat": 54,
+   "inpulse": 25,
+   "mapa": 36
+  },
+  "Etiquetas de assunto": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 2
+  },
+  "Cabeçalho de seção": {
+   "home": 0,
+   "processo": 9,
+   "omnichat": 5,
+   "inpulse": 4,
+   "mapa": 5
+  },
+  "Abertura": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 1
+  },
+  "Corpo de texto": {
+   "home": 0,
+   "processo": 5,
+   "omnichat": 3,
+   "inpulse": 5,
+   "mapa": 5
+  },
+  "Grito": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 0,
+   "inpulse": 1,
+   "mapa": 0
+  },
+  "Linha de nota": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 0,
+   "inpulse": 2,
+   "mapa": 1
+  },
+  "Atrito": {
+   "home": 0,
+   "processo": 3,
+   "omnichat": 0,
+   "inpulse": 0,
+   "mapa": 0
+  },
+  "Citação": {
+   "home": 0,
+   "processo": 0,
+   "omnichat": 0,
+   "inpulse": 1,
+   "mapa": 0
+  },
+  "Declaração final": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 1
+  },
+  "Hero editorial": {
+   "home": 1,
+   "processo": 0,
+   "omnichat": 0,
+   "inpulse": 0,
+   "mapa": 0
+  },
+  "Topo do caso": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 1
+  },
+  "Salto": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 1
+  },
+  "Convite ao manifesto": {
+   "home": 1,
+   "processo": 0,
+   "omnichat": 0,
+   "inpulse": 0,
+   "mapa": 0
+  },
+  "Contêiner de página": {
+   "home": 6,
+   "processo": 7,
+   "omnichat": 7,
+   "inpulse": 7,
+   "mapa": 7
+  },
+  "Seção": {
+   "home": 0,
+   "processo": 9,
+   "omnichat": 5,
+   "inpulse": 4,
+   "mapa": 5
+  },
+  "Bloco com rótulo": {
+   "home": 0,
+   "processo": 4,
+   "omnichat": 1,
+   "inpulse": 6,
+   "mapa": 4
+  },
+  "Ficha do projeto": {
+   "home": 1,
+   "processo": 2,
+   "omnichat": 2,
+   "inpulse": 2,
+   "mapa": 2
+  },
+  "Cena dos casos": {
+   "home": 1,
+   "processo": 0,
+   "omnichat": 0,
+   "inpulse": 0,
+   "mapa": 0
+  },
+  "Orbe do número": {
+   "home": 1,
+   "processo": 0,
+   "omnichat": 0,
+   "inpulse": 0,
+   "mapa": 0
+  },
+  "Ações do fim": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 1
+  },
+  "Linhas indexadas": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 0,
+   "mapa": 1
+  },
+  "Estágios": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 0,
+   "inpulse": 0,
+   "mapa": 0
+  },
+  "Abas": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 0,
+   "mapa": 0
+  },
+  "Ritos": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 0,
+   "inpulse": 1,
+   "mapa": 0
+  },
+  "Funil": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 0,
+   "inpulse": 0,
+   "mapa": 0
+  },
+  "Trilha": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 0,
+   "inpulse": 0,
+   "mapa": 0
+  },
+  "Confronto": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 0,
+   "inpulse": 0,
+   "mapa": 0
+  },
+  "Conversa": {
+   "home": 0,
+   "processo": 0,
+   "omnichat": 1,
+   "inpulse": 0,
+   "mapa": 0
+  },
+  "Números do resultado": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 1
+  },
+  "Barras": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 0,
+   "inpulse": 0,
+   "mapa": 1
+  },
+  "Pilhas": {
+   "home": 0,
+   "processo": 0,
+   "omnichat": 0,
+   "inpulse": 1,
+   "mapa": 0
+  },
+  "Escala de NPS": {
+   "home": 0,
+   "processo": 0,
+   "omnichat": 0,
+   "inpulse": 0,
+   "mapa": 1
+  },
+  "Moldura": {
+   "home": 0,
+   "processo": 0,
+   "omnichat": 0,
+   "inpulse": 1,
+   "mapa": 0
+  },
+  "Galeria": {
+   "home": 0,
+   "processo": 0,
+   "omnichat": 0,
+   "inpulse": 0,
+   "mapa": 1
+  },
+  "Sangria": {
+   "home": 0,
+   "processo": 0,
+   "omnichat": 0,
+   "inpulse": 1,
+   "mapa": 0
+  },
+  "Revelar na entrada": {
+   "home": 12,
+   "processo": 38,
+   "omnichat": 22,
+   "inpulse": 27,
+   "mapa": 28
+  },
+  "Régua de leitura": {
+   "home": 0,
+   "processo": 1,
+   "omnichat": 1,
+   "inpulse": 1,
+   "mapa": 1
+  },
+  "Carrossel de tela estreita": {
+   "home": 0,
+   "processo": 2,
+   "omnichat": 1,
+   "inpulse": 0,
+   "mapa": 0
+  }
+ },
+ "capturas": {
+  "Barra com assinatura": "home",
+  "Botão de menu": "home",
+  "Menu em painel": "home",
+  "Onda": "home",
+  "Rodapé de contato": "home",
+  "Voltar ao topo": "home",
+  "Botão principal": "home",
+  "Link": "home",
+  "Seta de descer": "home",
+  "Trilho de pontos": "home",
+  "Micro rótulo": "home",
+  "Hero editorial": "home",
+  "Convite ao manifesto": "home",
+  "Ficha do projeto": "home",
+  "Cena dos casos": "home",
+  "Orbe do número": "home",
+  "Superfícies papel e tinta": "processo",
+  "Voltar para os casos": "processo",
+  "Próximo caso": "processo",
+  "Etiquetas de assunto": "processo",
+  "Cabeçalho de seção": "processo",
+  "Abertura": "processo",
+  "Corpo de texto": "processo",
+  "Grito": "processo",
+  "Linha de nota": "processo",
+  "Atrito": "processo",
+  "Declaração final": "processo",
+  "Topo do caso": "processo",
+  "Salto": "processo",
+  "Seção": "processo",
+  "Bloco com rótulo": "processo",
+  "Ações do fim": "processo",
+  "Linhas indexadas": "processo",
+  "Estágios": "processo",
+  "Abas": "processo",
+  "Ritos": "processo",
+  "Funil": "processo",
+  "Trilha": "processo",
+  "Confronto": "processo",
+  "Números do resultado": "processo",
+  "Barras": "processo",
+  "Conversa": "omnichat",
+  "Citação": "inpulse",
+  "Pilhas": "inpulse",
+  "Moldura": "inpulse",
+  "Sangria": "inpulse",
+  "Escala de NPS": "mapa",
+  "Galeria": "mapa"
+ },
+ "semPeca": {
+  "home": {},
+  "processo": {},
+  "omnichat": {},
+  "inpulse": {},
+  "mapa": {},
+  "manifesto": {}
+ },
+ "ocultas": {
+  "Trilho de pontos": [
+   390,
+   768
+  ],
+  "Orbe do número": [
+   390,
+   768
+  ]
+ },
+ "contraste": {
+  "home-1440": [
+   {
+    "texto": "#516254",
+    "fundo": "#121613",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 2.8,
+    "meta": 4.5,
+    "n": 1,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "Voltar ao topo"
+     }
+    ]
+   }
+  ],
+  "home-390": [
+   {
+    "texto": "#516254",
+    "fundo": "#121613",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 2.8,
+    "meta": 4.5,
+    "n": 1,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "Voltar ao topo"
+     }
+    ]
+   }
+  ],
+  "processo-1440": [
+   {
+    "texto": "#516254",
+    "fundo": "#121613",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 2.8,
+    "meta": 4.5,
+    "n": 3,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "04 · Rituais"
+     },
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "05 · Liderança"
+     },
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "Voltar ao topo"
+     }
+    ]
+   },
+   {
+    "texto": "#2bee4b",
+    "fundo": "#fafffa",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 1.54,
+    "meta": 4.5,
+    "n": 2,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "01"
+     },
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "02"
+     }
+    ]
+   }
+  ],
+  "processo-390": [
+   {
+    "texto": "#516254",
+    "fundo": "#121613",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 2.8,
+    "meta": 4.5,
+    "n": 3,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "04 · Rituais"
+     },
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "05 · Liderança"
+     },
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "Voltar ao topo"
+     }
+    ]
+   },
+   {
+    "texto": "#2bee4b",
+    "fundo": "#fafffa",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 1.54,
+    "meta": 4.5,
+    "n": 2,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "01"
+     },
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "02"
+     }
+    ]
+   }
+  ],
+  "omnichat-1440": [
+   {
+    "texto": "#2bee4b",
+    "fundo": "#fafffa",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 1.54,
+    "meta": 4.5,
+    "n": 6,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "01"
+     },
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "02"
+     },
+     {
+      "el": "span.conversa__fim",
+      "px": 11,
+      "texto": "Lead convertido"
+     },
+     {
+      "el": "b",
+      "px": 11,
+      "texto": "Camada 02"
+     }
+    ]
+   },
+   {
+    "texto": "#516254",
+    "fundo": "#121613",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 2.8,
+    "meta": 4.5,
+    "n": 2,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "03 · Processo"
+     },
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "Voltar ao topo"
+     }
+    ]
+   }
+  ],
+  "omnichat-390": [
+   {
+    "texto": "#2bee4b",
+    "fundo": "#fafffa",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 1.54,
+    "meta": 4.5,
+    "n": 6,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "01"
+     },
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "02"
+     },
+     {
+      "el": "span.conversa__fim",
+      "px": 11,
+      "texto": "Lead convertido"
+     },
+     {
+      "el": "b",
+      "px": 11,
+      "texto": "Camada 02"
+     }
+    ]
+   },
+   {
+    "texto": "#516254",
+    "fundo": "#121613",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 2.8,
+    "meta": 4.5,
+    "n": 2,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "03 · Processo"
+     },
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "Voltar ao topo"
+     }
+    ]
+   }
+  ],
+  "inpulse-1440": [
+   {
+    "texto": "#516254",
+    "fundo": "#121613",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 2.8,
+    "meta": 4.5,
+    "n": 2,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "02 · Descoberta"
+     },
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "Voltar ao topo"
+     }
+    ]
+   },
+   {
+    "texto": "#2bee4b",
+    "fundo": "#fafffa",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 1.54,
+    "meta": 4.5,
+    "n": 1,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "Depois"
+     }
+    ]
+   }
+  ],
+  "inpulse-390": [
+   {
+    "texto": "#516254",
+    "fundo": "#121613",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 2.8,
+    "meta": 4.5,
+    "n": 2,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "02 · Descoberta"
+     },
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "Voltar ao topo"
+     }
+    ]
+   },
+   {
+    "texto": "#2bee4b",
+    "fundo": "#fafffa",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 1.54,
+    "meta": 4.5,
+    "n": 1,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "Depois"
+     }
+    ]
+   }
+  ],
+  "mapa-1440": [
+   {
+    "texto": "#516254",
+    "fundo": "#121613",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 2.8,
+    "meta": 4.5,
+    "n": 2,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "03 · Processo"
+     },
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "Voltar ao topo"
+     }
+    ]
+   }
+  ],
+  "mapa-390": [
+   {
+    "texto": "#516254",
+    "fundo": "#121613",
+    "sobreImagem": true,
+    "grande": false,
+    "razao": 2.8,
+    "meta": 4.5,
+    "n": 2,
+    "exemplos": [
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "03 · Processo"
+     },
+     {
+      "el": "span.micro",
+      "px": 11,
+      "texto": "Voltar ao topo"
+     }
+    ]
+   }
+  ],
+  "manifesto-1440": [
+   {
+    "texto": "#6c6b68",
+    "fundo": "#0b0b0c",
+    "sobreImagem": false,
+    "grande": false,
+    "razao": 3.68,
+    "meta": 4.5,
+    "n": 1,
+    "exemplos": [
+     {
+      "el": "div",
+      "px": 16,
+      "texto": "01 / 38"
+     }
+    ]
+   }
+  ],
+  "manifesto-390": [
+   {
+    "texto": "#6c6b68",
+    "fundo": "#0b0b0c",
+    "sobreImagem": false,
+    "grande": false,
+    "razao": 3.68,
+    "meta": 4.5,
+    "n": 1,
+    "exemplos": [
+     {
+      "el": "div",
+      "px": 9,
+      "texto": "01 / 38"
+     }
+    ]
+   }
+  ]
+ },
+ "verde": {
+  "home-1440": [
+   {
+    "uso": "preenchimento",
+    "el": "a.pular",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "span.menu-btn__traco",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "b",
+    "n": 4
+   },
+   {
+    "uso": "preenchimento",
+    "el": "a.btn-green",
+    "n": 5
+   },
+   {
+    "uso": "borda",
+    "el": "div.orbe__disco",
+    "n": 2
+   },
+   {
+    "uso": "preenchimento",
+    "el": "i",
+    "n": 2
+   }
+  ],
+  "home-390": [
+   {
+    "uso": "preenchimento",
+    "el": "a.pular",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "span.menu-btn__traco",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "b",
+    "n": 4
+   },
+   {
+    "uso": "preenchimento",
+    "el": "a.btn-green",
+    "n": 5
+   },
+   {
+    "uso": "borda",
+    "el": "div.orbe__disco",
+    "n": 2
+   },
+   {
+    "uso": "preenchimento",
+    "el": "i",
+    "n": 1
+   }
+  ],
+  "processo-1440": [
+   {
+    "uso": "preenchimento",
+    "el": "a.pular",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "div.regua",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "span.menu-btn__traco",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "a.menu__item",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "span.etiqueta--verde",
+    "n": 1
+   },
+   {
+    "uso": "borda",
+    "el": "div.linha.revelado",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro.linha__num",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro",
+    "n": 1
+   },
+   {
+    "uso": "borda",
+    "el": "button.aba",
+    "n": 1
+   },
+   {
+    "uso": "borda",
+    "el": "li.fase",
+    "n": 5
+   },
+   {
+    "uso": "preenchimento",
+    "el": "div.barra__preenche",
+    "n": 2
+   },
+   {
+    "uso": "borda",
+    "el": "div.fecho.fecho--unido",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "a.btn-green",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "i",
+    "n": 1
+   }
+  ],
+  "processo-390": [
+   {
+    "uso": "preenchimento",
+    "el": "a.pular",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "div.regua",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "span.menu-btn__traco",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "a.menu__item",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "span.etiqueta--verde",
+    "n": 1
+   },
+   {
+    "uso": "borda",
+    "el": "div.linha.revelado",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro.linha__num",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro",
+    "n": 1
+   },
+   {
+    "uso": "borda",
+    "el": "div.aba-painel",
+    "n": 5
+   },
+   {
+    "uso": "borda",
+    "el": "li.fase",
+    "n": 5
+   },
+   {
+    "uso": "preenchimento",
+    "el": "div.barra__preenche",
+    "n": 2
+   },
+   {
+    "uso": "borda",
+    "el": "div.fecho.fecho--unido",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "a.btn-green",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "i",
+    "n": 1
+   }
+  ],
+  "omnichat-1440": [
+   {
+    "uso": "preenchimento",
+    "el": "a.pular",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "div.regua",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "span.menu-btn__traco",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "a.menu__item",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "span.etiqueta--verde",
+    "n": 1
+   },
+   {
+    "uso": "borda",
+    "el": "div.linha",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro.linha__num",
+    "n": 2
+   },
+   {
+    "uso": "borda",
+    "el": "button.aba",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro.aba__num",
+    "n": 10
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro",
+    "n": 5
+   },
+   {
+    "uso": "preenchimento",
+    "el": "p.turno__fala",
+    "n": 5
+   },
+   {
+    "uso": "borda",
+    "el": "div.conversa.conversa--depois",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "span.conversa__fim",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "b",
+    "n": 3
+   },
+   {
+    "uso": "borda",
+    "el": "div.fecho.fecho--unido",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "a.btn-green",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "i",
+    "n": 1
+   }
+  ],
+  "omnichat-390": [
+   {
+    "uso": "preenchimento",
+    "el": "a.pular",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "div.regua",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "span.menu-btn__traco",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "a.menu__item",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "span.etiqueta--verde",
+    "n": 1
+   },
+   {
+    "uso": "borda",
+    "el": "div.linha",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro.linha__num",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro.aba__num",
+    "n": 10
+   },
+   {
+    "uso": "borda",
+    "el": "div.aba-painel",
+    "n": 5
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro",
+    "n": 5
+   },
+   {
+    "uso": "preenchimento",
+    "el": "p.turno__fala",
+    "n": 5
+   },
+   {
+    "uso": "borda",
+    "el": "div.conversa.conversa--depois",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "span.conversa__fim",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "b",
+    "n": 3
+   },
+   {
+    "uso": "borda",
+    "el": "div.fecho.fecho--unido",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "a.btn-green",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "i",
+    "n": 1
+   }
+  ],
+  "inpulse-1440": [
+   {
+    "uso": "preenchimento",
+    "el": "a.pular",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "div.regua",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "span.menu-btn__traco",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "a.menu__item",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "span.etiqueta--verde",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro.citacao__quando",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "span.pilha__parte.pilha__parte--entusiasta",
+    "n": 4
+   },
+   {
+    "uso": "preenchimento",
+    "el": "i.cor--entusiasta",
+    "n": 1
+   },
+   {
+    "uso": "borda",
+    "el": "div.fecho.fecho--unido",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "a.btn-green",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "i",
+    "n": 1
+   }
+  ],
+  "inpulse-390": [
+   {
+    "uso": "preenchimento",
+    "el": "a.pular",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "div.regua",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "span.menu-btn__traco",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "a.menu__item",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "span.etiqueta--verde",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro.citacao__quando",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "span.pilha__parte.pilha__parte--entusiasta",
+    "n": 4
+   },
+   {
+    "uso": "preenchimento",
+    "el": "i.cor--entusiasta",
+    "n": 1
+   },
+   {
+    "uso": "borda",
+    "el": "div.fecho.fecho--unido",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "a.btn-green",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "i",
+    "n": 1
+   }
+  ],
+  "mapa-1440": [
+   {
+    "uso": "preenchimento",
+    "el": "a.pular",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "div.regua",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "span.menu-btn__traco",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "a.menu__item",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "span.etiqueta--verde",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "span.nps__faixa",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro.linha__num",
+    "n": 3
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro",
+    "n": 3
+   },
+   {
+    "uso": "preenchimento",
+    "el": "img",
+    "n": 5
+   },
+   {
+    "uso": "preenchimento",
+    "el": "div.barra__preenche",
+    "n": 1
+   },
+   {
+    "uso": "borda",
+    "el": "div.fecho.fecho--unido",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "a.btn-green",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "i",
+    "n": 1
+   }
+  ],
+  "mapa-390": [
+   {
+    "uso": "preenchimento",
+    "el": "a.pular",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "div.regua",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "span.menu-btn__traco",
+    "n": 2
+   },
+   {
+    "uso": "texto",
+    "el": "a.menu__item",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "span.etiqueta--verde",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "span.nps__faixa",
+    "n": 1
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro.linha__num",
+    "n": 3
+   },
+   {
+    "uso": "texto",
+    "el": "span.micro",
+    "n": 3
+   },
+   {
+    "uso": "preenchimento",
+    "el": "img",
+    "n": 5
+   },
+   {
+    "uso": "preenchimento",
+    "el": "div.barra__preenche",
+    "n": 1
+   },
+   {
+    "uso": "borda",
+    "el": "div.fecho.fecho--unido",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "a.btn-green",
+    "n": 1
+   },
+   {
+    "uso": "preenchimento",
+    "el": "i",
+    "n": 1
+   }
+  ]
+ },
+ "falhas": []
+}

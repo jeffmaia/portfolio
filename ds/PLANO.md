@@ -6,7 +6,18 @@ O Jeff DS (tokens, cores, tipografia, componentes dos posts) está em https://cl
 
 ## Estado
 
-Fase 0 aprovada. Próxima é a Fase 1. Nada do site foi alterado ainda.
+Fase 0 aprovada. Fase 1 entregue, esperando aprovação das fusões. Nada do site foi alterado ainda.
+
+Entregas da Fase 1, todas em `ds/`:
+
+- `INVENTARIO.md`: matriz peça por página medida nas páginas reais, colisões de nome, o que some em tela estreita, fusões e peças do manifesto marcadas como fora desta versão.
+- `capturas/index.html`: cada peça em 390, 768 e 1440px, mais as páginas inteiras.
+- `CONTRASTE.md`: a paleta do Jeff DS par a par, o texto que reprova hoje e os usos do verde que a regra 1 proíbe, incluindo o anel de foco.
+- `PORQUES.md`: os comentários do CSS e do HTML organizados por peça.
+- `auditoria/`: os scripts que geram tudo isso, para refazer quando o site mudar.
+- `arquivo/handoff/`: a pasta do Industry, arquivada.
+
+Decisão pendente: fusões. O plano propôs cinco (54 peças viram 41). A varredura sugere sete mais (41 viram 29). Ver INVENTARIO.md, seção Fusões.
 
 ## Decisões da Fase 0
 
