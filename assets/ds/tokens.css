@@ -1,0 +1,137 @@
+/* ============================================================
+   Jeff DS, superfície Site. Tokens.
+
+   O núcleo da marca (cor, papel de cada fonte, traço, raio) vem do
+   Jeff DS dos posts. O que é só do site (escala fluida, grade,
+   estados, movimento) nasce aqui. Os nomes semânticos seguem o
+   shadcn (decisão D6): background, foreground, primary, secondary,
+   muted, accent, border, ring, radius, chart. Cada um aponta para
+   um token da marca, e é por eles que os componentes pedem cor.
+
+   Ver ds/FUNDAMENTOS.md para o porquê de cada escolha.
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Fraunces:opsz,wght@9..144,300&family=Inter:wght@400;500;700&display=swap");
+
+:root {
+  /* ── Marca ───────────────────────────────────────────────── */
+  --paper: #f9f9f7;
+  --ink: #000000;
+  --lime: #edfe5e;
+  --azul: #bed4fb;
+  --verde: #31e992;
+  --mist: #dee5dd;
+
+  /* ── Semânticos, no padrão shadcn ────────────────────────────
+     Os três acentos nunca viram texto, borda única de controle ou
+     anel de foco: sobre o papel eles ficam entre 1,05 e 1,51 para 1.
+     Por isso todo *-foreground é tinta, e border e ring também. */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --primary: var(--lime);
+  --primary-foreground: var(--ink);
+  --secondary: var(--azul);
+  --secondary-foreground: var(--ink);
+  --muted: var(--mist);
+  --muted-foreground: var(--ink);
+  --accent: var(--mist);
+  --accent-foreground: var(--ink);
+  --border: var(--ink);
+  --input: var(--ink);
+  --ring: var(--ink);
+  --chart-1: var(--lime);
+  --chart-2: var(--azul);
+  --chart-3: var(--verde);
+
+  /* O acento dominante da página (D5). O caso declara o dele com
+     data-acento no <html>; sem declarar, é o lime. */
+  --acento: var(--lime);
+
+  /* ── Forma ───────────────────────────────────────────────── */
+  --radius: 12px;          /* cartões, painéis, imagens */
+  --radius-pill: 999px;    /* etiquetas e botões */
+  --stroke: 2px;           /* todo contorno */
+
+  /* ── Tipografia ──────────────────────────────────────────────
+     Três famílias, cada uma com um papel fixo, como nos posts.
+     Anton é a tese curta e o número. Fraunces 300 é a voz de
+     conversa. Inter é corpo e rótulo. */
+  --font-display: "Anton", Impact, "Arial Narrow", sans-serif;
+  --font-flare: "Fraunces", Georgia, serif;
+  --font-texto: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* A escala fluida. Cada degrau vai do celular (390px) ao desktop
+     (1440px) numa reta, e para de crescer fora dessa faixa. Os
+     tamanhos dos posts são em px de um canvas de 1080 que o celular
+     mostra a uns 36%; a coluna "post" no FUNDAMENTOS.md mostra de
+     onde cada degrau saiu. */
+  --text-numero:  clamp(3.5rem, 2.014rem + 6.095vw, 7.5rem);    /* 56 a 120, Anton */
+  --text-display: clamp(2.5rem, 1.757rem + 3.048vw, 4.5rem);    /* 40 a 72, Anton */
+  --text-titulo:  clamp(1.875rem, 1.364rem + 2.095vw, 3.25rem);  /* 30 a 52, Fraunces */
+  --text-sub:     clamp(1.375rem, 1.143rem + 0.952vw, 2rem);    /* 22 a 32, Fraunces */
+  --text-lead:    clamp(1.125rem, 1.032rem + 0.381vw, 1.375rem);/* 18 a 22, Inter */
+  --text-corpo:   clamp(1rem, 0.954rem + 0.190vw, 1.125rem);    /* 16 a 18, Inter */
+  --text-apoio:   0.9375rem;                                  /* 15, Inter */
+  --text-rotulo:  0.75rem;                                    /* 12, Inter 700, caixa alta */
+
+  --leading-display: 1.22; /* o mesmo dos posts. O Ç do Anton desce fundo, e abaixo disso a cedilha bate no til da linha de baixo */
+  --leading-titulo: 1.1;
+  --leading-corpo: 1.55;
+  --tracking-texto: 0.01em;
+  --tracking-rotulo: 0.067em;
+
+  /* ── Espaço ──────────────────────────────────────────────────
+     A régua do site atual fica: base 8, ajuste fino de 4, e cada
+     degrau pelo menos 25% maior que o anterior. */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-96: 96px;
+  --space-secao: clamp(64px, 3rem + 5vw, 128px);
+
+  /* ── Grade ───────────────────────────────────────────────────
+     Doze colunas. A margem lateral mínima é 16px no celular. As
+     quebras ficam em 720 e 1100, e só existem dentro de @media:
+     elas aparecem aqui para quem procura o número. */
+  --page-max: 1280px;
+  --page-margem: clamp(16px, 4vw, 48px);
+  --grade-vao: clamp(16px, 2vw, 24px);
+  --leitura: 66ch;
+  /* quebra-tablet: 720px · quebra-desktop: 1100px */
+
+  /* ── Toque ───────────────────────────────────────────────────
+     Alvo mínimo onde o ponteiro é o dedo. */
+  --alvo: 44px;
+
+  /* ── Movimento ───────────────────────────────────────────── */
+  --ease-saida: cubic-bezier(.22, .61, .36, 1);
+  --ease-troca: cubic-bezier(.65, 0, .35, 1);
+  --dur-rapida: 120ms;   /* pressionado, troca de cor */
+  --dur-media: 240ms;    /* abrir e fechar, trocar de aba */
+  --dur-lenta: 640ms;    /* entrada de conteúdo */
+}
+
+/* O acento dominante de cada caso (D5). */
+[data-acento="lime"]  { --acento: var(--lime); }
+[data-acento="azul"]  { --acento: var(--azul); }
+[data-acento="verde"] { --acento: var(--verde); }
+
+/* A superfície tinta (D4). Os mesmos nomes, valores invertidos:
+   quem estiver dentro dela pede foreground e ring e recebe papel,
+   sem precisar de uma regra própria para o escuro. Os acentos
+   continuam acentos, porque tinta sobre acento passa com folga. */
+.superficie-tinta {
+  --background: var(--ink);
+  --foreground: var(--paper);
+  --muted-foreground: var(--paper);
+  --border: var(--paper);
+  --input: var(--paper);
+  --ring: var(--paper);
+  background: var(--background);
+  color: var(--foreground);
+}

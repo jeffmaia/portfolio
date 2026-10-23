@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Variação 4, Sumário e mosaico · Omnichat no Jeff DS</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.v4 .v4-layout { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.v4 .mosaico { display: grid; gap: var(--grade-vao); grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.v4 .mosaico > * { grid-column: 1 / -1; }
+.v4 .bloco-sec { display: grid; gap: var(--space-24); padding-top: var(--space-64); }
+.v4 .tile { display: grid; gap: var(--space-12); align-content: start; }
+.v4 .tile .icone { --icone: 48px; }
+.v4 .tile h3 { font-size: var(--text-lead); line-height: 1.3; }
+.v4 .tile--salto { display: grid; gap: var(--space-16); }
+.v4 .tile--salto .ilustracao { max-width: 260px; justify-self: end; margin-top: -24px; }
+@media (min-width: 720px) {
+  .v4 .mosaico > .meio { grid-column: span 3; }
+  .v4 .mosaico > .terco { grid-column: span 2; }
+  /* Entre 720 e 1099 a ficha e o indicador dividem a linha ao meio. */
+  .v4 .mosaico > .v4-ficha, .v4 .mosaico > .tile--salto { grid-column: span 3; }
+}
+@media (min-width: 1100px) {
+  .v4 .v4-layout { grid-template-columns: 260px minmax(0, 1fr); column-gap: var(--space-48); }
+  .v4 .sumario { position: sticky; top: 96px; align-self: start; }
+  .v4 .mosaico > .dois-tercos { grid-column: span 4; }
+  .v4 .mosaico > .v4-ficha { grid-column: span 2; }
+  .v4 .mosaico > .tile--salto { grid-column: 1 / -1; grid-template-columns: 1fr auto; align-items: end; }
+}</style>
+</head>
+<body class="v4">
+<div class="carga" aria-hidden="true">
+  <div class="carga__quadro">
+    <svg class="carga__tela" viewBox="0 0 240 300" fill="none">
+      <g class="carga__esboco" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 10C70 6 160 12 232 8c4 82-2 202 2 284-74 4-164-2-228 2 4-84-2-204 2-284Z"/>
+        <path d="M24 40c66-3 126 3 192-1 2 31-2 61 1 89-67 3-127-2-194 2 3-30-1-60 1-90Z"/>
+        <path d="M26 42l188 84M214 41L25 128"/>
+        <path d="M24 152c56-3 106 3 156-2M24 168c46-3 86 2 116-2"/>
+        <path d="M24 192c36-3 66 2 88-1 2 29-2 54 1 77-33 3-63-2-91 2 3-26-1-54 2-78Z"/>
+        <path d="M128 192c32-3 62 2 88-1 2 29-2 54 1 77-27 3-57-2-90 2 3-26-1-54 1-78Z"/>
+      </g>
+      <g class="carga__camada carga__camada--grade" stroke="#000" stroke-width="1.6" stroke-dasharray="1 6" stroke-linecap="round">
+        <path d="M20 22v262M85 22v262M155 22v262M220 22v262M12 140h216"/>
+      </g>
+      <g class="carga__camada carga__camada--componentes" stroke="#000" stroke-width="2">
+        <rect x="2" y="2" width="236" height="296" rx="12"/>
+        <rect x="20" y="36" width="200" height="96" rx="8"/>
+        <rect x="36" y="104" width="64" height="18" rx="9"/>
+        <rect x="20" y="186" width="94" height="86" rx="8"/>
+        <rect x="126" y="186" width="94" height="86" rx="8"/>
+      </g>
+      <g class="carga__camada carga__camada--textos" fill="#000">
+        <rect x="36" y="50" width="122" height="10" rx="3"/>
+        <rect x="36" y="66" width="84" height="10" rx="3"/>
+        <rect x="36" y="84" width="104" height="5" rx="2.5"/>
+        <rect x="48" y="110" width="40" height="5" rx="2.5"/>
+        <rect x="20" y="148" width="148" height="6" rx="3"/>
+        <rect x="20" y="162" width="102" height="6" rx="3"/>
+        <rect x="32" y="204" width="56" height="6" rx="3"/>
+        <rect x="32" y="216" width="44" height="5" rx="2.5"/>
+        <rect x="138" y="204" width="56" height="6" rx="3"/>
+        <rect x="138" y="216" width="66" height="5" rx="2.5"/>
+      </g>
+      <g class="carga__camada carga__camada--cores">
+        <rect class="carga__cor" x="20" y="36" width="200" height="96" rx="8"/>
+        <rect x="36" y="104" width="64" height="18" rx="9" fill="#edfe5e"/>
+        <rect x="126" y="186" width="94" height="86" rx="8" fill="#dee5dd"/>
+      </g>
+    </svg>
+    <div class="carga__barra"><i></i></div>
+  </div>
+</div>
+
+<a class="pular" href="#conteudo">Pular para o caso</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="v4.html" aria-current="page"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+        <li><a class="link" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp ↗</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container v4-layout">
+  <nav class="sumario" data-sumario aria-label="Neste caso">
+    <p class="t-rotulo sumario__titulo">Neste caso</p>
+    <ol class="sumario__lista" id="sumario-lista"><li><a class="sumario__item" href="#v4-contexto"><img class="icone" src="../../../assets/ds/icones/robo-azul.svg" alt="" width="32" height="32"><span class="sumario__num">01</span><span class="sumario__nome">Contexto</span></a></li><li><a class="sumario__item" href="#v4-problema"><img class="icone" src="../../../assets/ds/icones/fronteira-azul.svg" alt="" width="32" height="32"><span class="sumario__num">02</span><span class="sumario__nome">O problema</span></a></li><li><a class="sumario__item" href="#v4-camadas"><img class="icone" src="../../../assets/ds/icones/camadas-azul.svg" alt="" width="32" height="32"><span class="sumario__num">03</span><span class="sumario__nome">Processo</span></a></li><li><a class="sumario__item" href="#v4-conversa"><img class="icone" src="../../../assets/ds/icones/dialogo-azul.svg" alt="" width="32" height="32"><span class="sumario__num">04</span><span class="sumario__nome">Antes e depois</span></a></li><li><a class="sumario__item" href="#v4-resultado"><img class="icone" src="../../../assets/ds/icones/grafico-azul.svg" alt="" width="32" height="32"><span class="sumario__num">05</span><span class="sumario__nome">Resultado</span></a></li></ol>
+    <button class="sumario__botao" type="button" aria-expanded="false" aria-controls="sumario-lista" hidden><span class="sr">Seções deste caso</span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span></button>
+    <span class="sumario__aviso" aria-hidden="true"></span>
+  </nav>
+
+  <div>
+    <header class="mosaico">
+      <div class="dois-tercos" style="display:grid;gap:var(--space-24)"><p class="badges"><span class="badge">Omnichat</span><span class="badge">Agentic Experience</span><span class="badge" data-variant="acento">Agentes conversacionais</span></p><h1 class="t-display">Redesenhando a&nbsp;verificação de&nbsp;intenção dos&nbsp;agentes conversacionais</h1><p class="t-sub">A maior perda de conversão não estava na&nbsp;interface. Estava na&nbsp;camada onde a&nbsp;intenção do&nbsp;lead entra no&nbsp;sistema.</p></div>
+      <div class="card v4-ficha" data-variant="muted"><p class="t-rotulo card__titulo">Ficha do projeto</p><dl class="ficha"><div><dt>Duração</dt><dd>4 meses, com 8 semanas de medição em produção</dd></div><div><dt>Jeff</dt><dd>Product Design Manager, responsável pelo desenho da&nbsp;camada de decisão e&nbsp;pelo recorte do experimento</dd></div><div><dt>Time</dt><dd>2 engenheiros de IA e 1 analista de dados</dd></div></dl></div>
+      <div class="card tile tile--salto" data-variant="acento"><div class="stat " data-variant="salto">
+  <span class="stat__antes"><span class="sr">De </span>24%</span>
+  <span class="stat__valor"><span class="sr">para </span>32%</span>
+  <p class="stat__frase">A conversão de leads qualificados nas origens redesenhadas, medida em&nbsp;produção ao longo de 8 semanas sobre cerca de 40 mil conversas, comparando com&nbsp;o&nbsp;fluxo anterior no&nbsp;mesmo período.</p>
+</div><img class="ilustracao" src="../../../assets/ds/ilustracoes/omnichat-salto.svg" alt="" width="640" height="640" ></div>
+    </header>
+
+    <section class="bloco-sec" id="v4-contexto" aria-labelledby="v4-t1">
+      <p class="section__rotulo t-rotulo" id="v4-t1">01 · Contexto</p>
+      <p class="t-lead prosa">A Omnichat opera agentes de vendas conversacionais que atendem leads em escala, vindos de origens diferentes. Cada origem carrega um tipo de intenção, e o agente tratava todo lead do mesmo jeito, como se toda conversa começasse do&nbsp;zero.</p>
+    </section>
+
+    <section class="bloco-sec" id="v4-problema" aria-labelledby="v4-t2">
+      <p class="section__rotulo t-rotulo">02 · O problema</p>
+      <h2 class="t-titulo" id="v4-t2">Ninguém tinha desenhado a&nbsp;fronteira de&nbsp;entrada</h2>
+      <div class="prosa"><p>Não existia visão clara da jornada conversacional. O time via o&nbsp;resultado final, lead convertido ou lead perdido, mas não enxergava o caminho entre a mensagem de entrada e a decisão do&nbsp;agente.</p><p>O erro não era de capacidade do modelo, era de design. A&nbsp;fronteira onde a intenção do lead entra no sistema ficava por&nbsp;conta do&nbsp;acaso de cada canal de&nbsp;origem.</p></div>
+      <div class="mosaico"><article class="card tile meio"><img class="icone" src="../../../assets/ds/icones/celular-azul.svg" alt="" width="48" height="48"><h3>Instagram</h3><p class="t-apoio">Chegavam com um objetivo implícito, moldado pelo anúncio que&nbsp;clicaram. O agente não tinha acesso a esse contexto e&nbsp;tratava a primeira mensagem como uma pergunta genérica.</p></article><article class="card tile meio"><img class="icone" src="../../../assets/ds/icones/megafone-azul.svg" alt="" width="48" height="48"><h3>Disparos de&nbsp;WhatsApp</h3><p class="t-apoio">Chegavam ainda mais comprimidos, muitas vezes respondendo a&nbsp;um&nbsp;gatilho automático sem nunca ter formulado a própria intenção com clareza.</p></article></div>
+    </section>
+
+    <section class="bloco-sec" id="v4-camadas" aria-labelledby="v4-t3">
+      <p class="section__rotulo t-rotulo">03 · Processo</p>
+      <h2 class="t-titulo" id="v4-t3">Cinco camadas de&nbsp;um&nbsp;artefato de&nbsp;design</h2>
+      <div class="mosaico"><article class="card tile dois-tercos" data-variant="acento">
+  <img class="icone" src="../../../assets/ds/icones/lapis-azul.svg" alt="" width="48" height="48"><span class="t-rotulo">Camada 01</span><h3>A&nbsp;arquitetura de&nbsp;prompt como superfície de&nbsp;design</h3><p class="t-apoio">Parar de tratar o prompt como configuração técnica. Cada ponto em que o agente decide algo, seguir a conversa, pedir mais contexto ou escalar para um vendedor, virou um ponto de decisão desenhado com intenção, no mesmo nível de uma interface visual.</p>
+  <p class="tabs__efeito"><span class="t-rotulo">Efeito</span> Tornou a conversa um objeto de design, com pontos de falha localizáveis em vez de um resultado opaco.</p>
+</article><article class="card tile terco">
+  <img class="icone" src="../../../assets/ds/icones/rota-azul.svg" alt="" width="48" height="48"><span class="t-rotulo">Camada 02</span><h3>Jornada mapeada por&nbsp;origem do&nbsp;lead</h3><p class="t-apoio">Em vez de um fluxo único, a entrada da conversa virou uma fronteira distinta por canal. Leads de Instagram passaram a receber uma pergunta inicial que resgata o contexto do anúncio. Leads de disparos de WhatsApp ganharam uma etapa extra de verificação de intenção.</p>
+  <p class="tabs__efeito"><span class="t-rotulo">Efeito</span> Recuperou contexto que antes se perdia no primeiro turno, justamente nas duas origens de maior perda.</p>
+</article><article class="card tile terco">
+  <img class="icone" src="../../../assets/ds/icones/verifica-azul.svg" alt="" width="48" height="48"><span class="t-rotulo">Camada 03</span><h3>Limites de&nbsp;decisão do&nbsp;agente redesenhados</h3><p class="t-apoio">A primeira ideia do time era fazer o agente sempre pedir confirmação antes de ofertar. Descartamos porque isso adicionava um turno em toda conversa e derrubava a conversão de quem já chegava com intenção clara. Optamos por um limite condicionado à origem: com a intenção confirmada o agente segue com a oferta sozinho, e havendo sinal de ambiguidade ele para e verifica antes de agir.</p>
+  <p class="tabs__efeito"><span class="t-rotulo">Efeito</span> Reduziu ofertas erradas apresentadas cedo demais, um&nbsp;dos&nbsp;principais pontos de abandono.</p>
+</article><article class="card tile terco">
+  <img class="icone" src="../../../assets/ds/icones/lupa-azul.svg" alt="" width="48" height="48"><span class="t-rotulo">Camada 04</span><h3>Leitura de&nbsp;desvio no&nbsp;lugar de&nbsp;leitura completa</h3><p class="t-apoio">O time passou a revisar apenas os pontos em&nbsp;que&nbsp;a&nbsp;conversa fugiu do padrão esperado para&nbsp;aquela origem, em vez de&nbsp;ler transcrições inteiras.</p>
+  <p class="tabs__efeito"><span class="t-rotulo">Efeito</span> Permitiu revisar volume alto de conversas em pouco tempo e ajustar a fronteira de entrada com base em dado real.</p>
+</article><article class="card tile terco">
+  <img class="icone" src="../../../assets/ds/icones/alvo-azul.svg" alt="" width="48" height="48"><span class="t-rotulo">Camada 05</span><h3>Teste controlado em&nbsp;produção</h3><p class="t-apoio">Rodar o redesenho em produção com testes controlados, comparando taxa de conversão por origem antes e depois, em vez de validar a mudança isolada em ambiente de teste.</p>
+  <p class="tabs__efeito"><span class="t-rotulo">Efeito</span> Isolou o ganho de 8 pontos na conversão de&nbsp;leads qualificados por origem de lead.</p>
+</article></div>
+    </section>
+
+    <section class="bloco-sec" id="v4-conversa" aria-labelledby="v4-t4">
+      <p class="section__rotulo t-rotulo">04 · Antes e depois</p>
+      <h2 class="t-titulo" id="v4-t4">O&nbsp;mesmo lead de&nbsp;Instagram, nas&nbsp;duas versões da&nbsp;fronteira de&nbsp;entrada</h2>
+      <p class="t-apoio">Conversa ilustrativa. As notas de&nbsp;camada ligam cada correção ao&nbsp;ponto correspondente da&nbsp;lista acima.</p>
+      <div class="compare">
+  <div class="card compare__lado" data-variant="muted">
+    <p class="compare__cabeca"><span class="badge"><img class="icone-inline" src="../../../assets/ds/icones/xis-azul.svg" alt="" width="20" height="20">Antes</span><span class="badge" data-variant="tinta">Conversa abandonada</span></p>
+    <ol class="turnos"><li class="turno"><span class="t-rotulo">Lead · Instagram</span><p class="turno__fala">Oi, vi aqui no Instagram e queria saber mais</p></li><li class="turno turno--agente"><span class="t-rotulo">Agente</span><p class="turno__fala">Olá! Tudo bem? Posso te ajudar com&nbsp;informações sobre nossos produtos. Qual o seu nome?</p><span class="turno__nota">Trata a primeira mensagem como pergunta genérica</span></li><li class="turno"><span class="t-rotulo">Lead · Instagram</span><p class="turno__fala">É sobre aquilo que&nbsp;apareceu no&nbsp;anúncio</p></li><li class="turno turno--agente"><span class="t-rotulo">Agente</span><p class="turno__fala">Temos várias opções disponíveis. Quer fechar o&nbsp;plano anual em 12x sem juros?</p><span class="turno__nota">Oferta apresentada antes de&nbsp;a&nbsp;intenção existir</span></li><li class="turno"><span class="t-rotulo">Lead · Instagram</span><p class="turno__fala">…</p><span class="turno__nota">Conversa abandonada no quarto turno</span></li></ol>
+  </div>
+  <div class="card compare__lado" data-variant="acento">
+    <p class="compare__cabeca"><span class="badge"><img class="icone-inline" src="../../../assets/ds/icones/check-azul.svg" alt="" width="20" height="20">Depois</span><span class="badge" data-variant="tinta">Lead convertido</span></p>
+    <ol class="turnos"><li class="turno"><span class="t-rotulo">Lead · Instagram</span><p class="turno__fala">Oi, vi aqui no Instagram e queria saber mais</p></li><li class="turno turno--agente"><span class="t-rotulo">Agente</span><p class="turno__fala">Oi! Você chegou pelo anúncio da&nbsp;campanha de inverno. É sobre isso que quer falar, ou é outro assunto?</p><span class="turno__nota">Camada 02, jornada por origem</span></li><li class="turno"><span class="t-rotulo">Lead · Instagram</span><p class="turno__fala">É sobre isso mesmo</p></li><li class="turno turno--agente"><span class="t-rotulo">Agente</span><p class="turno__fala">Fechado. Antes de te passar valores, só confirmando: é para&nbsp;uso próprio ou para revenda?</p><span class="turno__nota">Camada 03, verifica antes de ofertar</span></li><li class="turno"><span class="t-rotulo">Lead · Instagram</span><p class="turno__fala">Uso próprio</p></li><li class="turno turno--agente"><span class="t-rotulo">Agente</span><p class="turno__fala">Então a opção que faz sentido é a&nbsp;que&nbsp;estava no anúncio, com entrega para&nbsp;a&nbsp;sua região. Quero já reservar para você?</p><span class="turno__nota">Camada 03, segue sozinho com&nbsp;a&nbsp;intenção confirmada</span></li><li class="turno"><span class="t-rotulo">Lead · Instagram</span><p class="turno__fala">Pode reservar sim</p></li></ol>
+  </div>
+</div>
+    </section>
+
+    <section class="bloco-sec" id="v4-resultado" aria-labelledby="v4-t5">
+      <p class="section__rotulo t-rotulo">05 · Resultado</p>
+      <h2 class="t-titulo" id="v4-t5">O&nbsp;agente parou de&nbsp;responder à&nbsp;mensagem e&nbsp;passou a&nbsp;responder à&nbsp;intenção</h2>
+      <div class="prosa"><p>A conversão de leads qualificados subiu 8 pontos, medida pela taxa dos&nbsp;agentes de vendas conversacionais. O ganho não veio de uma&nbsp;oferta melhor nem de um texto mais persuasivo.</p><p>Veio das duas origens que mais perdiam conversão antes da mudança, Instagram e&nbsp;disparos de&nbsp;WhatsApp.</p></div>
+      <div class="mosaico"><div class="card tile meio"><img class="icone" src="../../../assets/ds/icones/grafico-azul.svg" alt="" width="48" height="48"><span class="stat__valor" style="font-size:var(--text-display)">+8%</span><p class="stat__frase">de conversão de leads qualificados, de&nbsp;24% para&nbsp;32%</p></div><div class="card tile meio"><img class="icone" src="../../../assets/ds/icones/dialogo-azul.svg" alt="" width="48" height="48"><span class="stat__valor" style="font-size:var(--text-display)">~40 mil</span><p class="stat__frase">conversas comparadas em&nbsp;produção</p></div><div class="card tile meio"><img class="icone" src="../../../assets/ds/icones/calendario-azul.svg" alt="" width="48" height="48"><span class="stat__valor" style="font-size:var(--text-display)">8 semanas</span><p class="stat__frase">de medição contra o fluxo anterior no&nbsp;mesmo período</p></div><div class="card tile meio"><img class="icone" src="../../../assets/ds/icones/fronteira-azul.svg" alt="" width="48" height="48"><span class="stat__valor" style="font-size:var(--text-display)">2 origens</span><p class="stat__frase">redesenhadas, Instagram e&nbsp;disparos de&nbsp;WhatsApp</p></div></div>
+      <div class="callout superficie-tinta">
+  <span class="badge" data-variant="acento">O que eu levo daqui</span>
+  <p class="callout__frase">A&nbsp;interface não é&nbsp;mais o&nbsp;objeto principal do&nbsp;trabalho. O&nbsp;objeto é&nbsp;a&nbsp;decisão.</p>
+  <p class="prosa">O que o agente pode decidir sozinho, o que ele precisa verificar antes de agir e como mostra isso para quem precisa confiar no resultado. Desenhar bem essa camada foi o que gerou o ganho de&nbsp;conversão.</p>
+</div>
+      <div class="fechamento">
+  <p class="prosa">Trabalho com design de decisão em produtos conversacionais. Se&nbsp;esse tipo de&nbsp;camada é um problema no seu produto, <a class="link" href="https://wa.me/5511977346175" target="_blank" rel="noopener">me&nbsp;chama no&nbsp;WhatsApp</a> ou veja o próximo caso.</p>
+  <a class="button" href="../../../case-inpulse.html">Próximo caso, Inpulse <span aria-hidden="true">→</span></a>
+</div>
+    </section>
+  </div>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Casos">
+        <h3 class="t-rotulo">Casos</h3>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="v4.html" aria-current="page">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+</body>
+</html>

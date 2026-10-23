@@ -6,18 +6,36 @@ O Jeff DS (tokens, cores, tipografia, componentes dos posts) está em https://cl
 
 ## Estado
 
-Fase 0 aprovada. Fase 1 entregue, esperando aprovação das fusões. Nada do site foi alterado ainda.
+Fases 0, 1 e 2 fechadas. Próxima é a Fase 3. O site publicado ainda não mudou, porque a prova é uma página à parte. O modelo de Caso é `ds/prova/variacoes/v4.html`. A instrução para abrir a próxima sessão está em `ds/PROXIMA-SESSAO.md`.
 
-Entregas da Fase 1, todas em `ds/`:
+Entregas da Fase 1, em `ds/`. `INVENTARIO.md` (matriz peça por página medida nas páginas reais), `capturas/index.html` (cada peça em 390, 768 e 1440px), `CONTRASTE.md`, `PORQUES.md` (os comentários do CSS e do HTML por peça) e `auditoria/` (os scripts que refazem tudo). A pasta do Industry foi para `arquivo/handoff/`.
 
-- `INVENTARIO.md`: matriz peça por página medida nas páginas reais, colisões de nome, o que some em tela estreita, fusões e peças do manifesto marcadas como fora desta versão.
-- `capturas/index.html`: cada peça em 390, 768 e 1440px, mais as páginas inteiras.
-- `CONTRASTE.md`: a paleta do Jeff DS par a par, o texto que reprova hoje e os usos do verde que a regra 1 proíbe, incluindo o anel de foco.
-- `PORQUES.md`: os comentários do CSS e do HTML organizados por peça.
-- `auditoria/`: os scripts que geram tudo isso, para refazer quando o site mudar.
-- `arquivo/handoff/`: a pasta do Industry, arquivada.
+Entregas da Fase 2.
 
-Decisão pendente: fusões. O plano propôs cinco (54 peças viram 41). A varredura sugere sete mais (41 viram 29). Ver INVENTARIO.md, seção Fusões.
+- `ds/COMPONENTES.md`. A lista revisitada. As 54 peças da Fase 1 viram 14 componentes, porque boa parte delas só existia para sustentar a identidade antiga. Substitui as fusões do `INVENTARIO.md`.
+- `ds/FUNDAMENTOS.md`. Cor, escala tipográfica fluida, espaço, grade, estados, movimento.
+- `assets/ds/tokens.css`, `assets/ds/componentes.css` e `assets/ds/componentes.js`. O código, ainda usado só pela prova.
+- `ds/prova/omnichat.html`. O caso do Omnichat montado só com o Jeff DS.
+
+Segunda rodada da Fase 2, a pedido seu.
+
+- `ds/REFERENCIAS.md`. Pesquisa de design editorial (grade suíça, medida de leitura, notas de margem, colunas, capítulos, grade quebrada) e o que cada variação tira dela.
+- `ds/prova/variacoes/`. Seis variações da página do Omnichat, com índice em `index.html`. A 4 virou o modelo, as outras ficam como registro. Geradas por `ds/prova/variacoes.py`, que usa as partes comuns de `ds/prova/comum.py`.
+- `assets/ds/icones/`. Ícones adesivo nos três acentos, 15 do kit do Jeff DS e 6 novos (camadas, fronteira, celular, megafone, verifica, rota). Gerados por `ds/icones/gerar.py`.
+- `assets/ds/ilustracoes/`. Duas cenas do caso, fronteira e salto, presas ao indicador de 24% para 32%. Geradas por `ds/ilustracoes/gerar.py`.
+- Menu com Home junto dos casos e o contato menor, abaixo. Rodapé sem "Fora daqui", com Voltar ao topo na linha de baixo.
+- Carregamento que monta a tela em camadas (esboço, grade, componentes, textos, cores), o hero da Home ao contrário. Dura no mínimo 1,6s, mesmo com a página pronta.
+
+Terceira rodada. A variação 4 (sumário e mosaico) foi escolhida como modelo de Caso.
+
+- Movimento em toda troca de estado. Hover e toque com marca texto que corre só por trás das palavras, menu que desce com os itens chegando um a um, botão do menu que troca a palavra e vira xis, rolagem suave até a seção e até o topo, aba que entra subindo.
+- Carregamento ao contrário quando se volta pelo histórico. A tela chega pronta e se desmonta até sobrar o esboço.
+- Ficha do projeto e indicador lado a lado entre 720 e 1099px.
+- Sumário vira um componente. Abaixo de 1100px ele é um trilho de marcas na borda direita, escolhido entre três formas testadas (faixa no cabeçalho, botão flutuante e trilho).
+
+Ajustes que você fez na Fase 2. Uma página de exemplo só, a do Omnichat, que usa 12 dos 14 componentes. Revisitar a lista de componentes, que estava grande demais. E a regra do hover, que vale para o site todo (regra 5 abaixo). Toda interação que muda o estado de algo tem movimento.
+
+Pendente com você. Aprovar a lista de componentes, agora 15 com o Sumário. Decidir se a Passagem entre páginas e a Cena dos casos ficam (D3 manteve as duas). Publicar os tokens no artifact do Jeff DS, no grupo Site, depois da aprovação.
 
 ## Decisões da Fase 0
 
@@ -38,14 +56,15 @@ Decisão pendente: fusões. O plano propôs cinco (54 peças viram 41). A varred
 2. Tokens com nomes do shadcn apontando para o Jeff DS. `background` paper, `foreground` ink, `primary` lime com texto em tinta, `secondary` azul, `muted` e `accent` mist, `border` e `ring` ink, `radius` 12px, gráficos em lime, azul e verde.
 3. Componentes com nomes do shadcn (Button, Badge, Card, Tabs, Sheet, Dialog, Carousel, Table, Separator) e variantes por atributo de dados, sem React nem Tailwind.
 4. Tudo funciona sem JS e com movimento reduzido.
+5. Hover só existe onde há mouse. Toda regra de hover fica dentro de `@media (hover: hover) and (pointer: fine)`, e nada pode depender dele para ser descoberto. No toque, o retorno vem do pressionado (`:active`) e do foco, e todo alvo tem pelo menos 44px. A separação é por capacidade de entrada, nunca por largura de tela, e tablet com toque segue o celular.
 
 ## Fases
 
 0. Decisões de base. Aprovada.
 1. Inventário fechado e auditoria. Capturas em 390, 768 e 1440px, matriz peça por página, fusões, contraste, porquês extraídos dos comentários do CSS, pasta handoff arquivada.
-2. Fundamentos do site. Escala tipográfica fluida, espaço, grade, estados, movimento, tokens no padrão shadcn, página de prova, direção do hero.
+2. Fundamentos do site. Escala tipográfica fluida, espaço, grade, estados, movimento, tokens no padrão shadcn e revisão da lista de componentes, provados numa página só, a do Omnichat.
 3. Modelo de documentação. Ficha de dez campos, guia de decisão, receitas de Home e Caso, regras de ritmo, CLAUDE.md completo.
-4. Piloto visual. Página do Omnichat refeita com os fundamentos novos.
+4. Piloto visual. A prova do Omnichat vira a página publicada, no lugar de `case-omnichat.html`.
 5. Biblioteca completa, em cinco ondas.
 6. Migração da Home e dos quatro casos. Manifesto sai do menu, do rodapé e da Home.
 7. Governança.
