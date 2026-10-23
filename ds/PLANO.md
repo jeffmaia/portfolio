@@ -6,13 +6,13 @@ O Jeff DS (tokens, cores, tipografia, componentes dos posts) está em https://cl
 
 ## Estado
 
-Fases 0, 1 e 2 fechadas. Próxima é a Fase 3. O site publicado ainda não mudou, porque a prova é uma página à parte. O modelo de Caso é `ds/prova/variacoes/v4.html`. A instrução para abrir a próxima sessão está em `ds/PROXIMA-SESSAO.md`.
+Fases 0, 1, 2 e 3 fechadas. Próxima é a Fase 4, o piloto. O site publicado ainda não mudou, porque a prova é uma página à parte. O modelo de Caso é `ds/prova/variacoes/v4.html`. A instrução para abrir a próxima sessão está em `ds/PROXIMA-SESSAO.md`.
 
 Entregas da Fase 1, em `ds/`. `INVENTARIO.md` (matriz peça por página medida nas páginas reais), `capturas/index.html` (cada peça em 390, 768 e 1440px), `CONTRASTE.md`, `PORQUES.md` (os comentários do CSS e do HTML por peça) e `auditoria/` (os scripts que refazem tudo). A pasta do Industry foi para `arquivo/handoff/`.
 
 Entregas da Fase 2.
 
-- `ds/COMPONENTES.md`. A lista revisitada. As 54 peças da Fase 1 viram 14 componentes, porque boa parte delas só existia para sustentar a identidade antiga. Substitui as fusões do `INVENTARIO.md`.
+- `ds/COMPONENTES.md`. A lista revisitada. As 54 peças da Fase 1 viram 15 componentes, porque boa parte delas só existia para sustentar a identidade antiga. Substitui as fusões do `INVENTARIO.md`.
 - `ds/FUNDAMENTOS.md`. Cor, escala tipográfica fluida, espaço, grade, estados, movimento.
 - `assets/ds/tokens.css`, `assets/ds/componentes.css` e `assets/ds/componentes.js`. O código, ainda usado só pela prova.
 - `ds/prova/omnichat.html`. O caso do Omnichat montado só com o Jeff DS.
@@ -33,9 +33,37 @@ Terceira rodada. A variação 4 (sumário e mosaico) foi escolhida como modelo d
 - Ficha do projeto e indicador lado a lado entre 720 e 1099px.
 - Sumário vira um componente. Abaixo de 1100px ele é um trilho de marcas na borda direita, escolhido entre três formas testadas (faixa no cabeçalho, botão flutuante e trilho).
 
-Ajustes que você fez na Fase 2. Uma página de exemplo só, a do Omnichat, que usa 12 dos 14 componentes. Revisitar a lista de componentes, que estava grande demais. E a regra do hover, que vale para o site todo (regra 5 abaixo). Toda interação que muda o estado de algo tem movimento.
+Ajustes que você fez na Fase 2. Uma página de exemplo só, a do Omnichat, que usa 13 dos 15 componentes. Revisitar a lista de componentes, que estava grande demais. E a regra do hover, que vale para o site todo (regra 5 abaixo). Toda interação que muda o estado de algo tem movimento.
 
-Pendente com você. Aprovar a lista de componentes, agora 15 com o Sumário. Decidir se a Passagem entre páginas e a Cena dos casos ficam (D3 manteve as duas). Publicar os tokens no artifact do Jeff DS, no grupo Site, depois da aprovação.
+Decidido na abertura da Fase 3, em 23 de outubro de 2026.
+
+- Lista de 15 componentes aprovada como está.
+- Da D3, o Carregamento em camadas fica no lugar da Passagem com o J, e a Cena dos casos sai. Na Home os casos viram uma lista de Cartões.
+- Os tokens vão para o artifact do Jeff DS, no grupo Site, ao fim da Fase 3, junto com o README reorganizado em núcleo e superfícies.
+
+## Fase 3
+
+Tudo em Markdown dentro de `ds/`, sem tela nova. Uma etapa por vez, com parada para aprovar o formato depois da primeira.
+
+1. Ficha padrão de dez campos em `ds/fichas/_modelo.md` e três amostras, Botão, Dado e Abas.
+2. Guia de decisão em `ds/GUIA.md`, com os 15 componentes e as variantes.
+3. Receitas de Caso e de Home em `ds/RECEITAS.md`.
+4. Regras de ritmo em `ds/RITMO.md`.
+5. CLAUDE.md completo, apontando para tudo.
+6. Tokens e README no artifact do Jeff DS, e `PLANO.md` e `PROXIMA-SESSAO.md` atualizados.
+
+Andamento.
+
+- As seis etapas entregues e aprovadas por você em 23 de outubro de 2026.
+- O plano publicado (https://claude.ai/artifact/GGthPLy5robgxFnJX69QQj) foi atualizado com o estado das fases, na seção Onde estamos.
+- Tokens do Site e README reorganizado em núcleo, Posts e Site publicados no artifact do Jeff DS (versão 2 dos tokens). Os tokens dos posts não mudaram. Tamanho fluido aparece lá com o valor do desktop e a faixa no uso, porque o artifact não aceita `clamp`. A fonte dos valores continua sendo `assets/ds/tokens.css`.
+
+Achados da Fase 3 que pesam na Fase 4.
+
+- O modelo de Caso usa duas formas que só existem no CSS da variação 4, o mosaico e a seção ao lado do Sumário (`.bloco-sec`). Precisam virar componente antes do piloto.
+- O modelo foi gerado sem `data-revelar`.
+- As Abas mudam a altura da página a cada troca. O site de hoje evita isso.
+- O grupo de Dados do modelo escreve o tamanho do número com `style` no HTML.
 
 ## Decisões da Fase 0
 
@@ -43,7 +71,7 @@ Pendente com você. Aprovar a lista de componentes, agora 15 com o Sumário. Dec
 | --- | --- | --- |
 | D1 | O site adota o Jeff DS inteiro. Saem o verde marca texto, a trama e a Instrument Serif. | Aprovada |
 | D2 | Um Jeff DS só, com núcleo da marca e duas superfícies, Posts e Site, no mesmo artifact. | Aprovada |
-| D3 | O hero fica, com formato novo (ver abaixo). A cena dos casos, a passagem com o J e o revelar ficam repintados. A onda e a trama saem. | Ajustada |
+| D3 | O hero fica, com formato novo (ver abaixo). O revelar fica repintado. A passagem com o J vira o Carregamento em camadas e a cena dos casos vira lista de Cartões. A onda e a trama saem. | Ajustada |
 | D4 | A tinta vira superfície pontual, no rodapé e em no máximo uma parada por página. O topo do caso deixa de ser escuro. | Aprovada |
 | D5 | Acento dominante por caso. Processo em lime, Omnichat em azul, Inpulse em verde, Mapa em azul. | Aprovada |
 | D6 | Só HTML, CSS e JS, sem servidor e sem build. Usar a nomenclatura e os tokens do shadcn. | Ajustada |

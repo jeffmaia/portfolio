@@ -2,7 +2,7 @@
 
 Fase 2. O núcleo do Jeff DS traduzido para a tela. Os valores moram em `assets/ds/tokens.css`, os componentes em `assets/ds/componentes.css` e `assets/ds/componentes.js`, e a prova é `ds/prova/omnichat.html`. A lista de componentes está em `ds/COMPONENTES.md`.
 
-Ajuste combinado para esta fase. Uma página de exemplo só, a do Omnichat, porque ela sozinha usa 12 dos 14 componentes. O resto do site não muda até a migração.
+Ajuste combinado para esta fase. Uma página de exemplo só, a do Omnichat, porque ela sozinha usa 13 dos 15 componentes. O resto do site não muda até a migração.
 
 ## Cor
 

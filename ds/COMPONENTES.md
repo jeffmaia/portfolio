@@ -2,9 +2,9 @@
 
 A Fase 1 contou 54 peças e chegou a 29 componentes juntando as parecidas. Ainda é muito, e o motivo é que a conta partiu do site de hoje. Boa parte das peças existe para sustentar a identidade antiga (a onda, a trama, o verde marca texto, a cena com orbe) e perde a razão de ser quando o site passa para o Jeff DS.
 
-Esta revisão parte do outro lado. A pergunta não é "como junto as 54", é "do que um caso precisa para contar a história dele no Jeff DS". A resposta são **14 componentes**, mais os fundamentos e quatro receitas de página.
+Esta revisão parte do outro lado. A pergunta não é "como junto as 54", é "do que um caso precisa para contar a história dele no Jeff DS". A resposta são **15 componentes**, mais os fundamentos e quatro receitas de página.
 
-Proposta para você aprovar. A página de prova do Omnichat (`ds/prova/omnichat.html`) já foi montada com ela, então dá para julgar vendo.
+Aprovada por você em 23 de outubro de 2026, na abertura da Fase 3. O modelo de Caso, `ds/prova/variacoes/v4.html`, já é montado com ela.
 
 ## Os 15 componentes
 
@@ -28,7 +28,7 @@ Os nomes seguem o shadcn quando existe um equivalente (decisão D6).
 | Imagem | Figure | Moldura, Galeria, Sangria | não |
 | Sumário | Table of contents | Nasceu com a variação 4. As seções do caso com ícone, a da vez marcada. No celular vira um trilho na borda direita | sim |
 
-O Omnichat usa 12 dos 14. É por isso que ele basta como página de prova.
+O Omnichat usa 13 dos 15. É por isso que ele basta como página de prova.
 
 ## O que vira fundamento, e não componente
 
@@ -51,9 +51,12 @@ Estas peças só existem por causa do sistema de hoje. No Jeff DS elas não têm
 - **Carrossel de tela estreita.** No celular, as Abas passam a ser uma lista aberta, um item debaixo do outro. Ler cinco painéis em fila é mais fácil do que deslizar um carrossel.
 - **Convite ao manifesto.** Sai com o manifesto, pela D7.
 
-## O que precisa da sua decisão
+## Passagem entre páginas e Cena dos casos
 
-**Passagem entre páginas e Cena dos casos.** A D3 manteve as duas, repintadas. Pela lógica desta revisão elas também seriam candidatas a sair. A passagem com o J é bonita, mas atrasa toda navegação. A cena dos casos pode virar uma lista de Cartões. Nenhuma das duas está no Omnichat, então a prova não depende disso. Decidimos quando chegar a Home.
+A D3 tinha mantido as duas, repintadas. Decidido na abertura da Fase 3.
+
+- **Passagem entre páginas** vira fundamento. Ela já tinha sido trocada na Fase 2 pelo Carregamento em camadas, com a cortina que desce no clique, e é ele que fica (ver `ds/FUNDAMENTOS.md`). A cortina com o J sai.
+- **Cena dos casos** sai. Na Home os casos passam a ser uma lista de Cartões, um por caso, que é a receita Lista de casos.
 
 ## As quatro receitas de página
 
@@ -62,15 +65,14 @@ Uma receita é uma composição de componentes, sem regra visual própria.
 1. **Topo do caso.** Link de voltar, Etiquetas, título, frase de apoio e um Dado em destaque.
 2. **Fechamento do caso.** Destaque na tinta, com o que o caso deixa, e um Botão para o próximo caso.
 3. **Hero da Home.** Direção já registrada em `ds/PLANO.md`. Entra na migração da Home.
-4. **Lista de casos.** Cartões, um por caso. Entra com a Home, e depende da decisão sobre a Cena.
+4. **Lista de casos.** Cartões, um por caso, no lugar da Cena. Entra com a Home.
 
 ## A conta
 
 | Destino | Peças |
 | --- | :-: |
-| Absorvidas pelos 14 componentes | 35 |
-| Viram fundamento | 7 |
+| Absorvidas pelos 15 componentes | 35 |
+| Viram fundamento (inclui a Passagem, que virou Carregamento) | 8 |
 | Viram receita (Topo do caso, Ações do fim, Hero) | 3 |
-| Saem | 7 |
-| Esperam a sua decisão (Passagem, Cena) | 2 |
+| Saem (inclui a Cena dos casos) | 8 |
 | **Total da Fase 1** | **54** |

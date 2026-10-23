@@ -4,41 +4,30 @@ Cole o bloco abaixo como primeira mensagem de uma sessão nova, aberta na pasta 
 
 ```
 Vamos seguir com o plano do Jeff DS no site. Antes de qualquer coisa, leia
-CLAUDE.md, ds/PLANO.md, ds/FUNDAMENTOS.md e ds/COMPONENTES.md, nessa ordem.
+CLAUDE.md e siga o roteiro de leitura dele, começando por ds/PLANO.md.
 
-Onde estamos. As Fases 0, 1 e 2 estão fechadas e commitadas. O modelo de
-Caso é a variação 4 (sumário e mosaico), em ds/prova/variacoes/v4.html,
-gerada por ds/prova/variacoes.py com as partes comuns de ds/prova/comum.py.
-O código do sistema mora em assets/ds/ (tokens.css, componentes.css,
-componentes.js, icones/, ilustracoes/). O site publicado ainda não mudou.
+Onde estamos. As Fases 0 a 3 estão fechadas. A documentação está em ds/
+(fichas, GUIA, RECEITAS, RITMO) e os tokens do Site já estão no artifact do
+Jeff DS. O plano publicado (https://claude.ai/artifact/GGthPLy5robgxFnJX69QQj)
+mostra esse estado. O site publicado ainda não mudou.
 
-O que fazer agora é a Fase 3, o modelo de documentação, como descrito em
-ds/PLANO.md. Comece me trazendo o plano da fase, sem criar telas novas,
-e só siga depois que eu aprovar.
+Antes de começar, me pergunte o que ainda está pendente comigo.
+1. Decidir se o Link de voltar para os casos volta ao Topo do caso.
+2. Decidir se o Problema do modelo troca de peça, já que repete o mosaico
+   do Processo (ver o fim de ds/RITMO.md).
+3. Confirmar que o Botão fica sempre lime, mesmo em caso azul ou verde.
 
-Antes de começar, me pergunte o que ainda está pendente comigo:
-1. Aprovar a lista de 15 componentes de ds/COMPONENTES.md.
-2. Decidir se a Passagem entre páginas e a Cena dos casos ficam (D3).
-3. Publicar os tokens no artifact do Jeff DS, no grupo Site
-   (https://claude.ai/artifact/YNnxB84kgyyzzUeY25XyeA).
+Depois traga o plano da Fase 4, o piloto, sem criar telas, e espere a
+minha aprovação. Ele começa por transformar o mosaico e a seção do modelo
+em componentes.
 
-Regras que não podem cair:
-- Textos em português do Brasil, sem hífen, travessão ou dois pontos na
-  escrita corrida. Palavra curta de ligação nunca termina linha de título.
-- Hover só com mouse, dentro de (hover: hover) and (pointer: fine). No
-  toque, :active, foco e alvos de 44px.
-- Toda interação que muda estado tem movimento. Nada troca seco. O realce
-  de hover e toque fica só atrás das palavras.
-- Acentos (lime, azul, verde) nunca viram texto, borda única ou foco.
-- Tudo funciona sem JS e com movimento reduzido.
-- Para conferir, sirva a raiz do repositório na porta 4173. Nesta máquina
-  existe .claude/serve.js (fora do git); em outra, python3 -m http.server
-  4173 resolve.
-- Commit só quando eu pedir.
+Regras que não podem cair estão no CLAUDE.md. Commit só quando eu pedir.
 ```
 
-## O que ficou de fora da Fase 2
+## O que fica para a Fase 4
 
-- Gráfico e Imagem, os dois componentes que o Omnichat não usa, ainda não têm código.
-- A linha que detecta a volta pelo histórico mora no script da cabeça de cada página de prova (`ds/prova/comum.py`, função `cabeca`). Toda página migrada na Fase 4 em diante precisa dela.
-- A prova antiga, `ds/prova/omnichat.html`, continua no ar como registro. O modelo é a `v4.html`.
+- O mosaico e a seção ao lado do Sumário (`.bloco-sec`) só existem no CSS da variação 4. Viram componente antes do piloto.
+- O modelo foi gerado sem `data-revelar`.
+- As Abas mudam a altura da página a cada troca.
+- O grupo de Dados do modelo escreve o tamanho do número com `style` no HTML.
+- Gráfico e Imagem continuam sem código. Entram na Fase 5.
