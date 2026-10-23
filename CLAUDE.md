@@ -27,7 +27,7 @@ Se nenhum componente serve, não crie a peça direto na página. Escreva a ficha
 | Fichas de componente | `ds/fichas/` |
 | Tokens, componentes e comportamento | `assets/ds/tokens.css`, `assets/ds/componentes.css`, `assets/ds/componentes.js` |
 | Ícones adesivo e cenas | `assets/ds/icones/`, `assets/ds/ilustracoes/`, gerados por `ds/icones/gerar.py` e `ds/ilustracoes/gerar.py` |
-| Modelo de Caso | `ds/prova/variacoes/v4.html`, gerado por `ds/prova/variacoes.py` com `ds/prova/comum.py` |
+| Modelo de Caso e página do Omnichat | `ds/prova/variacoes/v4.html` e `case-omnichat.html`, os dois gerados por `ds/prova/caso.py` com `ds/prova/comum.py` (a v4 pelo `ds/prova/variacoes.py`) |
 | Contraste e porquês do site antigo | `ds/CONTRASTE.md`, `ds/PORQUES.md` |
 
 O que vem de um gerador se muda no gerador, nunca no HTML gerado.

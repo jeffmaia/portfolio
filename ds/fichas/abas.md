@@ -95,5 +95,5 @@ Estilo em `assets/ds/componentes.css`, seção Tabs (`.tabs`, `.tab`, `.tabs--js
 
 **O que falta no código.**
 
-- A página muda de altura a cada troca de aba, porque o painel escondido sai com `display: none`. O site de hoje evita isso empilhando os painéis na mesma célula da grade, com a altura do maior. Vale trazer a mesma solução antes de as Abas voltarem a uma página.
+- Resolvido na Fase 4. Os painéis moram na mesma célula da grade, com a altura do maior, e o escondido sai com `visibility`. Trocar de aba não muda mais a altura da página.
 - As abas já nascem com `role="tab"` no HTML, enquanto a lista só ganha `role="tablist"` pelo script. Sem script a lista fica escondida e não chega a ser lida, mas o certo é o script pôr os dois.

@@ -11,6 +11,7 @@ ds/prova/omnichat.html com o menu e o rodapé novos.
 """
 from pathlib import Path
 import comum as c
+import caso
 
 AQUI = Path(__file__).parent
 OUT = AQUI / "variacoes"
@@ -282,93 +283,9 @@ def v3():
 # deixa pular para qualquer parte, e o conteúdo em blocos de tamanhos
 # diferentes, como um mosaico. É a leitura de quem escaneia antes de ler.
 def v4():
-    css = """
-.v4 .v4-layout { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
-.v4 .mosaico { display: grid; gap: var(--grade-vao); grid-template-columns: repeat(6, minmax(0, 1fr)); }
-.v4 .mosaico > * { grid-column: 1 / -1; }
-.v4 .bloco-sec { display: grid; gap: var(--space-24); padding-top: var(--space-64); }
-.v4 .tile { display: grid; gap: var(--space-12); align-content: start; }
-.v4 .tile .icone { --icone: 48px; }
-.v4 .tile h3 { font-size: var(--text-lead); line-height: 1.3; }
-.v4 .tile--salto { display: grid; gap: var(--space-16); }
-.v4 .tile--salto .ilustracao { max-width: 260px; justify-self: end; margin-top: -24px; }
-@media (min-width: 720px) {
-  .v4 .mosaico > .meio { grid-column: span 3; }
-  .v4 .mosaico > .terco { grid-column: span 2; }
-  /* Entre 720 e 1099 a ficha e o indicador dividem a linha ao meio. */
-  .v4 .mosaico > .v4-ficha, .v4 .mosaico > .tile--salto { grid-column: span 3; }
-}
-@media (min-width: 1100px) {
-  .v4 .v4-layout { grid-template-columns: 260px minmax(0, 1fr); column-gap: var(--space-48); }
-  .v4 .sumario { position: sticky; top: 96px; align-self: start; }
-  .v4 .mosaico > .dois-tercos { grid-column: span 4; }
-  .v4 .mosaico > .v4-ficha { grid-column: span 2; }
-  .v4 .mosaico > .tile--salto { grid-column: 1 / -1; grid-template-columns: 1fr auto; align-items: end; }
-}"""
-    secoes = [("v4-contexto", "robo", "Contexto"), ("v4-problema", "fronteira", "O problema"), ("v4-camadas", "camadas", "Processo"), ("v4-conversa", "dialogo", "Antes e depois"), ("v4-resultado", "grafico", "Resultado")]
-    itens = "".join(f'<li><a class="sumario__item" href="#{i}">{c.icone(P, ic, 32)}<span class="sumario__num">0{n}</span><span class="sumario__nome">{r}</span></a></li>' for n, (i, ic, r) in enumerate(secoes, 1))
-    marcas = '<span class="sumario__seg" aria-hidden="true"></span>' * len(secoes)
-    sumario = f'''<nav class="sumario" data-sumario aria-label="Neste caso">
-    <p class="t-rotulo sumario__titulo">Neste caso</p>
-    <ol class="sumario__lista" id="sumario-lista">{itens}</ol>
-    <button class="sumario__botao" type="button" aria-expanded="false" aria-controls="sumario-lista" hidden><span class="sr">Seções deste caso</span>{marcas}</button>
-    <span class="sumario__aviso" aria-hidden="true"></span>
-  </nav>'''
-    tamanhos = ["dois-tercos", "terco", "terco", "terco", "terco"]
-    camadas = "".join(
-        f"""<article class="card tile {tamanhos[i - 1]}"{' data-variant="acento"' if i == 1 else ""}>
-  {c.icone(P, ic, 48)}<span class="t-rotulo">Camada 0{i}</span><h3>{tit}</h3><p class="t-apoio">{txt}</p>
-  <p class="tabs__efeito"><span class="t-rotulo">Efeito</span> {ef}</p>
-</article>""" for i, (_, ic, tit, txt, ef) in enumerate(c.CAMADAS, 1))
-    stats = "".join(f'<div class="card tile meio">{c.icone(P, ic, 48)}<span class="stat__valor" style="font-size:var(--text-display)">{v}</span><p class="stat__frase">{f}</p></div>' for ic, v, f in c.STATS)
-    origens = "".join(f'<article class="card tile meio">{c.icone(P, ic, 48)}<h3>{t}</h3><p class="t-apoio">{x}</p></article>' for ic, t, x in c.ORIGENS)
-    main = f"""
-<main id="conteudo" class="container v4-layout">
-  {sumario}
-
-  <div>
-    <header class="mosaico">
-      <div class="dois-tercos" style="display:grid;gap:var(--space-24)">{c.badges()}<h1 class="t-display">{c.TITULO}</h1><p class="t-sub">{c.LEAD}</p></div>
-      <div class="card v4-ficha" data-variant="muted"><p class="t-rotulo card__titulo">Ficha do projeto</p>{c.ficha()}</div>
-      <div class="card tile tile--salto" data-variant="acento">{c.salto()}{c.ilustracao(P, "salto")}</div>
-    </header>
-
-    <section class="bloco-sec" id="v4-contexto" aria-labelledby="v4-t1">
-      <p class="section__rotulo t-rotulo" id="v4-t1">01 · Contexto</p>
-      <p class="t-lead prosa">{c.CONTEXTO}</p>
-    </section>
-
-    <section class="bloco-sec" id="v4-problema" aria-labelledby="v4-t2">
-      <p class="section__rotulo t-rotulo">02 · O problema</p>
-      <h2 class="t-titulo" id="v4-t2">{c.PROBLEMA_TITULO}</h2>
-      <div class="prosa">{"".join(f"<p>{p}</p>" for p in c.PROBLEMA)}</div>
-      <div class="mosaico">{origens}</div>
-    </section>
-
-    <section class="bloco-sec" id="v4-camadas" aria-labelledby="v4-t3">
-      <p class="section__rotulo t-rotulo">03 · Processo</p>
-      <h2 class="t-titulo" id="v4-t3">{c.CAMADAS_TITULO}</h2>
-      <div class="mosaico">{camadas}</div>
-    </section>
-
-    <section class="bloco-sec" id="v4-conversa" aria-labelledby="v4-t4">
-      <p class="section__rotulo t-rotulo">04 · Antes e depois</p>
-      <h2 class="t-titulo" id="v4-t4">{c.CONVERSA_TITULO}</h2>
-      <p class="t-apoio">{c.CONVERSA_LEGENDA}</p>
-      {c.conversa(P)}
-    </section>
-
-    <section class="bloco-sec" id="v4-resultado" aria-labelledby="v4-t5">
-      <p class="section__rotulo t-rotulo">05 · Resultado</p>
-      <h2 class="t-titulo" id="v4-t5">{c.RESULTADO_TITULO}</h2>
-      <div class="prosa">{"".join(f"<p>{p}</p>" for p in c.RESULTADO)}</div>
-      <div class="mosaico">{stats}</div>
-      {c.callout()}
-      {c.fechamento(P)}
-    </section>
-  </div>
-</main>"""
-    return "Sumário e mosaico", css, main
+    # A escolhida. O miolo mora em caso.py, que também gera a página
+    # publicada, e usa só os componentes de assets/ds.
+    return "Sumário e mosaico", "", caso.main(P)
 
 
 # ============================================================ V5

@@ -62,7 +62,7 @@ A D3 tinha mantido as duas, repintadas. Decidido na abertura da Fase 3.
 
 Uma receita é uma composição de componentes, sem regra visual própria.
 
-1. **Topo do caso.** Link de voltar, Etiquetas, título, frase de apoio e um Dado em destaque.
+1. **Topo do caso.** Etiquetas, título, frase de apoio, a ficha e um Dado em destaque. O Link de voltar saiu na Fase 4.
 2. **Fechamento do caso.** Destaque na tinta, com o que o caso deixa, e um Botão para o próximo caso.
 3. **Hero da Home.** Direção já registrada em `ds/PLANO.md`. Entra na migração da Home.
 4. **Lista de casos.** Cartões, um por caso, no lugar da Cena. Entra com a Home.

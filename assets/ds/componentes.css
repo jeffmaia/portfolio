@@ -257,13 +257,12 @@ button { font: inherit; color: inherit; }
 
 /* ============================================================
    Section
-   Rótulo numerado com régua de 2px, título, e o conteúdo na grade.
-   data-layout="lado": rótulo e título na esquerda (4 colunas), o
-   conteúdo na direita. É o padrão do caso no desktop.
+   Cada parte numerada do caso, numa coluna só ao lado do Sumário:
+   rótulo com régua de 2px, título, texto e uma peça, todos filhos
+   diretos, sem embrulho. Não há variante lado, porque a coluna da
+   esquerda é do Sumário.
    ============================================================ */
-.section { padding-block: var(--space-secao) 0; }
-.section:last-of-type { padding-bottom: var(--space-secao); }
-.section__cabeca { display: grid; gap: var(--space-16); margin-bottom: var(--space-32); }
+.section { display: grid; gap: var(--space-24); padding-top: var(--space-64); }
 .section__rotulo {
   display: flex;
   align-items: center;
@@ -275,9 +274,6 @@ button { font: inherit; color: inherit; }
   height: var(--stroke);
   background: var(--border);
 }
-.section__titulo { max-width: 22ch; }
-.section__legenda { max-width: var(--leitura); font-size: var(--text-apoio); }
-.section__corpo { display: grid; gap: var(--space-32); }
 .prosa { max-width: var(--leitura); }
 .prosa > * + * { margin-top: var(--space-16); }
 
@@ -297,6 +293,18 @@ button { font: inherit; color: inherit; }
 .card[data-variant="muted"] { background: var(--muted); color: var(--ink); }
 .card[data-variant="acento"] { background: var(--acento); color: var(--ink); }
 .card__titulo { margin-bottom: var(--space-16); }
+
+/* O grupo em mosaico: seis colunas na largura do conteúdo, e cada
+   Cartão diz quanto ocupa com data-tamanho. No celular todos ocupam
+   a linha inteira; os tamanhos entram no bloco de 720 e de 1100. */
+.cards[data-layout="mosaico"] { display: grid; gap: var(--grade-vao); grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.cards[data-layout="mosaico"] > .card { grid-column: 1 / -1; display: grid; gap: var(--space-12); align-content: start; }
+.cards[data-layout="mosaico"] > .card .icone { --icone: 48px; }
+.cards[data-layout="mosaico"] > .card h3 { font-size: var(--text-lead); line-height: 1.3; }
+/* O Dado em grupo: o valor desce do degrau numero para o display, e
+   a frase fica à mesma distância do número que os itens do Cartão. */
+.cards[data-layout="mosaico"] .stat { gap: var(--space-12); }
+.cards[data-layout="mosaico"] .stat__valor { font-size: var(--text-display); }
 
 /* A ficha do projeto é um Card com uma lista de definição dentro. */
 .ficha { display: grid; gap: var(--space-16); }
@@ -325,13 +333,6 @@ button { font: inherit; color: inherit; }
   text-decoration-thickness: 3px;
 }
 .stat__frase { font-size: var(--text-apoio); line-height: 1.45; max-width: 36ch; }
-.stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--grade-vao);
-}
-.stats .stat { border-top: var(--stroke) solid var(--border); padding-top: var(--space-16); }
-.stats .stat__valor { font-size: var(--text-titulo); }
 
 /* ============================================================
    Steps
@@ -372,7 +373,7 @@ button { font: inherit; color: inherit; }
 .tabs__painel { display: grid; gap: var(--space-12); padding-block: var(--space-24); border-top: var(--stroke) solid var(--border); }
 .tabs__painel:last-child { border-bottom: var(--stroke) solid var(--border); }
 .tabs__painel-titulo { display: flex; gap: var(--space-12); align-items: baseline; font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
-.tabs__efeito { display: grid; gap: var(--space-4); font-size: var(--text-apoio); padding: var(--space-16); border-radius: var(--radius); background: var(--muted); color: var(--ink); }
+.tabs__efeito, .card__efeito { display: grid; gap: var(--space-4); font-size: var(--text-apoio); padding: var(--space-16); border-radius: var(--radius); background: var(--muted); color: var(--ink); }
 
 .tabs--js .tabs__lista {
   display: grid;
@@ -382,7 +383,13 @@ button { font: inherit; color: inherit; }
 .tabs--js { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--grade-vao); align-items: start; }
 .tabs--js .tabs__painel { border: var(--stroke) solid var(--border); border-radius: var(--radius); padding: var(--space-32); }
 .tabs--js .tabs__painel:last-child { border-bottom-width: var(--stroke); }
-.tabs--js .tabs__painel[hidden] { display: none; }
+/* Os painéis moram todos na mesma célula da grade, e a caixa fica
+   com a altura do maior. Trocar de aba não mexe no resto da página.
+   O escondido sai com visibility, que também o tira do Tab e do
+   leitor de tela. */
+.tabs--js .tabs__paineis { display: grid; }
+.tabs--js .tabs__painel { grid-area: 1 / 1; }
+.tabs--js .tabs__painel[hidden] { display: grid; visibility: hidden; }
 /* O painel que chega sobe um pouco e aparece, em vez de trocar seco. */
 .tabs--js .tabs__painel:not([hidden]) { animation: painel-entra var(--dur-media) var(--ease-saida); }
 @keyframes painel-entra { from { opacity: 0; transform: translateY(8px); } }
@@ -766,19 +773,14 @@ html:not(.js) .menu-botao { display: none; }
    Layout a partir do tablet e do desktop
    ============================================================ */
 @media (min-width: 720px) {
-  .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .cards[data-layout="mosaico"] > [data-tamanho="meio"] { grid-column: span 3; }
+  .cards[data-layout="mosaico"] > [data-tamanho="terco"] { grid-column: span 2; }
   .steps[data-layout="par"] { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--grade-vao); }
   .compare { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer__grade { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
 }
 @media (min-width: 1100px) {
-  .section[data-layout="lado"] .section__grade {
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: var(--grade-vao);
-  }
-  .section[data-layout="lado"] .section__cabeca { grid-column: 1 / span 4; align-content: start; position: sticky; top: 96px; }
-  .section[data-layout="lado"] .section__corpo { grid-column: 5 / -1; }
+  .cards[data-layout="mosaico"] > [data-tamanho="dois-tercos"] { grid-column: span 4; }
 }
 
 /* ============================================================
@@ -787,20 +789,28 @@ html:not(.js) .menu-botao { display: none; }
    cada peça senta na grade.
    ============================================================ */
 
-/* Topo do caso. Voltar, etiquetas, título, frase de apoio e o Dado
-   em destaque num Card do acento. */
-.topo { padding-block: var(--space-48) 0; }
-.topo__grade { display: grid; gap: var(--space-24); }
-.topo__voltar { justify-self: start; }
-.topo__titulo { max-width: 22ch; }
-.topo__lead { max-width: 30ch; }
-.topo__salto { justify-self: stretch; }
+/* Página de caso. A partir de 1100px o Sumário senta fixo numa
+   coluna de 260px à esquerda e o conteúdo ocupa o resto. Abaixo
+   disso a página tem uma coluna só, e o Sumário vira o trilho. */
+.caso { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+
+/* Topo do caso. O texto (etiquetas, título e frase de apoio), a
+   ficha e o Salto, no mesmo mosaico de seis colunas das seções. */
+.topo { display: grid; gap: var(--grade-vao); grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.topo > * { grid-column: 1 / -1; }
+.topo__texto { display: grid; gap: var(--space-24); }
+.topo__salto { display: grid; gap: var(--space-16); }
+.topo__salto .ilustracao { max-width: 260px; justify-self: end; margin-top: -24px; }
+@media (min-width: 720px) {
+  /* Entre 720 e 1099 a ficha e o Salto dividem a linha ao meio. */
+  .topo__ficha, .topo__salto { grid-column: span 3; }
+}
 @media (min-width: 1100px) {
-  .topo__grade { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--grade-vao); row-gap: var(--space-32); }
-  .topo__grade > * { grid-column: 1 / -1; }
-  .topo__titulo { grid-column: 1 / span 10; }
-  .topo__lead { grid-column: 1 / span 6; align-self: start; }
-  .topo__salto { grid-column: 8 / -1; }
+  .caso { grid-template-columns: 260px minmax(0, 1fr); column-gap: var(--space-48); }
+  .caso > .sumario { position: sticky; top: 96px; align-self: start; }
+  .topo__texto { grid-column: span 4; }
+  .topo__ficha { grid-column: span 2; }
+  .topo__salto { grid-column: 1 / -1; grid-template-columns: 1fr auto; align-items: end; }
 }
 
 /* Fechamento do caso. O convite e o botão para o próximo. */

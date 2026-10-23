@@ -2,7 +2,7 @@
 
 Uma receita é a ordem dos componentes numa página e onde cada um senta na grade. Não tem cor nem forma própria. O que pode variar de um caso para outro está marcado como livre, o resto é fixo.
 
-São duas receitas, a do Caso e a da Home. A do Caso sai do modelo aprovado, `ds/prova/variacoes/v4.html`. A da Home é a direção para a Fase 6, e ainda não foi provada numa página.
+São duas receitas, a do Caso e a da Home. A do Caso sai do modelo aprovado, `ds/prova/variacoes/v4.html`, e já está publicada no Omnichat, `case-omnichat.html`. Os dois saem do mesmo gerador, `ds/prova/caso.py`. A da Home é a direção para a Fase 6, e ainda não foi provada numa página.
 
 ## Toda página
 
@@ -30,7 +30,7 @@ O caso é feito para quem escaneia antes de ler. O Sumário diz onde se está, e
 
 A partir de 1100px, o Sumário fica fixo numa coluna de 260px à esquerda e o conteúdo ocupa o resto. Abaixo disso a página tem uma coluna só, e o Sumário vira o trilho na borda direita.
 
-Dentro do conteúdo, os blocos sentam num mosaico de seis colunas. Os tamanhos são `meio` (3), `terco` (2) e `dois-tercos` (4). No celular todo bloco ocupa a largura inteira.
+Dentro do conteúdo, os blocos sentam num mosaico de seis colunas, o grupo de Cartões `data-layout="mosaico"`. Os tamanhos são `meio` (3), `terco` (2) e `dois-tercos` (4), em `data-tamanho`. No celular todo bloco ocupa a largura inteira. A página é `main.caso`, e o Topo é `header.topo`, com `topo__texto`, `topo__ficha` e `topo__salto`.
 
 ### A ordem
 
@@ -93,8 +93,8 @@ No desktop são dois Cartões por linha. No celular, um debaixo do outro.
 
 **O que sai.** O convite ao manifesto (D7), a seta de descer e a cena com o orbe do número.
 
-## Pontos em aberto
+## Pontos fechados na Fase 4
 
-1. **Voltar para os casos.** A receita antiga do Topo começava com um Link `voltar`. O modelo de Caso não tem esse link, porque o Sumário e o menu já levam para fora. Com a Home virando lista, vale decidir se ele volta.
-2. **Revelar.** O modelo de Caso foi gerado sem `data-revelar`. A receita pede, e a página da Fase 4 precisa trazer.
-3. **Mosaico e Seção.** As duas formas que o Caso usa e que ainda moram só no CSS da variação 4 (ver `ds/GUIA.md`).
+1. **Voltar para os casos.** O Topo do caso não tem Link `voltar`. O Sumário e o menu já levam para fora, e o piloto ficou idêntico ao modelo aprovado.
+2. **Revelar.** Cada filho de Seção leva `data-revelar`. O Topo não leva.
+3. **Mosaico e Seção.** As duas viraram componente em `assets/ds/componentes.css` (ver as fichas do Cartão e da Seção).

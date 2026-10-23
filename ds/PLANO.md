@@ -6,7 +6,7 @@ O Jeff DS (tokens, cores, tipografia, componentes dos posts) está em https://cl
 
 ## Estado
 
-Fases 0, 1, 2 e 3 fechadas. Próxima é a Fase 4, o piloto. O site publicado ainda não mudou, porque a prova é uma página à parte. O modelo de Caso é `ds/prova/variacoes/v4.html`. A instrução para abrir a próxima sessão está em `ds/PROXIMA-SESSAO.md`.
+Fases 0 a 3 fechadas. A Fase 4, o piloto, está pronta no repositório, e `case-omnichat.html` já é a página do Jeff DS. O site publicado só muda quando ela entrar na `main`. Depois vem a Fase 5. O modelo de Caso é `ds/prova/variacoes/v4.html`, e os dois saem de `ds/prova/caso.py`. A instrução para abrir a próxima sessão está em `ds/PROXIMA-SESSAO.md`.
 
 Entregas da Fase 1, em `ds/`. `INVENTARIO.md` (matriz peça por página medida nas páginas reais), `capturas/index.html` (cada peça em 390, 768 e 1440px), `CONTRASTE.md`, `PORQUES.md` (os comentários do CSS e do HTML por peça) e `auditoria/` (os scripts que refazem tudo). A pasta do Industry foi para `arquivo/handoff/`.
 
@@ -64,6 +64,29 @@ Achados da Fase 3 que pesam na Fase 4.
 - O modelo foi gerado sem `data-revelar`.
 - As Abas mudam a altura da página a cada troca. O site de hoje evita isso.
 - O grupo de Dados do modelo escreve o tamanho do número com `style` no HTML.
+
+Decidido na abertura da Fase 4, em 23 de outubro de 2026.
+
+- O piloto fica idêntico ao modelo aprovado, a variação 4 como estava no commit da Fase 3, com o revelar na entrada a mais. Por isso o Link de voltar não entra no Topo, o Problema continua em dois Cartões `meio` e o `terco` continua um terço no tablet. Essas três mudanças chegaram a ser aprovadas e foram desfeitas a seu pedido.
+- O Botão é sempre lime, também em caso azul ou verde, como já diz a ficha.
+
+## Fase 4
+
+Entregas, aprovadas por você em 23 de outubro de 2026.
+
+- Fichas novas da Seção, do Cartão (com o grupo em mosaico) e dos Passos, e a do Dado com o grupo em mosaico.
+- Em `assets/ds/componentes.css`, a Seção com a forma do modelo e sem a `lado`, o mosaico como `.cards[data-layout="mosaico"]` com `data-tamanho`, o Dado em grupo sem `style` no HTML e sem o `.stats`, a página de caso (`.caso`) e o Topo (`.topo`).
+- As Abas não mudam mais a altura da página a cada troca.
+- `ds/prova/caso.py` gera `case-omnichat.html` e o miolo da variação 4. A página é idêntica à v4 do commit da Fase 3 nas três larguras, conferida elemento por elemento, com o revelar na entrada a mais e o "cerca de" para leitor de tela no "~40 mil".
+- A página publicada leva a descrição, o analytics e o título de antes, sem o `noindex` das provas.
+- `assets/analytics.js` não conta mais visita servida em localhost.
+
+Achados que ficam para depois.
+
+- O título do Omnichat ocupa cinco linhas em 390px, e a receita pede até quatro. Já era assim na v4.
+- O menu do Jeff DS não tem o Manifesto. Ele segue no ar pelas outras páginas até a Fase 6 (D7).
+- A primeira prova, `ds/prova/omnichat.html`, usava a Seção antiga e mudou de cara. Fica como registro.
+- Sem JS e com movimento reduzido não foram conferidos no navegador, só no código.
 
 ## Decisões da Fase 0
 

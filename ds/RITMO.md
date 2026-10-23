@@ -50,4 +50,4 @@ Toda peça tem um peso, como nos posts. É ele que regula o ritmo.
 
 ## Onde o modelo de Caso esbarra nestas regras
 
-O Problema e o Processo da variação 4 fecham as duas com Cartões em mosaico. A regra 11 deixa passar, porque o arranjo muda (dois `meio` e depois um `dois-tercos` com quatro `terco`) e só o Processo tem o acento chapado. Se você achar que é repetição demais, o Problema é o candidato a trocar de peça.
+O Problema e o Processo da variação 4 fecham as duas com Cartões em mosaico. A regra 11 deixa passar, porque o arranjo muda (dois `meio` e depois um `dois-tercos` com quatro `terco`) e só o Processo tem o acento chapado. Na abertura da Fase 4 ficou decidido manter assim, idêntico ao modelo aprovado.

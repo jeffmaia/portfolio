@@ -13,7 +13,11 @@ FAVICON = (
 )
 
 
-def cabeca(pre, titulo, css="", corpo_classe=""):
+def cabeca(pre, titulo, css="", corpo_classe="", descricao=""):
+    """Com `descricao` a página é publicada: entra a descrição para a busca
+    e o analytics, e sai o noindex das provas."""
+    meta = (f'<meta name="description" content="{descricao}">\n<script src="{pre}assets/analytics.js"></script>'
+            if descricao else '<meta name="robots" content="noindex">')
     return f"""<!DOCTYPE html>
 <html lang="pt-BR" data-acento="azul">
 <head>
@@ -21,7 +25,7 @@ def cabeca(pre, titulo, css="", corpo_classe=""):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script>document.documentElement.classList.add("js");try{{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}}catch(e){{}}</script>
 <title>{titulo}</title>
-<meta name="robots" content="noindex">
+{meta}
 <link rel="icon" href="{FAVICON}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

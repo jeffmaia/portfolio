@@ -46,7 +46,7 @@ Três famílias com papel fixo, como nos posts. A escala é fluida, uma reta ent
 - A régua de espaço do site atual fica. Base 8, ajuste fino de 4, degraus de 4 a 96.
 - Entre seções, `space-secao`, de 64 a 128px.
 - Doze colunas, largura máxima de 1280px, margem lateral de 16px no celular a 48px no desktop.
-- Quebras em 720 (tablet) e 1100 (desktop). A partir de 1100 a seção pode usar o layout `lado`, com o título em 4 colunas e o conteúdo em 8.
+- Quebras em 720 (tablet) e 1100 (desktop). No caso, a partir de 1100 o Sumário ocupa uma coluna de 260px e o conteúdo usa um mosaico de seis colunas.
 - Texto corrido com no máximo 66 caracteres por linha.
 
 ## Estados

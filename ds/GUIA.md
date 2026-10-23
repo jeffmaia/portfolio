@@ -58,9 +58,9 @@ A tabela acima já aponta a variante. Esta parte diz o que existe no código hoj
 | Botão | `primary`, `outline` | |
 | Link | sem variante, `voltar`, `seguir`, `externo`, `topo` | |
 | Etiqueta | papel, `acento`, `tinta` | |
-| Seção | padrão, `lado` | a forma do modelo de Caso (ver abaixo) |
-| Cartão | papel, `muted`, `acento` | `mosaico`, hoje só no CSS da variação 4 |
-| Dado | sozinho, `salto`, grupo | grupo em mosaico, com ícone |
+| Seção | uma forma só | |
+| Cartão | papel, `muted`, `acento`, grupo `mosaico` com `meio`, `terco` e `dois-tercos` | |
+| Dado | sozinho, `salto`, grupo em mosaico com ícone | |
 | Passos | padrão, `par` | `estagios`, `funil`, `trilha`, `ritos` |
 | Abas | vertical | |
 | Antes e depois | lados, conversa | `confronto`, `citacao` |
@@ -84,7 +84,7 @@ A tabela acima já aponta a variante. Esta parte diz o que existe no código hoj
 
 **Botão ou Link.** Há um Botão `primary` por trecho, e ele é a ação que leva adiante. Tudo o mais que leva a outro lugar é Link.
 
-## O que este guia ainda não resolve
+## O que a Fase 4 resolveu
 
-- **Seção.** O modelo de Caso não usa a `.section` de `componentes.css`. Usa uma forma própria (`.bloco-sec`), com o rótulo e o título em uma coluna só, ao lado do Sumário. Antes da Fase 4 a Seção precisa ganhar essa forma e a `lado` precisa ser revista, porque o Sumário já ocupa a coluna da esquerda.
-- **Mosaico.** É o arranjo que mais aparece no modelo de Caso e ainda não é componente. A proposta é ele virar o layout do Cartão (`data-layout="mosaico"`), com os tamanhos `meio`, `terco` e `dois-tercos`.
+- **Seção.** Ficou com a forma do modelo de Caso, numa coluna só ao lado do Sumário, e a `lado` saiu.
+- **Mosaico.** Virou o grupo de Cartões (`data-layout="mosaico"`), com os tamanhos em `data-tamanho`. O Dado em grupo mora nele.
