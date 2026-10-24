@@ -65,7 +65,7 @@ A tabela acima já aponta a variante. Esta parte diz o que existe no código hoj
 | Abas | vertical | |
 | Antes e depois | lados, conversa, `citacao`, `confronto` | |
 | Destaque | frase na tinta, frase no papel, `nota`, `atrito` | |
-| Gráfico | | `barras`, `pilhas`, `escala` |
+| Gráfico | `barras`, `pilhas`, `escala`, com os tons `cheio`, `trama` e `vazio` | |
 | Imagem | | `moldura`, `galeria`, `sangria` |
 | Sumário | coluna fixa, trilho abaixo de 1100px | |
 | Cabeçalho e Rodapé | uma forma | |
@@ -81,6 +81,7 @@ A tabela acima já aponta a variante. Esta parte diz o que existe no código hoj
 - Um valor, com uma frase que diz de onde veio, é Dado.
 - Uma frase, sem número, é Destaque.
 - Um valor que só se entende ao lado de outros, numa série ou numa escala, é Gráfico.
+- Se o mesmo número já está no Gráfico, ele não volta no Dado da mesma Seção. O Gráfico mostra a proporção, e o Dado fica para os números que ele não desenha.
 
 **Botão ou Link.** Há um Botão `primary` por trecho, e ele é a ação que leva adiante. Tudo o mais que leva a outro lugar é Link.
 

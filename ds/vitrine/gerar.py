@@ -111,6 +111,22 @@ SEQUENCIA = [
     ]),
 ]
 
+# As peças da Onda 4.
+DADOS = [
+    ("grafico", "Gráfico", 1440, [
+        "Role o palco. Cada Seção usa uma forma, com o texto do Inpulse, do Mapa de experiência e do Processo com&nbsp;IA.",
+        "Quando o Gráfico entra na tela, o bloco sobe e logo depois o preenchimento corre da esquerda. Na escala, o percurso vai do antes ao depois, e só então aparece o ponto de&nbsp;depois.",
+        "Nas barras, o antes é trama e o depois é o acento. Nas pilhas, entusiasta é o acento, receptivo é trama e indiferente é o papel. Nada depende só da&nbsp;cor.",
+        "Troque a largura. Com menos de 600px de Seção o nome de cada pilha fica em cima da faixa, e os dois pares de barras ficam um embaixo do&nbsp;outro.",
+        "Com leitor de tela, cada Gráfico é uma figura com título, e os valores são lidos como texto. As faixas ficam&nbsp;escondidas.",
+        "Nenhuma forma reage a mouse, toque ou foco. O Gráfico mostra, não&nbsp;age.",
+    ]),
+]
+
+# Peças que ainda não têm ficha, porque a ficha só se escreve depois que a
+# interface é aprovada: o nome shadcn e a frase que a ficha vai abrir.
+SEM_FICHA = {}
+
 ESTILO = """
 .peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
 .peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
@@ -230,12 +246,18 @@ def markdown(texto):
 
 
 def pagina_ficha(arq):
-    texto = (FICHAS / f"{arq}.md").read_text()
-    titulo = texto.split("\n", 1)[0][2:]
-    resto = texto.split("\n", 1)[1].lstrip("\n")
-    abertura, corpo = resto.split("\n", 1)
-    nome_shadcn, frase = abertura.split(" · ", 1)
-    pronta = {x[0]: x for x in CASCA + ACAO + SEQUENCIA}
+    pronta = {x[0]: x for x in CASCA + ACAO + SEQUENCIA + DADOS}
+    if arq in SEM_FICHA:
+        titulo = pronta[arq][1]
+        nome_shadcn, frase = SEM_FICHA[arq]
+        doc = "<p>A ficha se escreve depois que a interface for aprovada na&nbsp;vitrine.</p>"
+    else:
+        texto = (FICHAS / f"{arq}.md").read_text()
+        titulo = texto.split("\n", 1)[0][2:]
+        resto = texto.split("\n", 1)[1].lstrip("\n")
+        abertura, corpo = resto.split("\n", 1)
+        nome_shadcn, frase = abertura.split(" · ", 1)
+        doc = markdown(corpo)
     volta = f"../index.html#peca-{arq}" if arq in pronta else "../index.html"
     na_pagina = ""
     if arq in pronta:
@@ -255,10 +277,10 @@ def pagina_ficha(arq):
     <a class="link" data-variant="voltar" href="{volta}"><i aria-hidden="true">←</i> Vitrine</a>
     <span class="badge">{inline(nome_shadcn)}</span>
     <h1 class="t-display">{titulo}</h1>
-    <p class="t-sub">{inline(frase[0].upper() + frase[1:])}</p>
+    <p class="t-sub">{frase[0].upper() + frase[1:] if arq in SEM_FICHA else inline(frase[0].upper() + frase[1:])}</p>
   </header>{na_pagina}
   <article class="doc">
-{markdown(corpo)}
+{doc}
   </article>
 </main>"""
     pagina = c.cabeca(P_SUB, f"{titulo}, ficha · Jeff DS no site", ESTILO) + c.cabecalho(P_SUB, None, "Pular para a ficha") + main + c.rodape(P_SUB, None)
@@ -683,6 +705,113 @@ def palco_antes_e_depois():
     return c.cabeca(P_SUB, "Antes e depois · Palco da vitrine", ESTILO) + c.cabecalho(P_SUB, "antes-e-depois.html") + corpo + c.rodape(P_SUB, "antes-e-depois.html")
 
 
+# ── Onda 4, com o texto das páginas publicadas ───────────────
+
+def valor(v):
+    # O til de aproximação é lido como "til". Quem ouve recebe "cerca de".
+    if v.startswith("~"):
+        return f'<span aria-hidden="true">~</span><span class="sr">cerca de </span>{v[1:]}'
+    return v
+
+
+def barras(titulo, grupos):
+    """`grupos` é uma lista de (nome ou None, linhas), e cada linha é
+    (rótulo, valor escrito, valor de 0 a 100, tom)."""
+    def linha(rotulo, escrito, num, tom):
+        return (f'<div class="chart__linha"><dt class="chart__rotulo">{rotulo}</dt><dd class="chart__valor">{valor(escrito)}</dd>'
+                f'<dd class="chart__trilho" aria-hidden="true"><span class="chart__preenche" data-tom="{tom}" style="--valor: {num}"></span></dd></div>')
+    def grupo(nome, linhas):
+        cab = f'<h3 class="chart__nome">{nome}</h3>' if nome else ""
+        return f'<div class="chart__grupo">{cab}<dl class="chart__linhas">{"".join(linha(*x) for x in linhas)}</dl></div>'
+    return f"""<figure class="chart" data-variant="barras" data-revelar>
+  <figcaption class="t-rotulo">{titulo}</figcaption>
+  <div class="chart__grupos">{"".join(grupo(*g) for g in grupos)}</div>
+</figure>"""
+
+
+def barras_processo():
+    return barras("Tempo antes e depois", [
+        ("Discovery", [("Antes", "1 a 2 meses", 100, "trama"), ("Depois", "~1 semana", 12.5, "cheio")]),
+        ("Refinamento semanal", [("Antes", "4 a 5 h", 100, "trama"), ("Depois", "30 a 40 min", 13, "cheio")]),
+    ])
+
+
+def barras_mapa():
+    return barras("Usuários únicos no primeiro mês", [
+        (None, [("Sem o mapa de experiência", "20", 2.2, "trama"), ("Com o mapa de experiência", "890", 100, "cheio")]),
+    ])
+
+
+NIVEIS = [
+    ("cheio", "Entusiasta", "entusiasta", "entusiastas", "Demonstra interesse de maneira espontânea."),
+    ("trama", "Receptivo", "receptivo", "receptivos", "Demonstra interesse a partir de uma interação ou pergunta do&nbsp;facilitador."),
+    ("vazio", "Indiferente", "indiferente", "indiferentes", "Verbaliza a falta de interesse, ou ignora que a funcionalidade&nbsp;existe."),
+]
+
+# Reações de 10 participantes por funcionalidade: entusiasta, receptivo e
+# indiferente, na ordem da página do Inpulse.
+REACOES = [
+    ("Próximas avaliações", (0, 8, 2)),
+    ("Faltas", (0, 10, 0)),
+    ("Situação atual", (1, 9, 0)),
+    ("Últimas avaliações", (1, 8, 1)),
+    ("Calendário", (3, 7, 0)),
+    ("Planejar estudos", (1, 8, 1)),
+]
+
+
+def pilhas():
+    legenda = "".join(
+        f'<div><dt><span class="chart__amostra" data-tom="{tom}" aria-hidden="true"></span>{nome}</dt><dd>{desc}</dd></div>'
+        for tom, nome, _, _, desc in NIVEIS)
+    def pilha(nome, contas):
+        partes = "".join(f'<span class="chart__parte" data-tom="{NIVEIS[i][0]}" style="--n: {n}"></span>' for i, n in enumerate(contas) if n)
+        conta = " · ".join(f"{n} {NIVEIS[i][2] if n == 1 else NIVEIS[i][3]}" for i, n in enumerate(contas) if n)
+        return f'<li class="chart__pilha"><p class="chart__nome">{nome}</p><div class="chart__trilho" aria-hidden="true">{partes}</div><p class="chart__conta">{conta}</p></li>'
+    return f"""<figure class="chart" data-variant="pilhas" data-revelar>
+  <figcaption class="t-rotulo">Reações de 10 participantes, em seis das dez funcionalidades testadas</figcaption>
+  <dl class="chart__legenda">{legenda}</dl>
+  <ol class="chart__pilhas">{"".join(pilha(*x) for x in REACOES)}</ol>
+</figure>"""
+
+
+def escala():
+    return """<figure class="chart" data-variant="escala" style="--antes: -33; --depois: 15" data-revelar>
+  <figcaption class="t-rotulo">Nota geral de NPS<span class="sr">, numa escala de −100 a +100</span></figcaption>
+  <div class="chart__escala">
+    <p class="chart__marco" data-ponto="antes"><span class="chart__numero">−33</span><span class="t-rotulo">Antes</span></p>
+    <p class="chart__marco" data-ponto="depois"><span class="chart__numero">+15</span><span class="t-rotulo">Depois</span></p>
+    <div class="chart__eixo" aria-hidden="true"><span class="chart__percurso"></span><span class="chart__zero"></span><span class="chart__ponto" data-ponto="antes"></span><span class="chart__ponto" data-ponto="depois"></span></div>
+    <p class="chart__regua t-rotulo" aria-hidden="true"><span>−100</span><span>0</span><span>+100</span></p>
+  </div>
+</figure>"""
+
+
+def amostra_grafico():
+    def no(acento, conteudo):
+        return f'<div data-acento="{acento}">{conteudo}</div>'
+    return amostra("Gráfico", "".join([
+        item("Barras, um par, no azul do Mapa", 'data-variant="barras"', no("azul", barras_mapa())),
+        item("Barras, dois pares, no lime do Processo", 'data-variant="barras"', no("lime", barras_processo())),
+        item("Pilhas, com a legenda, no verde do Inpulse", 'data-variant="pilhas"', no("verde", pilhas())),
+        item("Escala, no azul do Mapa", 'data-variant="escala"', no("azul", escala())),
+    ]))
+
+
+def palco_grafico():
+    corpo = caso_palco("Neste palco", [
+        ("lampada", "Experimento", "Qual funcionalidade o&nbsp;aluno quer primeiro",
+         [prosa("Estruturamos um experimento para medir a desejabilidade de&nbsp;cada funcionalidade, e assim priorizar o que já sabíamos ser dor do&nbsp;aluno e da&nbsp;empresa.",
+                "Usamos a estrutura de um teste de usabilidade, com tarefas oferecidas aos participantes, mas não para medir facilidade. Era para registrar a reação espontânea a cada&nbsp;funcionalidade."), pilhas()]),
+        ("alvo", "O que move a nota", "Um&nbsp;mapa não move NPS sozinho",
+         [prosa("Quem move é a ação que cada campus toma, e o que&nbsp;estava travado era a leitura da pesquisa. Nos semestres anteriores o&nbsp;relatório chegava e não&nbsp;virava plano.",
+                "Com o mapa, os&nbsp;16 campus construíram planos a&nbsp;partir do&nbsp;mesmo material, e a nota geral saiu de&nbsp;33 negativos para 15 positivos no&nbsp;ciclo seguinte."), escala()]),
+        ("grafico", "Resultado", "Sobrou tempo justamente onde o&nbsp;produto precisa de&nbsp;experimentação",
+         [prosa("E muito mais experimento rodando, que é o que decide a qualidade da conversa em produção.", "Design segue revisando tudo que vira PR."), barras_processo()]),
+    ])
+    return c.cabeca(P_SUB, "Gráfico · Palco da vitrine", ESTILO) + c.cabecalho(P_SUB, "grafico.html") + corpo + c.rodape(P_SUB, "grafico.html")
+
+
 # Peça, altura do quadro da amostra e a página.
 AMOSTRAS = {
     "cabecalho": (560, amostra_cabecalho),
@@ -693,12 +822,13 @@ AMOSTRAS = {
     "destaque": (900, amostra_destaque),
     "passos": (900, amostra_passos),
     "antes-e-depois": (900, amostra_antes_e_depois),
+    "grafico": (900, amostra_grafico),
 }
 
 
 PALCOS = {"cabecalho": palco_cabecalho, "sumario": palco_sumario, "rodape": palco_rodape,
           "link": palco_link, "etiqueta": palco_etiqueta, "destaque": palco_destaque,
-          "passos": palco_passos, "antes-e-depois": palco_antes_e_depois}
+          "passos": palco_passos, "antes-e-depois": palco_antes_e_depois, "grafico": palco_grafico}
 
 
 # ── A vitrine ────────────────────────────────────────────────
@@ -717,6 +847,9 @@ def sumario():
 
 
 def frase_da_ficha(arq):
+    if arq in SEM_FICHA:
+        frase = SEM_FICHA[arq][1]
+        return frase[0].upper() + frase[1:]
     linha = (FICHAS / f"{arq}.md").read_text().split("\n")[2]
     frase = linha.split(" · ", 1)[1]
     return inline(frase[0].upper() + frase[1:])
@@ -784,10 +917,17 @@ def main():
     <section class="section" id="sequencia-e-comparacao" aria-labelledby="sequencia-titulo">
       <p class="section__rotulo t-rotulo" data-revelar>03 · Sequência</p>
       <h2 class="t-titulo" id="sequencia-titulo" data-revelar>O que vem em&nbsp;ordem e o&nbsp;que&nbsp;mudou</h2>
-      <div class="prosa" data-revelar><p>O Antes e depois ganha a citação e o confronto. O Passos segue a direção 3 do estudo, Adesivos, e o estudo com as seis direções continua no link logo depois da&nbsp;amostra. As fichas ainda são rascunho e se fecham depois que você aprovar o que vê&nbsp;aqui.</p></div>
+      <div class="prosa" data-revelar><p>O Antes e depois ganha a citação e o confronto. O Passos segue a direção 3 do estudo, Adesivos, e o estudo com as seis direções continua no link logo depois da&nbsp;amostra.</p></div>
       {"".join(peca(*x) for x in SEQUENCIA)}
     </section>
-{"".join(onda_futura(n) for n in range(4, len(ONDAS) + 1))}
+
+    <section class="section" id="dados" aria-labelledby="dados-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>04 · Dados</p>
+      <h2 class="t-titulo" id="dados-titulo" data-revelar>O valor que se lê ao&nbsp;lado de&nbsp;outro</h2>
+      <div class="prosa" data-revelar><p>O Gráfico em três formas, com os números reais dos casos. Cada amostra está no acento do caso de onde o número vem, para ver o Gráfico no lime, no azul e no&nbsp;verde.</p></div>
+      {"".join(peca(*x) for x in DADOS)}
+    </section>
+{"".join(onda_futura(n) for n in range(5, len(ONDAS) + 1))}
   </div>
 </main>"""
 
@@ -803,6 +943,8 @@ if __name__ == "__main__":
     for md in sorted(FICHAS.glob("*.md")):
         if not md.name.startswith("_"):
             (AQUI / "fichas" / f"{md.stem}.html").write_text(pagina_ficha(md.stem))
+    for arq in SEM_FICHA:
+        (AQUI / "fichas" / f"{arq}.html").write_text(pagina_ficha(arq))
     vitrine = (c.cabeca(P, "Vitrine · Jeff DS no site", ESTILO) + c.CARGA + c.cabecalho(P, None, "Pular para a vitrine")
                + main() + c.rodape(P, None))
     vitrine = vitrine.replace("</body>", '<script src="vitrine.js"></script>\n</body>')

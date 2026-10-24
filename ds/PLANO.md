@@ -6,7 +6,7 @@ O Jeff DS (tokens, cores, tipografia, componentes dos posts) está em https://cl
 
 ## Estado
 
-Fases 0 a 4 fechadas. Na Fase 5, as Ondas 1, 2 e 3 estão aprovadas e no artifact. A próxima é a Onda 4, o Gráfico, que vai primeiro para a vitrine.
+Fases 0 a 4 fechadas. Na Fase 5, as Ondas 1 a 4 estão aprovadas e no artifact. A próxima é a Onda 5, a Imagem, o hero e o Cartão da Lista de casos, que vai primeiro para a vitrine.
 
 Entregas da Fase 1, em `ds/`. `INVENTARIO.md` (matriz peça por página medida nas páginas reais), `capturas/index.html` (cada peça em 390, 768 e 1440px), `CONTRASTE.md`, `PORQUES.md` (os comentários do CSS e do HTML por peça) e `auditoria/` (os scripts que refazem tudo). A pasta do Industry foi para `arquivo/handoff/`.
 
@@ -161,6 +161,23 @@ Andamento da Onda 3.
   - O funil vertical. No site de hoje são cinco colunas na largura da página. Com o Sumário ao lado a coluna do caso tem 972px em 1440, e cinco colunas dariam uns 175px cada, com textos de dez linhas. Recomendo a forma vertical.
   - Os três níveis de desejabilidade do Inpulse usam a forma dos ritos hoje, mas são a legenda das pilhas logo abaixo. Recomendo levar para o Gráfico `pilhas`, na Onda 4.
   - O Passos ganha um efeito opcional, a mesma faixa `muted` do efeito do Cartão, para a "Consequência" do Mapa e o "Quem conduz" do funil. Recomendo, em vez de criar uma parte para cada caso.
+
+Andamento da Onda 4.
+
+- Em 24 de outubro de 2026 o Gráfico foi para a vitrine, antes da ficha. O código está em `assets/ds/componentes.css` (bloco Chart), sem JS novo. A amostra mostra as quatro formas, cada uma no acento do caso de onde vem o número, e o palco tem o Experimento do Inpulse, a nota do Mapa e o Resultado do Processo.
+- O desenho vem das Barras dos posts. Trilho de papel com contorno de 2px e raio pela metade, e o preenchimento com o fio de tinta na ponta.
+- Três tons com forma própria, em `data-tom`. `cheio` é o acento, `trama` são fios de tinta na diagonal e `vazio` é o papel. Nas barras o antes é trama e o depois é cheio. Nas pilhas entusiasta é cheio, receptivo é trama e indiferente é vazio. A trama entrou porque o azul e o mist quase se confundem, e a diferença não pode depender só da cor.
+- `barras`. Uma grandeza por grupo, com o nome em cima, o rótulo à esquerda e o valor à direita. Dois grupos lado a lado com 600px de Seção.
+- `pilhas`. Os três níveis de desejabilidade do Inpulse viraram a legenda, com o que cada um quer dizer. Uma faixa por funcionalidade, cada parte na proporção da contagem (`--n`), e a conta escrita embaixo. Com 600px de Seção o nome vai para a esquerda.
+- `escala`. Eixo de −100 a +100 com o zero marcado, o percurso do antes ao depois no acento, o antes num ponto vazado e o depois num ponto de tinta. Os dois valores ficam acima do eixo, cada um na sua linha, para não se encostarem.
+- Os valores vão no HTML como números em variáveis (`--valor`, `--n`, `--antes`, `--depois`), e o texto ao lado diz o mesmo número. O desenho fica escondido do leitor de tela, e cada Gráfico é uma figura com título.
+- A entrada usa o revelar da página. Depois que o bloco sobe, uma tampa de papel descobre as faixas da esquerda para a direita, e na escala o percurso corre e só então aparece o depois. Sem JS e com movimento reduzido tudo nasce pronto.
+- Conferido em 375, 768 e 1440 sem rolagem lateral, e sem erro no console. O Omnichat não muda, porque o bloco só acrescenta regras com `.chart` e nenhuma página publicada usa a classe. Movimento reduzido conferido só no código.
+- A vitrine passou a aceitar peça sem ficha (`SEM_FICHA` em `ds/vitrine/gerar.py`). A página da ficha mostra só o palco e o que testar até a ficha existir.
+- Aprovada por você em 24 de outubro de 2026, na vitrine, como estava. A ficha do Gráfico foi escrita (`ds/fichas/grafico.md`) e o Gráfico saiu de `SEM_FICHA`.
+- O GUIA passou o Gráfico para "no código hoje", com os tons, e ganhou a regra de que o número do Gráfico não volta no Dado da mesma Seção. O RITMO ganhou um Gráfico por Seção na regra 10 e o número repetido no checklist. Os Fundamentos dizem que o Gráfico pinta só com o `acento` e que os `chart-1` a `chart-3` ficam reservados.
+- No artifact, `SiteGrafico` entrou no grupo Site · Dados (versão 18), com a prévia feita da amostra por `ds/vitrine/artifact.py`, o CSS do site atualizado em `site/` e a Onda 4 no README. A prévia foi testada sozinha no navegador, sem nada de fora.
+- Achado para a Fase 6. No Mapa, o 890 aparece nas barras do Resultado e de novo no Dado em grupo logo abaixo. A regra nova pede que saia de um dos dois.
 
 ## Decisões da Fase 0
 

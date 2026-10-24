@@ -32,6 +32,7 @@ PECAS = [
     ("destaque", "SiteDestaque", "Site · Ação e texto", 1600, "Quatro formas. Frase no papel, nota, atrito e a frase na tinta, que é a parada escura da página."),
     ("passos", "SitePassos", "Site · Sequência", 3800, "Cada etapa num Cartão com o adesivo no canto. Sequência, par, estágios, funil, trilha e ritos."),
     ("antes-e-depois", "SiteAntesDepois", "Site · Sequência", 1900, "A conversa, a citação em Fraunces e o confronto como tabela, com o depois no acento."),
+    ("grafico", "SiteGrafico", "Site · Dados", 1600, "Barras, pilhas e escala, cada uma no acento do caso de onde vem o número. O valor se distingue pelo tom, cheio, trama ou vazio."),
 ]
 
 TOKENS = (RAIZ / "assets/ds/tokens.css").read_text()

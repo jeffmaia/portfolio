@@ -23,7 +23,7 @@ Toda peça tem um peso, como nos posts. É ele que regula o ritmo.
 7. **Um acento.** A página inteira usa o acento declarado no `html`. Os outros dois não aparecem, nem em ícone. A única exceção é o Botão, que é sempre lime.
 8. **Um ícone, uma vez.** Fora do Sumário, o mesmo ícone não se repete na página. No Sumário cada seção tem o seu.
 9. **Uma ilustração de cena por caso**, no Topo, presa ao indicador. O resto da página fala com ícones.
-10. **Um conjunto de Abas por página.**
+10. **Um conjunto de Abas por página, e um Gráfico por Seção.** O número que o Gráfico desenha não se repete no Dado em grupo da mesma Seção.
 
 ## Entre seções
 
@@ -42,7 +42,7 @@ Toda peça tem um peso, como nos posts. É ele que regula o ritmo.
 2. Há só uma parada de tinta além do rodapé, no máximo uma frase no papel e no máximo um Destaque médio por Seção?
 3. Toda seção abre com texto, e nenhuma tem mais de três parágrafos antes da peça?
 4. Duas seções seguidas fecham com a mesma peça no mesmo arranjo?
-5. Algum ícone se repete fora do Sumário?
+5. Algum ícone se repete fora do Sumário, ou algum número do Gráfico se repete no Dado da mesma Seção?
 6. A seção 02 abre com a mesma peça do caso anterior na fila?
 7. Todo hover está dentro de `(hover: hover) and (pointer: fine)`, e todo alvo de toque tem 44px, fora o link no meio do texto?
 8. Toda troca de estado tem movimento, e a página funciona sem JS e com movimento reduzido?

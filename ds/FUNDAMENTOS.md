@@ -18,6 +18,8 @@ Os nomes são os do shadcn (D6), e cada um aponta para um token da marca. Compon
 | `chart-1` a `chart-3` | gráficos | lime, azul, verde |
 | `acento` | acento dominante da página (D5) | o caso declara com `data-acento` |
 
+**Gráfico.** O Gráfico pinta só com o `acento` da página, pela regra de um acento por página. O que separa um valor do outro é a forma do tom, `cheio` (o acento), `trama` (fios de tinta na diagonal) e `vazio` (o papel), e não a cor. Os `chart-1` a `chart-3` ficam reservados, sem uso no site hoje.
+
 **Superfície tinta.** A classe `superficie-tinta` troca os valores por dentro. `foreground`, `border` e `ring` viram papel, e o mesmo componente funciona no escuro sem regra própria. No Omnichat ela aparece duas vezes, no fechamento e no rodapé (D4).
 
 Os acentos sobre o papel ficam entre 1,05 e 1,51 para 1 (ver `ds/CONTRASTE.md`). Por isso são sempre fundo, e quem escreve, contorna e marca foco é a tinta.
@@ -119,4 +121,4 @@ Foram testadas três formas, e o trilho ganhou. A faixa grudada no cabeçalho ro
 
 - Publicar estes tokens no artifact do Jeff DS, no grupo Site. Fica para depois da sua aprovação, porque mexe no artifact que também serve os posts.
 - Direção do hero. Já registrada em `ds/PLANO.md`, entra quando a Home for migrada.
-- Gráfico e Imagem, os dois componentes que o Omnichat não usa.
+- Imagem, o componente que o Omnichat não usa e que entra na Onda 5. O Gráfico entrou na Onda 4.
