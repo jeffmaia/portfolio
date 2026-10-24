@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Link, ficha · Jeff DS no site</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+</style>
+</head>
+<body>
+
+<a class="pular" href="#conteudo">Pular para a ficha</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="../../../case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container ficha-pagina">
+  <header class="ficha-pagina__topo">
+    <a class="link" data-variant="voltar" href="../index.html#peca-link"><i aria-hidden="true">←</i> Vitrine</a>
+    <span class="badge"><code>Link</code></span>
+    <h1 class="t-display">Link</h1>
+    <p class="t-sub">Leva a outro lugar sem ser a ação principal. Sempre sublinhado, no meio do texto ou sozinho com uma seta que diz a direção.</p>
+  </header>
+  <section class="ficha-pagina__palco" aria-labelledby="na-pagina">
+    <h2 id="na-pagina">Na página</h2>
+    <p class="t-apoio prosa">A peça montada numa página com o texto real e outras peças em&nbsp;volta.</p>
+    <div class="palco" data-palco data-largura-inicial="768" data-altura="800">
+          <div class="palco__barra">
+            <div class="palco__larguras" role="group" aria-label="Largura do quadro, em pixels"><button class="button" type="button" data-variant="outline" data-largura="390" aria-pressed="false">390</button><button class="button" type="button" data-variant="outline" data-largura="768" aria-pressed="false">768</button><button class="button" type="button" data-variant="outline" data-largura="1440" aria-pressed="false">1440</button></div>
+            <a class="link" data-variant="seguir" href="../palco/link.html">Abrir em página inteira <i aria-hidden="true">→</i></a>
+          </div>
+          <div class="palco__janela"><iframe src="../palco/link.html" title="Link, na página" loading="lazy"></iframe></div>
+        </div>
+    <p class="t-rotulo">O que testar</p>
+    <ul class="testar"><li>No fechamento, o link no meio da frase quebra junto com o texto. É a única exceção aos 44px, porque o alvo é a linha da&nbsp;frase.</li><li>Com mouse, o acento corre atrás das palavras e a seta anda na direção do link. Para trás no Voltar, para a frente no Seguir, na diagonal no Externo e para cima no&nbsp;Topo.</li><li>Em 390 ou 768, toque e segure. O acento aparece no toque, e os links com seta têm 44px de&nbsp;altura.</li><li>Pelo teclado, o anel de foco aparece sem o acento por&nbsp;trás.</li><li>No Rodapé, os mesmos links na tinta, com sublinhado e foco em&nbsp;papel.</li></ul>
+  </section>
+  <article class="doc">
+<h2>Use quando</h2>
+<ul><li><strong>Um destino no meio de uma frase.</strong> O leitor segue lendo e o link está ali, sublinhado. Use sem variante.</li><li><strong>Um destino sozinho, que não é a ação principal do trecho.</strong> Voltar, seguir para outra página, sair do site ou subir até o topo. Use a variante que diz a direção.</li></ul>
+<h2>Não use quando</h2>
+<ul><li>É a ação principal do trecho, como ir para o próximo caso ou chamar no WhatsApp. Use Botão.</li><li>É um item do menu. Use o item do Cabeçalho, que tem a sua própria marca.</li><li>É uma Seção da mesma página. Use o Sumário. O Link <code>topo</code> é a única exceção, porque subir não é ir a uma Seção.</li><li>Não leva a lugar nenhum, só nomeia. Use Etiqueta.</li><li>O texto do link seria "clique aqui" ou "saiba mais". Reescreva a frase até o destino ter nome.</li></ul>
+<h2>Anatomia</h2>
+<ol><li>Caixa, <code>a.link</code>, obrigatória. Sempre um <code>&lt;a&gt;</code> com <code>href</code>. Nunca um <code>button</code> com cara de link.</li><li>Texto, obrigatório. Diz o destino ("Ver o caso", "linkedin.com/in/maiajeff", "Voltar ao topo").</li><li>Seta, só nas variantes. Um <code>i</code> com <code>aria-hidden="true"</code>. Antes do texto no <code>voltar</code>, depois do texto nas outras.</li></ol>
+<h2>Variantes</h2>
+<div class="tabela"><table><thead><tr><th><code>data-variant</code></th><th>Seta</th><th>Quando</th></tr></thead><tbody><tr><td>sem atributo</td><td>nenhuma</td><td>No meio do texto corrido</td></tr><tr><td><code>voltar</code></td><td><code>←</code> antes do texto</td><td>Voltar a uma página de onde se veio</td></tr><tr><td><code>seguir</code></td><td><code>→</code> depois do texto</td><td>Ir a outra página do site, sem ser a ação principal</td></tr><tr><td><code>externo</code></td><td><code>↗</code> depois do texto</td><td>Sair do site. Abre em outra aba</td></tr><tr><td><code>topo</code></td><td><code>↑</code> depois do texto</td><td>Voltar ao começo da página</td></tr></tbody></table></div>
+<p>Com variante, o Link vira um bloco em linha, com a seta separada do texto por <code>space-8</code>. Por isso a variante não entra no meio de uma frase, onde ela impediria a quebra de linha. Um link para fora no meio do texto fica sem variante e sem seta.</p>
+<p>Na superfície tinta o sublinhado e o texto viram papel, porque pedem <code>foreground</code>. O marca texto continua no acento, e o texto sobre ele volta a ser tinta.</p>
+<h2>Limites</h2>
+<ul><li>Texto de até uma linha em 390px quando tem variante. No meio do texto, o tamanho é o da frase.</li><li>Um Link <code>voltar</code> por página, no começo dela.</li><li>Um Link <code>topo</code> por página, na linha de baixo do Rodapé.</li><li>Até três Links com variante seguidos. Mais que isso é uma lista de navegação, e mora no Cabeçalho ou no Rodapé.</li></ul>
+<h2>Comportamento</h2>
+<ol><li><strong>Mouse.</strong> O acento corre da esquerda para a direita por trás das palavras, como um marca texto, e o texto fica em tinta. A seta anda na direção dela, 4px no <code>seguir</code> e no <code>voltar</code>, 3px para cima no <code>topo</code> e na diagonal no <code>externo</code>. Tudo em <code>dur-media</code> com <code>ease-saida</code>.</li><li><strong>Toque.</strong> No <code>:active</code> o marca texto aparece em <code>dur-rapida</code>. Com variante, onde o ponteiro é o dedo, o alvo tem pelo menos <code>alvo</code> (44px). No meio do texto o alvo é a linha da frase, a única exceção do site aos 44px.</li><li><strong>Foco.</strong> O anel de 2px em <code>ring</code>, afastado 3px. O marca texto não aparece no foco, para o anel não competir com ele.</li><li><strong>Movimento.</strong> O marca texto e a seta mudam com transição, e nada troca seco. O <code>topo</code> rola até o começo da página.</li><li><strong>Sem JS.</strong> Nada muda. É um link nativo.</li><li><strong>Movimento reduzido.</strong> As transições vão a zero. O marca texto aparece inteiro de uma vez, e o <code>topo</code> pula sem rolar.</li></ol>
+<h2>Acessibilidade</h2>
+<ul><li>O sublinhado está sempre lá. No toque não existe hover para revelar que algo é clicável, e a cor sozinha não diria nada, porque o link tem a mesma cor do texto.</li><li>O nome do link é o texto. A seta fica escondida do leitor de tela.</li><li>O <code>externo</code> abre em outra aba com <code>target="_blank"</code> e <code>rel="noopener"</code>. O texto diz o destino ("WhatsApp", "linkedin.com/in/maiajeff"), e quem ouve sabe que sai do site.</li><li>A página atual, numa lista de Links, leva <code>aria-current="page"</code> e uma marca que não é só cor (ver o Rodapé).</li><li>Tinta sobre papel, papel sobre tinta e tinta sobre o acento passam com folga.</li></ul>
+<h2>Onde aparece</h2>
+<ul><li>Modelo de Caso, no fechamento, sem variante no meio da frase. "me chama no WhatsApp".</li><li>Modelo de Caso, no Rodapé. "linkedin.com/in/maiajeff" como <code>externo</code>, as páginas sem variante e "Voltar ao topo" como <code>topo</code>.</li><li>Modelo de Caso, no menu. "LinkedIn" e "WhatsApp" como <code>externo</code>.</li><li>Vitrine, "Ver a ficha" e "Abrir em página inteira" como <code>seguir</code>, e "Vitrine" como <code>voltar</code> nas páginas de ficha.</li><li>Nas páginas publicadas, o Link (<code>.link</code>), o Link solto (<code>.link-solto</code>, "Abrir o protótipo completo ↗" no Inpulse e "Abrir o mapa completo ↗" no Mapa) e o Voltar para os casos (<code>.voltar</code>, "← Todos os casos") dos quatro casos.</li></ul>
+<h2>Vizinhos</h2>
+<ul><li><strong>Botão.</strong> A ação principal do trecho, numa pílula.</li><li><strong>Item do Cabeçalho.</strong> Navegação entre páginas, dentro do menu.</li><li><strong>Etiqueta.</strong> A mesma pílula do Botão, sem levar a lugar nenhum.</li></ul>
+<h2>Par nos posts</h2>
+<p>Sem par. No post ninguém clica, e o destino vai escrito na legenda.</p>
+<h2>Código</h2>
+<pre><code>&lt;!-- No meio do texto --&gt;
+&lt;p&gt;Se esse tipo de camada é um problema no seu produto, &lt;a class="link" href="https://wa.me/5511977346175" target="_blank" rel="noopener"&gt;me chama no WhatsApp&lt;/a&gt; ou veja o próximo caso.&lt;/p&gt;
+
+&lt;!-- Sozinho, com direção --&gt;
+&lt;a class="link" data-variant="voltar" href="index.html"&gt;&lt;i aria-hidden="true"&gt;←&lt;/i&gt; Todos os casos&lt;/a&gt;
+&lt;a class="link" data-variant="seguir" href="case-omnichat.html"&gt;Ver o caso &lt;i aria-hidden="true"&gt;→&lt;/i&gt;&lt;/a&gt;
+&lt;a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener"&gt;linkedin.com/in/maiajeff &lt;i aria-hidden="true"&gt;↗&lt;/i&gt;&lt;/a&gt;
+&lt;a class="link" data-variant="topo" href="#top"&gt;Voltar ao topo &lt;i aria-hidden="true"&gt;↑&lt;/i&gt;&lt;/a&gt;</code></pre>
+<p>Estilo em <code>assets/ds/componentes.css</code>, seção Link (<code>.link</code>), e a altura de toque no bloco <code>@media (pointer: coarse)</code>. O marca texto é o mesmo do item do menu, do item do Sumário e da marca do Cabeçalho. Não tem script.</p>
+<p><strong>Decidido.</strong> O link no meio do texto não chega a 44px no toque, porque o alvo é a linha da frase. É a exceção que a WCAG aceita para links dentro de texto (critério 2.5.8), e ela está escrita na regra do site, no <code>CLAUDE.md</code> e nos Fundamentos.</p>
+  </article>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="../../../case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+<script src="../vitrine.js"></script>
+</body>
+</html>

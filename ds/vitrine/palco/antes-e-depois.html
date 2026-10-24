@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Antes e depois · Palco da vitrine</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+</style>
+</head>
+<body>
+
+<a class="pular" href="#conteudo">Pular para o caso</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="antes-e-depois.html" aria-current="page"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container caso">
+  <nav class="sumario" data-sumario aria-label="Neste palco">
+    <p class="t-rotulo sumario__titulo">Neste palco</p>
+    <ol class="sumario__lista" id="sumario-lista"><li><a class="sumario__item" href="#s1"><img class="icone" src="../../../assets/ds/icones/pessoa-azul.svg" alt="" width="32" height="32"><span class="sumario__num">01</span><span class="sumario__nome">Contexto</span></a></li><li><a class="sumario__item" href="#s2"><img class="icone" src="../../../assets/ds/icones/dialogo-azul.svg" alt="" width="32" height="32"><span class="sumario__num">02</span><span class="sumario__nome">Antes e depois</span></a></li><li><a class="sumario__item" href="#s3"><img class="icone" src="../../../assets/ds/icones/camadas-azul.svg" alt="" width="32" height="32"><span class="sumario__num">03</span><span class="sumario__nome">O novo time</span></a></li></ol>
+    <button class="sumario__botao" type="button" aria-expanded="false" aria-controls="sumario-lista" hidden><span class="sr">Seções deste palco</span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span></button>
+    <span class="sumario__aviso" aria-hidden="true"></span>
+  </nav>
+  <div>
+    <section class="section" id="s1" aria-labelledby="s1-titulo">
+      <p class="section__rotulo t-rotulo">01 · Contexto</p>
+      <h2 class="t-titulo" id="s1-titulo">O&nbsp;que o&nbsp;aluno dizia</h2>
+      <div class="compare" data-variant="citacao">
+  <div class="card compare__lado" data-variant="muted">
+    <p class="compare__cabeca"><span class="badge"><img class="icone-inline" src="../../../assets/ds/icones/xis-azul.svg" alt="" width="20" height="20">Antes</span></p>
+    <figure class="compare__citacao">
+      <blockquote><p>“Precisamos correr atrás de&nbsp;nota, elas levam dias para&nbsp;sair, e quando saem a gente tem que&nbsp;anotar pra ver todas em&nbsp;um&nbsp;mesmo lugar. Difícil se preparar dessa maneira.”</p></blockquote>
+      <figcaption>Nota 2 no NPS, de uma estudante no 3º semestre.</figcaption>
+    </figure>
+  </div>
+  <div class="card compare__lado" data-variant="acento">
+    <p class="compare__cabeca"><span class="badge"><img class="icone-inline" src="../../../assets/ds/icones/check-azul.svg" alt="" width="20" height="20">Depois</span></p>
+    <figure class="compare__citacao">
+      <blockquote><p>“Com o Inpulse eu não preciso ficar anotando as&nbsp;notas dos complexos temáticos, e isso facilitou pra eu achar o&nbsp;que devo estudar para&nbsp;as recuperações.”</p></blockquote>
+      <figcaption>Aluna do 5º semestre de medicina.</figcaption>
+    </figure>
+  </div>
+</div>
+    </section>
+    <section class="section" id="s2" aria-labelledby="s2-titulo">
+      <p class="section__rotulo t-rotulo">02 · Antes e depois</p>
+      <h2 class="t-titulo" id="s2-titulo">O&nbsp;mesmo lead de&nbsp;Instagram, nas&nbsp;duas versões da&nbsp;fronteira de&nbsp;entrada</h2>
+      <p class="t-apoio">Conversa ilustrativa. As notas de&nbsp;camada ligam cada correção ao&nbsp;ponto correspondente da&nbsp;lista acima.</p><div class="compare">
+  <div class="card compare__lado" data-variant="muted">
+    <p class="compare__cabeca"><span class="badge"><img class="icone-inline" src="../../../assets/ds/icones/xis-azul.svg" alt="" width="20" height="20">Antes</span><span class="badge" data-variant="tinta">Conversa abandonada</span></p>
+    <ol class="turnos"><li class="turno"><span class="t-rotulo">Lead · Instagram</span><p class="turno__fala">Oi, vi aqui no Instagram e queria saber mais</p></li><li class="turno turno--agente"><span class="t-rotulo">Agente</span><p class="turno__fala">Olá! Tudo bem? Posso te ajudar com&nbsp;informações sobre nossos produtos. Qual o seu nome?</p><span class="turno__nota">Trata a primeira mensagem como pergunta genérica</span></li><li class="turno"><span class="t-rotulo">Lead · Instagram</span><p class="turno__fala">É sobre aquilo que&nbsp;apareceu no&nbsp;anúncio</p></li><li class="turno turno--agente"><span class="t-rotulo">Agente</span><p class="turno__fala">Temos várias opções disponíveis. Quer fechar o&nbsp;plano anual em 12x sem juros?</p><span class="turno__nota">Oferta apresentada antes de&nbsp;a&nbsp;intenção existir</span></li><li class="turno"><span class="t-rotulo">Lead · Instagram</span><p class="turno__fala">…</p><span class="turno__nota">Conversa abandonada no quarto turno</span></li></ol>
+  </div>
+  <div class="card compare__lado" data-variant="acento">
+    <p class="compare__cabeca"><span class="badge"><img class="icone-inline" src="../../../assets/ds/icones/check-azul.svg" alt="" width="20" height="20">Depois</span><span class="badge" data-variant="tinta">Lead convertido</span></p>
+    <ol class="turnos"><li class="turno"><span class="t-rotulo">Lead · Instagram</span><p class="turno__fala">Oi, vi aqui no Instagram e queria saber mais</p></li><li class="turno turno--agente"><span class="t-rotulo">Agente</span><p class="turno__fala">Oi! Você chegou pelo anúncio da&nbsp;campanha de inverno. É sobre isso que quer falar, ou é outro assunto?</p><span class="turno__nota">Camada 02, jornada por origem</span></li><li class="turno"><span class="t-rotulo">Lead · Instagram</span><p class="turno__fala">É sobre isso mesmo</p></li><li class="turno turno--agente"><span class="t-rotulo">Agente</span><p class="turno__fala">Fechado. Antes de te passar valores, só confirmando: é para&nbsp;uso próprio ou para revenda?</p><span class="turno__nota">Camada 03, verifica antes de ofertar</span></li><li class="turno"><span class="t-rotulo">Lead · Instagram</span><p class="turno__fala">Uso próprio</p></li><li class="turno turno--agente"><span class="t-rotulo">Agente</span><p class="turno__fala">Então a opção que faz sentido é a&nbsp;que&nbsp;estava no anúncio, com entrega para&nbsp;a&nbsp;sua região. Quero já reservar para você?</p><span class="turno__nota">Camada 03, segue sozinho com&nbsp;a&nbsp;intenção confirmada</span></li><li class="turno"><span class="t-rotulo">Lead · Instagram</span><p class="turno__fala">Pode reservar sim</p></li></ol>
+  </div>
+</div>
+    </section>
+    <section class="section" id="s3" aria-labelledby="s3-titulo">
+      <p class="section__rotulo t-rotulo">03 · O novo time</p>
+      <h2 class="t-titulo" id="s3-titulo">O&nbsp;mesmo time, com&nbsp;o&nbsp;eixo do&nbsp;trabalho deslocado</h2>
+      <table class="compare" data-variant="confronto" role="table">
+  <caption class="sr">O trabalho do time antes e depois, em quatro dimensões</caption>
+  <thead>
+    <tr role="row">
+      <th role="columnheader" scope="col"><span class="t-rotulo">Dimensão</span></th>
+      <th role="columnheader" scope="col"><span class="badge">Antes</span></th>
+      <th role="columnheader" scope="col"><span class="badge">Depois</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr role="row">
+      <th role="rowheader" scope="row">Prototipação</th>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Antes</span>Concentrada em design</td>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Depois</span>Distribuída entre produto, design e engenharia</td>
+    </tr>
+    <tr role="row">
+      <th role="rowheader" scope="row">Validação qualitativa</th>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Antes</span>Quase sempre antes do desenvolvimento</td>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Depois</span>Depois do lançamento, quando o dado mostra desvio do esperado</td>
+    </tr>
+    <tr role="row">
+      <th role="rowheader" scope="row">Rituais</th>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Antes</span>Longos e na agenda</td>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Depois</span>Curtos e assíncronos</td>
+    </tr>
+    <tr role="row">
+      <th role="rowheader" scope="row">Testes A/B</th>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Antes</span>Poucas variações, porque cada uma custava caro para construir</td>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Depois</span>Muitas variações, porque desenvolver ficou ágil e barato</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
+  </div>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="antes-e-depois.html" aria-current="page">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+</body>
+</html>

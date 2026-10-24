@@ -108,6 +108,11 @@
      Alvo mínimo onde o ponteiro é o dedo. */
   --alvo: 44px;
 
+  /* ── Cabeçalho ───────────────────────────────────────────────
+     A altura da barra, contando o traço de baixo. O menu, o fundo
+     escurecido e o trilho do Sumário começam logo abaixo dela. */
+  --altura-cabecalho: 66px;
+
   /* ── Movimento ───────────────────────────────────────────── */
   --ease-saida: cubic-bezier(.22, .61, .36, 1);
   --ease-troca: cubic-bezier(.65, 0, .35, 1);

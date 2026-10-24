@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Cartão, ficha · Jeff DS no site</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+</style>
+</head>
+<body>
+
+<a class="pular" href="#conteudo">Pular para a ficha</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="../../../case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container ficha-pagina">
+  <header class="ficha-pagina__topo">
+    <a class="link" data-variant="voltar" href="../index.html"><i aria-hidden="true">←</i> Vitrine</a>
+    <span class="badge"><code>Card</code></span>
+    <h1 class="t-display">Cartão</h1>
+    <p class="t-sub">A caixa do sistema, com contorno de tinta, raio de 12 e fundo no papel, no <code>muted</code> ou no acento. Sozinho é moldura, e em grupo vira mosaico.</p>
+  </header>
+  <article class="doc">
+<h2>Use quando</h2>
+<ul><li><strong>Vários itens do mesmo tipo, para passar os olhos em todos.</strong> De dois a seis, cada um com ícone, nome e um parágrafo curto. O leitor precisa ver todos antes de escolher qual ler. Use o grupo em mosaico.</li><li><strong>Os dados do projeto.</strong> Duração, Jeff e Time, no Topo do caso. Use o Cartão <code>muted</code> com a ficha.</li><li><strong>A moldura de um número ou de uma cena.</strong> O Salto e a ilustração do caso moram num Cartão do acento.</li></ul>
+<h2>Não use quando</h2>
+<ul><li>A ordem dos itens é o assunto. Use Passos.</li><li>Cada item é longo e o leitor vai ler um ou dois. Use Abas.</li><li>É a mesma coisa antes e depois. Use Antes e depois.</li><li>É uma frase que precisa ficar na memória. Use Destaque.</li><li>A caixa só serviria para separar um texto do resto. Texto corrido não leva moldura.</li></ul>
+<h2>Anatomia</h2>
+<p><strong>O Cartão.</strong></p>
+<ol><li>Caixa, <code>article.card</code> quando o item faz sentido sozinho (uma camada, uma origem), <code>div.card</code> quando é moldura (a ficha, o Salto). Obrigatória.</li><li>Ícone adesivo, opcional. Do acento do caso, com <code>aria-hidden</code>.</li><li>Rótulo, opcional. <code>p.t-rotulo</code>, com o número do item ("Camada 01") quando outras partes da página apontam para ele.</li><li>Título, <code>h3</code>, obrigatório no mosaico. No degrau <code>lead</code>, em negrito.</li><li>Texto, <code>p.t-apoio</code>, obrigatório no mosaico. Um parágrafo.</li><li>Efeito, opcional. <code>p.card__efeito</code>, com o rótulo "Efeito" e uma frase sobre o que o item mudou.</li></ol>
+<p><strong>O grupo em mosaico.</strong></p>
+<ol><li>Caixa, <code>div.cards</code> com <code>data-layout="mosaico"</code>. Uma grade de seis colunas que ocupa a largura da coluna de conteúdo.</li><li>Os Cartões, cada um com <code>data-tamanho</code>.</li></ol>
+<h2>Variantes</h2>
+<div class="tabela"><table><thead><tr><th>Atributo</th><th>Valor</th><th>Como fica</th><th>Quando</th></tr></thead><tbody><tr><td><code>data-variant</code></td><td>sem atributo</td><td>Fundo <code>background</code></td><td>O padrão</td></tr><tr><td></td><td><code>muted</code></td><td>Fundo <code>muted</code> (mist)</td><td>A ficha do projeto, e o que é informação de apoio</td></tr><tr><td></td><td><code>acento</code></td><td>Fundo <code>acento</code>, texto em tinta</td><td>O Salto, e um item que o mosaico quer marcar</td></tr><tr><td><code>data-tamanho</code></td><td><code>meio</code></td><td>Metade da linha</td><td>Itens de mesmo peso, em pares</td></tr><tr><td></td><td><code>terco</code></td><td>Um terço da linha</td><td>Itens curtos, em trios</td></tr><tr><td></td><td><code>dois-tercos</code></td><td>Dois terços no desktop, a linha inteira no tablet</td><td>O item que abre o grupo e pesa mais</td></tr></tbody></table></div>
+<p>Os tamanhos por largura, em colunas de seis.</p>
+<div class="tabela"><table><thead><tr><th></th><th>até 719px</th><th>de 720 a 1099px</th><th>a partir de 1100px</th></tr></thead><tbody><tr><td><code>meio</code></td><td>6</td><td>3</td><td>3</td></tr><tr><td><code>terco</code></td><td>6</td><td>2</td><td>2</td></tr><tr><td><code>dois-tercos</code></td><td>6</td><td>6</td><td>4</td></tr></tbody></table></div>
+<p>No celular todo Cartão ocupa a linha inteira, um debaixo do outro.</p>
+<p>Na superfície tinta o contorno vira papel, porque <code>border</code> troca por dentro. O <code>muted</code> e o <code>acento</code> continuam com texto em tinta.</p>
+<h2>Limites</h2>
+<ul><li>De dois a seis Cartões num mosaico. Um item só é moldura, e mais de seis vira Abas ou duas Seções.</li><li>Um Cartão <code>acento</code> por mosaico, e o acento chapado em só uma de duas Seções seguidas (regra 11 do <code>ds/RITMO.md</code>).</li><li>Um mosaico de Cartões por página, fora o Topo e o Dado em grupo. O modelo usa no Processo.</li><li>As linhas somam seis colunas. Fecham nas duas larguras dois, quatro ou seis <code>meio</code>, e três ou seis <code>terco</code>. No arranjo do Processo, um <code>dois-tercos</code> seguido de quatro <code>terco</code>, o desktop fecha e o tablet deixa a quinta camada sozinha na última linha. É assim no modelo aprovado.</li><li>Título de até duas linhas e texto de até seis linhas no Cartão <code>terco</code> do desktop. Passou disso, o item é longo e pede Abas.</li></ul>
+<h2>Comportamento</h2>
+<ol><li><strong>Mouse.</strong> Não tem. O Cartão não é alvo. Se um dia virar link, a ficha muda antes.</li><li><strong>Toque.</strong> Não tem.</li><li><strong>Foco.</strong> Não recebe foco.</li><li><strong>Movimento.</strong> O grupo inteiro leva <code>data-revelar</code> e entra subindo 16px em <code>dur-lenta</code> com <code>ease-saida</code>. Os Cartões não entram um a um, para a leitura do grupo não esperar.</li><li><strong>Sem JS.</strong> Aparece pronto.</li><li><strong>Movimento reduzido.</strong> Aparece pronto.</li></ol>
+<h2>Acessibilidade</h2>
+<ul><li>No mosaico os Cartões são <code>article</code>, cada um com o seu <code>h3</code>. Quem navega por títulos acha cada item.</li><li>O ícone é decorativo. O título já diz o que é.</li><li>A ordem de leitura é a ordem do HTML, que é a mesma da grade. O mosaico nunca reordena com CSS.</li><li>Tinta sobre papel, mist e acento passa com folga. Ver <code>ds/CONTRASTE.md</code>.</li></ul>
+<h2>Onde aparece</h2>
+<ul><li>Modelo de Caso, Topo. A ficha do projeto num Cartão <code>muted</code> e o Salto num Cartão do acento, com a ilustração do salto.</li><li>Modelo de Caso, Processo. Cinco camadas em mosaico, a primeira em <code>dois-tercos</code> e no acento ("A arquitetura de prompt como superfície de design"), as outras quatro em <code>terco</code>.</li><li>Modelo de Caso, Problema. Duas origens em <code>meio</code>, "Instagram" e "Disparos de WhatsApp".</li><li>Modelo de Caso, Resultado. Quatro Cartões <code>meio</code> com o Dado em grupo (ver a ficha do Dado).</li><li>Nas páginas publicadas, a Ficha do projeto dos quatro casos.</li></ul>
+<h2>Vizinhos</h2>
+<ul><li><strong>Passos.</strong> Quando a ordem é o assunto, ou são duas coisas ao mesmo tempo.</li><li><strong>Abas.</strong> Quando cada item é longo e se lê um de cada vez.</li><li><strong>Dado.</strong> O número que mora dentro do Cartão, não o Cartão.</li><li><strong>Destaque.</strong> Uma frase sozinha, sem moldura de item.</li></ul>
+<h2>Par nos posts</h2>
+<p>Cards, a sequência de dois a três cartões com rótulo e frase. Lá o último cartão é a conclusão e leva a cor mais forte. Aqui o mosaico não tem ordem de leitura, e quem leva o acento é o item que abre o grupo.</p>
+<h2>Código</h2>
+<pre><code>&lt;!-- Grupo em mosaico --&gt;
+&lt;div class="cards" data-layout="mosaico" data-revelar&gt;
+  &lt;article class="card" data-tamanho="dois-tercos" data-variant="acento"&gt;
+    &lt;img class="icone" src="assets/ds/icones/lapis-azul.svg" alt="" width="48" height="48"&gt;
+    &lt;p class="t-rotulo"&gt;Camada 01&lt;/p&gt;
+    &lt;h3&gt;A arquitetura de prompt como superfície de design&lt;/h3&gt;
+    &lt;p class="t-apoio"&gt;Parar de tratar o prompt como configuração técnica…&lt;/p&gt;
+    &lt;p class="card__efeito"&gt;&lt;span class="t-rotulo"&gt;Efeito&lt;/span&gt; Tornou a conversa um objeto de design…&lt;/p&gt;
+  &lt;/article&gt;
+  &lt;article class="card" data-tamanho="terco"&gt;…&lt;/article&gt;
+&lt;/div&gt;
+
+&lt;!-- Ficha do projeto --&gt;
+&lt;div class="card" data-variant="muted"&gt;
+  &lt;p class="t-rotulo card__titulo"&gt;Ficha do projeto&lt;/p&gt;
+  &lt;dl class="ficha"&gt;
+    &lt;div&gt;&lt;dt&gt;Duração&lt;/dt&gt;&lt;dd&gt;…&lt;/dd&gt;&lt;/div&gt;
+  &lt;/dl&gt;
+&lt;/div&gt;</code></pre>
+<p>Estilo em <code>assets/ds/componentes.css</code>, seção Card (<code>.card</code>, <code>.ficha</code>). Não tem script além do revelar.</p>
+<p><strong>O que falta no código.</strong></p>
+<ul><li>Nada para o uso atual. O mosaico, que morava no CSS da variação 4 com as classes <code>.mosaico</code> e <code>.tile</code>, já está em <code>componentes.css</code> como <code>.cards[data-layout="mosaico"]</code>.</li></ul>
+  </article>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="../../../case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+</body>
+</html>

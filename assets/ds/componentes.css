@@ -220,7 +220,10 @@ button { font: inherit; color: inherit; }
   text-underline-offset: 0.22em;
   border-radius: 2px;
 }
-.link[data-variant] { display: inline-flex; align-items: center; gap: var(--space-8); }
+/* Com variante o Link vira caixa. Dentro de uma grade ou de uma
+   coluna flex ela esticaria até a largura toda, e o marca texto
+   correria pelo vazio. A largura fica a das palavras e da seta. */
+.link[data-variant] { display: inline-flex; align-items: center; gap: var(--space-8); width: fit-content; }
 .link i { font-style: normal; text-decoration: none; display: inline-block; transition: transform var(--dur-media) var(--ease-saida); }
 .link:active { background-size: 100% 100%; color: var(--ink); transition-duration: var(--dur-rapida); }
 @media (hover: hover) and (pointer: fine) {
@@ -237,6 +240,9 @@ button { font: inherit; color: inherit; }
    acento usa o acento da página como fundo.
    ============================================================ */
 .badges { display: flex; flex-wrap: wrap; gap: var(--space-8); }
+/* O grupo é uma lista. Cada item vira caixa flex, para a linha do texto
+   em volta não esticar a altura da Etiqueta. */
+.badges > li { display: flex; }
 .badge {
   display: inline-flex;
   align-items: center;
@@ -336,28 +342,96 @@ button { font: inherit; color: inherit; }
 
 /* ============================================================
    Steps
-   Itens em ordem, cada um com o número num círculo de traço.
-   data-layout="par": dois lado a lado a partir do tablet, para
-   coisas que acontecem ao mesmo tempo.
+   Cada etapa é um Cartão com o ícone adesivo sobre o canto e o
+   número vazado em Anton. data-layout troca o arranjo: par (dois
+   ao mesmo tempo), estagios (entrada, meio no acento e saída,
+   ligados por setas), funil (Cartões que estreitam), trilha (fio
+   tracejado entre os adesivos) e ritos (folhas de agenda).
+
+   O arranjo segue a largura da Seção, não a da tela: a partir de
+   1100px o Sumário ocupa a coluna da esquerda e a Seção volta a ter
+   uns 750px. Três lado a lado só com 900px de Seção.
    ============================================================ */
-.steps { display: grid; gap: var(--space-32); }
-.step { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--space-16); row-gap: var(--space-8); align-items: start; }
-.step__num {
+.section { container-type: inline-size; }
+.steps { display: grid; gap: var(--space-48) var(--grade-vao); padding-top: var(--space-24); }
+.step {
+  position: relative;
   display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
+  gap: var(--space-12);
+  align-content: start;
+  min-width: 0;
+  padding: var(--space-48) var(--space-24) var(--space-24);
   border: var(--stroke) solid var(--border);
-  border-radius: 50%;
-  background: var(--acento);
-  color: var(--ink);
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  line-height: 1;
+  border-radius: var(--radius);
+  background: var(--background);
+  color: var(--foreground);
 }
-.step > p { grid-column: 2; }
-.step__icone { --icone: 44px; }
-.step__titulo { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; padding-top: 8px; }
+.step > p { max-width: var(--leitura); }
+.step__icone { position: absolute; top: -30px; left: var(--space-16); --icone: 64px; }
+.step__num {
+  position: absolute;
+  top: var(--space-12);
+  right: var(--space-16);
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--foreground);
+}
+.step__titulo { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+/* A lista de dentro do Cartão, como as entregas da saída: fios em vez
+   de pílulas, porque um nome longo não cabe numa pílula de um terço. */
+.step__lista { display: grid; font-size: var(--text-apoio); }
+.step__lista li { padding-block: var(--space-8); border-top: 1px solid var(--border); }
+.step__lista li:last-child { border-bottom: 1px solid var(--border); }
+
+/* Estágios: o meio no acento, e uma seta de tinta entre um Cartão e
+   o próximo, para baixo em coluna e para o lado em fila. */
+.steps[data-layout="estagios"] { gap: 72px; }
+.steps[data-layout="estagios"] > .step:nth-child(2) { background: var(--acento); color: var(--ink); }
+.steps[data-layout="estagios"] > .step:nth-child(2) .step__num { -webkit-text-stroke-color: var(--ink); }
+.steps[data-layout="estagios"] > .step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -50px;
+  width: 40px;
+  height: 24px;
+  background: var(--foreground);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 24'%3E%3Cpath d='M3 12h32M27 4l8 8-8 8' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 24'%3E%3Cpath d='M3 12h32M27 4l8 8-8 8' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  transform: translateX(-50%) rotate(90deg);
+}
+
+/* Funil: cada Cartão um pouco mais estreito que o anterior, pelo
+   índice --i, centrados. */
+.steps[data-layout="funil"] { justify-items: center; }
+.steps[data-layout="funil"] > .step { width: calc(100% - var(--i, 0) * 9%); }
+
+/* Trilha: um fio tracejado liga os adesivos e só aparece entre os
+   Cartões. Vertical em coluna, horizontal em fila. */
+.steps[data-layout="trilha"] { position: relative; }
+.steps[data-layout="trilha"]::before { content: ""; position: absolute; top: 0; bottom: 0; left: 47px; border-left: var(--stroke) dashed var(--border); }
+
+/* Ritos: folhas de agenda, com o nome em Anton na faixa do acento. */
+.steps[data-layout="ritos"] { gap: var(--space-24); padding-top: 0; }
+.steps[data-layout="ritos"] > .step { gap: 0; padding: 0; overflow: hidden; }
+.step__topo { display: flex; align-items: center; gap: var(--space-12); padding: var(--space-12) var(--space-16); border-bottom: var(--stroke) solid var(--border); background: var(--acento); color: var(--ink); }
+.step__topo .step__icone { position: static; --icone: 40px; }
+.step__topo .step__titulo { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; line-height: 1; text-transform: uppercase; }
+.steps[data-layout="ritos"] > .step > p { padding: var(--space-16); }
+
+@container (min-width: 600px) {
+  .steps[data-layout="par"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .steps[data-layout="ritos"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@container (min-width: 900px) {
+  .steps:not([data-layout]),
+  .steps[data-layout="trilha"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .steps[data-layout="estagios"] { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr); align-items: stretch; }
+  .steps[data-layout="estagios"] > .step:not(:last-child)::after { left: auto; right: -56px; top: 50%; bottom: auto; transform: translateY(-50%); }
+  .steps[data-layout="trilha"]::before { top: 50%; bottom: auto; left: 0; right: 0; border-left: 0; border-top: var(--stroke) dashed var(--border); }
+}
 
 /* ============================================================
    Tabs
@@ -373,7 +447,7 @@ button { font: inherit; color: inherit; }
 .tabs__painel { display: grid; gap: var(--space-12); padding-block: var(--space-24); border-top: var(--stroke) solid var(--border); }
 .tabs__painel:last-child { border-bottom: var(--stroke) solid var(--border); }
 .tabs__painel-titulo { display: flex; gap: var(--space-12); align-items: baseline; font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
-.tabs__efeito, .card__efeito { display: grid; gap: var(--space-4); font-size: var(--text-apoio); padding: var(--space-16); border-radius: var(--radius); background: var(--muted); color: var(--ink); }
+.tabs__efeito, .card__efeito, .step__efeito { display: grid; gap: var(--space-4); font-size: var(--text-apoio); padding: var(--space-16); border-radius: var(--radius); background: var(--muted); color: var(--ink); }
 
 .tabs--js .tabs__lista {
   display: grid;
@@ -443,13 +517,57 @@ button { font: inherit; color: inherit; }
 .turno--agente .turno__fala { background: var(--ink); color: var(--paper); text-align: left; }
 .turno__nota { font-size: var(--text-apoio); font-style: italic; font-family: var(--font-flare); font-weight: 300; }
 
+/* Citação: a fala de quem usou, em Fraunces, a voz de conversa. O
+   Anton fica para a voz do caso, no Destaque. */
+.compare__citacao { display: grid; gap: var(--space-16); margin: 0; }
+.compare__citacao blockquote { margin: 0; font-family: var(--font-flare); font-weight: 300; font-size: var(--text-lead); line-height: 1.35; }
+.compare__citacao figcaption { font-size: var(--text-apoio); line-height: 1.5; }
+
+/* Confronto: uma tabela de verdade. A coluna do depois é a faixa do
+   acento, de cima a baixo. No celular cada linha vira um bloco, com o
+   nome do lado escrito em cada célula, e a cabeça sai da tela mas
+   continua para o leitor de tela. */
+.compare[data-variant="confronto"] { display: table; width: 100%; border-collapse: collapse; }
+.compare[data-variant="confronto"] th,
+.compare[data-variant="confronto"] td { padding: var(--space-16); text-align: left; vertical-align: top; }
+.compare[data-variant="confronto"] tbody th { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.compare[data-variant="confronto"] tr { border-bottom: var(--stroke) solid var(--border); }
+.compare[data-variant="confronto"] td:last-child,
+.compare[data-variant="confronto"] thead th:last-child { background: var(--acento); color: var(--ink); }
+.compare__marca { display: none; }
+
+@media (max-width: 719px) {
+  .compare[data-variant="confronto"],
+  .compare[data-variant="confronto"] tbody,
+  .compare[data-variant="confronto"] tr,
+  .compare[data-variant="confronto"] th,
+  .compare[data-variant="confronto"] td { display: block; }
+  .compare[data-variant="confronto"] thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .compare[data-variant="confronto"] { border-top: var(--stroke) solid var(--border); }
+  .compare[data-variant="confronto"] tr { display: grid; gap: var(--space-8); padding-block: var(--space-16); }
+  .compare[data-variant="confronto"] th,
+  .compare[data-variant="confronto"] td { padding: 0; }
+  .compare[data-variant="confronto"] td { display: grid; gap: var(--space-4); padding: var(--space-12) var(--space-16); }
+  .compare[data-variant="confronto"] td:last-child { border-radius: var(--radius); }
+  .compare__marca { display: block; }
+}
+@media (min-width: 720px) {
+  .compare[data-variant="confronto"] { border-top: var(--stroke) solid var(--border); }
+  .compare[data-variant="confronto"] thead th:first-child,
+  .compare[data-variant="confronto"] tbody th { width: 25%; }
+}
+
 /* ============================================================
    Callout
-   A frase que o bloco existe para carregar. data-variant tinta é
-   a parada escura da página (D4: no máximo uma).
+   O trecho que a Seção existe para carregar, em quatro formas.
+   Com a classe superficie-tinta é a frase que fica, a parada escura
+   da página (D4: no máximo uma). Sem atributo é a frase no papel,
+   sem caixa, na margem do texto. data-variant nota e atrito são os
+   médios: a régua com o rótulo, e a caixa muted com o alerta.
    ============================================================ */
+.callout { display: grid; gap: var(--space-16); }
 .callout > .badge { justify-self: start; }
-.callout { display: grid; gap: var(--space-24); border-radius: var(--radius); padding: clamp(24px, 4vw, 56px); }
+.callout.superficie-tinta { gap: var(--space-24); border-radius: var(--radius); padding: clamp(24px, 4vw, 56px); }
 .callout__frase {
   font-family: var(--font-display);
   font-size: var(--text-display);
@@ -457,6 +575,35 @@ button { font: inherit; color: inherit; }
   line-height: var(--leading-display);
   text-transform: uppercase;
   max-width: 20ch;
+}
+.callout__legenda { font-size: var(--text-apoio); line-height: 1.5; max-width: 52ch; }
+
+/* Nota: a régua em cima, o rótulo e o texto. A partir de 720px o
+   rótulo fica num terço e o texto nos outros dois, na mesma linha
+   de base. */
+.callout[data-variant="nota"] { gap: var(--space-8); padding-top: var(--space-16); border-top: var(--stroke) solid var(--border); }
+.callout[data-variant="nota"] > p:last-child { max-width: var(--leitura); }
+
+/* Atrito: o tropeço e a regra que ficou, na caixa muted com o
+   alerta. Fica fora da tinta, que é uma só e mora no Resultado. A
+   partir de 720px o ícone desce para a margem esquerda, e o título
+   e o texto alinham na coluna da direita. */
+.callout[data-variant="atrito"] {
+  gap: var(--space-12) var(--space-24);
+  padding: clamp(24px, 3vw, 40px);
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--muted);
+  color: var(--ink);
+}
+.callout[data-variant="atrito"] .icone { --icone: 48px; }
+.callout[data-variant="atrito"] h3 { font-size: var(--text-lead); line-height: 1.3; }
+
+@media (min-width: 720px) {
+  .callout[data-variant="nota"] { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--grade-vao); align-items: baseline; }
+  .callout[data-variant="atrito"] { grid-template-columns: auto minmax(0, 1fr); }
+  .callout[data-variant="atrito"] .icone { grid-row: span 2; }
+  .callout[data-variant="atrito"] > :not(.icone) { grid-column: 2; }
 }
 
 /* ============================================================
@@ -469,7 +616,7 @@ button { font: inherit; color: inherit; }
   background: var(--background);
   border-bottom: var(--stroke) solid var(--border);
 }
-.header__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-16); min-height: 64px; }
+.header__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-16); min-height: calc(var(--altura-cabecalho) - var(--stroke)); }
 .marca { display: inline-flex; align-items: baseline; gap: var(--space-8); color: inherit; text-decoration: none; }
 .marca b { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; letter-spacing: 0.01em; text-transform: uppercase; }
 .marca span { font-size: var(--text-apoio); }
@@ -563,9 +710,9 @@ html:not(.js) .menu-botao { display: none; }
    página por trás escurece um pouco, e um toque nela fecha. */
 .js .sheet {
   position: fixed;
-  inset: 66px 0 auto;
+  inset: var(--altura-cabecalho) 0 auto;
   z-index: 49;
-  max-height: calc(100dvh - 66px);
+  max-height: calc(100dvh - var(--altura-cabecalho));
   overflow: auto;
   clip-path: inset(0 0 100% 0);
   visibility: hidden;
@@ -574,7 +721,7 @@ html:not(.js) .menu-botao { display: none; }
 .js .sheet.sheet--aberto {
   clip-path: inset(0 0 -4px 0);
   visibility: visible;
-  transition: clip-path 420ms var(--ease-saida), visibility 0s;
+  transition: clip-path var(--dur-lenta) var(--ease-saida), visibility 0s;
 }
 .js .sheet__lista > li,
 .js .sheet__contato {
@@ -586,8 +733,8 @@ html:not(.js) .menu-botao { display: none; }
 .js .sheet--aberto .sheet__contato {
   opacity: 1;
   transform: none;
-  transition: opacity 360ms var(--ease-saida), transform 360ms var(--ease-saida);
-  transition-delay: calc(100ms + var(--i, 0) * 45ms);
+  transition: opacity var(--dur-media) var(--ease-saida), transform var(--dur-media) var(--ease-saida);
+  transition-delay: calc(var(--dur-rapida) * (2 + var(--i, 0)) / 3);
 }
 .sheet__lista > li:nth-child(2) { --i: 1; }
 .sheet__lista > li:nth-child(3) { --i: 2; }
@@ -597,14 +744,14 @@ html:not(.js) .menu-botao { display: none; }
 .sheet__contato { --i: 6; }
 .sheet__fundo {
   position: fixed;
-  inset: 66px 0 0;
+  inset: var(--altura-cabecalho) 0 0;
   z-index: 48;
   background: rgb(0 0 0 / .18);
   opacity: 0;
   visibility: hidden;
   transition: opacity var(--dur-media) var(--ease-troca), visibility 0s linear var(--dur-media);
 }
-.sheet__fundo--aberto { opacity: 1; visibility: visible; transition: opacity 420ms var(--ease-saida), visibility 0s; }
+.sheet__fundo--aberto { opacity: 1; visibility: visible; transition: opacity var(--dur-lenta) var(--ease-saida), visibility 0s; }
 /* O que sai do site (LinkedIn, WhatsApp) não disputa com a
    navegação: corpo de apoio, em Inter, numa linha só, abaixo dos
    itens do site. */
@@ -659,7 +806,7 @@ html:not(.js) .menu-botao { display: none; }
   .js .sumario {
     position: fixed;
     z-index: 45;
-    top: 66px;
+    top: var(--altura-cabecalho);
     bottom: 0;
     right: 0;
     display: flex;
@@ -714,14 +861,14 @@ html:not(.js) .menu-botao { display: none; }
     opacity: 1;
     visibility: visible;
     transform: none;
-    transition: opacity var(--dur-media) var(--ease-saida), transform 360ms var(--ease-saida), visibility 0s;
+    transition: opacity var(--dur-media) var(--ease-saida), transform var(--dur-lenta) var(--ease-saida), visibility 0s;
   }
-  .js .sumario__lista > li { opacity: 0; transform: translateY(8px); transition: opacity var(--dur-rapida), transform var(--dur-rapida); }
+  .js .sumario__lista > li { opacity: 0; transform: translateY(8px); transition: opacity var(--dur-rapida) var(--ease-troca), transform var(--dur-rapida) var(--ease-troca); }
   .js .sumario--aberto .sumario__lista > li {
     opacity: 1;
     transform: none;
-    transition: opacity 320ms var(--ease-saida), transform 320ms var(--ease-saida);
-    transition-delay: calc(60ms + var(--i, 0) * 40ms);
+    transition: opacity var(--dur-media) var(--ease-saida), transform var(--dur-media) var(--ease-saida);
+    transition-delay: calc(var(--dur-rapida) * (2 + var(--i, 0)) / 3);
   }
   .sumario__lista > li:nth-child(2) { --i: 1; }
   .sumario__lista > li:nth-child(3) { --i: 2; }
@@ -746,7 +893,7 @@ html:not(.js) .menu-botao { display: none; }
     pointer-events: none;
     transition: opacity var(--dur-media) var(--ease-troca), transform var(--dur-media) var(--ease-troca);
   }
-  .js .sumario--rolando:not(.sumario--aberto) .sumario__aviso { opacity: 1; transform: none; transition-timing-function: var(--ease-saida); }
+  .js .sumario--rolando:not(.sumario--aberto):not(.sumario--escondido) .sumario__aviso { opacity: 1; transform: none; transition-timing-function: var(--ease-saida); }
 }
 
 /* ============================================================
@@ -760,6 +907,9 @@ html:not(.js) .menu-botao { display: none; }
 .footer__col { display: grid; gap: var(--space-12); align-content: start; }
 .footer__col ul { display: grid; gap: var(--space-4); }
 .footer__col a { display: inline-flex; align-items: center; min-height: 32px; }
+/* A página atual, na lista onde todo link já é sublinhado: perde o
+   sublinhado e ganha peso. A marca é de forma, não só de cor. */
+.footer__col a[aria-current="page"] { text-decoration: none; font-weight: 700; }
 .footer__meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-16); margin-top: var(--space-64); padding-top: var(--space-16); border-top: var(--stroke) solid var(--border); }
 
 /* ── Toque ───────────────────────────────────────────────────
@@ -775,7 +925,6 @@ html:not(.js) .menu-botao { display: none; }
 @media (min-width: 720px) {
   .cards[data-layout="mosaico"] > [data-tamanho="meio"] { grid-column: span 3; }
   .cards[data-layout="mosaico"] > [data-tamanho="terco"] { grid-column: span 2; }
-  .steps[data-layout="par"] { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--grade-vao); }
   .compare { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footer__grade { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
 }

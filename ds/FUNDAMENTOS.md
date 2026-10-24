@@ -47,7 +47,9 @@ Três famílias com papel fixo, como nos posts. A escala é fluida, uma reta ent
 - Entre seções, `space-secao`, de 64 a 128px.
 - Doze colunas, largura máxima de 1280px, margem lateral de 16px no celular a 48px no desktop.
 - Quebras em 720 (tablet) e 1100 (desktop). No caso, a partir de 1100 o Sumário ocupa uma coluna de 260px e o conteúdo usa um mosaico de seis colunas.
+- **Arranjo pela largura da Seção.** Com o Sumário ao lado, a Seção tem uns 750px em 1100 e em 1280, quase a largura do tablet. Por isso a Seção é um container (`container-type: inline-size`), e uma peça que põe itens lado a lado decide pela largura dela, com `@container`, e não pela da tela. O Passos é o primeiro a usar. Três itens lado a lado pedem 900px de Seção, e dois pedem 600px.
 - Texto corrido com no máximo 66 caracteres por linha.
+- A barra do Cabeçalho tem `altura-cabecalho` (66px, com o traço). O menu, o fundo escurecido e o trilho do Sumário começam logo abaixo dela.
 
 ## Estados
 
@@ -61,7 +63,7 @@ Três famílias com papel fixo, como nos posts. A escala é fluida, uma reta ent
 | selecionado | abas, menu | `aria-selected`, `aria-current`, `aria-expanded` | Acento no fundo e também contorno de 2px e peso 700, para não depender só da cor. |
 | desabilitado | botão | `:disabled`, `aria-disabled` | Contorno tracejado e opacidade de 60%. A forma muda, não só o tom. |
 
-**Toque.** Onde o ponteiro é o dedo (`pointer: coarse`), todo alvo tem pelo menos 44px de altura. Na prova, em 390 e 768px, nenhum link ou botão ficou abaixo disso. Com mouse, links dentro do texto podem ser menores.
+**Toque.** Onde o ponteiro é o dedo (`pointer: coarse`), todo alvo tem pelo menos 44px de altura. Na prova, em 390 e 768px, nenhum link ou botão ficou abaixo disso. A única exceção é o link no meio do texto, que tem a altura da linha da frase, com mouse ou com toque. A WCAG aceita essa exceção para links dentro de texto (critério 2.5.8), e esticar a linha quebraria a medida de leitura.
 
 **O link é sempre sublinhado.** Sem hover não há outro jeito de saber que um trecho de texto é clicável.
 
@@ -76,6 +78,8 @@ Três famílias com papel fixo, como nos posts. A escala é fluida, uma reta ent
 | `ease-troca` | `cubic-bezier(.65, 0, .35, 1)` | o que sai e outro entra no lugar |
 
 **A regra.** Toda interação que muda o estado de alguma coisa tem movimento. Nada troca seco.
+
+Nenhum tempo fica fora dos três tokens. O que entra de longe (o painel do menu, a lista do trilho) usa `dur-lenta`, e os itens que chegam um depois do outro usam `dur-media`, com o intervalo tirado do `dur-rapida` (um terço dele por item). Até o script espera pelos tokens, lidos de `tokens.css`.
 
 - Marca texto do hover e do toque. O acento corre por trás das palavras em 240ms, na largura do texto e não da caixa.
 - Menu. O painel desce do cabeçalho, os itens chegam um depois do outro e a página por trás escurece. Fechando, sobe mais rápido do que desceu.

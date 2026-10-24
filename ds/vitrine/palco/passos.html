@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Passos · Palco da vitrine</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+</style>
+</head>
+<body>
+
+<a class="pular" href="#conteudo">Pular para o caso</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="passos.html" aria-current="page"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container caso">
+  <nav class="sumario" data-sumario aria-label="Neste palco">
+    <p class="t-rotulo sumario__titulo">Neste palco</p>
+    <ol class="sumario__lista" id="sumario-lista"><li><a class="sumario__item" href="#s1"><img class="icone" src="../../../assets/ds/icones/fronteira-azul.svg" alt="" width="32" height="32"><span class="sumario__num">01</span><span class="sumario__nome">O problema</span></a></li><li><a class="sumario__item" href="#s2"><img class="icone" src="../../../assets/ds/icones/camadas-azul.svg" alt="" width="32" height="32"><span class="sumario__num">02</span><span class="sumario__nome">O que a gente fez</span></a></li><li><a class="sumario__item" href="#s3"><img class="icone" src="../../../assets/ds/icones/calendario-azul.svg" alt="" width="32" height="32"><span class="sumario__num">03</span><span class="sumario__nome">Rituais</span></a></li><li><a class="sumario__item" href="#s4"><img class="icone" src="../../../assets/ds/icones/rota-azul.svg" alt="" width="32" height="32"><span class="sumario__num">04</span><span class="sumario__nome">O novo funil</span></a></li><li><a class="sumario__item" href="#s5"><img class="icone" src="../../../assets/ds/icones/janela-azul.svg" alt="" width="32" height="32"><span class="sumario__num">05</span><span class="sumario__nome">Fluxo paralelo</span></a></li></ol>
+    <button class="sumario__botao" type="button" aria-expanded="false" aria-controls="sumario-lista" hidden><span class="sr">Seções deste palco</span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span></button>
+    <span class="sumario__aviso" aria-hidden="true"></span>
+  </nav>
+  <div>
+    <section class="section" id="s1" aria-labelledby="s1-titulo">
+      <p class="section__rotulo t-rotulo">01 · O problema</p>
+      <h2 class="t-titulo" id="s1-titulo">O&nbsp;trabalho vivia em&nbsp;reunião</h2>
+      <ul class="steps" data-layout="par"><li class="step"><img class="icone step__icone" src="../../../assets/ds/icones/dialogo-azul.svg" alt="" width="64" height="64"><h3 class="step__titulo">O&nbsp;trabalho vivia em&nbsp;reunião</h3><p>A gente discutia bem e decidia bem. Depois alguém tinha que transformar aquilo em PRD, story, relatório e protótipo. Esse alguém sempre demorava.</p></li><li class="step"><img class="icone step__icone" src="../../../assets/ds/icones/calendario-azul.svg" alt="" width="64" height="64"><h3 class="step__titulo">A&nbsp;garantia prévia custava semanas</h3><p>Como construir era caro, quase toda validação acontecia antes do desenvolvimento. Fazia sentido, e consumia semanas.</p></li></ul>
+    </section>
+    <section class="section" id="s2" aria-labelledby="s2-titulo">
+      <p class="section__rotulo t-rotulo">02 · O que a gente fez</p>
+      <h2 class="t-titulo" id="s2-titulo">Da&nbsp;transcrição ao&nbsp;entregável</h2>
+      <ol class="steps" data-layout="estagios"><li class="step"><img class="icone step__icone" src="../../../assets/ds/icones/dialogo-azul.svg" alt="" width="64" height="64"><span class="t-rotulo">Entrada</span><h3 class="step__titulo">Transcrição dos rituais</h3><p>O que o time já falava em reunião, agora capturado como matéria&nbsp;prima.</p></li><li class="step"><img class="icone step__icone" src="../../../assets/ds/icones/robo-azul.svg" alt="" width="64" height="64"><span class="t-rotulo">Camada</span><h3 class="step__titulo">Habilidades no&nbsp;Claude</h3><p>Habilidades que a gente criou leem a transcrição e devolvem os rascunhos.</p></li><li class="step"><img class="icone step__icone" src="../../../assets/ds/icones/janela-azul.svg" alt="" width="64" height="64"><span class="t-rotulo">Saída</span><h3 class="step__titulo">Cinco entregas</h3><ul class="step__lista"><li>Visão de produto</li><li>PRD</li><li>User stories</li><li>Relatório de usabilidade</li><li>Protótipo</li></ul></li></ol><div class="tabs" data-tabs>
+  <div class="tabs__lista" aria-label="Entregas da saída" aria-orientation="vertical"><button class="tab" type="button" role="tab" id="palco-visao" aria-controls="palco-painel-visao"><img class="icone-inline" src="../../../assets/ds/icones/lampada-azul.svg" alt="" width="32" height="32"><span class="t-rotulo">01</span>Visão de produto</button><button class="tab" type="button" role="tab" id="palco-prd" aria-controls="palco-painel-prd"><img class="icone-inline" src="../../../assets/ds/icones/lapis-azul.svg" alt="" width="32" height="32"><span class="t-rotulo">02</span>PRD</button><button class="tab" type="button" role="tab" id="palco-us" aria-controls="palco-painel-us"><img class="icone-inline" src="../../../assets/ds/icones/janela-azul.svg" alt="" width="32" height="32"><span class="t-rotulo">03</span>User stories</button><button class="tab" type="button" role="tab" id="palco-usabilidade" aria-controls="palco-painel-usabilidade"><img class="icone-inline" src="../../../assets/ds/icones/lupa-azul.svg" alt="" width="32" height="32"><span class="t-rotulo">04</span>Relatório de usabilidade</button><button class="tab" type="button" role="tab" id="palco-prototipo" aria-controls="palco-painel-prototipo"><img class="icone-inline" src="../../../assets/ds/icones/celular-azul.svg" alt="" width="32" height="32"><span class="t-rotulo">05</span>Protótipo</button></div>
+  <div class="tabs__paineis"><div class="tabs__painel" id="palco-painel-visao" tabindex="0">
+  <h3 class="tabs__painel-titulo"><img class="icone-inline" src="../../../assets/ds/icones/lampada-azul.svg" alt="" width="32" height="32"><span class="t-rotulo">01</span>Visão de produto</h3>
+  <p><strong>Vira direção antes de virar backlog.</strong> A habilidade lê a transcrição do ritual e devolve o rascunho da visão. O time revisa e ajusta, em vez de escrever do zero depois da conversa.</p>
+</div><div class="tabs__painel" id="palco-painel-prd" tabindex="0">
+  <h3 class="tabs__painel-titulo"><img class="icone-inline" src="../../../assets/ds/icones/lapis-azul.svg" alt="" width="32" height="32"><span class="t-rotulo">02</span>PRD</h3>
+  <p><strong>Chega pronto para discussão, não para redação.</strong> Com o PRD já rascunhado, a Planning deixou de ser um rito semanal. Acontece sob demanda, e a maior parte dela é assíncrona.</p>
+</div><div class="tabs__painel" id="palco-painel-us" tabindex="0">
+  <h3 class="tabs__painel-titulo"><img class="icone-inline" src="../../../assets/ds/icones/janela-azul.svg" alt="" width="32" height="32"><span class="t-rotulo">03</span>User stories</h3>
+  <p><strong>Entram no Kanban já documentadas.</strong> O refinamento virou tirar dúvida sobre o que já está escrito na story e desenhado no protótipo. Foi o que derrubou o ritual de quatro horas para quarenta minutos.</p>
+</div><div class="tabs__painel" id="palco-painel-usabilidade" tabindex="0">
+  <h3 class="tabs__painel-titulo"><img class="icone-inline" src="../../../assets/ds/icones/lupa-azul.svg" alt="" width="32" height="32"><span class="t-rotulo">04</span>Relatório de usabilidade</h3>
+  <p><strong>Análise no lugar de rodada de teste.</strong> O Claude aponta problema de fluxo com consistência, usando heurística de Norman e Nielsen mais o que a gente já sabe do público da Omni.</p>
+</div><div class="tabs__painel" id="palco-painel-prototipo" tabindex="0">
+  <h3 class="tabs__painel-titulo"><img class="icone-inline" src="../../../assets/ds/icones/celular-azul.svg" alt="" width="32" height="32"><span class="t-rotulo">05</span>Protótipo</h3>
+  <p><strong>Nasce desenvolvido e segue direto para a&nbsp;engenharia.</strong> O protótipo sai do Claude Design e vai para o Claude Code, de onde a engenharia assume. Design usa o Claude Code para manter a biblioteca fiel à do código, que é a referência principal.</p>
+</div></div>
+</div>
+    </section>
+    <section class="section" id="s3" aria-labelledby="s3-titulo">
+      <p class="section__rotulo t-rotulo">03 · Rituais</p>
+      <h2 class="t-titulo" id="s3-titulo">Saímos de&nbsp;Scrum para&nbsp;Kanban</h2>
+      <div class="prosa"><p>Com o rascunho já pronto antes do encontro, o que sobrou para a agenda foi&nbsp;dúvida, não&nbsp;redação.</p></div><ul class="steps" data-layout="ritos"><li class="step"><div class="step__topo"><img class="icone step__icone" src="../../../assets/ds/icones/calendario-azul.svg" alt="" width="40" height="40"><h3 class="step__titulo">Planning</h3></div><p>Virou assíncrona e sob&nbsp;demanda, não&nbsp;mais um rito&nbsp;semanal.</p></li><li class="step"><div class="step__topo"><img class="icone step__icone" src="../../../assets/ds/icones/pessoa-azul.svg" alt="" width="40" height="40"><h3 class="step__titulo">Daily</h3></div><p>Ficou só com engenharia. Produto entra quando&nbsp;precisa.</p></li><li class="step"><div class="step__topo"><img class="icone step__icone" src="../../../assets/ds/icones/lupa-azul.svg" alt="" width="40" height="40"><h3 class="step__titulo">Refinamento</h3></div><p>De 4 horas para 40&nbsp;minutos, porque virou tirar dúvida sobre o&nbsp;que já&nbsp;está escrito.</p></li></ul>
+    </section>
+    <section class="section" id="s4" aria-labelledby="s4-titulo">
+      <p class="section__rotulo t-rotulo">04 · O novo funil</p>
+      <h2 class="t-titulo" id="s4-titulo">Cinco fases, do&nbsp;sinal ao&nbsp;pós-lançamento</h2>
+      <ol class="steps" data-layout="funil"><li class="step" style="--i: 0"><img class="icone step__icone" src="../../../assets/ds/icones/lupa-azul.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">01</span><h3 class="step__titulo">Identificação de oportunidades</h3><p>Dado de produto, pesquisa e canais de feedback alimentam uma árvore de oportunidades que facilita escolher o que entra em pauta.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Produto e design, com&nbsp;dados alimentando a&nbsp;árvore.</p></li><li class="step" style="--i: 1"><img class="icone step__icone" src="../../../assets/ds/icones/alvo-azul.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">02</span><h3 class="step__titulo">Validação de desejabilidade e diferencial</h3><p>Confirmamos se a aposta faz sentido antes de o time gastar tempo desenhando a solução.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Produto e design.</p></li><li class="step" style="--i: 2"><img class="icone step__icone" src="../../../assets/ds/icones/lapis-azul.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">03</span><h3 class="step__titulo">Definição e prototipagem</h3><p>É aqui que nasce a maior parte da solução. O&nbsp;protótipo já sai desenvolvido e segue para a&nbsp;engenharia sem etapa de tradução no&nbsp;meio.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Produto, design e engenharia, com&nbsp;prototipação distribuída entre os&nbsp;três.</p></li><li class="step" style="--i: 3"><img class="icone step__icone" src="../../../assets/ds/icones/celular-azul.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">04</span><h3 class="step__titulo">Delivery</h3><p>Alfa na engenharia, que garante o funcionamento do que foi construído. Beta, aberto ou fechado, validando o experimento antes de abrir para todos.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Engenharia no alfa, time inteiro no beta.</p></li><li class="step" style="--i: 4"><img class="icone step__icone" src="../../../assets/ds/icones/grafico-azul.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">05</span><h3 class="step__titulo">Depois do lançamento</h3><p>O foco vira satisfação e adoção. A&nbsp;validação qualitativa entra quando o&nbsp;dado quantitativo mostra desvio do&nbsp;esperado.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Produto, design e dados, junto de GA e GTM.</p></li></ol>
+    </section>
+    <section class="section" id="s5" aria-labelledby="s5-titulo">
+      <p class="section__rotulo t-rotulo">05 · Fluxo paralelo</p>
+      <h2 class="t-titulo" id="s5-titulo">O&nbsp;Design System corre por&nbsp;fora do&nbsp;funil</h2>
+      <div class="prosa"><p>Em paralelo ao funil roda o fluxo do Design System, com componente aprovado direto no código antes de subir para o&nbsp;GitHub.</p><p>Hoje áreas fora de design também prototipam, CS inclusive, o que abriu uma discussão interna sobre controle. Resolvi separando o que cada protótipo pode prometer, não restringindo quem&nbsp;cria.</p></div><ol class="steps" data-layout="trilha"><li class="step"><img class="icone step__icone" src="../../../assets/ds/icones/lampada-azul.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">01</span><h3 class="step__titulo">Criação</h3><p>Novo componente nasce a partir de uma&nbsp;necessidade do&nbsp;produto.</p></li><li class="step"><img class="icone step__icone" src="../../../assets/ds/icones/olho-azul.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">02</span><h3 class="step__titulo">Comportamento e&nbsp;uso</h3><p>Definição escrita pensando também na&nbsp;leitura do&nbsp;Claude.</p></li><li class="step"><img class="icone step__icone" src="../../../assets/ds/icones/verifica-azul.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">03</span><h3 class="step__titulo">Aprovação no&nbsp;código</h3><p>Validação direto no&nbsp;código, antes de subir para o repositório no&nbsp;GitHub.</p></li></ol>
+    </section>
+  </div>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="passos.html" aria-current="page">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+</body>
+</html>

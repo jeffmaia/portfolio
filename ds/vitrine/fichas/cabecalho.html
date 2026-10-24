@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Cabeçalho, ficha · Jeff DS no site</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+</style>
+</head>
+<body>
+
+<a class="pular" href="#conteudo">Pular para a ficha</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="../../../case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container ficha-pagina">
+  <header class="ficha-pagina__topo">
+    <a class="link" data-variant="voltar" href="../index.html#peca-cabecalho"><i aria-hidden="true">←</i> Vitrine</a>
+    <span class="badge"><code>Header</code> e <code>Sheet</code></span>
+    <h1 class="t-display">Cabeçalho</h1>
+    <p class="t-sub">A barra fixa no topo de toda página, com a marca que leva à Home e o botão que abre o menu por cima da página.</p>
+  </header>
+  <section class="ficha-pagina__palco" aria-labelledby="na-pagina">
+    <h2 id="na-pagina">Na página</h2>
+    <p class="t-apoio prosa">A peça montada numa página com o texto real e outras peças em&nbsp;volta.</p>
+    <div class="palco" data-palco data-largura-inicial="1440" data-altura="800">
+          <div class="palco__barra">
+            <div class="palco__larguras" role="group" aria-label="Largura do quadro, em pixels"><button class="button" type="button" data-variant="outline" data-largura="390" aria-pressed="false">390</button><button class="button" type="button" data-variant="outline" data-largura="768" aria-pressed="false">768</button><button class="button" type="button" data-variant="outline" data-largura="1440" aria-pressed="false">1440</button></div>
+            <a class="link" data-variant="seguir" href="../palco/cabecalho.html">Abrir em página inteira <i aria-hidden="true">→</i></a>
+          </div>
+          <div class="palco__janela"><iframe src="../palco/cabecalho.html" title="Cabeçalho, na página" loading="lazy"></iframe></div>
+        </div>
+    <p class="t-rotulo">O que testar</p>
+    <ul class="testar"><li>Com mouse, passe sobre a marca, o botão Menu e os itens do menu aberto. O acento corre só atrás das&nbsp;palavras.</li><li>Abra o menu. O painel desce, os itens chegam um a um e a página escurece. Fechar é mais rápido do que&nbsp;abrir.</li><li>Pelo teclado, abra o menu e siga com Tab até depois do último link. O menu fecha sozinho. Esc também fecha e devolve o foco ao&nbsp;botão.</li><li>Em 390, a marca fica só com Jeff Maia. O item Omnichat aparece como a página&nbsp;atual.</li></ul>
+  </section>
+  <article class="doc">
+<h2>Use quando</h2>
+<p>Toda página do site, sempre igual. O leitor precisa saber de quem é o site e chegar a qualquer outra página de qualquer ponto da rolagem. É parte fixa da receita de Toda página (ver <code>ds/RECEITAS.md</code>), logo depois do Pular para o conteúdo.</p>
+<h2>Não use quando</h2>
+<ul><li>O destino é uma parte da mesma página. Use Sumário.</li><li>É a ação principal do trecho. Use Botão. O menu não carrega ação, só lugares.</li><li>O contato é o convite da página. Use o Rodapé, que tem a chamada e o Botão do WhatsApp. No menu o contato fica pequeno, abaixo dos itens.</li><li>A ideia é uma segunda barra fixa, de aviso ou de progresso. Não entra. A Régua de leitura saiu (ver <code>ds/COMPONENTES.md</code>), e cada barra fixa a mais rouba altura da leitura.</li><li>É o Manifesto. Ele saiu do menu pela D7.</li></ul>
+<h2>Anatomia</h2>
+<p><strong>A barra.</strong></p>
+<ol><li>Pular para o conteúdo, <code>a.pular</code>, obrigatório. Vem antes do <code>header</code>, fora da tela até receber foco, e aponta para <code>#conteudo</code>.</li><li>Caixa, <code>header.header</code>, com <code>div.container.header__inner</code> dentro. Obrigatória.</li><li>Marca, <code>a.marca</code>, obrigatória. Leva à Home. "Jeff Maia" em Anton num <code>b</code> e "Product Design Manager" num <code>span</code>, que some abaixo de 720px. O <code>aria-label</code> leva os dois.</li><li>Botão do menu, <code>button.menu-botao</code>, obrigatório. Leva <code>data-sheet-botao</code>, <code>aria-expanded</code> e <code>aria-controls="menu"</code>. Dentro, o ícone de dois traços com <code>aria-hidden</code> e as duas palavras, "Menu" e "Fechar", na mesma célula da grade.</li></ol>
+<p><strong>O menu.</strong></p>
+<ol><li>Painel, <code>div.sheet</code> com <code>id="menu"</code>, logo depois da barra. Dentro, <code>nav.sheet__inner</code> com <code>aria-label="Principal"</code>.</li><li>Itens do site, <code>ul.sheet__lista</code>, com um <code>a.sheet__item</code> por página e o nome num <code>span</code>. Home primeiro, depois os casos na ordem da fila. A página atual leva <code>aria-current="page"</code>.</li><li>Contato, <code>div.sheet__contato</code>, com o rótulo "Contato" e os Links externos para o LinkedIn e o WhatsApp em <code>ul.sheet__secundaria</code>.</li><li>Fundo escurecido, <code>div.sheet__fundo</code>. Quem cria é o script, e por isso não vai no HTML.</li></ol>
+<h2>Variantes</h2>
+<p>Uma forma só, sempre no papel. A barra não muda de cor com o que passa por trás e a assinatura não encolhe até o J, como faziam a Barra com assinatura e o Menu em painel do site de hoje. A retícula de pontos sobre a página também sai.</p>
+<p>O que muda com a largura é só a marca. Abaixo de 720px fica "Jeff Maia" sozinho.</p>
+<h2>Limites</h2>
+<ul><li>Um por página.</li><li>Até seis itens do site no menu. Hoje são cinco, Home e os quatro casos. O CSS escalona a chegada até o sexto, e passou disso o menu pede grupos com rótulo.</li><li>Nome do item em uma linha em 390px, no degrau <code>sub</code>.</li><li>Até dois links no Contato.</li><li>A barra tem <code>altura-cabecalho</code> (66px, com o traço). O painel, o fundo e o trilho do Sumário começam abaixo dela, e mudar a barra é mudar o token.</li></ul>
+<h2>Comportamento</h2>
+<ol><li><strong>Mouse.</strong> A marca ganha o acento como marca texto atrás de "Jeff Maia". O item do menu ganha a mesma marca atrás do nome. O botão do menu ganha <code>muted</code> no fundo. Tudo em <code>dur-media</code> com <code>ease-saida</code>.</li><li><strong>Toque.</strong> No <code>:active</code> o item ganha a marca texto em <code>dur-rapida</code>, e o botão do menu ganha <code>muted</code> e desce 1px. Botão, itens e links do Contato têm pelo menos <code>alvo</code> (44px). A marca chega a <code>alvo</code> onde o ponteiro é o dedo.</li><li><strong>Foco.</strong> O anel de 2px em <code>ring</code>. Ao abrir, o foco vai para o primeiro item do menu. Esc fecha e devolve o foco ao botão. Um toque no fundo escurecido também fecha, e o menu fecha sozinho quando o foco sai dele, pelo Tab depois do último link.</li><li><strong>Movimento.</strong> Abrindo, o painel desce do cabeçalho com a borda de baixo correndo para baixo e a página por trás escurece, em <code>dur-lenta</code> com <code>ease-saida</code>. Os itens chegam um depois do outro em <code>dur-media</code>, com um terço de <code>dur-rapida</code> entre cada um. Fechando, sobe mais rápido do que desceu, em <code>dur-media</code> com <code>ease-troca</code>. No botão, "Menu" sobe e sai, "Fechar" sobe e entra, e os dois traços giram até virar um xis, sem o botão mudar de largura.</li><li><strong>Sem JS.</strong> O botão some e o menu fica aberto no fluxo, logo abaixo da barra, com todos os links à vista. Nada se perde.</li><li><strong>Movimento reduzido.</strong> As transições vão a zero. O painel aparece e some sem descer, e a palavra troca sem subir.</li></ol>
+<h2>Acessibilidade</h2>
+<ul><li>O nome do botão é a palavra que está na tela. A outra fica com <code>visibility: hidden</code> e sai da leitura.</li><li>Fechado, o painel fica com <code>visibility: hidden</code>, que tira os links do Tab e do leitor de tela. Não usa <code>hidden</code> porque <code>hidden</code> não deixa animar.</li><li>A página atual tem <code>aria-current="page"</code> e sublinhado de 2px. Não depende de cor.</li><li>O Pular para o conteúdo é o primeiro Tab da página.</li><li>Tinta sobre papel em todo texto. O acento só aparece como fundo, atrás das palavras e no botão aberto.</li></ul>
+<h2>Onde aparece</h2>
+<ul><li>Modelo de Caso, <code>case-omnichat.html</code> e a vitrine. A marca "Jeff Maia, Product Design Manager", os itens "Home", "Processo com IA", "Omnichat", "Inpulse" e "Mapa de experiência", e no Contato "LinkedIn" e "WhatsApp".</li><li>Nas páginas publicadas, a Barra com assinatura (<code>.nav</code>), o Botão de menu (<code>.menu-btn</code>) e o Menu em painel (<code>.menu</code>, <code>.reticula</code>) das cinco páginas, ainda com o Manifesto.</li></ul>
+<h2>Vizinhos</h2>
+<ul><li><strong>Sumário.</strong> Leva às partes da mesma página, não a outras páginas.</li><li><strong>Rodapé.</strong> Repete os casos no fim e é quem faz o convite para conversar.</li><li><strong>Link.</strong> Os dois destinos do Contato são Links externos, não itens do menu.</li></ul>
+<h2>Par nos posts</h2>
+<p>Moldura, no cabeçalho que diz de quem é o post. O menu não tem par, porque no post não há para onde ir.</p>
+<h2>Código</h2>
+<pre><code>&lt;a class="pular" href="#conteudo"&gt;Pular para o caso&lt;/a&gt;
+
+&lt;header class="header"&gt;
+  &lt;div class="container header__inner"&gt;
+    &lt;a class="marca" href="index.html" aria-label="Jeff Maia, Product Design Manager"&gt;
+      &lt;b&gt;Jeff Maia&lt;/b&gt;&lt;span&gt;Product Design Manager&lt;/span&gt;
+    &lt;/a&gt;
+    &lt;button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu"&gt;
+      &lt;span class="menu-botao__icone" aria-hidden="true"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/span&gt;
+      &lt;span class="menu-botao__rotulos"&gt;&lt;span&gt;Menu&lt;/span&gt;&lt;span&gt;Fechar&lt;/span&gt;&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;div class="sheet" id="menu"&gt;
+  &lt;nav class="container sheet__inner" aria-label="Principal"&gt;
+    &lt;ul class="sheet__lista"&gt;
+      &lt;li&gt;&lt;a class="sheet__item" href="index.html"&gt;&lt;span&gt;Home&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a class="sheet__item" href="case-omnichat.html" aria-current="page"&gt;&lt;span&gt;Omnichat&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;!-- um item por página, na ordem da fila --&gt;
+    &lt;/ul&gt;
+    &lt;div class="sheet__contato"&gt;
+      &lt;p class="t-rotulo"&gt;Contato&lt;/p&gt;
+      &lt;ul class="sheet__secundaria"&gt;
+        &lt;li&gt;&lt;a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener"&gt;LinkedIn &lt;i aria-hidden="true"&gt;↗&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener"&gt;WhatsApp &lt;i aria-hidden="true"&gt;↗&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/nav&gt;
+&lt;/div&gt;</code></pre>
+<p>O HTML sai de <code>ds/prova/comum.py</code>, função <code>cabecalho</code>. Estilo em <code>assets/ds/componentes.css</code>, seções Base (<code>.pular</code>) e Header e Sheet (<code>.header</code>, <code>.marca</code>, <code>.menu-botao</code>, <code>.sheet</code>). Comportamento em <code>assets/ds/componentes.js</code>, bloco 2.</p>
+<p><strong>O que falta no código.</strong></p>
+<ul><li>Resolvido na Onda 1. Os tempos da abertura são tokens, a altura da barra é <code>altura-cabecalho</code>, os links do Contato são Links <code>externo</code> com a seta escondida do leitor de tela, e o menu fecha quando o foco sai dele.</li><li>O gerador já recebe o texto do pular (<code>pular</code>), e sem <code>aqui</code> nenhum item fica marcado como atual, como na vitrine. Falta, na Fase 6, marcar a página atual de cada caso e da Home.</li></ul>
+  </article>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="../../../case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+<script src="../vitrine.js"></script>
+</body>
+</html>

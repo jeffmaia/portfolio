@@ -6,7 +6,7 @@ O Jeff DS (tokens, cores, tipografia, componentes dos posts) está em https://cl
 
 ## Estado
 
-Fases 0 a 3 fechadas. A Fase 4, o piloto, está pronta no repositório, e `case-omnichat.html` já é a página do Jeff DS. O site publicado só muda quando ela entrar na `main`. Depois vem a Fase 5. O modelo de Caso é `ds/prova/variacoes/v4.html`, e os dois saem de `ds/prova/caso.py`. A instrução para abrir a próxima sessão está em `ds/PROXIMA-SESSAO.md`.
+Fases 0 a 4 fechadas. Na Fase 5, as Ondas 1, 2 e 3 estão aprovadas e no artifact. A próxima é a Onda 4, o Gráfico, que vai primeiro para a vitrine.
 
 Entregas da Fase 1, em `ds/`. `INVENTARIO.md` (matriz peça por página medida nas páginas reais), `capturas/index.html` (cada peça em 390, 768 e 1440px), `CONTRASTE.md`, `PORQUES.md` (os comentários do CSS e do HTML por peça) e `auditoria/` (os scripts que refazem tudo). A pasta do Industry foi para `arquivo/handoff/`.
 
@@ -83,10 +83,84 @@ Entregas, aprovadas por você em 23 de outubro de 2026.
 
 Achados que ficam para depois.
 
-- O título do Omnichat ocupa cinco linhas em 390px, e a receita pede até quatro. Já era assim na v4.
+- O título do Omnichat ocupava cinco linhas em 390px, e a receita pede até quatro. Resolvido na Onda 2 da Fase 5, com o título mais curto.
 - O menu do Jeff DS não tem o Manifesto. Ele segue no ar pelas outras páginas até a Fase 6 (D7).
 - A primeira prova, `ds/prova/omnichat.html`, usava a Seção antiga e mudou de cara. Fica como registro.
 - Sem JS e com movimento reduzido não foram conferidos no navegador, só no código.
+
+## Fase 5
+
+Plano aprovado por você em 23 de outubro de 2026. A biblioteca completa, em cinco ondas.
+
+| Onda | O que entra |
+| --- | --- |
+| 1, casca | Fichas do Cabeçalho, do Rodapé e do Sumário, que já têm código. O pular para o conteúdo e o Carregamento passam pela mesma conferência |
+| 2, ação e texto | Fichas do Link, da Etiqueta e do Destaque. O Destaque ganha `nota`, `atrito` e frase no papel. O título do Omnichat em cinco linhas se decide aqui |
+| 3, sequência e comparação | Passos em `estagios`, `funil`, `trilha` e `ritos`. Ficha e código do Antes e depois em `confronto` e `citacao` |
+| 4, dados | Ficha e código do Gráfico em `barras`, `pilhas` e `escala` |
+| 5, mídia, hero e Home | Ficha e código da Imagem em `moldura`, `galeria` e `sangria`. O hero com a ilustração do esboço que sobra. O Cartão de caso da Lista de casos |
+
+Como cada onda anda. A interface vem antes da documentação, pedido seu em 24 de outubro de 2026, a partir da Onda 3.
+
+1. As peças da onda vão primeiro para a vitrine, em `ds/vitrine/`, já com o código em `tokens.css`, `componentes.css` e `componentes.js` e o texto real do caso onde cada forma aparece hoje.
+2. Na vitrine cada peça aparece sozinha, numa amostra com todas as formas e o nome de cada uma, num quadro que se testa em 390, 768 e 1440px. A peça aplicada numa página, com outras peças em volta, fica no palco dentro da página da ficha.
+3. A conferência em 390, 768 e 1440px, sem JS e com movimento reduzido, hover só com mouse e alvos de 44px. O Omnichat é comparado de novo, elemento por elemento, porque tudo o que muda em `componentes.css` chega nele.
+4. Você olha, testa e aprova a interface e o comportamento.
+5. Só depois vêm as fichas, os guias e o artifact do Jeff DS. As prévias do artifact saem das amostras, por `python3 ds/vitrine/artifact.py <pasta>`. Commit só quando você pedir.
+
+Andamento da Onda 1.
+
+- Fichas do Cabeçalho, do Rodapé e do Sumário aprovadas, com as três recomendações. Os tempos fora dos tokens passaram a `dur-media` e `dur-lenta`, o menu fecha quando o foco sai e o trilho leva o foco ao primeiro item, e a lista do Rodapé virou "Páginas".
+- No código, o token `altura-cabecalho`, os links do Contato como Links `externo`, a página atual marcada no Rodapé, e o nome da Seção que não aparece mais sobre o Rodapé.
+- A vitrine em `ds/vitrine/`. Cada peça roda ao vivo num palco, uma página de verdade num quadro que troca entre 390, 768 e 1440px e responde a mouse, toque e teclado, com a lista do que testar. A ficha abre como página, convertida do Markdown de `ds/fichas/` pelo mesmo gerador. Sem JS o quadro fica na largura da coluna. Pedido seu, depois da primeira versão, que só levava ao Markdown.
+- Conferido no navegador. As três larguras sem rolagem lateral, o teclado no menu e no trilho, e sem JS (menu aberto no fluxo, lista do Sumário no topo, nada escondido). O Omnichat ficou idêntico ao do commit da Fase 4 nos 137 elementos do `main`, nas três larguras. Mudaram só o Contato do menu e a lista do Rodapé.
+- Movimento reduzido conferido só no código. O navegador da sessão não simula a preferência.
+- O Carregamento ainda usa tempos próprios (1,6s, 1,95s e outros), fora dos tokens. É fundamento e tem o mínimo de tempo como regra, então fica como está até você decidir.
+- Aprovada por você em 23 de outubro de 2026, com a vitrine ao vivo. As três peças foram para o artifact do Jeff DS no grupo Site · Casca (`SiteCabecalho`, `SiteRodape` e `SiteSumario`), com prévias que rodam o CSS e o JS do site, copiados em `site/` do artifact, e o token `altura-cabecalho` no `tokens.json`.
+
+Andamento da Onda 2.
+
+- Fichas novas do Link, da Etiqueta e do Destaque, em `ds/fichas/`. O Botão já tinha ficha e não muda.
+- O Destaque ganha a frase no papel (o Grito de hoje), a `nota` (a Linha de nota) e o `atrito`, que sai da tinta e vai para o `muted` com o ícone de alerta.
+- Fichas aprovadas por você em 24 de outubro de 2026, com três decisões.
+  - O ritmo dos Destaques. A regra 3 do `ds/RITMO.md` passou a ser uma frase na tinta, até uma frase no papel fora da Seção dela e no máximo um Destaque médio por Seção.
+  - O link no meio do texto é a única exceção aos 44px, como a WCAG aceita. Está escrito no `CLAUDE.md`, nos Fundamentos e na ficha.
+  - O título do Omnichat encurtou para "Verificação de intenção dos agentes conversacionais", e o `title` da página acompanha. A receita do Topo diz que, se passar de quatro linhas, encurta o título e não a régua do display.
+- No código, o `.callout` ficou sem caixa, e o recuo e o raio foram para a `.callout.superficie-tinta`. Entraram a `.callout__legenda`, a `nota` (régua, rótulo e texto, em duas colunas a partir de 720px) e o `atrito` (fundo `muted`, contorno, alerta na margem a partir de 720px). As Etiquetas do Topo viraram lista, no gerador e na variação 5.
+- Na vitrine, os palcos do Link, da Etiqueta e do Destaque. O do Destaque e o da Etiqueta são casos pequenos com Sumário, para a peça ter a largura que tem no caso. O Destaque usa o texto do Inpulse, do Processo e do Omnichat, um Destaque por Seção.
+- Conferido no navegador em 390, 768 e 1440px, sem rolagem lateral, e os Links com seta com 44px no toque. O Omnichat foi comparado com o estado aprovado da Onda 1, elemento por elemento. Fora do Topo nada mudou. No Topo só o título encurtou (quatro linhas em 390 e em 1440, duas em 768) e o que vem abaixo dele subiu junto.
+- A lista de Etiquetas esticava a linha em 1440 e descia o título 2px. Cada item virou caixa flex, e a diferença sumiu.
+- Achado para a Fase 6. A Seção 05 do Processo tem a frase no papel e a nota juntas, e a regra nova pede uma das duas fora dali.
+- Aprovada por você em 24 de outubro de 2026. As três peças foram para o artifact do Jeff DS no grupo Site · Ação e texto (`SiteLink`, `SiteEtiqueta` e `SiteDestaque`), com o CSS do site atualizado em `site/` e os ícones de alerta, xis e visto em `site/icones/`. O README do artifact ganhou a exceção dos 44px.
+
+Andamento da Onda 3.
+
+- Em 24 de outubro de 2026 você pediu para ver a interface antes de aprovar fichas. A vitrine passou a mostrar cada peça sozinha, com todas as formas, e o palco foi para a página da ficha. O Link com variante ficou na largura das palavras, porque numa grade ele esticava e o marca texto corria pelo vazio.
+- As fichas abaixo foram escritas antes dessa mudança. Elas servem de rascunho para montar a Onda 3 na vitrine e só se fecham depois que você aprovar a interface.
+- Na vitrine, com as três recomendações aplicadas. O Passos ganhou `estagios` (o meio na faixa do acento, a saída com as cinco entregas do Processo em Abas), `funil` (faixas que estreitam e desenham o funil, num quarto da largura a partir de 720px), `trilha`, `ritos` e o efeito opcional. O Antes e depois ganhou a `citacao` e o `confronto`, este como tabela de verdade. Os níveis de desejabilidade do Inpulse ficaram para o Gráfico `pilhas`.
+- Os palcos mostram o Passos com o texto do Processo e o Antes e depois com o Inpulse, o Omnichat e o Processo.
+- Conferido em 390, 768, 1000 e 1440px sem rolagem lateral. O Omnichat não mudou em nenhum elemento fora do Topo, do `main` ao Rodapé, nas três larguras.
+- A linha 3 do Mapa tem dois parágrafos, e a ficha pede um. Fica para decidir com a ficha, depois da interface.
+- Você aprovou o Antes e depois como está (a tabela e os Cartões) e recusou o Passos e o funil, pedindo um estudo como o das seis variações de página, com mais iconografia e alinhamento mais cuidadoso.
+- O estudo está em `ds/vitrine/estudo/`, gerado por `ds/vitrine/estudo.py`. Seis direções, cada uma montando as seis formas com o texto real, numa página com o Sumário. Tabela suíça, Coluna e margem, Adesivos, Diagrama (a forma desenhada, com o funil de verdade, a escada e a estrada), Linha do tempo e Jornal. O CSS de cada direção mora no gerador do estudo e só vai para `componentes.css` depois da sua escolha, que pode misturar formas de direções diferentes.
+- Você escolheu a direção 3, Adesivos. No tablet os três Cartões lado a lado apertavam o conteúdo, e a saída dos estágios vazava do Cartão. Agora o arranjo segue a largura da Seção (container query), e não a da tela, porque a partir de 1100px o Sumário ocupa a coluna da esquerda e a Seção volta a ter uns 750px. Três lado a lado só com 900px de Seção, dois no par e nos ritos com 600px, e um embaixo do outro no resto. A saída lista as entregas com fios, porque "Relatório de usabilidade" não cabe numa pílula de um terço. Conferido em 390, 768, 1024, 1100, 1280 e 1440, sem nada vazando dos Cartões.
+- A D3 foi para o componente, a seu pedido. O bloco Steps de `componentes.css` foi trocado inteiro. Cada etapa é um Cartão com o adesivo no canto e o número vazado, e o arranjo segue a largura da Seção, que virou container (`.section { container-type: inline-size }`). As formas são a sequência (sem atributo), `par`, `estagios` (setas de tinta entre os Cartões), `funil`, `trilha` e `ritos` (com `.step__topo`). As entregas da saída usam `.step__lista`, e as Abas com o detalhe de cada entrega vêm logo depois dos estágios, no palco.
+- A amostra e o palco do Passos na vitrine foram refeitos com a D3. Nada vaza dos Cartões em 390, 768, 1024, 1280 e 1440, e o Omnichat não mudou em nenhum elemento, do conteúdo ao Rodapé, nas três larguras.
+- A ficha do Passos ainda descreve a primeira proposta. Ela se reescreve depois que você aprovar a D3 na vitrine. A primeira prova (`ds/prova/omnichat.html`) e as variações 1 e 3, que usavam o Passos `par`, agora aparecem com os Cartões. Ficam como registro.
+- O nome "Cinco entregas" na saída não existe no Processo de hoje. Entrou para a amostra, e o nome de verdade se escreve na Fase 6.
+- Aprovada por você em 24 de outubro de 2026, na vitrine. As fichas do Passos e do Antes e depois foram fechadas com o que está no código, o GUIA passou as formas para "no código hoje", o RITMO passou o Passos para médio, e os Fundamentos ganharam a regra do arranjo pela largura da Seção.
+- No artifact, `SitePassos` e `SiteAntesDepois` entraram no grupo Site · Sequência. As prévias do Site apareciam só com o HTML, porque o card do artifact traz o próprio `<head>` e aproveita da prévia só o elemento raiz e um script, e assim perdia os `<link>` do CSS e o acento no `<body>`. Agora as oito prévias saem de `ds/vitrine/artifact.py`, feitas das amostras da vitrine, com o CSS, o JS, o acento e os ícones dentro do elemento raiz. Testadas sozinhas no navegador, sem nada de fora. Não consegui ver no claude.ai, que pede login no navegador da sessão.
+- A ficha do Passos foi reescrita com as quatro formas, e o Antes e depois ganhou a ficha que faltava (`ds/fichas/antes-e-depois.md`).
+- `estagios`. Três linhas com rótulo, e o estágio do meio no acento. Ele era tinta no site de hoje, e sai pela D4, como o atrito.
+- `funil`. Um item debaixo do outro, com faixas do acento que estreitam de cima para baixo e desenham o funil. No celular ele desce na vertical, sem carrossel, pela mesma regra das Abas, e a `trilha` também.
+- `trilha`. O fio com um ponto por marco, na horizontal a partir de 720px.
+- `ritos`. Itens lado a lado com régua em cima, sem ordem.
+- `citacao`. A mesma caixa da conversa, com a fala em Fraunces, a voz de conversa do sistema, e o Anton fica para a voz do caso.
+- `confronto`. Uma tabela de verdade, com a coluna do depois no acento. No celular cada linha vira bloco, e os papéis de tabela vão escritos no HTML para o Safari não esquecer a tabela.
+- Três pontos para você decidir.
+  - O funil vertical. No site de hoje são cinco colunas na largura da página. Com o Sumário ao lado a coluna do caso tem 972px em 1440, e cinco colunas dariam uns 175px cada, com textos de dez linhas. Recomendo a forma vertical.
+  - Os três níveis de desejabilidade do Inpulse usam a forma dos ritos hoje, mas são a legenda das pilhas logo abaixo. Recomendo levar para o Gráfico `pilhas`, na Onda 4.
+  - O Passos ganha um efeito opcional, a mesma faixa `muted` do efeito do Cartão, para a "Consequência" do Mapa e o "Quem conduz" do funil. Recomendo, em vez de criar uma parte para cada caso.
 
 ## Decisões da Fase 0
 

@@ -296,8 +296,8 @@ def v4():
 def v5():
     css = """
 .v5 .cartaz { display: grid; gap: var(--space-24); padding-block: var(--space-48) var(--space-64); }
-.v5 .cartaz .badges .badge:nth-child(1) { transform: rotate(-3deg); }
-.v5 .cartaz .badges .badge:nth-child(3) { transform: rotate(2deg); }
+.v5 .cartaz .badges li:nth-child(1) .badge { transform: rotate(-3deg); }
+.v5 .cartaz .badges li:nth-child(3) .badge { transform: rotate(2deg); }
 .v5 .manchete { display: grid; align-items: end; gap: var(--space-16); grid-template-columns: auto minmax(0, 1fr); }
 .v5 .manchete__antes, .v5 .manchete__depois { font-family: var(--font-display); line-height: .82; }
 .v5 .manchete__antes { font-size: clamp(3rem, 1rem + 8vw, 9rem); text-decoration: line-through; text-decoration-thickness: .08em; }

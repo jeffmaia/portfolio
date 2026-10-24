@@ -3,26 +3,30 @@
 Cole o bloco abaixo como primeira mensagem de uma sessão nova, aberta na pasta do repositório, na branch `claude/amazing-ride-r8h0h8`.
 
 ```
-Vamos seguir com o plano do Jeff DS no site. Antes de qualquer coisa, leia
-CLAUDE.md e siga o roteiro de leitura dele, começando por ds/PLANO.md.
+Vamos seguir com o plano do Jeff DS no site, na Onda 4 da Fase 5. Antes de
+qualquer coisa, leia CLAUDE.md e siga o roteiro de leitura dele, começando
+por ds/PLANO.md, seção Fase 5.
 
-Onde estamos. As Fases 0 a 4 estão fechadas. O case-omnichat.html já é a
-página do Jeff DS, gerada por ds/prova/caso.py e idêntica ao modelo de Caso
-(ds/prova/variacoes/v4.html). O plano publicado está em
-https://claude.ai/artifact/GGthPLy5robgxFnJX69QQj.
+Onde estamos. As Ondas 1, 2 e 3 estão aprovadas e no artifact do Jeff DS
+(https://claude.ai/artifact/YNnxB84kgyyzzUeY25XyeA). A Onda 4 é o Gráfico,
+em barras, pilhas e escala.
 
-Antes de começar, confira comigo se o piloto já entrou na main.
+Como a onda anda agora. A interface vem antes da documentação. Monte o
+Gráfico primeiro na vitrine (ds/vitrine/gerar.py), com o código em
+componentes.css e o texto real dos casos onde cada forma aparece hoje. Na
+vitrine a peça aparece sozinha na amostra, e aplicada numa página no palco
+dentro da ficha. Se a forma não for óbvia, faça um estudo de direções como o
+do Passos (ds/vitrine/estudo.py). Eu olho, testo e aprovo. Só depois vêm a
+ficha, os guias e o artifact (ds/vitrine/artifact.py).
 
-Depois traga o plano da Fase 5, a biblioteca completa em cinco ondas, sem
-criar telas, e espere a minha aprovação. Toda peça nova começa pela ficha
-em ds/fichas/, e todo modelo aprovado se segue exatamente como está.
+Os três níveis de desejabilidade do Inpulse (Entusiasta, Receptivo e
+Indiferente) entram como a legenda do Gráfico pilhas.
 
 Regras que não podem cair estão no CLAUDE.md. Commit só quando eu pedir.
 ```
 
-## O que fica para a Fase 5
+## O que fica para depois da Onda 4
 
-- Gráfico e Imagem continuam sem código.
-- As variantes previstas, escritas nas fichas antes de existir. Passos (`estagios`, `funil`, `trilha`, `ritos`), Antes e depois (`confronto`, `citacao`) e Destaque (`nota`, `atrito`, frase no papel).
-- Fichas que ainda faltam. Cabeçalho, Rodapé, Link, Etiqueta, Antes e depois, Destaque, Sumário, Gráfico e Imagem.
-- O título do Omnichat em cinco linhas no celular, uma a mais do que a receita pede.
+- Onda 5. A Imagem em `moldura`, `galeria` e `sangria`, o hero com o esboço que sobra e o Cartão da Lista de casos.
+- Fase 6. Os quatro casos e a Home montados com as peças. A Seção 05 do Processo tem a frase no papel e a nota juntas, e a regra nova do ritmo pede uma das duas fora dali. A saída dos estágios do Processo precisa de um nome de verdade no lugar de "Cinco entregas".
+- O Carregamento ainda usa tempos fora dos tokens, até você decidir.

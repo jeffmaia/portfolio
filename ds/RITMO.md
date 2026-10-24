@@ -8,15 +8,15 @@ Toda peça tem um peso, como nos posts. É ele que regula o ritmo.
 
 | Peso | O que é | Exemplos |
 | --- | --- | --- |
-| Leve | Texto no papel, sem caixa | Contexto, parágrafos, Link, Passos |
-| Médio | Caixa no papel ou no `muted`, ícones | Cartões, Antes e depois, Abas, Dado em grupo, Gráfico |
+| Leve | Texto no papel, sem caixa | Contexto, parágrafos, Link |
+| Médio | Caixa no papel ou no `muted`, ícones | Cartões, Passos, Antes e depois, Abas, Dado em grupo, Gráfico |
 | Forte | Acento chapado em área grande, tinta, número no degrau `numero` | Dado `salto`, Destaque na tinta, Imagem `sangria` |
 
 ## Na página
 
 1. **Uma parada de tinta.** Além do rodapé, só uma área da página fica na tinta (D4). No Caso é o Destaque do Resultado.
 2. **Um forte além do topo.** O topo já tem o Salto. No resto da página cabe um peso forte, e no Caso ele é a parada de tinta. Uma Imagem `sangria` entra no lugar dela, nunca junto.
-3. **Um Destaque por página.** A frase que fica é uma só. Destaque `nota` e `atrito`, quando existirem, são médios e cabem até dois.
+3. **Uma frase que fica.** A frase na tinta é uma só, no Resultado. Além dela cabe uma frase no papel, para a virada no meio do caso, nunca na mesma Seção da frase na tinta. Destaque `nota` e `atrito` são médios, e cada Seção leva no máximo um Destaque médio.
 4. **Texto antes da peça.** Toda seção abre com texto. Duas peças médias seguidas, sem texto entre elas, só no Resultado, onde o Dado em grupo e o Destaque fecham a conta juntos.
 5. **Três parágrafos no máximo** antes de uma peça. Passou disso, a seção está contando duas coisas e vira duas seções.
 6. **Medida de leitura.** Texto corrido com no máximo 66 caracteres por linha, em qualquer largura de tela.
@@ -39,12 +39,12 @@ Toda peça tem um peso, como nos posts. É ele que regula o ritmo.
 ## Checklist antes de publicar
 
 1. O acento do `html` é o do caso, e nenhum outro acento aparece além do lime do Botão?
-2. Há só uma parada de tinta além do rodapé, e um Destaque só?
+2. Há só uma parada de tinta além do rodapé, no máximo uma frase no papel e no máximo um Destaque médio por Seção?
 3. Toda seção abre com texto, e nenhuma tem mais de três parágrafos antes da peça?
 4. Duas seções seguidas fecham com a mesma peça no mesmo arranjo?
 5. Algum ícone se repete fora do Sumário?
 6. A seção 02 abre com a mesma peça do caso anterior na fila?
-7. Todo hover está dentro de `(hover: hover) and (pointer: fine)`, e todo alvo de toque tem 44px?
+7. Todo hover está dentro de `(hover: hover) and (pointer: fine)`, e todo alvo de toque tem 44px, fora o link no meio do texto?
 8. Toda troca de estado tem movimento, e a página funciona sem JS e com movimento reduzido?
 9. Nenhum título termina linha com palavra curta de ligação?
 

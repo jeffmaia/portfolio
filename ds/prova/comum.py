@@ -84,11 +84,19 @@ CARGA = """<div class="carga" aria-hidden="true">
 """
 
 
-def cabecalho(pre, aqui):
+def omnichat(pre, aqui):
+    """O item do Omnichat no menu e no rodapé. Nas provas ele aponta para a
+    própria página e é a atual. Sem `aqui` (a vitrine), é um link comum."""
+    if aqui is None:
+        return f'href="{pre}case-omnichat.html"'
+    return f'href="{aqui}" aria-current="page"'
+
+
+def cabecalho(pre, aqui, pular="Pular para o caso"):
     """Barra e menu. Home entra junto com os casos, porque é parte do site.
     O que leva para fora (LinkedIn, WhatsApp) fica abaixo, menor."""
     return f"""
-<a class="pular" href="#conteudo">Pular para o caso</a>
+<a class="pular" href="#conteudo">{pular}</a>
 
 <header class="header">
   <div class="container header__inner">
@@ -107,15 +115,15 @@ def cabecalho(pre, aqui):
     <ul class="sheet__lista">
       <li><a class="sheet__item" href="{pre}index.html"><span>Home</span></a></li>
       <li><a class="sheet__item" href="{pre}case-processo.html"><span>Processo com IA</span></a></li>
-      <li><a class="sheet__item" href="{aqui}" aria-current="page"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" {omnichat(pre, aqui)}><span>Omnichat</span></a></li>
       <li><a class="sheet__item" href="{pre}case-inpulse.html"><span>Inpulse</span></a></li>
       <li><a class="sheet__item" href="{pre}case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
     </ul>
     <div class="sheet__contato">
       <p class="t-rotulo">Contato</p>
       <ul class="sheet__secundaria">
-        <li><a class="link" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
-        <li><a class="link" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp ↗</a></li>
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
       </ul>
     </div>
   </nav>
@@ -135,12 +143,12 @@ def rodape(pre, aqui):
         <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
         <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
       </div>
-      <nav class="footer__col" aria-label="Casos">
-        <h3 class="t-rotulo">Casos</h3>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
         <ul>
           <li><a class="link" href="{pre}index.html">Home</a></li>
           <li><a class="link" href="{pre}case-processo.html">Processo com IA</a></li>
-          <li><a class="link" href="{aqui}" aria-current="page">Omnichat</a></li>
+          <li><a class="link" {omnichat(pre, aqui)}>Omnichat</a></li>
           <li><a class="link" href="{pre}case-inpulse.html">Inpulse</a></li>
           <li><a class="link" href="{pre}case-mapa-experiencia.html">Mapa de experiência</a></li>
         </ul>
@@ -170,7 +178,7 @@ def ilustracao(pre, nome, classe="ilustracao", eager=True):
 
 # ---------------------------------------------------------------- texto do caso
 BADGES = ["Omnichat", "Agentic Experience", "Agentes conversacionais"]
-TITULO = "Redesenhando a&nbsp;verificação de&nbsp;intenção dos&nbsp;agentes conversacionais"
+TITULO = "Verificação de&nbsp;intenção dos&nbsp;agentes conversacionais"
 LEAD = "A maior perda de conversão não estava na&nbsp;interface. Estava na&nbsp;camada onde a&nbsp;intenção do&nbsp;lead entra no&nbsp;sistema."
 SALTO_FRASE = "A conversão de leads qualificados nas origens redesenhadas, medida em&nbsp;produção ao longo de 8 semanas sobre cerca de 40 mil conversas, comparando com&nbsp;o&nbsp;fluxo anterior no&nbsp;mesmo período."
 CONTEXTO = "A Omnichat opera agentes de vendas conversacionais que atendem leads em escala, vindos de origens diferentes. Cada origem carrega um tipo de intenção, e o agente tratava todo lead do mesmo jeito, como se toda conversa começasse do&nbsp;zero."
@@ -244,9 +252,11 @@ FECHO = 'Trabalho com design de decisão em produtos conversacionais. Se&nbsp;es
 
 # ---------------------------------------------------------------- blocos prontos
 def badges(variante_ultima="acento"):
-    itens = [f'<span class="badge">{b}</span>' for b in BADGES[:-1]]
-    itens.append(f'<span class="badge" data-variant="{variante_ultima}">{BADGES[-1]}</span>')
-    return '<p class="badges">' + "".join(itens) + "</p>"
+    # Lista, para o leitor de tela ler uma Etiqueta de cada vez. O
+    # role devolve a lista ao Safari, que a esquece sem os marcadores.
+    itens = [f'<li><span class="badge">{b}</span></li>' for b in BADGES[:-1]]
+    itens.append(f'<li><span class="badge" data-variant="{variante_ultima}">{BADGES[-1]}</span></li>')
+    return '<ul class="badges" role="list">' + "".join(itens) + "</ul>"
 
 
 def salto(classe=""):

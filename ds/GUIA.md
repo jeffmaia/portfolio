@@ -32,10 +32,10 @@ Estas peças estão em toda página de caso, sempre no mesmo lugar, e não passa
 | A fala de quem usou, com autoria | Antes e depois, `citacao` | Destaque, que é a voz do caso e não do usuário |
 | Etapas em ordem, com texto longo em cada uma | Passos | Abas, que escondem a ordem |
 | Duas coisas que acontecem ao mesmo tempo | Passos, `par` | Passos simples, que faz a segunda parecer depois da primeira |
-| Entrada, o que acontece no meio e saída | Passos, `estagios` | Três Cartões com setas, que dão o mesmo peso ao meio |
+| Entrada, o que acontece no meio e saída | Passos, `estagios` | Passos em sequência, que dá ao meio o mesmo peso das pontas |
 | Etapas em que cada uma filtra a anterior | Passos, `funil` | Passos simples, que não mostra o estreitamento |
 | Um caminho curto de três marcos | Passos, `trilha` | Passos simples, que vira lista |
-| Ritos de time e o que mudou em cada um | Passos, `ritos` | Cartões, que dão peso de destaque a cada rito |
+| Ritos de time e o que mudou em cada um | Passos, `ritos` | Cartões em mosaico, que perdem a cara de agenda |
 | De dois a seis itens do mesmo tipo, para passar os olhos em todos | Cartões em mosaico | Abas, que mostram um de cada vez |
 | De três a seis itens longos, para ler um de cada vez | Abas | Cartões, que empurram a página para baixo |
 | Os dados do projeto (duração, papel, time) | Cartão `muted` com a ficha | Etiquetas, que são para assunto |
@@ -61,10 +61,10 @@ A tabela acima já aponta a variante. Esta parte diz o que existe no código hoj
 | Seção | uma forma só | |
 | Cartão | papel, `muted`, `acento`, grupo `mosaico` com `meio`, `terco` e `dois-tercos` | |
 | Dado | sozinho, `salto`, grupo em mosaico com ícone | |
-| Passos | padrão, `par` | `estagios`, `funil`, `trilha`, `ritos` |
+| Passos | sequência, `par`, `estagios`, `funil`, `trilha`, `ritos` | |
 | Abas | vertical | |
-| Antes e depois | lados, conversa | `confronto`, `citacao` |
-| Destaque | frase, na tinta | `nota`, `atrito`, frase no papel |
+| Antes e depois | lados, conversa, `citacao`, `confronto` | |
+| Destaque | frase na tinta, frase no papel, `nota`, `atrito` | |
 | Gráfico | | `barras`, `pilhas`, `escala` |
 | Imagem | | `moldura`, `galeria`, `sangria` |
 | Sumário | coluna fixa, trilho abaixo de 1100px | |

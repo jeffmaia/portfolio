@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Abas, ficha · Jeff DS no site</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+</style>
+</head>
+<body>
+
+<a class="pular" href="#conteudo">Pular para a ficha</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="../../../case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container ficha-pagina">
+  <header class="ficha-pagina__topo">
+    <a class="link" data-variant="voltar" href="../index.html"><i aria-hidden="true">←</i> Vitrine</a>
+    <span class="badge"><code>Tabs</code></span>
+    <h1 class="t-display">Abas</h1>
+    <p class="t-sub">Várias saídas do mesmo tipo, lidas uma de cada vez, com a lista dos nomes na esquerda e o painel aberto na direita.</p>
+  </header>
+  <article class="doc">
+<h2>Use quando</h2>
+<p>A seção tem de três a seis itens do mesmo tipo e cada um tem nome de frase, um parágrafo de texto e às vezes um efeito. O leitor escolhe qual abrir, e todos abertos de uma vez empurrariam o resto do caso para longe.</p>
+<h2>Não use quando</h2>
+<ul><li>A ordem importa e precisa ser vista inteira. Use Passos.</li><li>O leitor precisa comparar os itens entre si, ou passar os olhos por todos antes de ler. Use Cartões em mosaico. Foi o que o modelo de Caso fez com as cinco camadas do Omnichat.</li><li>São dois itens. Use dois Cartões lado a lado.</li><li>É o mesmo assunto antes e depois. Use Antes e depois.</li><li>O texto de cada item é uma linha. Use uma lista no texto corrido.</li><li>Um item esconde algo que a história do caso precisa. O que é essencial não pode depender de um clique.</li></ul>
+<h2>Anatomia</h2>
+<ol><li>Caixa, <code>div.tabs</code> com <code>data-tabs</code>. É o que o script procura.</li><li>Lista, <code>div.tabs__lista</code> com <code>aria-label</code> que nomeia o conjunto. Dentro, um <code>button.tab</code> por item, com o número em <code>.t-rotulo</code> e o nome. Cada aba aponta para o seu painel com <code>aria-controls</code>.</li><li>Painéis, <code>div.tabs__paineis</code>. Dentro, um <code>div.tabs__painel</code> por item, com <code>id</code> e <code>tabindex="0"</code>.</li><li>Título do painel, <code>h3.tabs__painel-titulo</code>, obrigatório. Repete o número e o nome da aba. Sem script, é ele que nomeia cada item.</li><li>Texto, obrigatório. Um ou dois parágrafos.</li><li>Efeito, opcional. <code>p.tabs__efeito</code> com o rótulo "Efeito" e uma frase sobre o que o item mudou, num fundo <code>muted</code>.</li></ol>
+<p>O número não é enfeite. Outras seções apontam para ele ("Camada 02, jornada por origem", nas notas do Antes e depois).</p>
+<h2>Variantes</h2>
+<p>Uma forma só, vertical, com a lista em 5 das 12 colunas e o painel nas outras 7. É o arranjo para nomes que são frases. Numa fileira horizontal eles só caberiam encurtados, e encurtar seria reescrever o conteúdo para caber no formato.</p>
+<p>A aba escolhida ganha o <code>acento</code> no fundo. Na superfície tinta o texto das abas vira papel, e a escolhida continua com tinta sobre o acento, agora com contorno de papel.</p>
+<h2>Limites</h2>
+<ul><li>De três a seis abas. Com duas, use Cartões. Com sete ou mais, a lista passa da altura do painel.</li><li>Nome de até duas linhas na coluna da lista.</li><li>Painel de até umas 120 palavras, contando o efeito.</li><li>Um conjunto de Abas por página.</li></ul>
+<h2>Comportamento</h2>
+<ol><li><strong>Mouse.</strong> A aba que não está escolhida ganha <code>muted</code> no fundo, em <code>dur-media</code> com <code>ease-saida</code>.</li><li><strong>Toque.</strong> No <code>:active</code> a aba ganha <code>muted</code>, e a escolhida mantém o acento. Toda aba tem pelo menos <code>alvo</code> (44px) de altura.</li><li><strong>Foco.</strong> O anel de 2px em <code>ring</code>. Setas, Home e End movem o foco e já escolhem a aba (ativação automática). O Tab sai da lista e entra no painel aberto.</li><li><strong>Movimento.</strong> O painel que chega sobe 8px e aparece em <code>dur-media</code> com <code>ease-saida</code>. A aba troca de fundo e de contorno no mesmo tempo.</li><li><strong>Sem JS.</strong> A lista some e os painéis ficam todos abertos, um debaixo do outro, cada um com o seu título e um fio entre eles. Abaixo de 720px é igual, mesmo com JS, porque a lista aberta lê melhor que qualquer aba no celular.</li><li><strong>Movimento reduzido.</strong> A troca de painel acontece sem a subida.</li></ol>
+<h2>Acessibilidade</h2>
+<ul><li>Segue o padrão de abas do WAI ARIA. O script põe <code>role="tablist"</code> na lista, <code>role="tabpanel"</code> e <code>aria-labelledby</code> nos painéis, <code>aria-selected</code> e o <code>tabindex</code> móvel nas abas. Abaixo de 720px ele tira esses papéis, porque ali não há abas.</li><li>A aba escolhida não depende só da cor. Ganha contorno de 2px e peso 700.</li><li>Com abas, o título de cada painel fica escondido e quem nomeia o painel é a aba. Na lista aberta os títulos voltam e entram na navegação por títulos.</li><li>Tinta sobre o acento e sobre <code>muted</code> passa com folga.</li></ul>
+<h2>Onde aparece</h2>
+<ul><li>Prova antiga do Omnichat (<code>ds/prova/omnichat.html</code>), com as cinco camadas do artefato de design. "A arquitetura de prompt como superfície de design", "Jornada mapeada por origem do lead" e as outras três.</li><li>Nas páginas publicadas, as cinco camadas do Omnichat e as saídas da camada no Processo com IA ("Visão de produto", "PRD", "User stories (US)", "Relatório de usabilidade").</li><li>O modelo de Caso não usa Abas. As cinco camadas viraram Cartões em mosaico, para quem escaneia antes de ler.</li></ul>
+<h2>Vizinhos</h2>
+<ul><li><strong>Passos.</strong> Quando a ordem é o assunto.</li><li><strong>Cartão em mosaico.</strong> Quando tudo precisa estar à vista.</li><li><strong>Antes e depois.</strong> Quando são duas versões da mesma coisa.</li></ul>
+<h2>Par nos posts</h2>
+<p>Sem par. O post não tem interação, e cada aba seria uma página do carrossel.</p>
+<h2>Código</h2>
+<pre><code>&lt;div class="tabs" data-tabs&gt;
+  &lt;div class="tabs__lista" aria-label="Camadas do artefato" aria-orientation="vertical"&gt;
+    &lt;button class="tab" type="button" role="tab" id="aba-prompt" aria-controls="painel-prompt"&gt;&lt;span class="t-rotulo"&gt;01&lt;/span&gt;A arquitetura de prompt como superfície de design&lt;/button&gt;
+    &lt;button class="tab" type="button" role="tab" id="aba-jornada" aria-controls="painel-jornada"&gt;&lt;span class="t-rotulo"&gt;02&lt;/span&gt;Jornada mapeada por origem do lead&lt;/button&gt;
+    &lt;button class="tab" type="button" role="tab" id="aba-limites" aria-controls="painel-limites"&gt;&lt;span class="t-rotulo"&gt;03&lt;/span&gt;Limites de decisão do agente redesenhados&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="tabs__paineis"&gt;
+    &lt;div class="tabs__painel" id="painel-prompt" tabindex="0"&gt;
+      &lt;h3 class="tabs__painel-titulo"&gt;&lt;span class="t-rotulo"&gt;01&lt;/span&gt;A arquitetura de prompt como superfície de design&lt;/h3&gt;
+      &lt;p&gt;Parar de tratar o prompt como configuração técnica.&lt;/p&gt;
+      &lt;p class="tabs__efeito"&gt;&lt;span class="t-rotulo"&gt;Efeito&lt;/span&gt; Tornou a conversa um objeto de design.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;!-- um painel por aba --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>Estilo em <code>assets/ds/componentes.css</code>, seção Tabs (<code>.tabs</code>, <code>.tab</code>, <code>.tabs--js</code>). Comportamento em <code>assets/ds/componentes.js</code>, bloco 3, que só liga as abas a partir de 720px.</p>
+<p><strong>O que falta no código.</strong></p>
+<ul><li>Resolvido na Fase 4. Os painéis moram na mesma célula da grade, com a altura do maior, e o escondido sai com <code>visibility</code>. Trocar de aba não muda mais a altura da página.</li><li>As abas já nascem com <code>role="tab"</code> no HTML, enquanto a lista só ganha <code>role="tablist"</code> pelo script. Sem script a lista fica escondida e não chega a ser lida, mas o certo é o script pôr os dois.</li></ul>
+  </article>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="../../../case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+</body>
+</html>

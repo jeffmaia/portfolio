@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Dado, ficha · Jeff DS no site</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+</style>
+</head>
+<body>
+
+<a class="pular" href="#conteudo">Pular para a ficha</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="../../../case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container ficha-pagina">
+  <header class="ficha-pagina__topo">
+    <a class="link" data-variant="voltar" href="../index.html"><i aria-hidden="true">←</i> Vitrine</a>
+    <span class="badge"><code>Stat</code></span>
+    <h1 class="t-display">Dado</h1>
+    <p class="t-sub">Um número em Anton com a frase que diz do que ele é, sozinho, com o valor de antes ou em grupo.</p>
+  </header>
+  <article class="doc">
+<h2>Use quando</h2>
+<ul><li><strong>Um número prova o caso.</strong> É o resultado que justifica ler a página, e ele tem um antes. Use a variante <code>salto</code> no Topo do caso.</li><li><strong>Alguns números fecham a conta.</strong> Dois ou quatro números do mesmo resultado, cada um com a sua frase, no fim do caso. Use o grupo, que é um mosaico de Cartões com um Dado em cada.</li></ul>
+<h2>Não use quando</h2>
+<ul><li>O número só faz sentido com outros ao lado, numa série ou numa proporção. Use Gráfico.</li><li>A mudança tem várias dimensões, ou não é um número. Use Antes e depois.</li><li>O que precisa ficar na memória é uma frase. Use Destaque.</li><li>O número está no meio de um raciocínio. Deixe no texto corrido, com a mesma vírgula decimal.</li><li>Não há como dizer de onde o número veio. Sem fonte, o número não entra.</li></ul>
+<h2>Anatomia</h2>
+<ol><li>Valor, obrigatório. Número com unidade curta (<code>32%</code>, <code>8 semanas</code>, <code>2 origens</code>), num <code>span</code> <code>.stat__valor</code>.</li><li>Valor de antes, só na variante <code>salto</code>. Riscado, acima do valor novo, num <code>span</code> <code>.stat__antes</code>.</li><li>Frase, obrigatória. Diz o que foi medido, como e em que período, num <code>p</code> <code>.stat__frase</code>. É a fonte do número, e por isso não sai.</li><li>Ícone adesivo, só no grupo e opcional. Do acento do caso, antes do valor, no Cartão e fora do <code>.stat</code>.</li></ol>
+<p>O valor nunca é título. Fica em <code>span</code>, para não entrar na lista de títulos de quem navega por eles.</p>
+<h2>Variantes</h2>
+<div class="tabela"><table><thead><tr><th>Forma</th><th>Como se escreve</th><th>Quando</th></tr></thead><tbody><tr><td>Sozinho</td><td><code>.stat</code></td><td>Um número sem antes</td></tr><tr><td>Salto</td><td><code>.stat</code> com <code>data-variant="salto"</code></td><td>O número que prova o caso, com o valor anterior riscado</td></tr><tr><td>Grupo</td><td><code>.cards</code> com <code>data-layout="mosaico"</code>, e um <code>.stat</code> em cada Cartão <code>meio</code></td><td>Os números que fecham a conta</td></tr></tbody></table></div>
+<p>No grupo cada número mora num Cartão <code>meio</code> do papel, com o ícone em cima, e o valor desce do degrau <code>numero</code> para o <code>display</code>. Quem diminui o valor é o mosaico, pelo CSS, e nunca um <code>style</code> no HTML. Um debaixo do outro no celular, dois por linha a partir de 720px.</p>
+<p>O grupo com fio em cima (<code>.stats</code>) sai. Ele era a forma da primeira prova, e o modelo de Caso trocou pelo mosaico. Manter as duas seria ter dois grupos para o mesmo trabalho.</p>
+<p>O Dado não tem cor própria. O Salto mora num Cartão do acento (<code>data-variant="acento"</code>), e os Cartões do grupo ficam no papel, porque o acento chapado da página já está no Salto. Na superfície tinta o texto vira papel sozinho.</p>
+<h2>Limites</h2>
+<ul><li>Um Salto por página, no topo. Ele é o número que a página promete.</li><li>Um grupo por página, com dois ou quatro números. Três deixam um Cartão <code>meio</code> sozinho na linha, então corte um ou some um. Cinco ou mais viram tabela ou Gráfico.</li><li>Valor de até 9 caracteres, contando a unidade. Acima disso o degrau <code>numero</code> quebra linha no celular.</li><li>Frase de até 36 caracteres por linha, que é a largura que o estilo dá a ela. No Salto, até três linhas. No grupo, até duas.</li><li>Vírgula decimal, no padrão brasileiro (<code>34,4%</code>).</li></ul>
+<h2>Comportamento</h2>
+<ol><li><strong>Mouse.</strong> Não tem. O Dado não é alvo.</li><li><strong>Toque.</strong> Não tem, pelo mesmo motivo.</li><li><strong>Foco.</strong> Não recebe foco.</li><li><strong>Movimento.</strong> Entra com o revelar da página. No grupo quem leva <code>data-revelar</code> é o mosaico inteiro, que sobe 16px e aparece em <code>dur-lenta</code> com <code>ease-saida</code>.</li><li><strong>Sem JS.</strong> Aparece pronto.</li><li><strong>Movimento reduzido.</strong> Aparece pronto.</li></ol>
+<h2>Acessibilidade</h2>
+<ul><li>O risco do valor de antes não é lido. Por isso o Salto leva dois textos só para leitor de tela (<code>.sr</code>), "De" antes do valor antigo e "para" antes do novo. Quem ouve recebe "De 24% para 32%".</li><li>O til de aproximação (<code>~40 mil</code>) é lido como "til" por alguns leitores. Escreva "cerca de" num <code>.sr</code> e esconda o til com <code>aria-hidden</code>.</li><li>Tinta sobre o acento e sobre o papel passa com folga em qualquer degrau.</li></ul>
+<h2>Onde aparece</h2>
+<ul><li>Modelo de Caso, Salto no topo, num Cartão azul com a ilustração do salto ao lado. "De 24% para 32%", com a frase "A conversão de leads qualificados nas origens redesenhadas, medida em produção ao longo de 8 semanas…".</li><li>Modelo de Caso, grupo no Resultado. Quatro Cartões <code>meio</code> com ícone, "+8%", "~40 mil", "8 semanas" e "2 origens".</li><li>Nas páginas publicadas, o Salto (<code>.salto</code>) abre os quatro casos, e os Números do resultado (<code>.numeros</code>) fecham os quatro.</li></ul>
+<h2>Vizinhos</h2>
+<ul><li><strong>Gráfico.</strong> Quando o número precisa de série, escala ou proporção para ser lido.</li><li><strong>Antes e depois.</strong> Quando a virada não cabe num número.</li><li><strong>Destaque.</strong> Quando o que fica é uma frase, não um valor.</li><li><strong>Cartão.</strong> É a moldura do Salto e de cada número do grupo, não um substituto do Dado.</li></ul>
+<h2>Par nos posts</h2>
+<p>Dado, o número em Anton num cartão de acento com legenda e fonte. NumeroSangrado, a variante gigante que corta a borda, fica só nos posts. Na tela o número precisa caber inteiro em 390px.</p>
+<h2>Código</h2>
+<pre><code>&lt;!-- Salto, dentro de um Cartão do acento --&gt;
+&lt;div class="card" data-variant="acento"&gt;
+  &lt;div class="stat" data-variant="salto"&gt;
+    &lt;span class="stat__antes"&gt;&lt;span class="sr"&gt;De &lt;/span&gt;24%&lt;/span&gt;
+    &lt;span class="stat__valor"&gt;&lt;span class="sr"&gt;para &lt;/span&gt;32%&lt;/span&gt;
+    &lt;p class="stat__frase"&gt;A conversão de leads qualificados nas origens redesenhadas, medida em produção ao longo de 8 semanas.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Grupo, em mosaico de Cartões --&gt;
+&lt;div class="cards" data-layout="mosaico" data-revelar&gt;
+  &lt;div class="card" data-tamanho="meio"&gt;
+    &lt;img class="icone" src="assets/ds/icones/grafico-azul.svg" alt="" width="48" height="48"&gt;
+    &lt;div class="stat"&gt;&lt;span class="stat__valor"&gt;+8%&lt;/span&gt;&lt;p class="stat__frase"&gt;de conversão de leads qualificados, de 24% para 32%&lt;/p&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="card" data-tamanho="meio"&gt;
+    &lt;img class="icone" src="assets/ds/icones/dialogo-azul.svg" alt="" width="48" height="48"&gt;
+    &lt;div class="stat"&gt;&lt;span class="stat__valor"&gt;&lt;span aria-hidden="true"&gt;~&lt;/span&gt;&lt;span class="sr"&gt;cerca de &lt;/span&gt;40 mil&lt;/span&gt;&lt;p class="stat__frase"&gt;conversas comparadas em produção&lt;/p&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>Estilo em <code>assets/ds/componentes.css</code>, seção Stat (<code>.stat</code>), e o degrau do valor no grupo junto do mosaico, na seção Card. Não tem script além do revelar.</p>
+<p><strong>O que falta no código.</strong></p>
+<ul><li>O degrau <code>display</code> do grupo e o espaço de 12px entre o número e a frase já moram em <code>componentes.css</code>, junto do mosaico. O <code>style</code> saiu do HTML e o <code>.stats</code> saiu do CSS.</li><li>O til de "~40 mil" já tem o texto para leitor de tela no modelo e na página publicada. As outras variações ficam como estavam.</li></ul>
+  </article>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="../../../case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+</body>
+</html>

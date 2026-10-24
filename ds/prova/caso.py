@@ -12,7 +12,7 @@ import comum as c
 
 RAIZ = Path(__file__).resolve().parents[2]
 
-TITULO = "Redesenhando a verificação de intenção dos agentes conversacionais · Jeff Maia"
+TITULO = "Verificação de intenção dos agentes conversacionais · Jeff Maia"
 DESCRICAO = (
     "A maior perda de conversão não estava na interface. Estava na&nbsp;camada onde a intenção do lead "
     "entra no sistema. A conversão de leads qualificados saiu de 24% para 32% nas origens redesenhadas, "

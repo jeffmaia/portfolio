@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Botão, ficha · Jeff DS no site</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+</style>
+</head>
+<body>
+
+<a class="pular" href="#conteudo">Pular para a ficha</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="../../../case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container ficha-pagina">
+  <header class="ficha-pagina__topo">
+    <a class="link" data-variant="voltar" href="../index.html"><i aria-hidden="true">←</i> Vitrine</a>
+    <span class="badge"><code>Button</code></span>
+    <h1 class="t-display">Botão</h1>
+    <p class="t-sub">A ação mais importante de um trecho da página, numa pílula com contorno de tinta e o lime no fundo.</p>
+  </header>
+  <article class="doc">
+<h2>Use quando</h2>
+<p>Existe uma ação que leva adiante e ela é a principal daquele trecho. No fechamento do caso, ir para o próximo. No rodapé, chamar no WhatsApp. O leitor precisa achar essa ação sem procurar.</p>
+<h2>Não use quando</h2>
+<ul><li>O destino está dentro de uma frase. Use Link, que fica sublinhado no meio do texto.</li><li>A ação é voltar para os casos, seguir para uma seção, sair do site ou voltar ao topo. Use Link com a variante certa (<code>voltar</code>, <code>seguir</code>, <code>externo</code>, <code>topo</code>).</li><li>Já existe um Botão <code>primary</code> no mesmo trecho. O segundo vira <code>outline</code> ou vira Link.</li><li>Não há ação nenhuma, só um rótulo. Use Etiqueta.</li><li>É um item do menu. Use o item do Cabeçalho, que tem a sua própria marca.</li></ul>
+<h2>Anatomia</h2>
+<ol><li>Rótulo, obrigatório. Diz o destino ou o verbo, nunca "clique aqui". Quando o destino tem nome, ele entra depois de uma vírgula ("Próximo caso, Inpulse").</li><li>Seta, opcional, num <code>span</code> com <code>aria-hidden="true"</code> depois do rótulo. <code>→</code> para seguir dentro do site, <code>↗</code> para sair dele.</li></ol>
+<p>O elemento é <code>&lt;a&gt;</code> quando o Botão leva a outra página e <code>&lt;button&gt;</code> quando age na própria página. Nunca um <code>div</code>.</p>
+<h2>Variantes</h2>
+<div class="tabela"><table><thead><tr><th><code>data-variant</code></th><th>Como fica</th><th>Quando</th></tr></thead><tbody><tr><td>sem atributo (<code>primary</code>)</td><td>Fundo <code>primary</code> (lime), texto e contorno em tinta</td><td>A ação principal do trecho</td></tr><tr><td><code>outline</code></td><td>Fundo transparente, texto e contorno em <code>foreground</code></td><td>A segunda ação, quando ela precisa ter cara de botão</td></tr></tbody></table></div>
+<p>O fundo do <code>primary</code> é sempre lime, também nos casos de acento azul ou verde. É a regra 2 do plano, em que <code>primary</code> aponta para o lime. O acento da página fica com as Etiquetas, os Cartões e o Dado.</p>
+<p>Na superfície tinta o contorno vira papel, porque <code>border</code> troca por dentro. O fundo lime e o texto em tinta continuam iguais.</p>
+<h2>Limites</h2>
+<ul><li>Um <code>primary</code> por trecho. Numa página de caso são dois no total, o do fechamento e o do rodapé.</li><li>O rótulo cabe numa linha em 390px. Na prática, até umas cinco palavras.</li><li>O contorno é sempre tinta (ou papel na superfície tinta). O acento nunca vira a borda nem o texto.</li></ul>
+<h2>Comportamento</h2>
+<ol><li><strong>Mouse.</strong> O Botão inverte, com fundo em <code>foreground</code> e texto em <code>background</code>, e a seta anda 3px para a direita. Tudo em <code>dur-media</code> com <code>ease-saida</code>.</li><li><strong>Toque.</strong> No <code>:active</code> ele desce 2px em <code>dur-rapida</code>. Onde o ponteiro é o dedo a altura mínima é <code>alvo</code> (44px). Com mouse, 40px.</li><li><strong>Foco.</strong> O anel de 2px em <code>ring</code>, afastado 3px. Nada mais muda.</li><li><strong>Movimento.</strong> Fundo, cor e seta mudam com transição. Nenhum estado troca seco.</li><li><strong>Sem JS.</strong> Nada muda, é um link ou um botão nativo.</li><li><strong>Movimento reduzido.</strong> As transições vão a zero. A inversão de cor continua, só que instantânea.</li></ol>
+<p><strong>Desabilitado.</strong> Com <code>disabled</code> ou <code>aria-disabled="true"</code>, o contorno vira tracejado e a opacidade cai a 60%. A forma muda, não só o tom, e o hover e o pressionado deixam de existir.</p>
+<h2>Acessibilidade</h2>
+<ul><li>O nome é o rótulo. A seta fica escondida do leitor de tela.</li><li>Quando sai do site (<code>↗</code>), abre em outra aba com <code>target="_blank"</code> e <code>rel="noopener"</code>. O rótulo diz para onde vai ("WhatsApp"), então quem ouve sabe que sai.</li><li>Num <code>&lt;a&gt;</code> desabilitado, <code>aria-disabled="true"</code> e nada de <code>href</code>, para não ser seguido pelo teclado.</li><li>Texto em tinta sobre lime passa com folga. Ver <code>ds/CONTRASTE.md</code>.</li></ul>
+<h2>Onde aparece</h2>
+<ul><li>Modelo de Caso, no fechamento. "Próximo caso, Inpulse".</li><li>Modelo de Caso, no rodapé, sobre a tinta. "WhatsApp +55 11 97734-6175".</li><li>Nas páginas publicadas, o Botão principal (<code>.btn-green</code>) está no rodapé das cinco páginas. O Próximo caso de hoje (<code>.proximo-link</code>) é um link solto, e vira Botão na migração.</li></ul>
+<h2>Vizinhos</h2>
+<ul><li><strong>Link.</strong> Leva a outro lugar sem ser a ação principal, ou mora dentro do texto.</li><li><strong>Etiqueta.</strong> Tem a mesma pílula, mas não age.</li><li><strong>Item do Cabeçalho.</strong> Navegação entre páginas, dentro do menu.</li></ul>
+<h2>Par nos posts</h2>
+<p>TagCard, a tag preenchida com o acento. No post ninguém clica, então o par é só de forma.</p>
+<h2>Código</h2>
+<pre><code>&lt;!-- Leva a outra página --&gt;
+&lt;a class="button" href="case-inpulse.html"&gt;Próximo caso, Inpulse &lt;span aria-hidden="true"&gt;→&lt;/span&gt;&lt;/a&gt;
+
+&lt;!-- Sai do site --&gt;
+&lt;a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener"&gt;WhatsApp +55 11 97734-6175 &lt;span aria-hidden="true"&gt;↗&lt;/span&gt;&lt;/a&gt;
+
+&lt;!-- Segunda ação --&gt;
+&lt;a class="button" data-variant="outline" href="#"&gt;Rótulo &lt;span aria-hidden="true"&gt;→&lt;/span&gt;&lt;/a&gt;
+
+&lt;!-- Age na página, desabilitado --&gt;
+&lt;button class="button" type="button" disabled&gt;Rótulo&lt;/button&gt;</code></pre>
+<p>Estilo em <code>assets/ds/componentes.css</code>, seção Button (<code>.button</code>), e a altura de toque no bloco <code>@media (pointer: coarse)</code>. Não tem script.</p>
+<p><strong>O que falta no código.</strong> Nada para o uso atual. A variante <code>outline</code> ainda não aparece em nenhuma página.</p>
+  </article>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="../../../case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+</body>
+</html>

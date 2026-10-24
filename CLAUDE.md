@@ -28,6 +28,7 @@ Se nenhum componente serve, não crie a peça direto na página. Escreva a ficha
 | Tokens, componentes e comportamento | `assets/ds/tokens.css`, `assets/ds/componentes.css`, `assets/ds/componentes.js` |
 | Ícones adesivo e cenas | `assets/ds/icones/`, `assets/ds/ilustracoes/`, gerados por `ds/icones/gerar.py` e `ds/ilustracoes/gerar.py` |
 | Modelo de Caso e página do Omnichat | `ds/prova/variacoes/v4.html` e `case-omnichat.html`, os dois gerados por `ds/prova/caso.py` com `ds/prova/comum.py` (a v4 pelo `ds/prova/variacoes.py`) |
+| Vitrine das peças ao vivo, onda a onda | `ds/vitrine/index.html`, com a peça sozinha em `ds/vitrine/amostra/`, a peça aplicada numa página em `ds/vitrine/palco/` (mostrada dentro da ficha) e as fichas em HTML em `ds/vitrine/fichas/`, tudo gerado por `ds/vitrine/gerar.py`. O quadro usa `ds/vitrine/vitrine.js`. Estudos de direção de uma peça ficam em `ds/vitrine/estudo/`, gerados por `ds/vitrine/estudo.py`. As prévias do grupo Site no artifact do Jeff DS saem das amostras, por `ds/vitrine/artifact.py` |
 | Contraste e porquês do site antigo | `ds/CONTRASTE.md`, `ds/PORQUES.md` |
 
 O que vem de um gerador se muda no gerador, nunca no HTML gerado.
@@ -36,7 +37,7 @@ O que vem de um gerador se muda no gerador, nunca no HTML gerado.
 
 Textos do site e da documentação em português do Brasil, sem hífen, travessão ou dois pontos na escrita corrida. Palavra curta de ligação nunca termina linha de título, e se amarra à seguinte com espaço rígido.
 
-Hover só existe onde há mouse. Toda regra de hover fica dentro de `@media (hover: hover) and (pointer: fine)`, e nada no site pode depender dele para ser descoberto. No toque, o retorno vem de `:active` e do foco, e todo alvo tem pelo menos 44px. Vale para o site inteiro.
+Hover só existe onde há mouse. Toda regra de hover fica dentro de `@media (hover: hover) and (pointer: fine)`, e nada no site pode depender dele para ser descoberto. No toque, o retorno vem de `:active` e do foco, e todo alvo tem pelo menos 44px. A única exceção é o link no meio do texto, que tem a altura da linha da frase, como a WCAG aceita (critério 2.5.8). Vale para o site inteiro.
 
 Toda interação que muda o estado de algo tem movimento, com os tokens de duração e curva de `assets/ds/tokens.css`. Nada troca seco. O realce de hover e de toque fica só atrás das palavras, nunca na largura toda da caixa.
 

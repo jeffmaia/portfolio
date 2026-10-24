@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Etiqueta, ficha · Jeff DS no site</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+</style>
+</head>
+<body>
+
+<a class="pular" href="#conteudo">Pular para a ficha</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="../../../case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container ficha-pagina">
+  <header class="ficha-pagina__topo">
+    <a class="link" data-variant="voltar" href="../index.html#peca-etiqueta"><i aria-hidden="true">←</i> Vitrine</a>
+    <span class="badge"><code>Badge</code></span>
+    <h1 class="t-display">Etiqueta</h1>
+    <p class="t-sub">Uma palavra ou um nome curto numa pílula com contorno de tinta. Nomeia, não age.</p>
+  </header>
+  <section class="ficha-pagina__palco" aria-labelledby="na-pagina">
+    <h2 id="na-pagina">Na página</h2>
+    <p class="t-apoio prosa">A peça montada numa página com o texto real e outras peças em&nbsp;volta.</p>
+    <div class="palco" data-palco data-largura-inicial="1440" data-altura="800">
+          <div class="palco__barra">
+            <div class="palco__larguras" role="group" aria-label="Largura do quadro, em pixels"><button class="button" type="button" data-variant="outline" data-largura="390" aria-pressed="false">390</button><button class="button" type="button" data-variant="outline" data-largura="768" aria-pressed="false">768</button><button class="button" type="button" data-variant="outline" data-largura="1440" aria-pressed="false">1440</button></div>
+            <a class="link" data-variant="seguir" href="../palco/etiqueta.html">Abrir em página inteira <i aria-hidden="true">→</i></a>
+          </div>
+          <div class="palco__janela"><iframe src="../palco/etiqueta.html" title="Etiqueta, na página" loading="lazy"></iframe></div>
+        </div>
+    <p class="t-rotulo">O que testar</p>
+    <ul class="testar"><li>No Topo, três Etiquetas de assunto, e só a última no&nbsp;acento.</li><li>No Antes e depois, o nome do lado com o ícone e o estado na&nbsp;tinta.</li><li>No Destaque, a Etiqueta do acento sobre a tinta, sem&nbsp;contorno.</li><li>Com leitor de tela, as Etiquetas do Topo são lidas uma a uma, como itens de uma&nbsp;lista.</li><li>Nenhuma Etiqueta reage a mouse, toque ou foco. Ela nomeia, não&nbsp;age.</li></ul>
+  </section>
+  <article class="doc">
+<h2>Use quando</h2>
+<ul><li><strong>O assunto do caso.</strong> No Topo, duas a quatro Etiquetas dizem de que o caso trata. A última leva o acento.</li><li><strong>O estado de um lado.</strong> No Antes e depois, uma Etiqueta na tinta diz como aquela versão terminou ("Conversa abandonada", "Lead convertido").</li><li><strong>O rótulo de um bloco na tinta.</strong> No Destaque do Resultado, uma Etiqueta do acento diz o que a frase é ("O que eu levo daqui").</li></ul>
+<h2>Não use quando</h2>
+<ul><li>Leva a algum lugar. Use Link, ou Botão se for a ação principal.</li><li>São os dados do projeto, como duração e time. Use o Cartão <code>muted</code> com a ficha.</li><li>É o número ou o nome de uma Seção. Use o rótulo da Seção, que já é <code>t-rotulo</code> com a régua.</li><li>É um filtro que liga e desliga. A Etiqueta não tem estado. Um filtro pede uma ficha nova antes do código.</li><li>É uma frase. Etiqueta é nome, e frase é Destaque ou texto.</li></ul>
+<h2>Anatomia</h2>
+<ol><li>Grupo, <code>ul.badges</code> com <code>role="list"</code>, quando há mais de uma. Uma fileira que quebra linha, com <code>space-8</code> entre elas, e um <code>li</code> por Etiqueta.</li><li>Etiqueta, <code>span.badge</code>, obrigatória. Texto em caixa alta no degrau <code>rotulo</code>, numa pílula com contorno de 2px.</li><li>Ícone, opcional. Um ícone adesivo pequeno (<code>icone-inline</code>) antes do texto, quando ele ajuda a ler o estado. No Antes e depois, o xis no Antes e o visto no Depois (ícones <code>xis</code> e <code>check</code>).</li></ol>
+<h2>Variantes</h2>
+<div class="tabela"><table><thead><tr><th><code>data-variant</code></th><th>Como fica</th><th>Quando</th></tr></thead><tbody><tr><td>sem atributo</td><td>Fundo <code>background</code>, texto e contorno em <code>foreground</code></td><td>O padrão. Assuntos e nomes de lado</td></tr><tr><td><code>acento</code></td><td>Fundo <code>acento</code>, texto em tinta</td><td>Uma por grupo, a que mais importa. A última do Topo, o rótulo do Destaque</td></tr><tr><td><code>tinta</code></td><td>Fundo tinta, texto em papel</td><td>Um estado que encerra algo, sobre o papel ou sobre o acento</td></tr></tbody></table></div>
+<p>Na superfície tinta a Etiqueta sem atributo fica com fundo tinta, texto e contorno em papel, porque troca por dentro. A <code>tinta</code> some sobre a tinta e não entra ali. Use a <code>acento</code>.</p>
+<h2>Limites</h2>
+<ul><li>De duas a quatro Etiquetas no Topo. Uma só não é grupo, e cinco viram uma lista.</li><li>Uma <code>acento</code> por grupo.</li><li>Texto de até três palavras e uma linha em 390px. A Etiqueta não quebra linha por dentro.</li><li>Sem Etiqueta solta no meio do texto corrido.</li></ul>
+<h2>Comportamento</h2>
+<ol><li><strong>Mouse.</strong> Não tem. A Etiqueta não é alvo.</li><li><strong>Toque.</strong> Não tem, pelo mesmo motivo.</li><li><strong>Foco.</strong> Não recebe foco.</li><li><strong>Movimento.</strong> Entra com o bloco em que mora, pelo revelar da página. Nenhum movimento próprio.</li><li><strong>Sem JS.</strong> Aparece pronta.</li><li><strong>Movimento reduzido.</strong> Aparece pronta.</li></ol>
+<h2>Acessibilidade</h2>
+<ul><li>O grupo é uma lista, e o leitor de tela anuncia quantas Etiquetas há e lê uma de cada vez.</li><li>A caixa alta vem do CSS. No HTML o texto é escrito normal ("Agentes conversacionais"), para o leitor de tela não soletrar.</li><li>O ícone dentro da Etiqueta tem <code>alt</code> vazio. O texto já diz o estado.</li><li>Tinta sobre papel, tinta sobre o acento e papel sobre tinta passam com folga.</li><li>A cor da <code>acento</code> não carrega sentido sozinha. O que ela marca também está no texto.</li></ul>
+<h2>Onde aparece</h2>
+<ul><li>Modelo de Caso, Topo. "Omnichat", "Agentic Experience" e "Agentes conversacionais", a última no acento.</li><li>Modelo de Caso, Antes e depois. "Antes" com o xis e "Conversa abandonada" na tinta. "Depois" com o visto e "Lead convertido" na tinta.</li><li>Modelo de Caso, Destaque do Resultado. "O que eu levo daqui" no acento, sobre a tinta.</li><li>Nas páginas publicadas, as Etiquetas de assunto (<code>.etiquetas</code>) dos quatro casos. "AX", "Processo de produto e design" e "IA no fluxo de trabalho" no Processo. "UX Research", "UX Strategy" e "Pesquisa e NPS" no Mapa.</li></ul>
+<h2>Vizinhos</h2>
+<ul><li><strong>Botão.</strong> A mesma pílula, mas age.</li><li><strong>Rótulo da Seção.</strong> Nomeia a parte da página, com número e régua, sem pílula.</li><li><strong>Cartão <code>muted</code> com a ficha.</strong> Os dados do projeto, que são valores e não assuntos.</li></ul>
+<h2>Par nos posts</h2>
+<p>TagCard, a tag em pílula com o acento. No post a tag tem 19px de canvas, abaixo do mínimo de rótulo, e a proposta é subir para 23px. No site o degrau <code>rotulo</code> já é o mínimo (12px).</p>
+<h2>Código</h2>
+<pre><code>&lt;!-- Assuntos, no Topo --&gt;
+&lt;ul class="badges" role="list"&gt;
+  &lt;li&gt;&lt;span class="badge"&gt;Omnichat&lt;/span&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;span class="badge"&gt;Agentic Experience&lt;/span&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;span class="badge" data-variant="acento"&gt;Agentes conversacionais&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- Estado de um lado, com ícone --&gt;
+&lt;p class="compare__cabeca"&gt;
+  &lt;span class="badge"&gt;&lt;img class="icone-inline" src="assets/ds/icones/check-azul.svg" alt="" width="20" height="20"&gt;Depois&lt;/span&gt;
+  &lt;span class="badge" data-variant="tinta"&gt;Lead convertido&lt;/span&gt;
+&lt;/p&gt;</code></pre>
+<p>Estilo em <code>assets/ds/componentes.css</code>, seção Badge (<code>.badges</code>, <code>.badge</code>). Não tem script.</p>
+<p>O grupo era um parágrafo, e o leitor de tela lia as três Etiquetas emendadas, sem pausa. Na Onda 2 virou lista, lida item a item. O <code>role="list"</code> devolve a lista ao Safari, que a esquece quando os marcadores somem, e cada <code>li</code> é uma caixa flex para a linha do texto em volta não esticar a Etiqueta. A tela não mudou.</p>
+  </article>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="../../../case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+<script src="../vitrine.js"></script>
+</body>
+</html>

@@ -46,7 +46,7 @@ Dentro do conteúdo, os blocos sentam num mosaico de seis colunas, o grupo de Ca
 ### O Topo do caso
 
 - **Etiquetas.** De duas a três. As primeiras ficam no papel, a última, que é o assunto mais específico, leva o acento.
-- **Título.** Diz o que foi feito, não o nome do projeto. Até quatro linhas no celular.
+- **Título.** Diz o que foi feito, não o nome do projeto. Até quatro linhas no celular. Se passar, o título encurta, e a régua do display não muda.
 - **Frase de apoio.** Diz onde estava o problema de verdade. Até três linhas no desktop.
 - **Ficha do projeto.** Sempre Duração, Jeff e Time, nessa ordem. Em Jeff vai o papel e a responsabilidade numa frase só.
 - **Salto.** O número que a página promete, com a frase que diz como foi medido. A ilustração da cena fica ao lado, presa ao indicador.

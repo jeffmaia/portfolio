@@ -15,6 +15,10 @@
 
 const calmo = window.matchMedia("(prefers-reduced-motion: reduce)");
 
+// Uma duração de tokens.css em milissegundos, para o script
+// esperar o mesmo tempo que o CSS anima.
+const duracao = (nome) => parseFloat(getComputedStyle(document.documentElement).getPropertyValue(nome)) || 0;
+
 
 /* ── 0. Carregamento ─────────────────────────────────────
    A animação manda no tempo, não a rede: a cortina fica no mínimo
@@ -112,6 +116,12 @@ const calmo = window.matchMedia("(prefers-reduced-motion: reduce)");
       botao.focus();
     }
   });
+  // O foco saiu do menu, pelo Tab depois do último link ou por
+  // outro caminho: o menu fecha, para não sobrar aberto por cima
+  // do que o foco alcançou.
+  document.addEventListener("focusin", (e) => {
+    if (botao.getAttribute("aria-expanded") === "true" && !sheet.contains(e.target) && e.target !== botao) abrir(false);
+  });
 })();
 
 
@@ -187,6 +197,7 @@ const calmo = window.matchMedia("(prefers-reduced-motion: reduce)");
   let vez = -2;
   let pedido = 0;
   let calmaria;
+  const espera = duracao("--dur-lenta");
 
   function marcar() {
     pedido = 0;
@@ -205,21 +216,26 @@ const calmo = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (aviso) {
       nav.classList.add("sumario--rolando");
       clearTimeout(calmaria);
-      calmaria = setTimeout(() => nav.classList.remove("sumario--rolando"), 900);
+      calmaria = setTimeout(() => nav.classList.remove("sumario--rolando"), espera);
     }
   }, { passive: true });
   addEventListener("resize", () => { vez = -2; marcar(); });
   marcar();
 
   if (!botao) return;
+  // Abrindo, o foco vai para o primeiro item, como no menu. A lista
+  // vem antes do botão no HTML, e sem isso o próximo Tab sairia
+  // direto para o conteúdo.
   function abrir(sim) {
     nav.classList.toggle("sumario--aberto", sim);
     botao.setAttribute("aria-expanded", String(sim));
+    if (sim) itens[0].focus({ preventScroll: true });
   }
   botao.hidden = false;
   botao.addEventListener("click", () => abrir(botao.getAttribute("aria-expanded") !== "true"));
   itens.forEach((a) => a.addEventListener("click", () => abrir(false)));
   document.addEventListener("click", (e) => { if (!nav.contains(e.target)) abrir(false); });
+  document.addEventListener("focusin", (e) => { if (!nav.contains(e.target)) abrir(false); });
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && botao.getAttribute("aria-expanded") === "true") {
       abrir(false);
