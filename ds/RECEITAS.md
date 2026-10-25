@@ -77,19 +77,19 @@ O Destaque na tinta carrega o que o caso deixa, com a Etiqueta "O que eu levo da
 
 ## Home
 
-Direção para a Fase 6. Entra com o hero e a Lista de casos construídos na Fase 5.
+Direção para a Fase 6. O hero e a Lista de casos foram construídos e aprovados na Onda 5 da Fase 5, e estão montados juntos no palco da vitrine. A Home publicada passa para eles na Fase 6.
 
 | | Parte | Componentes |
 | --- | --- | --- |
-| 1 | Hero | A frase "O ofício continua o mesmo. O jeito de fazer, não." à esquerda, em 7 colunas, e a ilustração do esboço que sobra nas outras 5. Abaixo da frase, a linha de apoio sobre o que o Jeff faz |
+| 1 | Hero | A frase "O ofício continua o mesmo. O jeito de fazer, não." na largura toda, com as cores atrás das palavras e os adesivos em volta. Abaixo dela, a linha de apoio sobre o que o Jeff faz |
 | 2 | Lista de casos | Um Cartão por caso, na ordem da fila |
 | 3 | Rodapé | Igual ao do caso |
 
-**Hero.** A especificação inteira está em `ds/PLANO.md`, na seção Hero. Movimento ligado à rolagem, camadas saindo em escada e o esboço parado. Sem JS ou com movimento reduzido, a vista explodida parada. No celular a frase vem primeiro e a ilustração entra abaixo, menor.
+**Hero.** A frase é a própria cena (ver `ds/fichas/hero.md` e `ds/ROTEIRO-HERO.md`). Na chegada ela vai do rascunho à página pronta, uma vez, em uns 3,2s, e na rolagem só se desloca um pouco. Duas linhas do tablet para cima e seis no celular. No desktop a primeira tela deixa ver o rótulo e o alto dos primeiros Cartões da Lista. Sem JS ou com movimento reduzido, a página chega pronta.
 
-**Lista de casos.** Ocupa o lugar da Cena dos casos, que saiu. Cada Cartão leva o acento do próprio caso (`data-acento` no Cartão) e tem, nesta ordem, o título do caso como `h3`, a frase de apoio, o Dado `salto` em tamanho de grupo, a ficha compacta (papel e duração numa linha) e um Link `seguir`, "Ver o caso". Não há Botão dentro da lista. Quatro Botões lado a lado disputariam entre si, e a ação principal da Home é escolher um caso.
+**Lista de casos.** Ocupa o lugar da Cena dos casos, que saiu. É uma `section.lista-casos` com o rótulo "Quatro casos" (`h2.section__rotulo`) e um mosaico de Cartões `caso`, um por caso, todos `meio` (ver a ficha do Cartão). Cada Cartão leva o acento do próprio caso (`data-acento` no Cartão) e tem, nesta ordem, o rótulo com o número e o nome do caso, o título do caso como `h3`, a frase de apoio, e na base do acento o Dado `salto` em tamanho de grupo, a ficha compacta (papel e duração numa linha) e um Link `seguir`, "Ver o caso". Não há Botão dentro da lista. Quatro Botões lado a lado disputariam entre si, e a ação principal da Home é escolher um caso.
 
-No desktop são dois Cartões por linha. No celular, um debaixo do outro.
+Do tablet para cima são dois Cartões por linha, com as partes alinhadas de um Cartão para o outro. No celular, um debaixo do outro.
 
 **O que sai.** O convite ao manifesto (D7), a seta de descer e a cena com o orbe do número.
 

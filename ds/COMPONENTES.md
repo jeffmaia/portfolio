@@ -64,8 +64,8 @@ Uma receita é uma composição de componentes, sem regra visual própria.
 
 1. **Topo do caso.** Etiquetas, título, frase de apoio, a ficha e um Dado em destaque. O Link de voltar saiu na Fase 4.
 2. **Fechamento do caso.** Destaque na tinta, com o que o caso deixa, e um Botão para o próximo caso.
-3. **Hero da Home.** Direção já registrada em `ds/PLANO.md`. Entra na migração da Home.
-4. **Lista de casos.** Cartões, um por caso, no lugar da Cena. Entra com a Home.
+3. **Hero da Home.** A frase é a própria cena, do rascunho à página pronta. Construído na Onda 5 (ver `ds/fichas/hero.md`), entra na migração da Home.
+4. **Lista de casos.** Cartões `caso`, um por caso, no lugar da Cena. Construída na Onda 5, entra com a Home.
 
 ## A conta
 

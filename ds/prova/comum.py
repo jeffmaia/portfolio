@@ -37,8 +37,9 @@ def cabeca(pre, titulo, css="", corpo_classe="", descricao=""):
 """
 
 
-# A tela que se monta no carregamento. Mesmas camadas do hero da Home,
-# na ordem de chegada: esboço, grade, componentes, textos, cores.
+# A tela que se monta no carregamento, o mesmo gesto do hero da Home, do
+# esboço à página pronta. As camadas, na ordem de chegada: esboço, grade,
+# componentes, textos, cores.
 CARGA = """<div class="carga" aria-hidden="true">
   <div class="carga__quadro">
     <svg class="carga__tela" viewBox="0 0 240 300" fill="none">
@@ -323,3 +324,139 @@ def fechamento(pre):
   <p class="prosa">{FECHO}</p>
   <a class="button" href="{pre}case-inpulse.html">Próximo caso, Inpulse <span aria-hidden="true">→</span></a>
 </div>"""
+
+
+# ---------------------------------------------------------------- Home
+# O hero e a Lista de casos. Entram na vitrine na Onda 5 e na Home na
+# Fase 6, por isso moram aqui, junto da casca.
+
+HERO_APOIO = "Ajudo times de&nbsp;produto e&nbsp;design a&nbsp;integrar IA no&nbsp;processo real de&nbsp;trabalho, não&nbsp;só na&nbsp;ferramenta."
+
+# O traço à mão. Cada canto e cada lado tremem um pouco, sempre do
+# mesmo jeito, para o desenho não mudar a cada geração.
+_TREMOR = [(2, -3), (-3, 2), (3, 1), (-2, -2), (1, 3), (-1, -3), (3, -1), (-3, 3), (2, 2), (-2, 1)]
+
+
+def _t(i):
+    return _TREMOR[i % len(_TREMOR)]
+
+
+def _rabisco(x0, y0, x1, y1, k=0):
+    """Um retângulo à mão: quatro curvas, e o fim passa um pouco do
+    começo, como quem fecha a caixa sem levantar o lápis."""
+    cantos = [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
+    pts = [(x + _t(k + i)[0] * .6, y + _t(k + i)[1] * .6) for i, (x, y) in enumerate(cantos)]
+    d = f"M{pts[0][0]:.1f} {pts[0][1]:.1f}"
+    for i in range(4):
+        (ax, ay), (bx, by) = pts[i], pts[(i + 1) % 4]
+        jx, jy = _t(k + i + 5)
+        d += f"C{ax + (bx - ax) / 3 + jx:.1f} {ay + (by - ay) / 3 + jy:.1f} {ax + 2 * (bx - ax) / 3 - jy:.1f} {ay + 2 * (by - ay) / 3 + jx:.1f} {bx:.1f} {by:.1f}"
+    return d + f"l{6 + _t(k)[0]} {_t(k)[1] * .5:.1f}"
+
+
+def _linha(x0, y, x1, k=0):
+    jx, jy = _t(k)
+    return f"M{x0} {y}C{x0 + (x1 - x0) / 3} {y + jy} {x0 + 2 * (x1 - x0) / 3} {y - jx} {x1} {y + jy * .5:.1f}"
+
+
+def _pilula(x0, y0, x1, y1, k=0):
+    r = (y1 - y0) / 2
+    jx, jy = _t(k)
+    return (f"M{x0 + r} {y0}C{x0 + (x1 - x0) / 2} {y0 + jy * .5:.1f} {x1 - r} {y0 - 1} {x1 - r} {y0}"
+            f"a{r} {r} 0 0 1 {jx * .3:.1f} {y1 - y0}C{x1 - (x1 - x0) / 2} {y1 + 1} {x0 + r} {y1 + jx * .4:.1f} {x0 + r} {y1}"
+            f"a{r} {r} 0 0 1 2 {y0 - y1 - 1}")
+
+
+def _hero_esboco():
+    """A folha de esboço solta, o adesivo que liga o hero ao Carregamento."""
+    linha = 'stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"'
+    return (f'<svg class="hero__adesivo hero__a--esboco" viewBox="0 0 120 140" fill="none" aria-hidden="true" focusable="false">'
+            f'<g {linha}><path d="{_rabisco(6, 6, 114, 134, 1)}" fill="#f9f9f7"/><path d="{_rabisco(18, 20, 102, 64, 3)}"/>'
+            f'<path d="M22 24l76 36M98 22L20 62"/><path d="{_linha(18, 82, 96, 2)}"/><path d="{_linha(18, 96, 74, 5)}"/>'
+            f'<path d="{_pilula(18, 110, 70, 124, 6)}"/></g></svg>')
+
+
+# Os adesivos do ofício (o que continua) e os do jeito de fazer (o que
+# mudou), na ordem de chegada. O robô fica de fora, lugar comum de IA.
+HERO_ADESIVOS = ["lapis", "lupa", "pessoa", "janela", "dialogo", "celular", "camadas"]
+
+
+def hero(pre, parado=False, id_="hero-frase"):
+    """O Momento 3 no HTML. A chegada do rascunho até ele é toda do CSS.
+    Cada pedaço da frase (--i) tem a sua vez de ser escrito no celular."""
+    p = " data-parado" if parado else ""
+    q = lambda i, t: f'<span class="hero__q" style="--i: {i}">{t}</span>'
+    l1 = (q(0, 'o&nbsp;<span class="hero__p hero__p--oficio">ofício</span>') + " " + q(1, "continua") + " "
+          + q(2, 'o&nbsp;<span class="hero__p hero__p--mesmo">mesmo.</span>'))
+    l2 = (q(3, 'o&nbsp;<span class="hero__p hero__p--jeito hero__p--emenda">jeito</span>') + " "
+          + q(4, '<span class="hero__p hero__p--jeito">de&nbsp;fazer,</span>') + " "
+          + q(5, '<span class="hero__p hero__p--nao">não.</span>'))
+    adesivos = "".join(f'<img class="hero__adesivo hero__a--{n}" src="{pre}assets/ds/icones/{n}-lime.svg" alt="" width="96" height="96">'
+                       for n in HERO_ADESIVOS) + _hero_esboco()
+    # O tremor do lápis no rascunho. Uma página com dois heróis leva o
+    # filtro só no que se move.
+    filtro = "" if parado else ('<svg class="hero__filtro" aria-hidden="true" focusable="false"><filter id="hero-tremor">'
+                                '<feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4"/>'
+                                '<feDisplacementMap in="SourceGraphic" scale="3.5"/></filter></svg>')
+    tracos = "".join(f'<path style="--i: {i}" d="{_linha(4, y, x, k)}"/>' for i, (y, x, k) in enumerate([(14, 470, 1), (46, 500, 3), (78, 300, 5)]))
+    return f"""<section class="hero" aria-labelledby="{id_}"{p}>
+  {filtro}<span class="hero__grade" aria-hidden="true"></span>
+  <h1 class="hero__frase" id="{id_}"><span class="hero__linha" style="--i: 0">{l1}</span> <span class="hero__linha" style="--i: 1">{l2}</span><span class="hero__nota hero__nota--topo" aria-hidden="true">Anton, o maior da tela</span><span class="hero__nota hero__nota--pe" aria-hidden="true">o não fica</span>{adesivos}</h1>
+  <div class="hero__apoio">
+    <p class="t-sub">{HERO_APOIO}</p>
+    <svg class="hero__rascunho" viewBox="0 0 520 90" fill="none" aria-hidden="true" focusable="false"><g stroke="#000" stroke-width="2.5" stroke-linecap="round">{tracos}</g></svg>
+  </div>
+</section>"""
+
+
+# A fila dos casos, com o texto do Topo de cada página: arquivo, acento,
+# nome, título, frase de apoio, o salto (antes, depois e a frase), e o
+# papel e a duração da ficha numa linha.
+CASOS = [
+    ("case-processo.html", "lime", "Processo com IA",
+     "Reconstruindo o&nbsp;processo de&nbsp;produto e&nbsp;design com&nbsp;Claude no&nbsp;centro",
+     "A maior mudança não foi trocar de ferramenta. Foi perceber quantas reuniões existiam só porque ninguém tinha um jeito melhor de&nbsp;transformar uma conversa em&nbsp;entregável.",
+     ("2 meses", "1 semana", "de discovery, no&nbsp;lugar de&nbsp;um a&nbsp;dois meses"),
+     "Liderança de produto e design · 1 mês"),
+    ("case-omnichat.html", "azul", "Omnichat",
+     TITULO, LEAD,
+     ("24%", "32%", "de conversão de leads qualificados nas&nbsp;origens redesenhadas"),
+     "Product Design Manager · 4 meses"),
+    ("case-inpulse.html", "verde", "Inpulse",
+     "Solução que&nbsp;ajudou a&nbsp;diminuir a&nbsp;recuperação dos&nbsp;alunos",
+     "Uma prova de medicina vira cinco notas separadas e cinco recuperações independentes. Não existia lugar nenhum onde o&nbsp;aluno visse isso junto antes de&nbsp;já estar em&nbsp;recuperação.",
+     ("8 em 10", "6 em 10", "avaliações em recuperação, em média, numa base de&nbsp;420&nbsp;alunos"),
+     "Idealizador, mentor e designer · 10 meses"),
+    ("case-mapa-experiencia.html", "azul", "Mapa de experiência",
+     "Como um&nbsp;mapa de&nbsp;experiência ajudou a&nbsp;deixar o&nbsp;NPS positivo",
+     "Um relatório de pesquisa que 16 campus liam e a&nbsp;partir do&nbsp;qual agiam, em&nbsp;vez de&nbsp;arquivar junto com&nbsp;os&nbsp;outros.",
+     ("−33", "+15", "de NPS, a nota geral de&nbsp;um grupo com&nbsp;16&nbsp;campus"),
+     "Idealizador e mentor · 3 meses"),
+]
+
+
+def cartao_caso(pre, n, arq, acento, nome, titulo, frase, salto_, ficha_):
+    antes, depois, que = salto_
+    return f"""<article class="card" data-variant="caso" data-acento="{acento}" data-tamanho="meio">
+    <p class="t-rotulo">0{n} · {nome}</p>
+    <h3>{titulo}</h3>
+    <p class="t-apoio">{frase}</p>
+    <div class="card__base">
+      <div class="stat" data-variant="salto">
+        <span class="stat__antes"><span class="sr">De </span>{antes}</span>
+        <span class="stat__valor"><span class="sr">para </span>{depois}</span>
+        <p class="stat__frase">{que}</p>
+      </div>
+      <p class="card__ficha">{ficha_}</p>
+      <a class="link" data-variant="seguir" href="{pre}{arq}"><span>Ver o caso<span class="sr">, {nome}</span></span> <i aria-hidden="true">→</i></a>
+    </div>
+  </article>"""
+
+
+def lista_casos(pre, revelar=True):
+    r = " data-revelar" if revelar else ""
+    cartoes = "".join(cartao_caso(pre, n, *c) for n, c in enumerate(CASOS, 1))
+    return f"""<section class="lista-casos" id="casos" aria-labelledby="casos-titulo">
+  <h2 class="section__rotulo t-rotulo" id="casos-titulo">Quatro casos</h2>
+  <div class="cards" data-layout="mosaico"{r}>{cartoes}</div>
+</section>"""

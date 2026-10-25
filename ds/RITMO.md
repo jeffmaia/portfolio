@@ -9,7 +9,7 @@ Toda peça tem um peso, como nos posts. É ele que regula o ritmo.
 | Peso | O que é | Exemplos |
 | --- | --- | --- |
 | Leve | Texto no papel, sem caixa | Contexto, parágrafos, Link |
-| Médio | Caixa no papel ou no `muted`, ícones | Cartões, Passos, Antes e depois, Abas, Dado em grupo, Gráfico |
+| Médio | Caixa no papel ou no `muted`, ícones | Cartões, Passos, Antes e depois, Abas, Dado em grupo, Gráfico, Imagem `moldura` e `galeria` |
 | Forte | Acento chapado em área grande, tinta, número no degrau `numero` | Dado `salto`, Destaque na tinta, Imagem `sangria` |
 
 ## Na página
@@ -20,10 +20,10 @@ Toda peça tem um peso, como nos posts. É ele que regula o ritmo.
 4. **Texto antes da peça.** Toda seção abre com texto. Duas peças médias seguidas, sem texto entre elas, só no Resultado, onde o Dado em grupo e o Destaque fecham a conta juntos.
 5. **Três parágrafos no máximo** antes de uma peça. Passou disso, a seção está contando duas coisas e vira duas seções.
 6. **Medida de leitura.** Texto corrido com no máximo 66 caracteres por linha, em qualquer largura de tela.
-7. **Um acento.** A página inteira usa o acento declarado no `html`. Os outros dois não aparecem, nem em ícone. A única exceção é o Botão, que é sempre lime.
+7. **Um acento.** A página inteira usa o acento declarado no `html`. Os outros dois não aparecem, nem em ícone. O Botão é sempre lime. A Home é a outra exceção, porque apresenta os casos todos. Na Lista de casos cada Cartão leva o acento do próprio caso, e no hero o lime, o azul e o verde desenham a frase por trás das palavras.
 8. **Um ícone, uma vez.** Fora do Sumário, o mesmo ícone não se repete na página. No Sumário cada seção tem o seu.
 9. **Uma ilustração de cena por caso**, no Topo, presa ao indicador. O resto da página fala com ícones.
-10. **Um conjunto de Abas por página, e um Gráfico por Seção.** O número que o Gráfico desenha não se repete no Dado em grupo da mesma Seção.
+10. **Um conjunto de Abas por página, e um Gráfico e uma Imagem por Seção.** O número que o Gráfico desenha não se repete no Dado em grupo da mesma Seção. A galeria é uma por caso.
 
 ## Entre seções
 

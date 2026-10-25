@@ -22,7 +22,8 @@ RAIZ = AQUI.parents[1]
 sys.path.insert(0, str(AQUI))
 import gerar as g  # noqa: E402
 
-# Amostra, nome no artifact, grupo, altura e a frase do card.
+# Amostra, nome no artifact, grupo, altura, a frase do card e, quando não é
+# o azul do Omnichat, o acento da página.
 PECAS = [
     ("cabecalho", "SiteCabecalho", "Site · Casca", 600, "A barra fixa com a marca e o botão Menu. Abra o menu para ver os itens chegarem um a um."),
     ("sumario", "SiteSumario", "Site · Casca", 2200, "A coluna fixa com as Seções do caso. Abaixo de 1100px vira o trilho na borda direita."),
@@ -33,6 +34,9 @@ PECAS = [
     ("passos", "SitePassos", "Site · Sequência", 3800, "Cada etapa num Cartão com o adesivo no canto. Sequência, par, estágios, funil, trilha e ritos."),
     ("antes-e-depois", "SiteAntesDepois", "Site · Sequência", 1900, "A conversa, a citação em Fraunces e o confronto como tabela, com o depois no acento."),
     ("grafico", "SiteGrafico", "Site · Dados", 1600, "Barras, pilhas e escala, cada uma no acento do caso de onde vem o número. O valor se distingue pelo tom, cheio, trama ou vazio."),
+    ("imagem", "SiteImagem", "Site · Mídia e Home", 3800, "Moldura com o protótipo do Inpulse, a galeria das cinco telas do Mapa e a sangria das telas do Inpulse."),
+    ("hero", "SiteHero", "Site · Mídia e Home", 2000, "A frase é a cena. Na chegada vai do rascunho à página pronta em uns 3s, e embaixo o fim parado.", "lime"),
+    ("cartao-de-caso", "SiteCartaoCaso", "Site · Mídia e Home", 1500, "A Lista de casos da Home, um Cartão por caso, com o acento do caso só na base e as partes alinhadas lado a lado.", "lime"),
 ]
 
 TOKENS = (RAIZ / "assets/ds/tokens.css").read_text()
@@ -56,17 +60,19 @@ def corpo(html):
     miolo = re.sub(r'src="(?:\.\./)+(assets/ds/[^"]+\.svg)"', lambda m: f'src="{data_uri(m.group(1))}"', miolo)
     # Os links levam a páginas do site, que não existem no artifact.
     miolo = re.sub(r'href="(?:\.\./)+[^"#]*"', 'href="#"', miolo)
+    # Rever a chegada do hero recarrega a amostra, e no card não há o que recarregar.
+    miolo = re.sub(r'<p><a class="link" href="hero\.html">Rever a chegada</a></p>', "", miolo)
     return miolo.strip()
 
 
-def previa(arq, nome, grupo, altura, frase):
+def previa(arq, nome, grupo, altura, frase, acento="azul"):
     _, fazer = g.AMOSTRAS[arq]
     return f"""<!-- @dsCard group="{grupo}" height={altura} width=1200 subtitle="{frase}" -->
 <!doctype html>
 <html lang="pt-BR">
 <head><meta charset="utf-8"><title>{nome}</title></head>
 <body>
-<div class="site-previa" data-acento="azul">
+<div class="site-previa" data-acento="{acento}">
 <style>
 {TOKENS}
 {COMPONENTES}
@@ -86,8 +92,8 @@ document.documentElement.classList.add("js");
 
 if __name__ == "__main__":
     saida = Path(sys.argv[1])
-    for arq, nome, grupo, altura, frase in PECAS:
+    for arq, nome, grupo, altura, frase, *acento in PECAS:
         destino = saida / "components" / nome / "preview.html"
         destino.parent.mkdir(parents=True, exist_ok=True)
-        destino.write_text(previa(arq, nome, grupo, altura, frase))
+        destino.write_text(previa(arq, nome, grupo, altura, frase, *acento))
         print(f"{nome}: {destino.stat().st_size // 1024} KB")

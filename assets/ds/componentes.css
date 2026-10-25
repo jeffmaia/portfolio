@@ -44,6 +44,10 @@ body {
   line-height: var(--leading-corpo);
   letter-spacing: var(--tracking-texto);
   -webkit-font-smoothing: antialiased;
+  /* A Imagem em sangria vai até a beira medindo pela largura da tela,
+     que conta a barra de rolagem onde ela ocupa lugar. O que passar
+     some aqui, sem abrir rolagem para o lado. */
+  overflow-x: clip;
 }
 img, svg { display: block; max-width: 100%; }
 h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
@@ -311,6 +315,53 @@ button { font: inherit; color: inherit; }
    a frase fica à mesma distância do número que os itens do Cartão. */
 .cards[data-layout="mosaico"] .stat { gap: var(--space-12); }
 .cards[data-layout="mosaico"] .stat__valor { font-size: var(--text-display); }
+
+/* O Cartão de caso, na Lista de casos da Home. Cada um leva o acento
+   do próprio caso (data-acento no Cartão), e o acento entra só na
+   base, onde mora o número que o caso promete. O título e a frase
+   ficam no papel, para os quatro lado a lado não virarem quatro
+   blocos chapados disputando o olho. A base desce até o pé, e o que
+   sobra de altura numa linha fica no papel, acima dela.
+
+   Lado a lado, os Cartões dividem as linhas da grade (subgrid): o
+   rótulo, o título, a frase e a base de um começam na mesma altura que
+   os do vizinho, por mais que um título ou uma frase tenha uma linha a
+   mais. Dentro da base vale o mesmo para o Dado, a ficha e o Link, e
+   as bases saem alinhadas por cima e por baixo. Onde não há subgrid, a
+   base só desce até o pé. */
+.cards[data-layout="mosaico"] > .card[data-variant="caso"],
+.card[data-variant="caso"] { display: flex; flex-direction: column; gap: var(--space-12); padding-bottom: 0; overflow: hidden; }
+@supports (grid-template-rows: subgrid) {
+  .cards[data-layout="mosaico"] > .card[data-variant="caso"] {
+    display: grid;
+    grid-row: span 6;
+    grid-template-rows: subgrid;
+    row-gap: var(--space-12);
+  }
+  .cards[data-layout="mosaico"] > .card[data-variant="caso"] > .card__base {
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    row-gap: var(--space-16);
+    margin-top: 0;
+  }
+}
+.card[data-variant="caso"] h3 { font-size: var(--text-lead); line-height: 1.3; }
+.card__base {
+  display: grid;
+  gap: var(--space-16);
+  justify-items: start;
+  margin: auto calc(var(--space-24) * -1) 0;
+  padding: var(--space-24);
+  border-top: var(--stroke) solid var(--border);
+  background: var(--acento);
+  color: var(--ink);
+  /* O marca texto do Link sobre o acento seria acento sobre acento.
+     Aqui ele corre em papel. */
+  --marca: var(--paper);
+}
+.card[data-variant="caso"] > .t-apoio { max-width: var(--leitura); margin-bottom: var(--space-12); }
+.card[data-variant="caso"] .stat__valor { font-size: var(--text-display); }
+.card__ficha { font-size: var(--text-apoio); line-height: 1.45; }
 
 /* A ficha do projeto é um Card com uma lista de definição dentro. */
 .ficha { display: grid; gap: var(--space-16); }
@@ -739,6 +790,71 @@ button { font: inherit; color: inherit; }
 }
 
 /* ============================================================
+   Figure
+   Onde entra pixel de produto. Três formas, em data-variant:
+   moldura (uma tela ou protótipo, pousada no papel), galeria (várias
+   telas na ordem do percurso) e sangria (a imagem que é ambiente e
+   atravessa a página de beira a beira).
+
+   A moldura é a caixa do sistema, com o contorno de tinta, o raio de
+   12 e o muted por baixo. É o que impede a imagem de flutuar solta no
+   papel, e o que dá onde terminar a uma tela clara como ele. A sangria
+   é o contrário da moldura: sem contorno e sem raio, uma faixa que o
+   papel atravessa.
+
+   Não reage a mouse, toque ou foco. Entra com o revelar da página.
+   ============================================================ */
+.figure { display: grid; gap: var(--space-12); min-width: 0; }
+.figure__quadro {
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--muted);
+}
+.figure__quadro > img { display: block; width: 100%; height: auto; }
+.figure__quadro > iframe { display: block; width: 100%; height: clamp(520px, 72vh, 720px); border: 0; }
+.figure__legenda { max-width: var(--leitura); font-size: var(--text-apoio); line-height: 1.45; }
+.figure__legenda .t-rotulo { margin-right: var(--space-8); }
+
+/* Retrato. Quando o que está dentro é uma tela de celular, a moldura
+   para de crescer antes de virar paisagem, e o aparelho fica do mesmo
+   tamanho em qualquer largura. */
+.figure[data-formato="retrato"] > .figure__quadro { max-width: 400px; }
+
+/* Galeria. As telas abertas, na ordem do percurso, sem seta e sem
+   ponto, porque estão todas à vista. Duas por linha com 600px de
+   Seção, e não três, porque são telas densas. Com data-abertura a
+   primeira é o todo de que as outras são recorte, e ocupa a linha
+   inteira: a diferença de largura diz, sem escrever, que as seguintes
+   são pedaços dela. */
+.figure__lista { display: grid; gap: var(--space-32) var(--grade-vao); }
+.figure__lista > li { min-width: 0; }
+.figure__lista figure { display: grid; gap: var(--space-12); }
+@container (min-width: 600px) {
+  .figure__lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .figure[data-abertura] .figure__lista > li:first-child { grid-column: 1 / -1; }
+}
+
+/* Sangria. A faixa sai da coluna e vai até a beira da tela: o recuo é
+   a distância da coluna à beira, que é a margem da página ou, na tela
+   larga, a metade do que sobra além dos 1280px. No caso a partir de
+   1100px a coluna da esquerda é do Sumário, e a faixa sangra só para a
+   direita. A altura é fixa e a imagem enche por cima, para a faixa ter
+   sempre a mesma proporção de página. */
+.figure[data-variant="sangria"] > .figure__quadro {
+  --sangra: max(var(--page-margem), (100vw - var(--page-max)) / 2);
+  margin-inline: calc(var(--sangra) * -1);
+  height: clamp(260px, 38vw, 560px);
+  border: 0;
+  border-radius: 0;
+  background: var(--ink);
+}
+.figure[data-variant="sangria"] > .figure__quadro > img { height: 100%; object-fit: cover; }
+@media (min-width: 1100px) {
+  .caso .figure[data-variant="sangria"] > .figure__quadro { margin-left: 0; }
+}
+
+/* ============================================================
    Header e Sheet (menu)
    ============================================================ */
 .header {
@@ -1097,6 +1213,259 @@ html:not(.js) .menu-botao { display: none; }
 /* Fechamento do caso. O convite e o botão para o próximo. */
 .fechamento { display: grid; gap: var(--space-24); justify-items: start; }
 
+/* Hero da Home. A frase é a própria cena (ver ds/ROTEIRO-HERO.md).
+
+   O HTML é o Momento 3, a página pronta: a frase em tinta, as cores do
+   Jeff DS desenhando a tipografia por trás e os adesivos em volta. É o
+   que aparece sem JS e com movimento reduzido. Com movimento, a chegada
+   começa do rascunho e anda até ali, uma vez só, em uns 3,2s:
+
+   1. Rascunho. A grade, as letras em contorno à mão escritas da
+      esquerda para a direita com as guias, a hachura no ofício, as
+      notas de quem desenha e o não circulado.
+   2. Cores. O contorno se enche de tinta, o rascunho se apaga e as
+      cores entram por trás das palavras como adesivo que assenta.
+   3. Ilustrações e ícones. Os adesivos chegam, os do ofício primeiro.
+
+   Na rolagem só há um deslocamento leve. A primeira linha quase não se
+   move, a segunda sobe um pouco mais, e os adesivos mais que a frase.
+   O progresso (--p) é o mesmo do topo até o hero sair de baixo do
+   cabeçalho, pela linha do tempo de rolagem do CSS e, onde ela não
+   existe, pelo módulo 5 do componentes.js.
+
+   Do tablet para cima a frase tem duas linhas, uma por frase, e o
+   tamanho sai da largura do hero: a primeira linha ocupa 10,8 vezes o
+   tamanho da fonte em Anton. No celular cada frase quebra em três
+   linhas, para ganhar o peso que tem no desktop, e os adesivos descem
+   pelo vão que as linhas curtas deixam à direita.
+
+   O texto nunca muda de cor para lime, azul ou verde. A cor fica
+   sempre atrás das palavras. */
+@property --p { syntax: "<number>"; inherits: true; initial-value: 0; }
+.hero {
+  container-type: inline-size;
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: var(--space-48);
+  /* No desktop a primeira tela deixa ver o começo da Lista de casos,
+     para ficar claro que a página continua. */
+  min-height: calc(100svh - var(--altura-cabecalho) - 9rem);
+  padding-block: var(--space-48);
+  /* Os tempos da chegada, tirados dos tokens: as cores começam em
+     1,6s e os adesivos em 2,5s. */
+  --m2: calc(var(--dur-lenta) * 2.5);
+  --m3: calc(var(--dur-lenta) * 3.9);
+  /* As três cores das palavras. O lime é o primary, o azul o
+     secondary, e o verde vem do terceiro tom dos gráficos. */
+  --hero-cor-1: var(--primary);
+  --hero-cor-2: var(--secondary);
+  --hero-cor-3: var(--chart-3);
+  --traco-rascunho: 2px;
+}
+.hero__filtro { position: absolute; width: 0; height: 0; }
+.hero__frase {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: min(9cqi, 8.5rem);
+  line-height: var(--leading-display);
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+}
+.hero__linha { position: relative; display: block; width: fit-content; white-space: nowrap; }
+.hero__q { position: relative; }
+.hero__p { position: relative; display: inline-block; isolation: isolate; }
+.hero__p::before { content: ""; position: absolute; z-index: -1; border: var(--stroke) solid var(--foreground); }
+.hero__p--oficio::before { inset: .14em -.1em .08em; background: var(--hero-cor-1); border-radius: .1em; transform: rotate(-2deg); }
+.hero__p--mesmo::before { width: 1.15em; aspect-ratio: 1; right: -.28em; top: -.08em; background: var(--hero-cor-2); border-radius: 50%; }
+/* "jeito de fazer," é feito de dois pedaços, porque no celular quebra
+   depois de "jeito". No desktop o primeiro cobre o espaço e os dois
+   viram uma faixa só, sem os contornos de dentro. */
+.hero__p--jeito::before { left: 0; right: -.08em; bottom: .02em; height: .36em; background: var(--hero-cor-3); border-left-width: 0; border-radius: 0 .06em .06em 0; transform: skewX(-12deg); }
+.hero__p--emenda::before { left: -.08em; right: -.4em; border-left-width: var(--stroke); border-right-width: 0; border-radius: .06em 0 0 .06em; }
+.hero__p--nao { color: var(--background); }
+.hero__p--nao::before { inset: -.12em -.12em .06em; background: var(--foreground); border-radius: .1em; transform: rotate(3deg); }
+.hero__apoio { position: relative; z-index: 1; display: grid; }
+.hero__apoio > * { grid-area: 1 / 1; }
+.hero__apoio .t-sub { max-width: 34ch; }
+
+/* Os adesivos. Os do ofício sentam na primeira linha, e os do jeito de
+   fazer embaixo da segunda. --o é a ordem de chegada. */
+.hero__adesivo { position: absolute; z-index: 2; width: max(36px, var(--t, .6em)); height: auto; transform: rotate(var(--g, 0deg)); }
+.hero__a--lapis   { --t: .62em; --g: -14deg; --o: 0; --sobe: 70px;  left: -.34em; top: -.46em; }
+.hero__a--lupa    { --t: .56em; --g: 9deg;   --o: 1; --sobe: 90px;  left: 54%;    top: -.52em; }
+.hero__a--pessoa  { --t: .6em;  --g: -6deg;  --o: 2; --sobe: 60px;  right: -.42em; top: -.5em; }
+.hero__a--janela  { --t: .56em; --g: -10deg; --o: 3; --sobe: 110px; left: 50%;    top: 2.3em; }
+.hero__a--dialogo { --t: .52em; --g: 8deg;   --o: 4; --sobe: 80px;  left: 64%;    top: 2.42em; }
+.hero__a--celular { --t: .54em; --g: 12deg;  --o: 5; --sobe: 120px; left: 77%;    top: 2.26em; }
+.hero__a--camadas { --t: .5em;  --g: -8deg;  --o: 6; --sobe: 90px;  right: -.3em; top: 2.32em; }
+.hero__a--esboco  { --t: .86em; --g: 7deg;   --o: 7; --sobe: 70px;  right: 3%;    top: 1.08em; }
+
+/* O que só existe no rascunho. Fora do movimento não aparece. */
+.hero__grade, .hero__nota, .hero__rascunho { display: none; }
+.hero__nota { position: absolute; font-family: var(--font-flare); font-weight: 300; font-size: max(16px, .2em); line-height: 1.1; letter-spacing: 0; text-transform: none; -webkit-text-stroke: 0; color: var(--foreground); white-space: nowrap; }
+.hero__nota--topo { right: -1cqi; top: -.42em; }
+.hero__nota--pe { right: 0; bottom: -.5em; }
+.hero__rascunho { width: min(100%, 520px); height: auto; align-self: start; }
+
+@media (max-width: 719px) {
+  .hero { min-height: 0; padding-block: var(--space-48) var(--space-64); }
+}
+@container (max-width: 599px) {
+  .hero { --traco-rascunho: 1.5px; }
+  .hero__frase { font-size: 23cqi; }
+  .hero__linha { width: auto; white-space: normal; }
+  .hero__q { display: block; width: fit-content; }
+  .hero__linha + .hero__linha { margin-top: .22em; }
+  .hero__linha + .hero__linha > .hero__q:last-child { margin-top: .14em; }
+  .hero__p--jeito::before { left: -.08em; border-left-width: var(--stroke); border-radius: .06em; }
+  .hero__p--emenda::before { right: -.08em; border-right-width: var(--stroke); border-radius: .06em; }
+  .hero__nota { font-size: 15px; }
+  .hero__nota--topo { right: auto; left: 0; top: -1.6em; }
+  .hero__adesivo { --t: 48px; }
+  .hero__a--pessoa  { left: auto;  right: 0;    top: .38em; }
+  .hero__a--lapis   { left: auto;  right: 16%;  top: .26em; }
+  .hero__a--lupa    { left: auto;  right: 0;    top: 1.52em; }
+  .hero__a--janela  { left: auto;  right: 15%;  top: 4.02em; }
+  .hero__a--dialogo { left: auto;  right: 0;    top: 4.22em; }
+  .hero__a--celular { left: auto;  right: 1%;   top: 5.32em; }
+  .hero__a--camadas { left: 2.1em; right: auto; top: 6.58em; }
+  .hero__a--esboco  { --t: 76px;   right: 0;    top: 6.2em; }
+}
+
+/* A chegada. */
+@media (prefers-reduced-motion: no-preference) {
+  /* 1. Rascunho */
+  .js .hero:not([data-parado]) .hero__grade {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, color-mix(in srgb, var(--foreground) 14%, transparent) 1px, transparent 1px) 0 0 / calc((100% + var(--grade-vao)) / 12) 100%;
+    pointer-events: none;
+    animation: hero-aparece var(--dur-media) var(--ease-saida) both, hero-some var(--dur-media) var(--ease-troca) var(--m2) forwards;
+  }
+  .js .hero:not([data-parado]) .hero__frase { animation: hero-tinta var(--dur-media) var(--ease-troca) var(--m2) both; }
+  /* Cada linha é escrita da esquerda para a direita, e as guias vêm
+     junto com ela. */
+  .js .hero:not([data-parado]) .hero__linha { animation: hero-escreve var(--dur-lenta) var(--ease-troca) calc(var(--dur-media) * (1 + var(--i))) both; }
+  .js .hero:not([data-parado]) .hero__linha::before,
+  .js .hero:not([data-parado]) .hero__linha::after {
+    content: "";
+    position: absolute;
+    left: -2cqi;
+    width: 104cqi;
+    border-top: 1.5px dashed color-mix(in srgb, var(--foreground) 45%, transparent);
+    animation: hero-some var(--dur-media) var(--ease-troca) var(--m2) forwards;
+  }
+  .js .hero:not([data-parado]) .hero__linha::before { top: .25em; }
+  .js .hero:not([data-parado]) .hero__linha::after { top: 1.02em; }
+  .js .hero:not([data-parado]) .hero__p--oficio {
+    background: repeating-linear-gradient(135deg, var(--foreground) 0 2px, transparent 2px 9px) left / 0% 100% no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: hero-hachura var(--dur-media) var(--ease-saida) calc(var(--dur-lenta) * 1.4) both;
+  }
+  .js .hero:not([data-parado]) .hero__rascunho {
+    display: block;
+    animation: hero-some var(--dur-media) var(--ease-troca) var(--m2) forwards;
+  }
+  .js .hero:not([data-parado]) .hero__rascunho path {
+    stroke-dasharray: 520;
+    animation: hero-traco var(--dur-media) var(--ease-saida) calc(var(--dur-lenta) * 1.5 + var(--dur-rapida) * var(--i)) both;
+  }
+  .js .hero:not([data-parado]) .hero__nota {
+    display: block;
+    animation: hero-chega var(--dur-media) var(--ease-saida) calc(var(--dur-lenta) * 1.75) both, hero-some var(--dur-media) var(--ease-troca) var(--m2) forwards;
+  }
+  .js .hero:not([data-parado]) .hero__nota--pe { animation-delay: calc(var(--dur-lenta) * 1.75 + var(--dur-rapida)), var(--m2); }
+  .js .hero:not([data-parado]) .hero__p--nao::after {
+    content: "";
+    position: absolute;
+    inset: -.06em -.2em -.02em -.16em;
+    border: 3px solid var(--foreground);
+    border-radius: 50%;
+    rotate: -4deg;
+    animation: hero-circula var(--dur-media) var(--ease-saida) calc(var(--dur-lenta) * 2.125) both, hero-some var(--dur-media) var(--ease-troca) var(--m2) forwards;
+  }
+
+  /* 2. Cores */
+  .js .hero:not([data-parado]) .hero__p::before { animation: hero-cola var(--dur-media) var(--ease-saida) calc(var(--m2) + var(--dur-rapida) * var(--o)) both; }
+  .js .hero:not([data-parado]) .hero__p--oficio::before { --o: 1; }
+  .js .hero:not([data-parado]) .hero__p--mesmo::before { --o: 2; }
+  .js .hero:not([data-parado]) .hero__p--jeito::before { --o: 3; }
+  .js .hero:not([data-parado]) .hero__p--nao::before { --o: 4; }
+  /* O não fica em tinta até a caixa chegar, e só então vira papel. */
+  .js .hero:not([data-parado]) .hero__p--nao {
+    animation: hero-cor-tinta var(--dur-media) var(--ease-troca) var(--m2) both, hero-cor-papel var(--dur-rapida) linear calc(var(--m2) + var(--dur-rapida) * 5) forwards;
+  }
+  .js .hero:not([data-parado]) .hero__apoio .t-sub { animation: hero-chega var(--dur-media) var(--ease-saida) calc(var(--m2) + var(--dur-media) * 2.5) both; }
+
+  /* 3. Ilustrações e ícones */
+  .js .hero:not([data-parado]) .hero__adesivo { animation: hero-adesivo var(--dur-media) var(--ease-saida) calc(var(--m3) + var(--dur-rapida) * var(--o) / 2) both; }
+
+  /* Na rolagem, um deslocamento só. */
+  .js .hero:not([data-parado]) .hero__linha { translate: 0 calc(var(--p) * var(--sobe) * -1); }
+  .js .hero:not([data-parado]) .hero__linha:first-of-type { --sobe: 8px; }
+  .js .hero:not([data-parado]) .hero__linha + .hero__linha { --sobe: 40px; }
+  .js .hero:not([data-parado]) .hero__adesivo { translate: 0 calc(var(--p) * var(--sobe) * -1); }
+}
+@container (max-width: 599px) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* No celular cada pedaço da frase é escrito na sua vez, e as guias
+       acompanham os pedaços. O deslocamento é a metade. */
+    .js .hero:not([data-parado]) .hero__linha { animation: none; }
+    .js .hero:not([data-parado]) .hero__linha::before,
+    .js .hero:not([data-parado]) .hero__linha::after { display: none; }
+    .js .hero:not([data-parado]) .hero__q { animation: hero-escreve var(--dur-lenta) var(--ease-troca) calc(var(--dur-media) + var(--dur-rapida) * var(--i)) both; }
+    .js .hero:not([data-parado]) .hero__q::before,
+    .js .hero:not([data-parado]) .hero__q::after {
+      content: "";
+      position: absolute;
+      left: -2cqi;
+      width: 104cqi;
+      border-top: 1.5px dashed color-mix(in srgb, var(--foreground) 45%, transparent);
+      animation: hero-some var(--dur-media) var(--ease-troca) var(--m2) forwards;
+    }
+    .js .hero:not([data-parado]) .hero__q::before { top: .25em; }
+    .js .hero:not([data-parado]) .hero__q::after { top: 1.02em; }
+    .js .hero:not([data-parado]) .hero__p--oficio { background-image: repeating-linear-gradient(135deg, var(--foreground) 0 1.5px, transparent 1.5px 7px); }
+    .js .hero:not([data-parado]) :is(.hero__linha, .hero__adesivo) { translate: 0 calc(var(--p) * var(--sobe) * -.5); }
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js .hero:not([data-parado]) {
+      view-timeline: --hero block;
+      view-timeline-inset: var(--altura-cabecalho) 0px;
+      animation: hero-progresso linear both;
+      animation-timeline: --hero;
+      animation-range: exit-crossing 0% exit-crossing 100%;
+    }
+  }
+}
+@keyframes hero-progresso { from { --p: 0; } to { --p: 1; } }
+@keyframes hero-aparece { from { opacity: 0; } }
+@keyframes hero-some { to { opacity: 0; } }
+@keyframes hero-chega { from { opacity: 0; translate: 0 8px; } }
+@keyframes hero-escreve { from { clip-path: inset(-50% 100% -50% -50%); } to { clip-path: inset(-50%); } }
+@keyframes hero-hachura { to { background-size: 100% 100%; } }
+@keyframes hero-traco { from { stroke-dashoffset: 520; } to { stroke-dashoffset: 0; } }
+@keyframes hero-circula { from { opacity: 0; scale: .7; } }
+@keyframes hero-tinta {
+  from { color: transparent; -webkit-text-stroke: var(--traco-rascunho) var(--foreground); filter: url(#hero-tremor); }
+  to { color: var(--foreground); -webkit-text-stroke: 0 transparent; filter: none; }
+}
+@keyframes hero-cor-tinta { from { color: transparent; } to { color: var(--foreground); } }
+@keyframes hero-cor-papel { to { color: var(--background); } }
+@keyframes hero-cola { from { opacity: 0; scale: 1.2; } }
+@keyframes hero-adesivo { from { opacity: 0; scale: 1.3; rotate: 14deg; } }
+
+/* Lista de casos. Um Cartão de caso por caso, na ordem da fila, no
+   mosaico com dois por linha a partir do tablet. */
+.lista-casos { display: grid; gap: var(--space-24); padding-bottom: var(--space-secao); }
+
 /* Grupo de links dentro do menu. */
 .grupo { display: grid; gap: var(--space-12); align-content: start; }
 
@@ -1112,11 +1481,10 @@ html:not(.js) .menu-botao { display: none; }
 
 /* ============================================================
    Carregamento
-   A mesma ideia do hero da Home, ao contrário. Lá, a rolagem
-   desmonta uma tela pronta e sobra o esboço. Aqui, a página chega
-   montando a tela por cima do esboço, na ordem inversa: primeiro o
-   traço à mão, depois a grade, os componentes, os textos e por fim
-   as cores. A barra embaixo avança uma vez a cada camada.
+   O mesmo gesto do hero da Home, do esboço à página pronta. A
+   página chega montando a tela por cima do esboço: primeiro o traço
+   à mão, depois a grade, os componentes, os textos e por fim as
+   cores. A barra embaixo avança uma vez a cada camada.
 
    O tempo é da animação, não da rede: ela dura no mínimo 1,6s mesmo
    com a página já pronta, porque uma transição que ninguém vê não

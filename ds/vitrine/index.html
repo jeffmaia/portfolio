@@ -40,6 +40,7 @@ html:not(.js) .palco__larguras { display: none; }
 .amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
 .amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
 .amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__rolar { min-height: 60vh; }
 .amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
 .ficha-pagina__palco { display: grid; gap: var(--space-16); }
 .ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
@@ -293,10 +294,50 @@ code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-si
       </div>
     </section>
 
-    <section class="section" id="midia-hero-e-home" aria-labelledby="midia-hero-e-home-rotulo">
-      <p class="section__rotulo t-rotulo" id="midia-hero-e-home-rotulo" data-revelar>05 · Mídia, hero e Home</p>
-      <p class="prosa" data-revelar>Imagem em <code>moldura</code>, <code>galeria</code> e <code>sangria</code>, o hero com o esboço que sobra e o Cartão da Lista de&nbsp;casos. Chega na Onda&nbsp;5.</p>
+    <section class="section" id="midia-hero-e-home" aria-labelledby="midia-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>05 · Mídia, hero e Home</p>
+      <h2 class="t-titulo" id="midia-titulo" data-revelar>OO&nbsp;que se&nbsp;vê, e&nbsp;a&nbsp;porta de&nbsp;entradanbsp;que seO&nbsp;que se&nbsp;vê, e&nbsp;a&nbsp;porta de&nbsp;entradanbsp;vê eO&nbsp;que se&nbsp;vê, e&nbsp;a&nbsp;porta de&nbsp;entradanbsp;por onde seO&nbsp;que se&nbsp;vê, e&nbsp;a&nbsp;porta de&nbsp;entradanbsp;entra</h2>
+      <div class="prosa" data-revelar><p>A Imagem em três formas, com as telas reais do Inpulse e do Mapa de experiência. O hero, em que a frase é a própria cena e vai do rascunho à página pronta, e o Cartão de caso, que monta a Lista de casos da Home. As três foram aprovadas e têm&nbsp;ficha.</p></div>
+      
+      <div class="peca" id="peca-imagem" data-revelar>
+        <h3>Imagem</h3>
+        <p class="t-apoio prosa">A tela, o percurso ou o ambiente do caso, em moldura, galeria ou sangria.</p>
+        <div class="palco" data-palco data-largura-inicial="1440" data-altura="900">
+          <div class="palco__barra">
+            <div class="palco__larguras" role="group" aria-label="Largura do quadro, em pixels"><button class="button" type="button" data-variant="outline" data-largura="390" aria-pressed="false">390</button><button class="button" type="button" data-variant="outline" data-largura="768" aria-pressed="false">768</button><button class="button" type="button" data-variant="outline" data-largura="1440" aria-pressed="false">1440</button></div>
+            <a class="link" data-variant="seguir" href="amostra/imagem.html">Abrir em página inteira <i aria-hidden="true">→</i></a>
+          </div>
+          <div class="palco__janela"><iframe src="amostra/imagem.html" title="Imagem, todas as formas" loading="lazy"></iframe></div>
+        </div>
+        <a class="link" data-variant="seguir" href="fichas/imagem.html">Ver na página e ler a ficha da Imagem <i aria-hidden="true">→</i></a>
+      </div>
+      <div class="peca" id="peca-hero" data-revelar>
+        <h3>Hero da Home</h3>
+        <p class="t-apoio prosa">A frase que abre a Home e é a própria cena, do rascunho à página pronta.</p>
+        <div class="palco" data-palco data-largura-inicial="1440" data-altura="900">
+          <div class="palco__barra">
+            <div class="palco__larguras" role="group" aria-label="Largura do quadro, em pixels"><button class="button" type="button" data-variant="outline" data-largura="390" aria-pressed="false">390</button><button class="button" type="button" data-variant="outline" data-largura="768" aria-pressed="false">768</button><button class="button" type="button" data-variant="outline" data-largura="1440" aria-pressed="false">1440</button></div>
+            <a class="link" data-variant="seguir" href="amostra/hero.html">Abrir em página inteira <i aria-hidden="true">→</i></a>
+          </div>
+          <div class="palco__janela"><iframe src="amostra/hero.html" title="Hero da Home, todas as formas" loading="lazy"></iframe></div>
+        </div>
+        <a class="link" data-variant="seguir" href="fichas/hero.html">Ver na página e ler a ficha do Hero da Home <i aria-hidden="true">→</i></a>
+        <a class="link" data-variant="seguir" href="estudo/hero/index.html">Ver o estudo do hero, a frase em três momentos <i aria-hidden="true">→</i></a>
+      </div>
+      <div class="peca" id="peca-cartao-de-caso" data-revelar>
+        <h3>Cartão de caso</h3>
+        <p class="t-apoio prosa">Um caso na Lista de casos da Home, com o número que ele promete e o caminho para a&nbsp;página. É a variante <code>caso</code> do&nbsp;Cartão.</p>
+        <div class="palco" data-palco data-largura-inicial="1440" data-altura="900">
+          <div class="palco__barra">
+            <div class="palco__larguras" role="group" aria-label="Largura do quadro, em pixels"><button class="button" type="button" data-variant="outline" data-largura="390" aria-pressed="false">390</button><button class="button" type="button" data-variant="outline" data-largura="768" aria-pressed="false">768</button><button class="button" type="button" data-variant="outline" data-largura="1440" aria-pressed="false">1440</button></div>
+            <a class="link" data-variant="seguir" href="amostra/cartao-de-caso.html">Abrir em página inteira <i aria-hidden="true">→</i></a>
+          </div>
+          <div class="palco__janela"><iframe src="amostra/cartao-de-caso.html" title="Cartão de caso, todas as formas" loading="lazy"></iframe></div>
+        </div>
+        <a class="link" data-variant="seguir" href="fichas/cartao.html">Ver na página e ler a ficha do Cartão <i aria-hidden="true">→</i></a>
+      </div>
     </section>
+
   </div>
 </main>
 <footer class="footer superficie-tinta">

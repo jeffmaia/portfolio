@@ -14,6 +14,7 @@ Estas peças estão em toda página de caso, sempre no mesmo lugar, e não passa
 - **Sumário**, das seções do caso.
 - **Seção**, a moldura de cada parte, com rótulo numerado e título.
 - **Rodapé**, na tinta.
+- **Hero da Home**, que só existe na Home (ver `ds/fichas/hero.md`).
 
 ## A seção precisa mostrar
 
@@ -39,19 +40,20 @@ Estas peças estão em toda página de caso, sempre no mesmo lugar, e não passa
 | De dois a seis itens do mesmo tipo, para passar os olhos em todos | Cartões em mosaico | Abas, que mostram um de cada vez |
 | De três a seis itens longos, para ler um de cada vez | Abas | Cartões, que empurram a página para baixo |
 | Os dados do projeto (duração, papel, time) | Cartão `muted` com a ficha | Etiquetas, que são para assunto |
+| Um caso na Lista de casos da Home | Cartão `caso` | Botão, que disputaria com os outros três |
 | O assunto do caso | Etiquetas | Rótulo solto, que não agrupa |
 | Uma grandeza antes e depois, em tempo ou quantidade | Gráfico, `barras` | Dois Dados, que não mostram a proporção |
 | Proporção de respostas entre grupos | Gráfico, `pilhas` | Barras soltas, que perdem o total de cada grupo |
 | Posição numa escala com sinal, antes e depois | Gráfico, `escala` | Dois Dados, que escondem onde fica o zero |
-| Uma tela ou protótipo | Imagem, `moldura` | Imagem sem moldura, que flutua no papel |
-| Várias telas na ordem do percurso | Imagem, `galeria` | Abas, que escondem a sequência |
-| Uma imagem que é ambiente, não objeto | Imagem, `sangria` | Moldura, que a transforma em tela |
+| Uma tela ou protótipo | Imagem, `moldura` (`retrato` para celular) | Imagem sem moldura, que flutua no papel |
+| Várias telas na ordem do percurso | Imagem, `galeria` (`data-abertura` se a primeira é o todo) | Abas, que escondem a sequência |
+| Uma imagem que é ambiente, não objeto | Imagem, `sangria`, se o caso não tiver o Destaque na tinta | Moldura, que a transforma em tela |
 | A ação principal do trecho | Botão | Link, que some ao lado do texto |
 | Um destino no meio do texto, ou voltar, seguir, sair, subir | Link e as variantes | Botão, que disputa com a ação principal |
 
 ## Qual forma, dentro de cada componente
 
-A tabela acima já aponta a variante. Esta parte diz o que existe no código hoje e o que entra na Fase 5. Variante prevista se escreve na ficha antes de existir na página.
+A tabela acima já aponta a variante. Esta parte diz o que existe no código hoje. Com a Onda 5, todas as formas previstas na Fase 5 estão no código. Variante prevista se escreve na ficha antes de existir na página.
 
 | Componente | No código hoje | Prevista |
 | --- | --- | --- |
@@ -59,14 +61,14 @@ A tabela acima já aponta a variante. Esta parte diz o que existe no código hoj
 | Link | sem variante, `voltar`, `seguir`, `externo`, `topo` | |
 | Etiqueta | papel, `acento`, `tinta` | |
 | Seção | uma forma só | |
-| Cartão | papel, `muted`, `acento`, grupo `mosaico` com `meio`, `terco` e `dois-tercos` | |
+| Cartão | papel, `muted`, `acento`, `caso`, grupo `mosaico` com `meio`, `terco` e `dois-tercos` | |
 | Dado | sozinho, `salto`, grupo em mosaico com ícone | |
 | Passos | sequência, `par`, `estagios`, `funil`, `trilha`, `ritos` | |
 | Abas | vertical | |
 | Antes e depois | lados, conversa, `citacao`, `confronto` | |
 | Destaque | frase na tinta, frase no papel, `nota`, `atrito` | |
 | Gráfico | `barras`, `pilhas`, `escala`, com os tons `cheio`, `trama` e `vazio` | |
-| Imagem | | `moldura`, `galeria`, `sangria` |
+| Imagem | `moldura` (com `retrato`), `galeria` (com `abertura`), `sangria` | |
 | Sumário | coluna fixa, trilho abaixo de 1100px | |
 | Cabeçalho e Rodapé | uma forma | |
 

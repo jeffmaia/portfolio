@@ -6,7 +6,7 @@ O Jeff DS (tokens, cores, tipografia, componentes dos posts) está em https://cl
 
 ## Estado
 
-Fases 0 a 4 fechadas. Na Fase 5, as Ondas 1 a 4 estão aprovadas e no artifact. A próxima é a Onda 5, a Imagem, o hero e o Cartão da Lista de casos, que vai primeiro para a vitrine.
+Fases 0 a 5 fechadas. As cinco ondas da Fase 5 foram aprovadas e estão no artifact, e as quinze peças da biblioteca estão no código. A próxima é a Fase 6, a migração da Home e dos quatro casos.
 
 Entregas da Fase 1, em `ds/`. `INVENTARIO.md` (matriz peça por página medida nas páginas reais), `capturas/index.html` (cada peça em 390, 768 e 1440px), `CONTRASTE.md`, `PORQUES.md` (os comentários do CSS e do HTML por peça) e `auditoria/` (os scripts que refazem tudo). A pasta do Industry foi para `arquivo/handoff/`.
 
@@ -179,6 +179,23 @@ Andamento da Onda 4.
 - No artifact, `SiteGrafico` entrou no grupo Site · Dados (versão 18), com a prévia feita da amostra por `ds/vitrine/artifact.py`, o CSS do site atualizado em `site/` e a Onda 4 no README. A prévia foi testada sozinha no navegador, sem nada de fora.
 - Achado para a Fase 6. No Mapa, o 890 aparece nas barras do Resultado e de novo no Dado em grupo logo abaixo. A regra nova pede que saia de um dos dois.
 
+Andamento da Onda 5.
+
+- Em 24 de outubro de 2026 as três peças foram para a vitrine, antes das fichas, e estão em `SEM_FICHA`. A especificação do hero estava fechada aqui, e a Imagem e o Cartão de caso seguem o site de hoje e a receita, então não houve estudo de direções.
+- Imagem (`.figure`, bloco Figure de `componentes.css`). A `moldura` é a caixa do sistema com o `muted` por baixo, e com `data-formato="retrato"` para de crescer em 400px (o protótipo do Inpulse). A `galeria` abre as telas na ordem do percurso, duas por linha com 600px de Seção, e com `data-abertura` a primeira ocupa a linha inteira (as cinco telas do Mapa). A `sangria` vai até a beira da tela, e no caso a partir de 1100px sangra só para a direita, porque a coluna da esquerda é do Sumário (as telas do Inpulse). O `body` ganhou `overflow-x: clip`, para a sangria não abrir rolagem para o lado onde a barra de rolagem ocupa lugar.
+- Hero (`.hero`, nas receitas de `componentes.css`, com o desenho em `ds/prova/comum.py`). É o Carregamento ao contrário, com as mesmas peças. Saem as cores, os textos, os componentes e a grade, cada uma na sua direção e com o seu giro, e sobra o esboço com o botão circulado, a seta e o "por quê?". O progresso vai do topo até o hero sair de baixo do cabeçalho, pela linha do tempo de rolagem do CSS (`view-timeline`, `exit-crossing`) e, onde ela não existe, pelo módulo 5 do `componentes.js`. Toda a desmontagem cabe no primeiro terço do progresso, para o esboço aparecer sozinho ainda inteiro na tela, no celular e no desktop. Sem JS ou com movimento reduzido, a vista explodida parada, com as camadas escapando pelas bordas do quadro e o esboço legível no meio. A tela cheia é só a partir de 1100px. No tablet ela deixava papel vazio em cima e embaixo.
+- A especificação fala em cinco camadas saindo, mas lista quatro (cores, textos, componentes e grade) e diz que o esboço fica. Segui as quatro, que são as do Carregamento.
+- Cartão de caso (`.card[data-variant="caso"]`, no mosaico com `meio`). O acento do caso entra só na base, com o Dado `salto` no tamanho de grupo, a ficha numa linha e o Link "Ver o caso", que diz ao leitor de tela qual caso abre. Sobre o acento o marca texto do Link corre em papel (`--marca`). O título, a frase e o rótulo com o número e o nome do caso ficam no papel. O rótulo não está na receita, e entrou porque o título do Omnichat não diz o nome do caso.
+- O texto e os números vêm do Topo de cada caso publicado. O Omnichat usa o título novo da Onda 2, e o salto dele é 24% para 32%, como no caso, e não o +8% da Home de hoje.
+- Conferido no navegador em 375, 390, 768 e 1440, sem rolagem lateral e sem erro no console. O Omnichat ficou idêntico ao do commit da Onda 4 nos 291 elementos da página, nas três larguras. O módulo 5 do JS não roda neste Chrome, que tem a linha do tempo de rolagem, e foi conferido só no código, assim como o movimento reduzido.
+- Pontos para a Fase 6. O Inpulse tem a sangria e o Destaque na tinta no mesmo caso, e a regra 2 do ritmo pede um ou outro.
+- Sua primeira revisão, em 24 de outubro de 2026. A Imagem e o Cartão de caso estão aprovados na forma. Lado a lado, as bases dos Cartões não se alinhavam. Agora os Cartões dividem as linhas da grade (subgrid), e o rótulo, o título, a frase, o Dado, a ficha e o Link de um ficam na mesma altura que os do vizinho, conferido em 768 e 1440. O hero vai ganhar motion, com três cenas que se constroem na chegada e a frase em duas linhas. O roteiro está em `ds/ROTEIRO-HERO.md`, para você colaborar antes de qualquer código.
+- Segunda revisão, no mesmo dia. Você trocou a direção do hero. A frase passa a ser a própria cena, em três momentos (rascunho, cores, ilustrações e ícones), com só um deslocamento leve na rolagem. O roteiro foi reescrito, e os três momentos parados estão em `ds/vitrine/estudo/hero/`, gerados por `ds/vitrine/estudo_hero.py`, com as imagens em 1440 e 390 tiradas por `ds/vitrine/fotografar.mjs`.
+- Os três momentos foram aprovados por você, e a chegada foi para o código. O hero novo substituiu o quadro em `componentes.css` e a função `hero` de `ds/prova/comum.py`. A chegada é toda de CSS, com os tempos dos tokens, e roda uma vez em uns 3,2s. O deslocamento da rolagem usa o mesmo progresso de antes (linha do tempo de rolagem ou o módulo 5 do JS). As cores das palavras pedem `primary`, `secondary` e `chart-3`. Conferido no navegador com a chegada parada em sete instantes em 1440 e 390, depois de rolar, sem JS e com movimento reduzido (a página chega pronta, sem animação). O Omnichat ficou idêntico nos 291 elementos, nas três larguras. Seguem abertos o degrau da frase na escala, a exceção da regra 7 para as cores e o Carregamento da Home.
+- Aprovada por você em 24 de outubro de 2026, com a chegada e a rolagem do hero. As fichas novas são a da Imagem (`ds/fichas/imagem.md`) e a do hero (`ds/fichas/hero.md`), e o Cartão de caso entrou na ficha do Cartão como a variante `caso`. Na vitrine, a peça do Cartão de caso abre a ficha do Cartão, com o palco da Lista de casos dentro dela, e nenhuma peça ficou em `SEM_FICHA`.
+- O GUIA passou a Imagem para "no código hoje" e ganhou a linha do Cartão `caso`. As RECEITAS descrevem o hero novo e a Lista de casos com o rótulo e o alinhamento. O RITMO pôs a moldura e a galeria nas peças médias, uma Imagem por Seção e uma galeria por caso, e a regra 7 ganhou a exceção da Home (a Lista de casos e o hero mostram os três acentos). Os Fundamentos dizem que a frase do hero é a única fora da escala, que o hero pede `primary`, `secondary` e `chart-3`, e que o Carregamento é o mesmo gesto do hero. Na seção Hero, mais abaixo, a especificação antiga fica como registro.
+- No artifact, `SiteImagem`, `SiteHero` e `SiteCartaoCaso` entraram no grupo Site · Mídia e Home (versão 19). As doze prévias foram refeitas com o CSS de agora, o CSS e o JS do site foram atualizados em `site/`, os sete ícones do hero foram para `site/icones/`, e o README ganhou a Onda 5 e a exceção da Home. As três prévias novas foram testadas sozinhas no navegador. A da Imagem carrega as telas do Framer e o protótipo do Figma de fora, como o site, e não consegui ver no claude.ai se o card deixa.
+
 ## Decisões da Fase 0
 
 | | Decisão | Status |
@@ -212,6 +229,8 @@ Andamento da Onda 4.
 7. Governança.
 
 ## Hero
+
+Esta é a especificação da Fase 0, que guiou a primeira versão da Onda 5 (o quadro com a tela que se desmontava). Você trocou a direção no meio da onda, e o hero de agora está em `ds/fichas/hero.md` e `ds/ROTEIRO-HERO.md`. O texto abaixo fica como registro.
 
 A frase continua a mesma e passa a ficar alinhada à esquerda. "O ofício continua o mesmo. O jeito de fazer, não." Ao lado, uma ilustração no estilo da marca que apoia a provocação, com movimento ligado à rolagem.
 

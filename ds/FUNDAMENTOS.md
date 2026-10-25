@@ -18,7 +18,9 @@ Os nomes são os do shadcn (D6), e cada um aponta para um token da marca. Compon
 | `chart-1` a `chart-3` | gráficos | lime, azul, verde |
 | `acento` | acento dominante da página (D5) | o caso declara com `data-acento` |
 
-**Gráfico.** O Gráfico pinta só com o `acento` da página, pela regra de um acento por página. O que separa um valor do outro é a forma do tom, `cheio` (o acento), `trama` (fios de tinta na diagonal) e `vazio` (o papel), e não a cor. Os `chart-1` a `chart-3` ficam reservados, sem uso no site hoje.
+**Gráfico.** O Gráfico pinta só com o `acento` da página, pela regra de um acento por página. O que separa um valor do outro é a forma do tom, `cheio` (o acento), `trama` (fios de tinta na diagonal) e `vazio` (o papel), e não a cor. Os `chart-1` a `chart-3` ficam reservados nos gráficos.
+
+**Hero da Home.** É o único lugar além da Lista de casos em que os três acentos aparecem juntos, sempre como fundo atrás das palavras (regra 7 do `ds/RITMO.md`). Ele pede o `primary` (lime), o `secondary` (azul) e o `chart-3` (verde), pelos papéis, nunca pelo valor da marca.
 
 **Superfície tinta.** A classe `superficie-tinta` troca os valores por dentro. `foreground`, `border` e `ring` viram papel, e o mesmo componente funciona no escuro sem regra própria. No Omnichat ela aparece duas vezes, no fechamento e no rodapé (D4).
 
@@ -40,6 +42,8 @@ Três famílias com papel fixo, como nos posts. A escala é fluida, uma reta ent
 | `rotulo` | Inter 700, caixa alta | 12 | 12 | rótulos, etiquetas, números de seção |
 
 **De onde saíram.** Os posts são desenhados num canvas de 1080 que o celular mostra a uns 36%. O título de capa de 118px vira cerca de 42px na tela do celular, e é daí que vem o `display` de 40. O mesmo vale para os outros degraus. No desktop a tela é maior e a escala sobe.
+
+**A frase do hero.** É a única fora da escala. O tamanho sai da largura do hero, para cada linha caber sem quebrar (ver `ds/fichas/hero.md`), com a entrelinha do `display`.
 
 **Duas diferenças dos posts.** O rótulo dos posts tem no mínimo 23px de canvas, que dão uns 8px na tela. No site o mínimo é 12px. E a entrelinha do Anton fica em 1,22, a mesma dos posts. Testei 1,1 e 1,16, e nas duas a cedilha do Ç bate no til da linha de baixo ("VERIFICAÇÃO" sobre "INTENÇÃO" no título do Omnichat).
 
@@ -89,6 +93,7 @@ Nenhum tempo fica fora dos três tokens. O que entra de longe (o painel do menu,
 - Rolagem. Pular para uma seção ou voltar ao topo rola até lá. O pulo para abaixo das barras fixas.
 - Abas. O painel que chega sobe 8px e aparece.
 - Sumário. A seção da vez ganha a marca no acento e o ícone gira. No celular, as marcas do trilho crescem e mudam de cor, o nome da seção desliza para o lado e a lista entra de lado.
+- Hero da Home. Na chegada, a frase vai do rascunho à página pronta uma vez só, em uns 3,2s, com os tempos em múltiplos dos tokens. Na rolagem só se desloca um pouco, a segunda linha e os adesivos mais que a primeira.
 - Revelar na entrada sobe 16px e aparece. O estado escondido só existe quando o script confirma que há JS e que o movimento não está reduzido.
 
 Com movimento reduzido, toda transição e animação vai a zero e a rolagem pula direto.
@@ -100,7 +105,7 @@ Com movimento reduzido, toda transição e animação vai a zero e a rolagem pul
 
 ## Carregamento
 
-A página chega montando uma tela por cima de um esboço, na ordem esboço, grade, componentes, textos e cores, e a barra avança uma vez por camada. É o hero da Home ao contrário, para o site ter um gesto só. A animação manda no tempo, não a rede. São no mínimo 1,6s, e se a rede demorar mais a barra espera perto do fim. Ao clicar num link interno a cortina desce antes da troca. Sem JS ou com movimento reduzido, não existe.
+A página chega montando uma tela por cima de um esboço, na ordem esboço, grade, componentes, textos e cores, e a barra avança uma vez por camada. É o mesmo gesto do hero da Home, do esboço à página pronta, para o site ter um gesto só. A animação manda no tempo, não a rede. São no mínimo 1,6s, e se a rede demorar mais a barra espera perto do fim. Ao clicar num link interno a cortina desce antes da troca. Sem JS ou com movimento reduzido, não existe.
 
 **A volta.** Chegando pelo voltar do navegador, a animação roda de trás para a frente. A tela começa pronta e perde as cores, os textos, os componentes e a grade, nessa ordem, até o traço do esboço se recolher, com a barra recuando junto. São no mínimo 1,95s. Quem avisa é uma linha no script da cabeça de cada página, que lê o tipo de navegação antes da primeira pintura. Toda página migrada precisa dela.
 
@@ -120,5 +125,6 @@ Foram testadas três formas, e o trilho ganhou. A faixa grudada no cabeçalho ro
 ## O que ainda falta
 
 - Publicar estes tokens no artifact do Jeff DS, no grupo Site. Fica para depois da sua aprovação, porque mexe no artifact que também serve os posts.
-- Direção do hero. Já registrada em `ds/PLANO.md`, entra quando a Home for migrada.
-- Imagem, o componente que o Omnichat não usa e que entra na Onda 5. O Gráfico entrou na Onda 4.
+- O degrau da frase do hero. Ela tem o tamanho medido pela largura (82px no celular, 115px em 1440), fora da escala, acima do `display` e perto do `numero`. Fica para decidir se o hero ganha um degrau próprio.
+- O Carregamento da Home, que monta a mesma tela antes do hero. A recomendação é a Home não montar a tela na cortina.
+- A Imagem e o Gráfico, que o Omnichat não usa, entraram nas Ondas 4 e 5 e estão provados na vitrine.

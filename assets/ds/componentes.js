@@ -1,7 +1,7 @@
 /* ============================================================
    Jeff DS, superfície Site. Comportamento dos componentes.
 
-   Cinco módulos, todos opcionais: sem este arquivo o conteúdo
+   Seis módulos, todos opcionais: sem este arquivo o conteúdo
    inteiro continua legível e navegável.
 
    0. Carregamento, a tela que se monta enquanto a página chega.
@@ -11,6 +11,8 @@
       melhor que qualquer aba.
    4. Sumário, que marca a seção na tela e, no celular, abre e
       fecha a lista.
+   5. Hero, o progresso da rolagem onde o CSS não tem linha do
+      tempo de rolagem.
    ============================================================ */
 
 const calmo = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -252,4 +254,28 @@ const duracao = (nome) => parseFloat(getComputedStyle(document.documentElement).
       if (e.isIntersecting) abrir(false);
     }).observe(rodape);
   }
+})();
+
+
+/* ── 5. Hero ───────────────────────────────────────────────
+   O progresso do hero, de 0 no topo da página a 1 quando ele sai de
+   baixo do cabeçalho. É a mesma conta da linha do tempo de rolagem do
+   CSS (exit-crossing), e só roda onde o navegador não a tem. As
+   camadas fazem o resto com o --p.
+   ──────────────────────────────────────────────── */
+(() => {
+  const hero = document.querySelector(".hero:not([data-parado])");
+  if (!hero || calmo.matches || CSS.supports("animation-timeline: view()")) return;
+  const cabecalho = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--altura-cabecalho")) || 0;
+  let pedido = 0;
+
+  function medir() {
+    pedido = 0;
+    const r = hero.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (cabecalho - r.top) / r.height));
+    hero.style.setProperty("--p", p.toFixed(4));
+  }
+  addEventListener("scroll", () => { if (!pedido) pedido = requestAnimationFrame(medir); }, { passive: true });
+  addEventListener("resize", medir);
+  medir();
 })();

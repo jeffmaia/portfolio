@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Imagem · Amostra da vitrine</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__rolar { min-height: 60vh; }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+</style>
+</head>
+<body>
+
+<main id="conteudo" class="container amostra">
+  <div class="amostra__item">
+    <p class="amostra__nome"><span class="t-rotulo">Moldura, retrato, com o protótipo do Inpulse</span><code>data-variant="moldura" data-formato="retrato"</code></p>
+    <figure class="figure" data-variant="moldura" data-formato="retrato" data-revelar>
+  <div class="figure__quadro"><iframe src="https://embed.figma.com/proto/w5TixfaNOqjwjYoY8hZ0cg/Painel-Longitudinal---Aluno?page-id=2891%3A23975&amp;node-id=2891-27267&amp;starting-point-node-id=2891%3A27267&amp;scaling=scale-down&amp;content-scaling=fixed&amp;embed-host=share" title="Protótipo do aplicativo Inpulse" allowfullscreen loading="lazy"></iframe></div>
+  <figcaption class="figure__legenda">Navegue pelo app aqui mesmo, ou abra o protótipo em&nbsp;tela&nbsp;cheia.</figcaption>
+</figure>
+<a class="link" data-variant="externo" href="https://www.figma.com/proto/w5TixfaNOqjwjYoY8hZ0cg/Painel-Longitudinal---Aluno?page-id=2891%3A23975&amp;node-id=2891-27267&amp;p=f&amp;viewport=521%2C589%2C0.07&amp;t=N9ol2L7UQFaCxwX8-1&amp;scaling=scale-down&amp;content-scaling=fixed&amp;starting-point-node-id=2891%3A27267" target="_blank" rel="noopener">Abrir o protótipo completo <i aria-hidden="true">↗</i></a>
+  </div>
+  <div class="amostra__item">
+    <p class="amostra__nome"><span class="t-rotulo">Moldura, com uma tela do Mapa de experiência</span><code>data-variant="moldura"</code></p>
+    <figure class="figure" data-variant="moldura" data-revelar>
+  <div class="figure__quadro"><img src="https://framerusercontent.com/images/2u2l4cvOcOdO1jQGPl637PRYmWI.png" alt="Uma etapa aberta sobre o tabuleiro, com o achado da pesquisa e a régua de sentimento na base da tela." width="4320" height="3072" loading="lazy" decoding="async"></div>
+  <figcaption class="figure__legenda">Uma etapa aberta, com a régua de&nbsp;sentimento</figcaption>
+</figure>
+  </div>
+  <div class="amostra__item">
+    <p class="amostra__nome"><span class="t-rotulo">Galeria, com abertura, as cinco telas do Mapa</span><code>data-variant="galeria" data-abertura</code></p>
+    <div class="figure" data-variant="galeria" data-abertura data-revelar>
+  <ol class="figure__lista"><li><figure><div class="figure__quadro"><img src="https://framerusercontent.com/images/jB0FYWxzKTWaMHwYRuFkT0OR8.png" alt="O tabuleiro do mapa, com as 12 etapas da graduação distribuídas do START ao FINISH." width="4320" height="3072" loading="lazy" decoding="async"></div><figcaption class="figure__legenda"><span class="t-rotulo">Fig. 01</span>O tabuleiro, do primeiro ao último&nbsp;semestre</figcaption></figure></li><li><figure><div class="figure__quadro"><img src="https://framerusercontent.com/images/2u2l4cvOcOdO1jQGPl637PRYmWI.png" alt="Uma etapa aberta sobre o tabuleiro, com o achado da pesquisa e a régua de sentimento na base da tela." width="4320" height="3072" loading="lazy" decoding="async"></div><figcaption class="figure__legenda"><span class="t-rotulo">Fig. 02</span>Uma etapa aberta, com a régua de&nbsp;sentimento</figcaption></figure></li><li><figure><div class="figure__quadro"><img src="https://framerusercontent.com/images/Gt20MHEWr6seNOXMahLIqb4plQ.png" alt="Visão ampla institucional, com experiência, sugestões, apps e oportunidades cruzados com os pares de etapas." width="4320" height="3072" loading="lazy" decoding="async"></div><figcaption class="figure__legenda"><span class="t-rotulo">Fig. 03</span>Visão ampla, lado&nbsp;institucional</figcaption></figure></li><li><figure><div class="figure__quadro"><img src="https://framerusercontent.com/images/3IY6aXgfkDIxVCej0xa2DWhplw.png" alt="Visão ampla pessoal, com mental, físico, financeiro, futuro e dores cruzados com os pares de etapas." width="4320" height="3072" loading="lazy" decoding="async"></div><figcaption class="figure__legenda"><span class="t-rotulo">Fig. 04</span>Visão ampla, lado&nbsp;pessoal</figcaption></figure></li><li><figure><div class="figure__quadro"><img src="https://framerusercontent.com/images/D6BfM2dEe92QhBtCV7Q9lTCTu0.png" alt="Gráfico de sentimento com três linhas, financeiro, físico e mental, ao longo dos seis pares de etapas." width="4320" height="3072" loading="lazy" decoding="async"></div><figcaption class="figure__legenda"><span class="t-rotulo">Fig. 05</span>O sentimento por eixo ao longo do&nbsp;curso</figcaption></figure></li></ol>
+</div>
+<a class="link" data-variant="externo" href="https://www.figma.com/proto/8fvE9ztg50OQFqWIqGfH3y/Mapa-de-Experie%CC%82ncia-Estudante-Medicina?page-id=221%3A2&amp;node-id=288-1762&amp;starting-point-node-id=288%3A1762&amp;t=rEOOuyzD3vuwNv1m-1" target="_blank" rel="noopener">Abrir o mapa completo <i aria-hidden="true">↗</i></a>
+  </div>
+  <div class="amostra__item">
+    <p class="amostra__nome"><span class="t-rotulo">Sangria, as telas do Inpulse</span><code>data-variant="sangria"</code></p>
+    <figure class="figure" data-variant="sangria" data-revelar>
+  <div class="figure__quadro"><img src="https://framerusercontent.com/images/aV4KtUaueCwZ17TJ4mz299XAw.png" alt="Telas do aplicativo Inpulse, com o boletim por complexo temático, o calendário acadêmico e a situação atual do aluno." width="1600" height="900" loading="lazy" decoding="async"></div>
+</figure>
+  </div>
+</main>
+<script src="../../../assets/ds/componentes.js"></script>
+</body>
+</html>

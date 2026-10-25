@@ -40,6 +40,7 @@ html:not(.js) .palco__larguras { display: none; }
 .amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
 .amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
 .amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__rolar { min-height: 60vh; }
 .amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
 .ficha-pagina__palco { display: grid; gap: var(--space-16); }
 .ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
@@ -103,35 +104,51 @@ code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-si
 
 <main id="conteudo" class="container ficha-pagina">
   <header class="ficha-pagina__topo">
-    <a class="link" data-variant="voltar" href="../index.html"><i aria-hidden="true">←</i> Vitrine</a>
+    <a class="link" data-variant="voltar" href="../index.html#peca-cartao-de-caso"><i aria-hidden="true">←</i> Vitrine</a>
     <span class="badge"><code>Card</code></span>
     <h1 class="t-display">Cartão</h1>
     <p class="t-sub">A caixa do sistema, com contorno de tinta, raio de 12 e fundo no papel, no <code>muted</code> ou no acento. Sozinho é moldura, e em grupo vira mosaico.</p>
   </header>
+  <section class="ficha-pagina__palco" aria-labelledby="na-pagina">
+    <h2 id="na-pagina">Na página</h2>
+    <p class="t-apoio prosa">A peça montada numa página com o texto real e outras peças em&nbsp;volta.</p>
+    <div class="palco" data-palco data-largura-inicial="1440" data-altura="800">
+          <div class="palco__barra">
+            <div class="palco__larguras" role="group" aria-label="Largura do quadro, em pixels"><button class="button" type="button" data-variant="outline" data-largura="390" aria-pressed="false">390</button><button class="button" type="button" data-variant="outline" data-largura="768" aria-pressed="false">768</button><button class="button" type="button" data-variant="outline" data-largura="1440" aria-pressed="false">1440</button></div>
+            <a class="link" data-variant="seguir" href="../palco/cartao-de-caso.html">Abrir em página inteira <i aria-hidden="true">→</i></a>
+          </div>
+          <div class="palco__janela"><iframe src="../palco/cartao-de-caso.html" title="Cartão de caso, na página" loading="lazy"></iframe></div>
+        </div>
+    <p class="t-rotulo">O que testar</p>
+    <ul class="testar"><li>Role até os casos. São quatro, na ordem da fila, e cada Cartão leva o acento do próprio caso só na base, com o&nbsp;número.</li><li>Em 390 um debaixo do outro, e dois por linha a partir de 768. As bases ficam no pé do Cartão, e o que sobra de altura fica no&nbsp;papel.</li><li>Com mouse, o Link Ver o caso ganha a marca em papel, porque o acento sobre o acento não se veria. No toque ele tem&nbsp;44px.</li><li>Com leitor de tela, cada Cartão é um artigo com o título do caso, e o Link diz qual caso&nbsp;abre.</li><li>O Cartão não é alvo. Só o Link leva para a página do&nbsp;caso.</li></ul>
+  </section>
   <article class="doc">
 <h2>Use quando</h2>
-<ul><li><strong>Vários itens do mesmo tipo, para passar os olhos em todos.</strong> De dois a seis, cada um com ícone, nome e um parágrafo curto. O leitor precisa ver todos antes de escolher qual ler. Use o grupo em mosaico.</li><li><strong>Os dados do projeto.</strong> Duração, Jeff e Time, no Topo do caso. Use o Cartão <code>muted</code> com a ficha.</li><li><strong>A moldura de um número ou de uma cena.</strong> O Salto e a ilustração do caso moram num Cartão do acento.</li></ul>
+<ul><li><strong>Vários itens do mesmo tipo, para passar os olhos em todos.</strong> De dois a seis, cada um com ícone, nome e um parágrafo curto. O leitor precisa ver todos antes de escolher qual ler. Use o grupo em mosaico.</li><li><strong>Os dados do projeto.</strong> Duração, Jeff e Time, no Topo do caso. Use o Cartão <code>muted</code> com a ficha.</li><li><strong>A moldura de um número ou de uma cena.</strong> O Salto e a ilustração do caso moram num Cartão do acento.</li><li><strong>Um caso na Lista de casos da Home.</strong> O título do caso, a frase de apoio, o número que ele promete e o caminho para a página. Use o Cartão <code>caso</code>, no mosaico com <code>meio</code>.</li></ul>
 <h2>Não use quando</h2>
-<ul><li>A ordem dos itens é o assunto. Use Passos.</li><li>Cada item é longo e o leitor vai ler um ou dois. Use Abas.</li><li>É a mesma coisa antes e depois. Use Antes e depois.</li><li>É uma frase que precisa ficar na memória. Use Destaque.</li><li>A caixa só serviria para separar um texto do resto. Texto corrido não leva moldura.</li></ul>
+<ul><li>A ordem dos itens é o assunto. Use Passos.</li><li>Cada item é longo e o leitor vai ler um ou dois. Use Abas.</li><li>É a mesma coisa antes e depois. Use Antes e depois.</li><li>É uma frase que precisa ficar na memória. Use Destaque.</li><li>A caixa só serviria para separar um texto do resto. Texto corrido não leva moldura.</li><li>O Cartão <code>caso</code> levaria um Botão. Na Lista são quatro lado a lado, e quatro Botões disputariam entre si. Use o Link <code>seguir</code>.</li></ul>
 <h2>Anatomia</h2>
 <p><strong>O Cartão.</strong></p>
 <ol><li>Caixa, <code>article.card</code> quando o item faz sentido sozinho (uma camada, uma origem), <code>div.card</code> quando é moldura (a ficha, o Salto). Obrigatória.</li><li>Ícone adesivo, opcional. Do acento do caso, com <code>aria-hidden</code>.</li><li>Rótulo, opcional. <code>p.t-rotulo</code>, com o número do item ("Camada 01") quando outras partes da página apontam para ele.</li><li>Título, <code>h3</code>, obrigatório no mosaico. No degrau <code>lead</code>, em negrito.</li><li>Texto, <code>p.t-apoio</code>, obrigatório no mosaico. Um parágrafo.</li><li>Efeito, opcional. <code>p.card__efeito</code>, com o rótulo "Efeito" e uma frase sobre o que o item mudou.</li></ol>
+<p><strong>O Cartão de caso.</strong> Nesta ordem.</p>
+<ol><li>Caixa, <code>article.card</code> com <code>data-variant="caso"</code> e o acento do caso em <code>data-acento</code>, obrigatória.</li><li>Rótulo, <code>p.t-rotulo</code>, obrigatório, com o número na fila e o nome do caso ("02 · Omnichat"). O título do caso nem sempre diz de quem ele é.</li><li>Título, <code>h3</code>, obrigatório, o mesmo do Topo do caso.</li><li>Frase, <code>p.t-apoio</code>, obrigatória, a frase de apoio do Topo.</li><li>Base, <code>div.card__base</code>, obrigatória, no acento. Dentro, o Dado <code>salto</code> no tamanho de grupo, a ficha numa linha (<code>p.card__ficha</code>, papel e duração) e o Link <code>seguir</code>, "Ver o caso", com o nome do caso só para o leitor de tela.</li></ol>
 <p><strong>O grupo em mosaico.</strong></p>
 <ol><li>Caixa, <code>div.cards</code> com <code>data-layout="mosaico"</code>. Uma grade de seis colunas que ocupa a largura da coluna de conteúdo.</li><li>Os Cartões, cada um com <code>data-tamanho</code>.</li></ol>
 <h2>Variantes</h2>
-<div class="tabela"><table><thead><tr><th>Atributo</th><th>Valor</th><th>Como fica</th><th>Quando</th></tr></thead><tbody><tr><td><code>data-variant</code></td><td>sem atributo</td><td>Fundo <code>background</code></td><td>O padrão</td></tr><tr><td></td><td><code>muted</code></td><td>Fundo <code>muted</code> (mist)</td><td>A ficha do projeto, e o que é informação de apoio</td></tr><tr><td></td><td><code>acento</code></td><td>Fundo <code>acento</code>, texto em tinta</td><td>O Salto, e um item que o mosaico quer marcar</td></tr><tr><td><code>data-tamanho</code></td><td><code>meio</code></td><td>Metade da linha</td><td>Itens de mesmo peso, em pares</td></tr><tr><td></td><td><code>terco</code></td><td>Um terço da linha</td><td>Itens curtos, em trios</td></tr><tr><td></td><td><code>dois-tercos</code></td><td>Dois terços no desktop, a linha inteira no tablet</td><td>O item que abre o grupo e pesa mais</td></tr></tbody></table></div>
+<div class="tabela"><table><thead><tr><th>Atributo</th><th>Valor</th><th>Como fica</th><th>Quando</th></tr></thead><tbody><tr><td><code>data-variant</code></td><td>sem atributo</td><td>Fundo <code>background</code></td><td>O padrão</td></tr><tr><td></td><td><code>muted</code></td><td>Fundo <code>muted</code> (mist)</td><td>A ficha do projeto, e o que é informação de apoio</td></tr><tr><td></td><td><code>acento</code></td><td>Fundo <code>acento</code>, texto em tinta</td><td>O Salto, e um item que o mosaico quer marcar</td></tr><tr><td></td><td><code>caso</code></td><td>O alto no papel e a base no acento do caso, com o número</td><td>Um caso na Lista de casos da Home</td></tr><tr><td><code>data-tamanho</code></td><td><code>meio</code></td><td>Metade da linha</td><td>Itens de mesmo peso, em pares</td></tr><tr><td></td><td><code>terco</code></td><td>Um terço da linha</td><td>Itens curtos, em trios</td></tr><tr><td></td><td><code>dois-tercos</code></td><td>Dois terços no desktop, a linha inteira no tablet</td><td>O item que abre o grupo e pesa mais</td></tr></tbody></table></div>
 <p>Os tamanhos por largura, em colunas de seis.</p>
 <div class="tabela"><table><thead><tr><th></th><th>até 719px</th><th>de 720 a 1099px</th><th>a partir de 1100px</th></tr></thead><tbody><tr><td><code>meio</code></td><td>6</td><td>3</td><td>3</td></tr><tr><td><code>terco</code></td><td>6</td><td>2</td><td>2</td></tr><tr><td><code>dois-tercos</code></td><td>6</td><td>6</td><td>4</td></tr></tbody></table></div>
 <p>No celular todo Cartão ocupa a linha inteira, um debaixo do outro.</p>
+<p>No Cartão <code>caso</code> o acento entra só na base, para os quatro lado a lado não virarem quatro blocos chapados disputando o olho. Sobre o acento o marca texto do Link corre em papel (<code>--marca</code>), porque acento sobre acento não se veria. Lado a lado, os Cartões <code>caso</code> dividem as linhas da grade (subgrid). O rótulo, o título, a frase, o Dado, a ficha e o Link de um ficam na mesma altura que os do vizinho, e as bases saem alinhadas por cima e por baixo, por mais que um título tenha uma linha a mais. Onde não há subgrid, a base só desce até o pé.</p>
 <p>Na superfície tinta o contorno vira papel, porque <code>border</code> troca por dentro. O <code>muted</code> e o <code>acento</code> continuam com texto em tinta.</p>
 <h2>Limites</h2>
-<ul><li>De dois a seis Cartões num mosaico. Um item só é moldura, e mais de seis vira Abas ou duas Seções.</li><li>Um Cartão <code>acento</code> por mosaico, e o acento chapado em só uma de duas Seções seguidas (regra 11 do <code>ds/RITMO.md</code>).</li><li>Um mosaico de Cartões por página, fora o Topo e o Dado em grupo. O modelo usa no Processo.</li><li>As linhas somam seis colunas. Fecham nas duas larguras dois, quatro ou seis <code>meio</code>, e três ou seis <code>terco</code>. No arranjo do Processo, um <code>dois-tercos</code> seguido de quatro <code>terco</code>, o desktop fecha e o tablet deixa a quinta camada sozinha na última linha. É assim no modelo aprovado.</li><li>Título de até duas linhas e texto de até seis linhas no Cartão <code>terco</code> do desktop. Passou disso, o item é longo e pede Abas.</li></ul>
+<ul><li>De dois a seis Cartões num mosaico. Um item só é moldura, e mais de seis vira Abas ou duas Seções.</li><li>Um Cartão <code>acento</code> por mosaico, e o acento chapado em só uma de duas Seções seguidas (regra 11 do <code>ds/RITMO.md</code>).</li><li>Um mosaico de Cartões por página, fora o Topo e o Dado em grupo. O modelo usa no Processo. Na Home, o mosaico é a Lista de casos.</li><li>Na Lista de casos, um Cartão <code>caso</code> por caso, na ordem da fila, sempre <code>meio</code>. Cada um leva o acento do próprio caso, e é a única peça do site que mostra os três acentos na mesma página.</li><li>As linhas somam seis colunas. Fecham nas duas larguras dois, quatro ou seis <code>meio</code>, e três ou seis <code>terco</code>. No arranjo do Processo, um <code>dois-tercos</code> seguido de quatro <code>terco</code>, o desktop fecha e o tablet deixa a quinta camada sozinha na última linha. É assim no modelo aprovado.</li><li>Título de até duas linhas e texto de até seis linhas no Cartão <code>terco</code> do desktop. Passou disso, o item é longo e pede Abas.</li></ul>
 <h2>Comportamento</h2>
-<ol><li><strong>Mouse.</strong> Não tem. O Cartão não é alvo. Se um dia virar link, a ficha muda antes.</li><li><strong>Toque.</strong> Não tem.</li><li><strong>Foco.</strong> Não recebe foco.</li><li><strong>Movimento.</strong> O grupo inteiro leva <code>data-revelar</code> e entra subindo 16px em <code>dur-lenta</code> com <code>ease-saida</code>. Os Cartões não entram um a um, para a leitura do grupo não esperar.</li><li><strong>Sem JS.</strong> Aparece pronto.</li><li><strong>Movimento reduzido.</strong> Aparece pronto.</li></ol>
+<ol><li><strong>Mouse.</strong> Não tem. O Cartão não é alvo, nem o <code>caso</code>. Se um dia virar link, a ficha muda antes. No <code>caso</code>, só o Link de dentro reage, com a marca em papel.</li><li><strong>Toque.</strong> Não tem. O Link do Cartão <code>caso</code> tem 44px.</li><li><strong>Foco.</strong> Não recebe foco.</li><li><strong>Movimento.</strong> O grupo inteiro leva <code>data-revelar</code> e entra subindo 16px em <code>dur-lenta</code> com <code>ease-saida</code>. Os Cartões não entram um a um, para a leitura do grupo não esperar.</li><li><strong>Sem JS.</strong> Aparece pronto.</li><li><strong>Movimento reduzido.</strong> Aparece pronto.</li></ol>
 <h2>Acessibilidade</h2>
-<ul><li>No mosaico os Cartões são <code>article</code>, cada um com o seu <code>h3</code>. Quem navega por títulos acha cada item.</li><li>O ícone é decorativo. O título já diz o que é.</li><li>A ordem de leitura é a ordem do HTML, que é a mesma da grade. O mosaico nunca reordena com CSS.</li><li>Tinta sobre papel, mist e acento passa com folga. Ver <code>ds/CONTRASTE.md</code>.</li></ul>
+<ul><li>No mosaico os Cartões são <code>article</code>, cada um com o seu <code>h3</code>. Quem navega por títulos acha cada item.</li><li>O ícone é decorativo. O título já diz o que é.</li><li>No Cartão <code>caso</code>, o Link diz ao leitor de tela qual caso abre ("Ver o caso, Omnichat"), porque os quatro Links da Lista têm o mesmo texto. O antes e o depois do Dado são lidos como "De 24% para 32%".</li><li>A ordem de leitura é a ordem do HTML, que é a mesma da grade. O mosaico nunca reordena com CSS.</li><li>Tinta sobre papel, mist e acento passa com folga. Ver <code>ds/CONTRASTE.md</code>.</li></ul>
 <h2>Onde aparece</h2>
-<ul><li>Modelo de Caso, Topo. A ficha do projeto num Cartão <code>muted</code> e o Salto num Cartão do acento, com a ilustração do salto.</li><li>Modelo de Caso, Processo. Cinco camadas em mosaico, a primeira em <code>dois-tercos</code> e no acento ("A arquitetura de prompt como superfície de design"), as outras quatro em <code>terco</code>.</li><li>Modelo de Caso, Problema. Duas origens em <code>meio</code>, "Instagram" e "Disparos de WhatsApp".</li><li>Modelo de Caso, Resultado. Quatro Cartões <code>meio</code> com o Dado em grupo (ver a ficha do Dado).</li><li>Nas páginas publicadas, a Ficha do projeto dos quatro casos.</li></ul>
+<ul><li>Modelo de Caso, Topo. A ficha do projeto num Cartão <code>muted</code> e o Salto num Cartão do acento, com a ilustração do salto.</li><li>Modelo de Caso, Processo. Cinco camadas em mosaico, a primeira em <code>dois-tercos</code> e no acento ("A arquitetura de prompt como superfície de design"), as outras quatro em <code>terco</code>.</li><li>Modelo de Caso, Problema. Duas origens em <code>meio</code>, "Instagram" e "Disparos de WhatsApp".</li><li>Modelo de Caso, Resultado. Quatro Cartões <code>meio</code> com o Dado em grupo (ver a ficha do Dado).</li><li>Nas páginas publicadas, a Ficha do projeto dos quatro casos.</li><li>Vitrine, na amostra e no palco do Cartão de caso, a Lista de casos da Home com os quatro casos. "Reconstruindo o processo de produto e design com Claude no centro", de 2 meses para 1 semana, no lime. "Verificação de intenção dos agentes conversacionais", de 24% para 32%, no azul. "Solução que ajudou a diminuir a recuperação dos alunos", de 8 em 10 para 6 em 10, no verde. "Como um mapa de experiência ajudou a deixar o NPS positivo", de −33 para +15, no azul. A Home publicada ainda usa a cena dos casos, e passa para a Lista na Fase 6.</li></ul>
 <h2>Vizinhos</h2>
 <ul><li><strong>Passos.</strong> Quando a ordem é o assunto, ou são duas coisas ao mesmo tempo.</li><li><strong>Abas.</strong> Quando cada item é longo e se lê um de cada vez.</li><li><strong>Dado.</strong> O número que mora dentro do Cartão, não o Cartão.</li><li><strong>Destaque.</strong> Uma frase sozinha, sem moldura de item.</li></ul>
 <h2>Par nos posts</h2>
@@ -149,6 +166,24 @@ code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-si
   &lt;article class="card" data-tamanho="terco"&gt;…&lt;/article&gt;
 &lt;/div&gt;
 
+&lt;!-- Cartão de caso, na Lista de casos --&gt;
+&lt;div class="cards" data-layout="mosaico" data-revelar&gt;
+  &lt;article class="card" data-variant="caso" data-acento="azul" data-tamanho="meio"&gt;
+    &lt;p class="t-rotulo"&gt;02 · Omnichat&lt;/p&gt;
+    &lt;h3&gt;Verificação de intenção dos agentes conversacionais&lt;/h3&gt;
+    &lt;p class="t-apoio"&gt;A maior perda de conversão não estava na interface…&lt;/p&gt;
+    &lt;div class="card__base"&gt;
+      &lt;div class="stat" data-variant="salto"&gt;
+        &lt;span class="stat__antes"&gt;&lt;span class="sr"&gt;De &lt;/span&gt;24%&lt;/span&gt;
+        &lt;span class="stat__valor"&gt;&lt;span class="sr"&gt;para &lt;/span&gt;32%&lt;/span&gt;
+        &lt;p class="stat__frase"&gt;de conversão de leads qualificados nas origens redesenhadas&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;p class="card__ficha"&gt;Product Design Manager · 4 meses&lt;/p&gt;
+      &lt;a class="link" data-variant="seguir" href="case-omnichat.html"&gt;&lt;span&gt;Ver o caso&lt;span class="sr"&gt;, Omnichat&lt;/span&gt;&lt;/span&gt; &lt;i aria-hidden="true"&gt;→&lt;/i&gt;&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/article&gt;
+&lt;/div&gt;
+
 &lt;!-- Ficha do projeto --&gt;
 &lt;div class="card" data-variant="muted"&gt;
   &lt;p class="t-rotulo card__titulo"&gt;Ficha do projeto&lt;/p&gt;
@@ -156,9 +191,10 @@ code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-si
     &lt;div&gt;&lt;dt&gt;Duração&lt;/dt&gt;&lt;dd&gt;…&lt;/dd&gt;&lt;/div&gt;
   &lt;/dl&gt;
 &lt;/div&gt;</code></pre>
-<p>Estilo em <code>assets/ds/componentes.css</code>, seção Card (<code>.card</code>, <code>.ficha</code>). Não tem script além do revelar.</p>
+<p>Estilo em <code>assets/ds/componentes.css</code>, seção Card (<code>.card</code>, <code>.ficha</code>, e <code>.card__base</code> e <code>.card__ficha</code> no Cartão <code>caso</code>). Não tem script além do revelar. O HTML da Lista de casos sai das funções <code>cartao_caso</code> e <code>lista_casos</code> de <code>ds/prova/comum.py</code>, com o texto do Topo de cada caso em <code>CASOS</code>. O texto do Link fica dentro de um <code>span</code>, para o nome do caso só para o leitor de tela não abrir um vão a mais antes da seta.</p>
 <p><strong>O que falta no código.</strong></p>
 <ul><li>Nada para o uso atual. O mosaico, que morava no CSS da variação 4 com as classes <code>.mosaico</code> e <code>.tile</code>, já está em <code>componentes.css</code> como <code>.cards[data-layout="mosaico"]</code>.</li></ul>
+<p>O Cartão <code>caso</code> entrou na Onda 5 e foi aprovado por você na vitrine em 24 de outubro de 2026, depois do alinhamento das bases lado a lado.</p>
   </article>
 </main>
 <footer class="footer superficie-tinta">
@@ -188,5 +224,6 @@ code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-si
 </footer>
 
 <script src="../../../assets/ds/componentes.js"></script>
+<script src="../vitrine.js"></script>
 </body>
 </html>

@@ -64,10 +64,11 @@ CASCA = [
 ]
 
 # Peças com um estudo de direções aberto, em ds/vitrine/estudo/.
-ESTUDOS = {"passos": '\n        <a class="link" data-variant="seguir" href="estudo/index.html">Ver o estudo do Passos, seis direções <i aria-hidden="true">→</i></a>'}
+ESTUDOS = {"passos": '\n        <a class="link" data-variant="seguir" href="estudo/index.html">Ver o estudo do Passos, seis direções <i aria-hidden="true">→</i></a>',
+           "hero": '\n        <a class="link" data-variant="seguir" href="estudo/hero/index.html">Ver o estudo do hero, a frase em três momentos <i aria-hidden="true">→</i></a>'}
 
 # A contração certa para "a ficha do Link" e "a ficha da Etiqueta".
-DO = {"etiqueta": "da"}
+DO = {"etiqueta": "da", "imagem": "da"}
 
 # As peças da Onda 2.
 ACAO = [
@@ -123,9 +124,39 @@ DADOS = [
     ]),
 ]
 
+# As peças da Onda 5.
+MIDIA = [
+    ("imagem", "Imagem", 1440, [
+        "Role o palco. A moldura do protótipo do Inpulse, a galeria do Mapa de experiência e a sangria do resultado do Inpulse, cada uma na sua&nbsp;Seção.",
+        "Na moldura, o protótipo se navega ali mesmo. Em retrato ele para de crescer em 400px, e o Link logo abaixo abre o protótipo em tela&nbsp;cheia.",
+        "Na galeria, a primeira tela ocupa a linha inteira e as outras quatro vão duas a duas quando a Seção tem 600px. Abaixo disso, uma debaixo da&nbsp;outra.",
+        "Na sangria, a faixa vai até a beira da tela. Em 1440 ela sangra só para a direita, porque a coluna da esquerda é do Sumário. Nenhuma largura abre rolagem para o&nbsp;lado.",
+        "Nenhuma forma reage a mouse, toque ou foco. Entram com o revelar da&nbsp;página.",
+    ]),
+    ("hero", "Hero da Home", 1440, [
+        "Abra a página e não role. Em uns 3s a frase vai do rascunho à página pronta. A grade e o contorno à mão com as guias, a hachura no ofício, as notas e o não circulado. Depois a tinta, as cores atrás das palavras e por fim os&nbsp;adesivos.",
+        "A sequência roda uma vez só e para no fim. Para rever, recarregue a&nbsp;página.",
+        "Role devagar. A primeira linha quase não se move, a segunda sobe um pouco mais, e os adesivos mais que a frase. Nada gira nem muda de&nbsp;cor.",
+        "Em 390 a frase quebra em seis linhas e os adesivos descem pelo vão da direita. Do tablet para cima são duas linhas, e no desktop o começo da Lista de casos aparece embaixo da&nbsp;frase.",
+        "Sem JS ou com movimento reduzido, a página chega pronta, como no segundo hero da&nbsp;amostra.",
+    ]),
+    ("cartao-de-caso", "Cartão de caso", 1440, [
+        "Role até os casos. São quatro, na ordem da fila, e cada Cartão leva o acento do próprio caso só na base, com o&nbsp;número.",
+        "Em 390 um debaixo do outro, e dois por linha a partir de 768. As bases ficam no pé do Cartão, e o que sobra de altura fica no&nbsp;papel.",
+        "Com mouse, o Link Ver o caso ganha a marca em papel, porque o acento sobre o acento não se veria. No toque ele tem&nbsp;44px.",
+        "Com leitor de tela, cada Cartão é um artigo com o título do caso, e o Link diz qual caso&nbsp;abre.",
+        "O Cartão não é alvo. Só o Link leva para a página do&nbsp;caso.",
+    ]),
+]
+
 # Peças que ainda não têm ficha, porque a ficha só se escreve depois que a
 # interface é aprovada: o nome shadcn e a frase que a ficha vai abrir.
 SEM_FICHA = {}
+
+# Peça da vitrine que mora na ficha de outro componente: o Cartão de caso é
+# uma variante do Cartão, e a ficha do Cartão mostra o palco dele.
+FICHA_DE = {"cartao-de-caso": ("cartao", "Cartão")}
+PALCO_DE = {v[0]: k for k, v in FICHA_DE.items()}
 
 ESTILO = """
 .peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
@@ -156,6 +187,7 @@ html:not(.js) .palco__larguras { display: none; }
 .amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
 .amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
 .amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__rolar { min-height: 60vh; }
 .amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
 .ficha-pagina__palco { display: grid; gap: var(--space-16); }
 .ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
@@ -246,7 +278,7 @@ def markdown(texto):
 
 
 def pagina_ficha(arq):
-    pronta = {x[0]: x for x in CASCA + ACAO + SEQUENCIA + DADOS}
+    pronta = {x[0]: x for x in CASCA + ACAO + SEQUENCIA + DADOS + MIDIA}
     if arq in SEM_FICHA:
         titulo = pronta[arq][1]
         nome_shadcn, frase = SEM_FICHA[arq]
@@ -258,16 +290,17 @@ def pagina_ficha(arq):
         abertura, corpo = resto.split("\n", 1)
         nome_shadcn, frase = abertura.split(" · ", 1)
         doc = markdown(corpo)
-    volta = f"../index.html#peca-{arq}" if arq in pronta else "../index.html"
+    peca_ = PALCO_DE.get(arq, arq)
+    volta = f"../index.html#peca-{peca_}" if peca_ in pronta else "../index.html"
     na_pagina = ""
-    if arq in pronta:
-        _, nome, largura, testar = pronta[arq]
+    if peca_ in pronta:
+        _, nome, largura, testar = pronta[peca_]
         itens = "".join(f"<li>{x}</li>" for x in testar)
         na_pagina = f"""
   <section class="ficha-pagina__palco" aria-labelledby="na-pagina">
     <h2 id="na-pagina">Na página</h2>
     <p class="t-apoio prosa">A peça montada numa página com o texto real e outras peças em&nbsp;volta.</p>
-    {palco(f"../palco/{arq}.html", f"{nome}, na página", largura, 800)}
+    {palco(f"../palco/{peca_}.html", f"{nome}, na página", largura, 800)}
     <p class="t-rotulo">O que testar</p>
     <ul class="testar">{itens}</ul>
   </section>"""
@@ -812,6 +845,123 @@ def palco_grafico():
     return c.cabeca(P_SUB, "Gráfico · Palco da vitrine", ESTILO) + c.cabecalho(P_SUB, "grafico.html") + corpo + c.rodape(P_SUB, "grafico.html")
 
 
+# ── Onda 5, com as telas e o texto das páginas publicadas ────
+
+FIGMA_INPULSE = "https://www.figma.com/proto/w5TixfaNOqjwjYoY8hZ0cg/Painel-Longitudinal---Aluno?page-id=2891%3A23975&amp;node-id=2891-27267&amp;p=f&amp;viewport=521%2C589%2C0.07&amp;t=N9ol2L7UQFaCxwX8-1&amp;scaling=scale-down&amp;content-scaling=fixed&amp;starting-point-node-id=2891%3A27267"
+EMBED_INPULSE = "https://embed.figma.com/proto/w5TixfaNOqjwjYoY8hZ0cg/Painel-Longitudinal---Aluno?page-id=2891%3A23975&amp;node-id=2891-27267&amp;starting-point-node-id=2891%3A27267&amp;scaling=scale-down&amp;content-scaling=fixed&amp;embed-host=share"
+FIGMA_MAPA = "https://www.figma.com/proto/8fvE9ztg50OQFqWIqGfH3y/Mapa-de-Experie%CC%82ncia-Estudante-Medicina?page-id=221%3A2&amp;node-id=288-1762&amp;starting-point-node-id=288%3A1762&amp;t=rEOOuyzD3vuwNv1m-1"
+
+TELAS_MAPA = [
+    ("jB0FYWxzKTWaMHwYRuFkT0OR8", "O tabuleiro do mapa, com as 12 etapas da graduação distribuídas do START ao FINISH.", "O tabuleiro, do primeiro ao último&nbsp;semestre"),
+    ("2u2l4cvOcOdO1jQGPl637PRYmWI", "Uma etapa aberta sobre o tabuleiro, com o achado da pesquisa e a régua de sentimento na base da tela.", "Uma etapa aberta, com a régua de&nbsp;sentimento"),
+    ("Gt20MHEWr6seNOXMahLIqb4plQ", "Visão ampla institucional, com experiência, sugestões, apps e oportunidades cruzados com os pares de etapas.", "Visão ampla, lado&nbsp;institucional"),
+    ("3IY6aXgfkDIxVCej0xa2DWhplw", "Visão ampla pessoal, com mental, físico, financeiro, futuro e dores cruzados com os pares de etapas.", "Visão ampla, lado&nbsp;pessoal"),
+    ("D6BfM2dEe92QhBtCV7Q9lTCTu0", "Gráfico de sentimento com três linhas, financeiro, físico e mental, ao longo dos seis pares de etapas.", "O sentimento por eixo ao longo do&nbsp;curso"),
+]
+
+
+def tela(id_, alt, larg=4320, alt_=3072):
+    return f'<img src="https://framerusercontent.com/images/{id_}.png" alt="{alt}" width="{larg}" height="{alt_}" loading="lazy" decoding="async">'
+
+
+def moldura_prototipo():
+    return f"""<figure class="figure" data-variant="moldura" data-formato="retrato" data-revelar>
+  <div class="figure__quadro"><iframe src="{EMBED_INPULSE}" title="Protótipo do aplicativo Inpulse" allowfullscreen loading="lazy"></iframe></div>
+  <figcaption class="figure__legenda">Navegue pelo app aqui mesmo, ou abra o protótipo em&nbsp;tela&nbsp;cheia.</figcaption>
+</figure>
+<a class="link" data-variant="externo" href="{FIGMA_INPULSE}" target="_blank" rel="noopener">Abrir o protótipo completo <i aria-hidden="true">↗</i></a>"""
+
+
+def moldura_tela():
+    id_, alt, leg = TELAS_MAPA[1]
+    return f"""<figure class="figure" data-variant="moldura" data-revelar>
+  <div class="figure__quadro">{tela(id_, alt)}</div>
+  <figcaption class="figure__legenda">{leg[0].upper() + leg[1:]}</figcaption>
+</figure>"""
+
+
+def galeria():
+    itens = "".join(
+        f'<li><figure><div class="figure__quadro">{tela(id_, alt)}</div><figcaption class="figure__legenda"><span class="t-rotulo">Fig. 0{n}</span>{leg}</figcaption></figure></li>'
+        for n, (id_, alt, leg) in enumerate(TELAS_MAPA, 1))
+    return f"""<div class="figure" data-variant="galeria" data-abertura data-revelar>
+  <ol class="figure__lista">{itens}</ol>
+</div>
+<a class="link" data-variant="externo" href="{FIGMA_MAPA}" target="_blank" rel="noopener">Abrir o mapa completo <i aria-hidden="true">↗</i></a>"""
+
+
+def sangria():
+    return f"""<figure class="figure" data-variant="sangria" data-revelar>
+  <div class="figure__quadro">{tela("aV4KtUaueCwZ17TJ4mz299XAw", "Telas do aplicativo Inpulse, com o boletim por complexo temático, o calendário acadêmico e a situação atual do aluno.", 1600, 900)}</div>
+</figure>"""
+
+
+STATS_INPULSE = [
+    ("celular", "93%", "dos alunos acessando o&nbsp;app"),
+    ("calendario", "45%", "acessando ao menos uma&nbsp;vez por&nbsp;dia"),
+    ("check", "4,8", "de CSAT na&nbsp;primeira versão"),
+    ("grafico", "−25%", "de recuperação por&nbsp;semestre por&nbsp;aluno"),
+]
+
+
+def amostra_imagem():
+    return amostra("Imagem", "".join([
+        item("Moldura, retrato, com o protótipo do Inpulse", 'data-variant="moldura" data-formato="retrato"', moldura_prototipo()),
+        item("Moldura, com uma tela do Mapa de experiência", 'data-variant="moldura"', moldura_tela()),
+        item("Galeria, com abertura, as cinco telas do Mapa", 'data-variant="galeria" data-abertura', galeria()),
+        item("Sangria, as telas do Inpulse", 'data-variant="sangria"', sangria()),
+    ]))
+
+
+def palco_imagem():
+    stats = "".join(
+        f'<div class="card" data-tamanho="meio">{c.icone(P_SUB, ic, 48)}<div class="stat"><span class="stat__valor">{v}</span><p class="stat__frase">{f}</p></div></div>'
+        for ic, v, f in STATS_INPULSE)
+    corpo = caso_palco("Neste palco", [
+        ("lupa", "Descoberta", "Qual a&nbsp;melhor maneira de&nbsp;entregar um&nbsp;boletim que&nbsp;o&nbsp;aluno use",
+         [prosa("Depois de analisar o NPS, as pesquisas que o time já tinha feito e um dia na vida conduzido por um dos designers, ficou claro que esse aluno está sempre em movimento e precisava de algo de fácil acesso, que estivesse com ele o&nbsp;tempo todo.",
+                "Depois de várias sessões de cocriação com&nbsp;a&nbsp;área acadêmica e&nbsp;com&nbsp;todo o&nbsp;time de produto e desenvolvimento, saímos com&nbsp;um&nbsp;protótipo navegável de alta fidelidade, pronto para&nbsp;validação."), moldura_prototipo()]),
+        ("rota", "Solução", "Um&nbsp;tabuleiro com&nbsp;as&nbsp;12 etapas da&nbsp;graduação",
+         [prosa("Cada instituição recebeu um mapa interativo para transitar por&nbsp;toda a jornada do estudante, com visualização por&nbsp;semestre e por&nbsp;eixo da vida do&nbsp;aluno.",
+                "O mesmo material resume a variação de sentimento entre semestres e&nbsp;as&nbsp;palavras-chave que aparecem em cada cruzamento de&nbsp;eixo e&nbsp;etapa."), galeria()]),
+        ("grafico", "Resultado", "Agora o&nbsp;aluno tem mais tempo para&nbsp;estudar",
+         [prosa("O aluno passou a ter acesso rápido e&nbsp;real à&nbsp;informação de&nbsp;aula, com&nbsp;as&nbsp;notas centralizadas num lugar&nbsp;só.",
+                "A primeira versão já mostrou números de&nbsp;engajamento altos no&nbsp;primeiro semestre de&nbsp;lançamento."), sangria(),
+          f'<div class="cards" data-layout="mosaico" data-revelar>{stats}</div>']),
+    ])
+    return c.cabeca(P_SUB, "Imagem · Palco da vitrine", ESTILO) + c.cabecalho(P_SUB, "imagem.html") + corpo + c.rodape(P_SUB, "imagem.html")
+
+
+def na_home(pagina, aqui):
+    """A Home tem o lime, e o item Home do menu e do Rodapé é a página
+    atual, apontando para o próprio palco."""
+    pagina = pagina.replace('data-acento="azul"', 'data-acento="lime"', 1)
+    pagina = pagina.replace(f'class="sheet__item" href="{P_SUB}index.html"', f'class="sheet__item" href="{aqui}" aria-current="page"')
+    return pagina.replace(f'<a class="link" href="{P_SUB}index.html">Home</a>', f'<a class="link" href="{aqui}" aria-current="page">Home</a>')
+
+
+def amostra_hero():
+    return na_home(amostra("Hero da Home", "".join([
+        item("Com movimento, na chegada e na rolagem", ".hero", c.hero(P_SUB) + '<p><a class="link" href="hero.html">Rever a chegada</a></p>'),
+        item("Parado, sem JS ou com movimento reduzido", "data-parado", c.hero(P_SUB, parado=True, id_="hero-frase-parado")),
+        '<div class="amostra__rolar" aria-hidden="true"></div>',
+    ])), "hero.html")
+
+
+def amostra_cartao_de_caso():
+    return na_home(amostra("Cartão de caso", item("Lista de casos, na ordem da fila", 'data-variant="caso" data-acento', c.lista_casos(P_SUB, revelar=False))), "cartao-de-caso.html")
+
+
+def palco_home(aqui):
+    corpo = f"""
+<main id="conteudo" class="container">
+  {c.hero(P_SUB)}
+  {c.lista_casos(P_SUB)}
+</main>"""
+    titulo = "Hero da Home" if aqui == "hero.html" else "Cartão de caso"
+    return na_home(c.cabeca(P_SUB, f"{titulo} · Palco da vitrine") + c.cabecalho(P_SUB, None, "Pular para o conteúdo") + corpo + c.rodape(P_SUB, None), aqui)
+
+
 # Peça, altura do quadro da amostra e a página.
 AMOSTRAS = {
     "cabecalho": (560, amostra_cabecalho),
@@ -823,12 +973,16 @@ AMOSTRAS = {
     "passos": (900, amostra_passos),
     "antes-e-depois": (900, amostra_antes_e_depois),
     "grafico": (900, amostra_grafico),
+    "imagem": (900, amostra_imagem),
+    "hero": (900, amostra_hero),
+    "cartao-de-caso": (900, amostra_cartao_de_caso),
 }
 
 
 PALCOS = {"cabecalho": palco_cabecalho, "sumario": palco_sumario, "rodape": palco_rodape,
           "link": palco_link, "etiqueta": palco_etiqueta, "destaque": palco_destaque,
-          "passos": palco_passos, "antes-e-depois": palco_antes_e_depois, "grafico": palco_grafico}
+          "passos": palco_passos, "antes-e-depois": palco_antes_e_depois, "grafico": palco_grafico,
+          "imagem": palco_imagem, "hero": lambda: palco_home("hero.html"), "cartao-de-caso": lambda: palco_home("cartao-de-caso.html")}
 
 
 # ── A vitrine ────────────────────────────────────────────────
@@ -855,6 +1009,11 @@ def frase_da_ficha(arq):
     return inline(frase[0].upper() + frase[1:])
 
 
+def frase_da_variante(arq):
+    """A frase da peça que é variante de outro componente."""
+    return {"cartao-de-caso": "Um caso na Lista de casos da Home, com o número que ele promete e o caminho para a&nbsp;página. É a variante <code>caso</code> do&nbsp;Cartão."}[arq]
+
+
 def palco(src, titulo, largura, altura):
     """O quadro com os botões de largura. O vitrine.js põe a página na
     largura escolhida e reduz quando ela não cabe na coluna."""
@@ -875,9 +1034,9 @@ def peca(arq, nome, largura, testar):
     return f"""
       <div class="peca" id="peca-{arq}" data-revelar>
         <h3>{nome}</h3>
-        <p class="t-apoio prosa">{frase_da_ficha(arq)}</p>
+        <p class="t-apoio prosa">{frase_da_ficha(arq) if arq not in FICHA_DE else frase_da_variante(arq)}</p>
         {palco(f"amostra/{arq}.html", f"{nome}, todas as formas", largura, altura)}
-        <a class="link" data-variant="seguir" href="fichas/{arq}.html">Ver na página e ler a ficha {DO.get(arq, "do")} {nome} <i aria-hidden="true">→</i></a>{ESTUDOS.get(arq, "")}
+        <a class="link" data-variant="seguir" href="fichas/{FICHA_DE.get(arq, (arq,))[0]}.html">Ver na página e ler a ficha {DO.get(arq, "do")} {FICHA_DE.get(arq, (arq, nome))[1]} <i aria-hidden="true">→</i></a>{ESTUDOS.get(arq, "")}
       </div>"""
 
 
@@ -927,7 +1086,14 @@ def main():
       <div class="prosa" data-revelar><p>O Gráfico em três formas, com os números reais dos casos. Cada amostra está no acento do caso de onde o número vem, para ver o Gráfico no lime, no azul e no&nbsp;verde.</p></div>
       {"".join(peca(*x) for x in DADOS)}
     </section>
-{"".join(onda_futura(n) for n in range(5, len(ONDAS) + 1))}
+
+    <section class="section" id="midia-hero-e-home" aria-labelledby="midia-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>05 · Mídia, hero e Home</p>
+      <h2 class="t-titulo" id="midia-titulo" data-revelar>OO&nbsp;que se&nbsp;vê, e&nbsp;a&nbsp;porta de&nbsp;entradanbsp;que seO&nbsp;que se&nbsp;vê, e&nbsp;a&nbsp;porta de&nbsp;entradanbsp;vê eO&nbsp;que se&nbsp;vê, e&nbsp;a&nbsp;porta de&nbsp;entradanbsp;por onde seO&nbsp;que se&nbsp;vê, e&nbsp;a&nbsp;porta de&nbsp;entradanbsp;entra</h2>
+      <div class="prosa" data-revelar><p>A Imagem em três formas, com as telas reais do Inpulse e do Mapa de experiência. O hero, em que a frase é a própria cena e vai do rascunho à página pronta, e o Cartão de caso, que monta a Lista de casos da Home. As três foram aprovadas e têm&nbsp;ficha.</p></div>
+      {"".join(peca(*x) for x in MIDIA)}
+    </section>
+{"".join(onda_futura(n) for n in range(6, len(ONDAS) + 1))}
   </div>
 </main>"""
 
