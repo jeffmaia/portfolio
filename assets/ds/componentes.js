@@ -28,11 +28,14 @@ const duracao = (nome) => parseFloat(getComputedStyle(document.documentElement).
    sai, se a página já tiver carregado. Ao clicar num link interno,
    ela desce antes de trocar de página, e a próxima continua dali.
    Voltando pelo histórico, a animação roda de trás para a frente.
+   Com data-sem-chegada (a Home, onde o hero já é a chegada), a
+   cortina nasce escondida e só desce ao sair.
    ──────────────────────────────────────────────── */
 (() => {
   const carga = document.querySelector(".carga");
   if (!carga) return;
   if (calmo.matches) { carga.remove(); return; }
+  const semChegada = carga.hasAttribute("data-sem-chegada");
   const MINIMO = { ida: 1600, volta: 1950 };
 
   function sair(modo, inicio) {
@@ -46,7 +49,8 @@ const duracao = (nome) => parseFloat(getComputedStyle(document.documentElement).
     }, falta);
   }
   const modo = document.documentElement.classList.contains("volta") ? "volta" : "ida";
-  if (document.readyState === "complete") sair(modo, 0);
+  if (semChegada) carga.hidden = true;
+  else if (document.readyState === "complete") sair(modo, 0);
   else window.addEventListener("load", () => sair(modo, 0), { once: true });
 
   document.addEventListener("click", (e) => {
@@ -65,6 +69,7 @@ const duracao = (nome) => parseFloat(getComputedStyle(document.documentElement).
   // ainda com a cortina baixada. Dali ela se desmonta ao contrário.
   window.addEventListener("pageshow", (e) => {
     if (!e.persisted) return;
+    if (semChegada) { carga.className = "carga"; carga.hidden = true; return; }
     carga.hidden = false;
     carga.className = "carga";
     void carga.offsetWidth;

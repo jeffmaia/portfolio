@@ -18,7 +18,7 @@ A seção tem de três a seis itens do mesmo tipo e cada um tem nome de frase, u
 ## Anatomia
 
 1. Caixa, `div.tabs` com `data-tabs`. É o que o script procura.
-2. Lista, `div.tabs__lista` com `aria-label` que nomeia o conjunto. Dentro, um `button.tab` por item, com o número em `.t-rotulo` e o nome. Cada aba aponta para o seu painel com `aria-controls`.
+2. Lista, `div.tabs__lista` com `aria-label` que nomeia o conjunto. Dentro, um `button.tab` por item, com o ícone opcional, o número em `.t-rotulo` e o nome, os três alinhados pelo centro, como no Sumário. Cada aba aponta para o seu painel com `aria-controls`.
 3. Painéis, `div.tabs__paineis`. Dentro, um `div.tabs__painel` por item, com `id` e `tabindex="0"`.
 4. Título do painel, `h3.tabs__painel-titulo`, obrigatório. Repete o número e o nome da aba. Sem script, é ele que nomeia cada item.
 5. Texto, obrigatório. Um ou dois parágrafos.

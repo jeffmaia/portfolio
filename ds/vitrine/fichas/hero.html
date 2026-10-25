@@ -142,7 +142,7 @@ code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-si
 <h2>Acessibilidade</h2>
 <ul><li>O <code>h1</code> é a frase inteira, lida uma vez. As notas, os adesivos e a folha de esboço ficam escondidos do leitor de tela, e o texto fica em minúsculas no HTML, com a caixa alta só no CSS.</li><li>A grade, o filtro e os traços do rascunho são decorativos.</li><li>A chegada dura menos de 5s, então não pede botão de pausa (WCAG, critério 2.2.2).</li><li>Tinta sobre papel, tinta sobre o lime, o azul e o verde, e papel sobre a tinta passam com folga. Ver <code>ds/CONTRASTE.md</code>.</li></ul>
 <h2>Onde aparece</h2>
-<ul><li>Vitrine, na amostra e no palco da Home, com a Lista de casos logo abaixo.</li><li>O estudo dos três momentos parados, em <code>ds/vitrine/estudo/hero/</code>.</li><li>A Home publicada ainda usa o hero antigo, com as fotos, e passa para este na Fase 6.</li></ul>
+<ul><li>Vitrine, na amostra e no palco da Home, com a Lista de casos logo abaixo.</li><li>O estudo dos três momentos parados, em <code>ds/vitrine/estudo/hero/</code>.</li><li>A Home publicada, desde o passo 4 da Fase 6. As fotos do hero antigo foram para <code>arquivo/site-antigo/</code>.</li></ul>
 <h2>Vizinhos</h2>
 <ul><li><strong>Topo do caso.</strong> A abertura de cada caso, com título, ficha e número.</li><li><strong>Destaque.</strong> A frase que fica, no meio de uma página.</li><li><strong>Carregamento.</strong> O mesmo gesto, do esboço à página pronta, na chegada de toda página.</li></ul>
 <h2>Par nos posts</h2>
@@ -173,7 +173,7 @@ code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-si
   &lt;/div&gt;
 &lt;/section&gt;</code></pre>
 <p>O HTML sai da função <code>hero</code> de <code>ds/prova/comum.py</code>, que escreve os pedaços, os adesivos e a folha de esboço. Estilo e chegada em <code>assets/ds/componentes.css</code>, nas receitas (<code>.hero</code> e as partes <code>hero__</code>). A chegada é toda de CSS, com os tempos dos tokens. O deslocamento usa o progresso <code>--p</code>, da linha do tempo de rolagem ou do módulo 5 do <code>componentes.js</code>.</p>
-<p><strong>O que falta decidir.</strong> O tamanho da frase fica fora da escala de texto, acima do <code>display</code> e perto do <code>numero</code>, que é do Dado. As notas do rascunho são texto provisório. E o Carregamento da Home, que monta a mesma tela antes do hero (a recomendação é a Home não montar a tela na cortina).</p>
+<p><strong>Decidido na Fase 6.</strong> O tamanho da frase ganhou degraus próprios em <code>tokens.css</code>, <code>text-hero</code> e <code>text-hero-estreito</code>, fora da escala de texto. As notas do rascunho ficam como estão. Na Home a cortina do Carregamento não monta a tela, porque o hero já é a chegada (<code>data-sem-chegada</code>, ver <code>ds/FUNDAMENTOS.md</code>).</p>
 <p>Entrou na Onda 5, com a direção trocada por você no meio da onda, e a chegada e a rolagem foram aprovadas na vitrine em 24 de outubro de 2026. O roteiro está em <code>ds/ROTEIRO-HERO.md</code>.</p>
   </article>
 </main>

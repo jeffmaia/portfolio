@@ -142,7 +142,7 @@ code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-si
 <h2>Acessibilidade</h2>
 <ul><li>O nome do botão é a palavra que está na tela. A outra fica com <code>visibility: hidden</code> e sai da leitura.</li><li>Fechado, o painel fica com <code>visibility: hidden</code>, que tira os links do Tab e do leitor de tela. Não usa <code>hidden</code> porque <code>hidden</code> não deixa animar.</li><li>A página atual tem <code>aria-current="page"</code> e sublinhado de 2px. Não depende de cor.</li><li>O Pular para o conteúdo é o primeiro Tab da página.</li><li>Tinta sobre papel em todo texto. O acento só aparece como fundo, atrás das palavras e no botão aberto.</li></ul>
 <h2>Onde aparece</h2>
-<ul><li>Modelo de Caso, <code>case-omnichat.html</code> e a vitrine. A marca "Jeff Maia, Product Design Manager", os itens "Home", "Processo com IA", "Omnichat", "Inpulse" e "Mapa de experiência", e no Contato "LinkedIn" e "WhatsApp".</li><li>Nas páginas publicadas, a Barra com assinatura (<code>.nav</code>), o Botão de menu (<code>.menu-btn</code>) e o Menu em painel (<code>.menu</code>, <code>.reticula</code>) das cinco páginas, ainda com o Manifesto.</li></ul>
+<ul><li>A Home, os quatro casos, o modelo de Caso e a vitrine. A marca "Jeff Maia, Product Design Manager", os itens "Home", "Processo com IA", "Omnichat", "Inpulse" e "Mapa de experiência", e no Contato "LinkedIn" e "WhatsApp".</li></ul>
 <h2>Vizinhos</h2>
 <ul><li><strong>Sumário.</strong> Leva às partes da mesma página, não a outras páginas.</li><li><strong>Rodapé.</strong> Repete os casos no fim e é quem faz o convite para conversar.</li><li><strong>Link.</strong> Os dois destinos do Contato são Links externos, não itens do menu.</li></ul>
 <h2>Par nos posts</h2>
@@ -180,7 +180,7 @@ code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-si
 &lt;/div&gt;</code></pre>
 <p>O HTML sai de <code>ds/prova/comum.py</code>, função <code>cabecalho</code>. Estilo em <code>assets/ds/componentes.css</code>, seções Base (<code>.pular</code>) e Header e Sheet (<code>.header</code>, <code>.marca</code>, <code>.menu-botao</code>, <code>.sheet</code>). Comportamento em <code>assets/ds/componentes.js</code>, bloco 2.</p>
 <p><strong>O que falta no código.</strong></p>
-<ul><li>Resolvido na Onda 1. Os tempos da abertura são tokens, a altura da barra é <code>altura-cabecalho</code>, os links do Contato são Links <code>externo</code> com a seta escondida do leitor de tela, e o menu fecha quando o foco sai dele.</li><li>O gerador já recebe o texto do pular (<code>pular</code>), e sem <code>aqui</code> nenhum item fica marcado como atual, como na vitrine. Falta, na Fase 6, marcar a página atual de cada caso e da Home.</li></ul>
+<ul><li>Resolvido na Onda 1. Os tempos da abertura são tokens, a altura da barra é <code>altura-cabecalho</code>, os links do Contato são Links <code>externo</code> com a seta escondida do leitor de tela, e o menu fecha quando o foco sai dele.</li><li>O gerador recebe o texto do pular (<code>pular</code>) e a página atual (<code>atual</code>), que leva <code>aria-current="page"</code> no menu. Sem <code>aqui</code> nenhum item fica marcado, como na vitrine. Resolvido no passo 0 da Fase 6.</li></ul>
   </article>
 </main>
 <footer class="footer superficie-tinta">

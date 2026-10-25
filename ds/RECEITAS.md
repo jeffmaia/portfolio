@@ -2,7 +2,7 @@
 
 Uma receita é a ordem dos componentes numa página e onde cada um senta na grade. Não tem cor nem forma própria. O que pode variar de um caso para outro está marcado como livre, o resto é fixo.
 
-São duas receitas, a do Caso e a da Home. A do Caso sai do modelo aprovado, `ds/prova/variacoes/v4.html`, e já está publicada no Omnichat, `case-omnichat.html`. Os dois saem do mesmo gerador, `ds/prova/caso.py`. A da Home é a direção para a Fase 6, e ainda não foi provada numa página.
+São duas receitas, a do Caso e a da Home, as duas publicadas. A do Caso sai do modelo aprovado, `ds/prova/variacoes/v4.html`, e vale para os quatro casos, gerados por `ds/prova/caso.py` com o texto de cada um em `ds/prova/casos/`. A da Home é gerada por `ds/prova/home.py`.
 
 ## Toda página
 
@@ -11,11 +11,12 @@ São duas receitas, a do Caso e a da Home. A do Caso sai do modelo aprovado, `ds
 1. `<html lang="pt-BR" data-acento="…">`, com o acento do caso (D5). A Home usa `lime`.
 2. O script de uma linha que põe a classe `js` e, quando se chega pelo voltar do navegador, a classe `volta`. Ele precisa vir antes de qualquer folha de estilo, porque é ele que faz o carregamento rodar ao contrário na volta. O texto está em `ds/prova/comum.py`, função `cabeca`.
 3. `<title>` com o nome da página e "Jeff Maia".
-4. Fontes, `assets/ds/tokens.css` e `assets/ds/componentes.css`.
+4. A descrição para a busca e `assets/analytics.js`.
+5. Fontes, `assets/ds/tokens.css` e `assets/ds/componentes.css`.
 
 **O corpo.** Sempre nesta ordem.
 
-1. O Carregamento em camadas (`.carga`), que é decorativo e fica escondido do leitor de tela.
+1. O Carregamento em camadas (`.carga`), que é decorativo e fica escondido do leitor de tela. Na Home ele nasce escondido (`data-sem-chegada`) e só desce ao sair.
 2. Pular para o conteúdo.
 3. Cabeçalho, com o menu. A página atual leva `aria-current="page"` no menu e no rodapé.
 4. `<main id="conteudo">`, com a receita da página.
@@ -38,8 +39,8 @@ Dentro do conteúdo, os blocos sentam num mosaico de seis colunas, o grupo de Ca
 | --- | --- | --- | --- |
 | 1 | Sumário | Sumário, com um ícone do acento por seção | Fixo. Os nomes das seções são livres |
 | 2 | Topo do caso | Etiquetas, título (`h1`, `t-display`), frase de apoio (`t-sub`), Cartão `muted` com a ficha do projeto, Cartão do acento com o Dado `salto` e a ilustração do caso | Fixo |
-| 3 | Contexto | Rótulo "01 · Contexto" e um parágrafo em `t-lead`. Sem título e sem componente | Fixo |
-| 4 | Seções do meio | Rótulo numerado, título (`h2`, `t-titulo`), até três parágrafos e uma peça escolhida pelo guia | Livre, de duas a quatro seções |
+| 3 | Contexto | Rótulo "01 · Contexto", um parágrafo em `t-lead` e, se o texto pedir, um parágrafo de apoio. Sem título e sem componente | Fixo. O apoio é livre |
+| 4 | Seções do meio | Rótulo numerado, título (`h2`, `t-titulo`), até três parágrafos e uma peça escolhida pelo guia | Livre, de duas a seis seções |
 | 5 | Resultado | Rótulo, título, texto, o Dado em grupo e o Destaque na tinta | Fixo. O Destaque é a parada de tinta da página |
 | 6 | Fechamento | Um parágrafo com o convite e um Link para o WhatsApp, e o Botão para o próximo caso | Fixo |
 
@@ -77,7 +78,7 @@ O Destaque na tinta carrega o que o caso deixa, com a Etiqueta "O que eu levo da
 
 ## Home
 
-Direção para a Fase 6. O hero e a Lista de casos foram construídos e aprovados na Onda 5 da Fase 5, e estão montados juntos no palco da vitrine. A Home publicada passa para eles na Fase 6.
+Publicada no passo 4 da Fase 6, em `index.html`, gerada por `ds/prova/home.py`. O hero e a Lista de casos foram aprovados na Onda 5 da Fase 5, e o desenho dos dois mora em `ds/prova/comum.py`, que a vitrine também usa. O acento é o lime, e a descrição para a busca é a linha de apoio do hero.
 
 | | Parte | Componentes |
 | --- | --- | --- |
@@ -85,13 +86,13 @@ Direção para a Fase 6. O hero e a Lista de casos foram construídos e aprovado
 | 2 | Lista de casos | Um Cartão por caso, na ordem da fila |
 | 3 | Rodapé | Igual ao do caso |
 
-**Hero.** A frase é a própria cena (ver `ds/fichas/hero.md` e `ds/ROTEIRO-HERO.md`). Na chegada ela vai do rascunho à página pronta, uma vez, em uns 3,2s, e na rolagem só se desloca um pouco. Duas linhas do tablet para cima e seis no celular. No desktop a primeira tela deixa ver o rótulo e o alto dos primeiros Cartões da Lista. Sem JS ou com movimento reduzido, a página chega pronta.
+**Hero.** A frase é a própria cena (ver `ds/fichas/hero.md` e `ds/ROTEIRO-HERO.md`). Na chegada ela vai do rascunho à página pronta, uma vez, em uns 3,2s, e na rolagem só se desloca um pouco. Por isso a cortina do Carregamento não monta a tela na Home. O tamanho da frase vem de `--text-hero` e `--text-hero-estreito`, fora da escala de texto. Duas linhas do tablet para cima e seis no celular. No desktop a primeira tela deixa ver o rótulo e o alto dos primeiros Cartões da Lista. Sem JS ou com movimento reduzido, a página chega pronta.
 
 **Lista de casos.** Ocupa o lugar da Cena dos casos, que saiu. É uma `section.lista-casos` com o rótulo "Quatro casos" (`h2.section__rotulo`) e um mosaico de Cartões `caso`, um por caso, todos `meio` (ver a ficha do Cartão). Cada Cartão leva o acento do próprio caso (`data-acento` no Cartão) e tem, nesta ordem, o rótulo com o número e o nome do caso, o título do caso como `h3`, a frase de apoio, e na base do acento o Dado `salto` em tamanho de grupo, a ficha compacta (papel e duração numa linha) e um Link `seguir`, "Ver o caso". Não há Botão dentro da lista. Quatro Botões lado a lado disputariam entre si, e a ação principal da Home é escolher um caso.
 
 Do tablet para cima são dois Cartões por linha, com as partes alinhadas de um Cartão para o outro. No celular, um debaixo do outro.
 
-**O que sai.** O convite ao manifesto (D7), a seta de descer e a cena com o orbe do número.
+**O que saiu.** O convite ao manifesto (D7), a seta de descer e a cena com o orbe do número. A página do Manifesto saiu do ar e o git guarda a página para ela ser repensada depois.
 
 ## Pontos fechados na Fase 4
 

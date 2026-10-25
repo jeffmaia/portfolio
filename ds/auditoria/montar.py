@@ -9,6 +9,10 @@ Saídas, todas em ds/:
 Uso: python3 ds/auditoria/montar.py [plano.html]
 O plano.html é opcional: é o artifact do plano salvo em disco, e serve para
 conferir a matriz medida contra a que o plano tinha.
+
+Registro da Fase 1. O CSS do site antigo mora em arquivo/site-antigo/assets,
+e as páginas antigas só existem no histórico do git, porque os mesmos
+arquivos hoje são as páginas do Jeff DS. Rodar de novo não refaz a auditoria.
 """
 import json
 import re
@@ -290,7 +294,7 @@ for (uso, el), pgs in sorted(agr.items(), key=lambda x: (x[0][0] == "preenchimen
 C.append("")
 
 css_uso = []
-for f in ("assets/base.css", "assets/home.css", "assets/caso.css"):
+for f in ("arquivo/site-antigo/assets/base.css", "arquivo/site-antigo/assets/home.css", "arquivo/site-antigo/assets/caso.css"):
     for i, l in enumerate((RAIZ / f).read_text().splitlines(), 1):
         if re.search(r"highlighter-green|echo-green|#2bee4b|#c4e4c9", l) and not l.strip().startswith(("/*", "*", "--")):
             prop = l.split(":")[0].strip()

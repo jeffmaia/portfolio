@@ -7,6 +7,10 @@ peça. O que não cai em nenhuma vai para "Fundação" (tokens, reset,
 tipografia, movimento) ou para "Sem peça", para eu olhar à mão.
 
 Uso: python3 ds/auditoria/porques.py
+
+Registro da Fase 1. O CSS do site antigo mora em arquivo/site-antigo/assets,
+e as páginas antigas só existem no histórico do git, porque os mesmos
+arquivos hoje são as páginas do Jeff DS. Rodar de novo não refaz a auditoria.
 """
 import json
 import re
@@ -15,7 +19,7 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[2]
 pecas = json.loads((Path(__file__).parent / "pecas.json").read_text())
 
-FONTES_CSS = ["assets/base.css", "assets/home.css", "assets/caso.css"]
+FONTES_CSS = ["arquivo/site-antigo/assets/base.css", "arquivo/site-antigo/assets/home.css", "arquivo/site-antigo/assets/caso.css"]
 FONTES_HTML = ["index.html", "case-processo.html", "case-omnichat.html", "case-inpulse.html", "case-mapa-experiencia.html"]
 IGNORAR_HTML = ("Duas marcas postas antes do primeiro pixel",)  # script de arranque, igual em todas
 

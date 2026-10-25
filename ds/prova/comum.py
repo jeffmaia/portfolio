@@ -13,13 +13,13 @@ FAVICON = (
 )
 
 
-def cabeca(pre, titulo, css="", corpo_classe="", descricao=""):
+def cabeca(pre, titulo, css="", corpo_classe="", descricao="", acento="azul"):
     """Com `descricao` a página é publicada: entra a descrição para a busca
-    e o analytics, e sai o noindex das provas."""
+    e o analytics, e sai o noindex das provas. `acento` é o do caso (D5)."""
     meta = (f'<meta name="description" content="{descricao}">\n<script src="{pre}assets/analytics.js"></script>'
             if descricao else '<meta name="robots" content="noindex">')
     return f"""<!DOCTYPE html>
-<html lang="pt-BR" data-acento="azul">
+<html lang="pt-BR" data-acento="{acento}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -85,17 +85,29 @@ CARGA = """<div class="carga" aria-hidden="true">
 """
 
 
-def omnichat(pre, aqui):
-    """O item do Omnichat no menu e no rodapé. Nas provas ele aponta para a
-    própria página e é a atual. Sem `aqui` (a vitrine), é um link comum."""
-    if aqui is None:
-        return f'href="{pre}case-omnichat.html"'
+# As páginas do site, na ordem do menu e do rodapé.
+PAGINAS = [
+    ("index.html", "Home"),
+    ("case-processo.html", "Processo com IA"),
+    ("case-omnichat.html", "Omnichat"),
+    ("case-inpulse.html", "Inpulse"),
+    ("case-mapa-experiencia.html", "Mapa de experiência"),
+]
+
+
+def href(pre, aqui, arq, atual):
+    """O destino de um item do menu e do rodapé. A página `atual` aponta
+    para `aqui` e é marcada como a atual. Nas provas `aqui` é a própria
+    prova. Sem `aqui` (a vitrine), todo item é um link comum."""
+    if aqui is None or arq != atual:
+        return f'href="{pre}{arq}"'
     return f'href="{aqui}" aria-current="page"'
 
 
-def cabecalho(pre, aqui, pular="Pular para o caso"):
+def cabecalho(pre, aqui, pular="Pular para o caso", atual="case-omnichat.html"):
     """Barra e menu. Home entra junto com os casos, porque é parte do site.
     O que leva para fora (LinkedIn, WhatsApp) fica abaixo, menor."""
+    itens = "\n".join(f'      <li><a class="sheet__item" {href(pre, aqui, arq, atual)}><span>{nome}</span></a></li>' for arq, nome in PAGINAS)
     return f"""
 <a class="pular" href="#conteudo">{pular}</a>
 
@@ -114,11 +126,7 @@ def cabecalho(pre, aqui, pular="Pular para o caso"):
 <div class="sheet" id="menu">
   <nav class="container sheet__inner" aria-label="Principal">
     <ul class="sheet__lista">
-      <li><a class="sheet__item" href="{pre}index.html"><span>Home</span></a></li>
-      <li><a class="sheet__item" href="{pre}case-processo.html"><span>Processo com IA</span></a></li>
-      <li><a class="sheet__item" {omnichat(pre, aqui)}><span>Omnichat</span></a></li>
-      <li><a class="sheet__item" href="{pre}case-inpulse.html"><span>Inpulse</span></a></li>
-      <li><a class="sheet__item" href="{pre}case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+{itens}
     </ul>
     <div class="sheet__contato">
       <p class="t-rotulo">Contato</p>
@@ -132,9 +140,10 @@ def cabecalho(pre, aqui, pular="Pular para o caso"):
 """
 
 
-def rodape(pre, aqui):
+def rodape(pre, aqui, atual="case-omnichat.html"):
     """Sem a coluna "Fora daqui": WhatsApp e LinkedIn já estão na chamada,
     e voltar ao topo é desta página, então mora na linha de baixo."""
+    itens = "\n".join(f'          <li><a class="link" {href(pre, aqui, arq, atual)}>{nome}</a></li>' for arq, nome in PAGINAS)
     return f"""
 <footer class="footer superficie-tinta">
   <div class="container">
@@ -147,11 +156,7 @@ def rodape(pre, aqui):
       <nav class="footer__col" aria-label="Páginas">
         <p class="t-rotulo">Páginas</p>
         <ul>
-          <li><a class="link" href="{pre}index.html">Home</a></li>
-          <li><a class="link" href="{pre}case-processo.html">Processo com IA</a></li>
-          <li><a class="link" {omnichat(pre, aqui)}>Omnichat</a></li>
-          <li><a class="link" href="{pre}case-inpulse.html">Inpulse</a></li>
-          <li><a class="link" href="{pre}case-mapa-experiencia.html">Mapa de experiência</a></li>
+{itens}
         </ul>
       </nav>
     </div>
@@ -168,13 +173,13 @@ def rodape(pre, aqui):
 """
 
 
-def icone(pre, nome, tam=56, classe="icone"):
-    return f'<img class="{classe}" src="{pre}assets/ds/icones/{nome}-azul.svg" alt="" width="{tam}" height="{tam}">'
+def icone(pre, nome, tam=56, classe="icone", cor="azul"):
+    return f'<img class="{classe}" src="{pre}assets/ds/icones/{nome}-{cor}.svg" alt="" width="{tam}" height="{tam}">'
 
 
-def ilustracao(pre, nome, classe="ilustracao", eager=True):
+def ilustracao(pre, nome, classe="ilustracao", eager=True, caso="omnichat"):
     larg, alt = (900, 640) if nome == "fronteira" else (640, 640)
-    return f'<img class="{classe}" src="{pre}assets/ds/ilustracoes/omnichat-{nome}.svg" alt="" width="{larg}" height="{alt}" {"" if eager else "loading=lazy"}>'
+    return f'<img class="{classe}" src="{pre}assets/ds/ilustracoes/{caso}-{nome}.svg" alt="" width="{larg}" height="{alt}" {"" if eager else "loading=lazy"}>'
 
 
 # ---------------------------------------------------------------- texto do caso
@@ -252,24 +257,25 @@ FECHO = 'Trabalho com design de decisão em produtos conversacionais. Se&nbsp;es
 
 
 # ---------------------------------------------------------------- blocos prontos
-def badges(variante_ultima="acento"):
+def badges(variante_ultima="acento", lista=None):
     # Lista, para o leitor de tela ler uma Etiqueta de cada vez. O
     # role devolve a lista ao Safari, que a esquece sem os marcadores.
-    itens = [f'<li><span class="badge">{b}</span></li>' for b in BADGES[:-1]]
-    itens.append(f'<li><span class="badge" data-variant="{variante_ultima}">{BADGES[-1]}</span></li>')
+    lista = lista or BADGES
+    itens = [f'<li><span class="badge">{b}</span></li>' for b in lista[:-1]]
+    itens.append(f'<li><span class="badge" data-variant="{variante_ultima}">{lista[-1]}</span></li>')
     return '<ul class="badges" role="list">' + "".join(itens) + "</ul>"
 
 
-def salto(classe=""):
+def salto(classe="", antes="24%", depois="32%", frase=None):
     return f"""<div class="stat {classe}" data-variant="salto">
-  <span class="stat__antes"><span class="sr">De </span>24%</span>
-  <span class="stat__valor"><span class="sr">para </span>32%</span>
-  <p class="stat__frase">{SALTO_FRASE}</p>
+  <span class="stat__antes"><span class="sr">De </span>{antes}</span>
+  <span class="stat__valor"><span class="sr">para </span>{depois}</span>
+  <p class="stat__frase">{frase or SALTO_FRASE}</p>
 </div>"""
 
 
-def ficha():
-    return '<dl class="ficha">' + "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in FICHA) + "</dl>"
+def ficha(itens=None):
+    return '<dl class="ficha">' + "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in itens or FICHA) + "</dl>"
 
 
 def turnos(lista):
@@ -311,18 +317,19 @@ def tabs(pre, prefixo="aba"):
 </div>"""
 
 
-def callout():
+def callout(frase=None, corpo=None, rotulo=LEVO_ROTULO):
     return f"""<div class="callout superficie-tinta">
-  <span class="badge" data-variant="acento">{LEVO_ROTULO}</span>
-  <p class="callout__frase">{DECLARACAO}</p>
-  <p class="prosa">{DECL_CORPO}</p>
+  <span class="badge" data-variant="acento">{rotulo}</span>
+  <p class="callout__frase">{frase or DECLARACAO}</p>
+  <p class="prosa">{corpo or DECL_CORPO}</p>
 </div>"""
 
 
-def fechamento(pre):
+def fechamento(pre, fecho=None, proximo=("case-inpulse.html", "Inpulse")):
+    """O convite e o Botão para o próximo caso da fila."""
     return f"""<div class="fechamento">
-  <p class="prosa">{FECHO}</p>
-  <a class="button" href="{pre}case-inpulse.html">Próximo caso, Inpulse <span aria-hidden="true">→</span></a>
+  <p class="prosa">{fecho or FECHO}</p>
+  <a class="button" href="{pre}{proximo[0]}">Próximo caso, {proximo[1]} <span aria-hidden="true">→</span></a>
 </div>"""
 
 
@@ -414,7 +421,7 @@ def hero(pre, parado=False, id_="hero-frase"):
 # papel e a duração da ficha numa linha.
 CASOS = [
     ("case-processo.html", "lime", "Processo com IA",
-     "Reconstruindo o&nbsp;processo de&nbsp;produto e&nbsp;design com&nbsp;Claude no&nbsp;centro",
+     "Processo de&nbsp;produto e&nbsp;design com&nbsp;Claude no&nbsp;centro",
      "A maior mudança não foi trocar de ferramenta. Foi perceber quantas reuniões existiam só porque ninguém tinha um jeito melhor de&nbsp;transformar uma conversa em&nbsp;entregável.",
      ("2 meses", "1 semana", "de discovery, no&nbsp;lugar de&nbsp;um a&nbsp;dois meses"),
      "Liderança de produto e design · 1 mês"),

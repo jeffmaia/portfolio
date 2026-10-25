@@ -101,7 +101,7 @@ Na superfície tinta o contorno vira papel, porque `border` troca por dentro. O 
 - Modelo de Caso, Problema. Duas origens em `meio`, "Instagram" e "Disparos de WhatsApp".
 - Modelo de Caso, Resultado. Quatro Cartões `meio` com o Dado em grupo (ver a ficha do Dado).
 - Nas páginas publicadas, a Ficha do projeto dos quatro casos.
-- Vitrine, na amostra e no palco do Cartão de caso, a Lista de casos da Home com os quatro casos. "Reconstruindo o processo de produto e design com Claude no centro", de 2 meses para 1 semana, no lime. "Verificação de intenção dos agentes conversacionais", de 24% para 32%, no azul. "Solução que ajudou a diminuir a recuperação dos alunos", de 8 em 10 para 6 em 10, no verde. "Como um mapa de experiência ajudou a deixar o NPS positivo", de −33 para +15, no azul. A Home publicada ainda usa a cena dos casos, e passa para a Lista na Fase 6.
+- Vitrine, na amostra e no palco do Cartão de caso, a Lista de casos da Home com os quatro casos. "Reconstruindo o processo de produto e design com Claude no centro", de 2 meses para 1 semana, no lime. "Verificação de intenção dos agentes conversacionais", de 24% para 32%, no azul. "Solução que ajudou a diminuir a recuperação dos alunos", de 8 em 10 para 6 em 10, no verde. "Como um mapa de experiência ajudou a deixar o NPS positivo", de −33 para +15, no azul. A Home publicada usa a Lista desde o passo 4 da Fase 6, com o título novo do Processo, "Processo de produto e design com Claude no centro".
 
 ## Vizinhos
 

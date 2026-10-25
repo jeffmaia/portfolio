@@ -28,7 +28,7 @@ Toda peça tem um peso, como nos posts. É ele que regula o ritmo.
 ## Entre seções
 
 11. **Peso alternado.** Duas seções seguidas não fecham com a mesma peça. Se a forma precisa se repetir, o arranjo muda (por exemplo, dois Cartões `meio` numa seção e um `dois-tercos` com quatro `terco` na seguinte) e o acento chapado entra em só uma delas.
-12. **De quatro a seis seções numeradas** no Caso, contando Contexto e Resultado. Menos que isso o Sumário não tem o que mostrar. Mais que isso o trilho do celular não cabe.
+12. **De quatro a oito seções numeradas** no Caso, contando Contexto e Resultado. Menos que isso o Sumário não tem o que mostrar. Mais que isso o trilho do celular não cabe. As oito do Processo somam 242px no trilho em 390.
 
 ## Entre casos
 

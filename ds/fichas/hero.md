@@ -69,7 +69,7 @@
 
 - Vitrine, na amostra e no palco da Home, com a Lista de casos logo abaixo.
 - O estudo dos três momentos parados, em `ds/vitrine/estudo/hero/`.
-- A Home publicada ainda usa o hero antigo, com as fotos, e passa para este na Fase 6.
+- A Home publicada, desde o passo 4 da Fase 6. As fotos do hero antigo foram para `arquivo/site-antigo/`.
 
 ## Vizinhos
 
@@ -112,6 +112,6 @@ A capa do carrossel, com a tese curta em Anton e os ícones adesivo em volta. L�
 
 O HTML sai da função `hero` de `ds/prova/comum.py`, que escreve os pedaços, os adesivos e a folha de esboço. Estilo e chegada em `assets/ds/componentes.css`, nas receitas (`.hero` e as partes `hero__`). A chegada é toda de CSS, com os tempos dos tokens. O deslocamento usa o progresso `--p`, da linha do tempo de rolagem ou do módulo 5 do `componentes.js`.
 
-**O que falta decidir.** O tamanho da frase fica fora da escala de texto, acima do `display` e perto do `numero`, que é do Dado. As notas do rascunho são texto provisório. E o Carregamento da Home, que monta a mesma tela antes do hero (a recomendação é a Home não montar a tela na cortina).
+**Decidido na Fase 6.** O tamanho da frase ganhou degraus próprios em `tokens.css`, `text-hero` e `text-hero-estreito`, fora da escala de texto. As notas do rascunho ficam como estão. Na Home a cortina do Carregamento não monta a tela, porque o hero já é a chegada (`data-sem-chegada`, ver `ds/FUNDAMENTOS.md`).
 
 Entrou na Onda 5, com a direção trocada por você no meio da onda, e a chegada e a rolagem foram aprovadas na vitrine em 24 de outubro de 2026. O roteiro está em `ds/ROTEIRO-HERO.md`.

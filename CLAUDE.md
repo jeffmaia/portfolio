@@ -2,9 +2,9 @@
 
 Site estático em HTML, CSS e JS puros, servido pelo GitHub Pages. Sem servidor e sem build.
 
-O site está migrando para o Jeff DS. Antes de criar ou mudar qualquer página, leia `ds/PLANO.md`. Ele guarda as decisões aprovadas, a fase atual e a direção do hero.
+O site é montado com o Jeff DS. Antes de criar ou mudar qualquer página, leia `ds/PLANO.md`. Ele guarda as decisões aprovadas e a fase atual.
 
-A pasta `arquivo/` guarda material que não vale mais, como o `handoff` do sistema Industry. Não use como referência.
+A pasta `arquivo/` guarda material que não vale mais, como o `handoff` do sistema Industry e o `site-antigo`, com o CSS, o JS e as fotos de antes do Jeff DS. Não use como referência.
 
 ## Roteiro antes de mexer numa página
 
@@ -27,8 +27,9 @@ Se nenhum componente serve, não crie a peça direto na página. Escreva a ficha
 | Fichas de componente | `ds/fichas/` |
 | Tokens, componentes e comportamento | `assets/ds/tokens.css`, `assets/ds/componentes.css`, `assets/ds/componentes.js` |
 | Ícones adesivo e cenas | `assets/ds/icones/`, `assets/ds/ilustracoes/`, gerados por `ds/icones/gerar.py` e `ds/ilustracoes/gerar.py` |
-| Modelo de Caso e página do Omnichat | `ds/prova/variacoes/v4.html` e `case-omnichat.html`, os dois gerados por `ds/prova/caso.py` com `ds/prova/comum.py` (a v4 pelo `ds/prova/variacoes.py`) |
-| Vitrine das peças ao vivo, onda a onda | `ds/vitrine/index.html`, com a peça sozinha em `ds/vitrine/amostra/`, a peça aplicada numa página em `ds/vitrine/palco/` (mostrada dentro da ficha) e as fichas em HTML em `ds/vitrine/fichas/`, tudo gerado por `ds/vitrine/gerar.py`. O quadro usa `ds/vitrine/vitrine.js`. Estudos de direção de uma peça ficam em `ds/vitrine/estudo/`, gerados por `ds/vitrine/estudo.py` (o do Passos) e `ds/vitrine/estudo_hero.py` (o do hero, com as imagens tiradas por `ds/vitrine/fotografar.mjs`). As prévias do grupo Site no artifact do Jeff DS saem das amostras, por `ds/vitrine/artifact.py` |
+| Home | `index.html`, gerado por `ds/prova/home.py` com o hero e a Lista de casos de `ds/prova/comum.py` |
+| Modelo de Caso e páginas de caso | `ds/prova/variacoes/v4.html` e os `case-*.html` já migrados, gerados por `ds/prova/caso.py` com `ds/prova/comum.py` (a v4 pelo `ds/prova/variacoes.py`). O texto e o miolo de cada caso moram em `ds/prova/casos/`, e o HTML das peças que levam conteúdo em `ds/prova/pecas.py`, que a vitrine também usa |
+| Vitrine das peças ao vivo, onda a onda | `ds/vitrine/index.html`, com a peça sozinha em `ds/vitrine/amostra/`, a peça aplicada numa página em `ds/vitrine/palco/` (mostrada dentro da ficha) e as fichas em HTML em `ds/vitrine/fichas/`, tudo gerado por `ds/vitrine/gerar.py`. O quadro usa `ds/vitrine/vitrine.js`. Estudos de direção de uma peça ficam em `ds/vitrine/estudo/`, gerados por `ds/vitrine/estudo.py` (o do Passos), `ds/vitrine/estudo_barras.py` (o das barras do Gráfico) e `ds/vitrine/estudo_hero.py` (o do hero, com as imagens tiradas por `ds/vitrine/fotografar.mjs`). As prévias do grupo Site no artifact do Jeff DS saem das amostras, por `ds/vitrine/artifact.py` |
 | Contraste e porquês do site antigo | `ds/CONTRASTE.md`, `ds/PORQUES.md` |
 
 O que vem de um gerador se muda no gerador, nunca no HTML gerado.

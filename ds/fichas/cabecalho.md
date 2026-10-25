@@ -63,8 +63,7 @@ O que muda com a largura é só a marca. Abaixo de 720px fica "Jeff Maia" sozinh
 
 ## Onde aparece
 
-- Modelo de Caso, `case-omnichat.html` e a vitrine. A marca "Jeff Maia, Product Design Manager", os itens "Home", "Processo com IA", "Omnichat", "Inpulse" e "Mapa de experiência", e no Contato "LinkedIn" e "WhatsApp".
-- Nas páginas publicadas, a Barra com assinatura (`.nav`), o Botão de menu (`.menu-btn`) e o Menu em painel (`.menu`, `.reticula`) das cinco páginas, ainda com o Manifesto.
+- A Home, os quatro casos, o modelo de Caso e a vitrine. A marca "Jeff Maia, Product Design Manager", os itens "Home", "Processo com IA", "Omnichat", "Inpulse" e "Mapa de experiência", e no Contato "LinkedIn" e "WhatsApp".
 
 ## Vizinhos
 
@@ -116,4 +115,4 @@ O HTML sai de `ds/prova/comum.py`, função `cabecalho`. Estilo em `assets/ds/co
 **O que falta no código.**
 
 - Resolvido na Onda 1. Os tempos da abertura são tokens, a altura da barra é `altura-cabecalho`, os links do Contato são Links `externo` com a seta escondida do leitor de tela, e o menu fecha quando o foco sai dele.
-- O gerador já recebe o texto do pular (`pular`), e sem `aqui` nenhum item fica marcado como atual, como na vitrine. Falta, na Fase 6, marcar a página atual de cada caso e da Home.
+- O gerador recebe o texto do pular (`pular`) e a página atual (`atual`), que leva `aria-current="page"` no menu. Sem `aqui` nenhum item fica marcado, como na vitrine. Resolvido no passo 0 da Fase 6.

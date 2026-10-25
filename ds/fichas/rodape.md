@@ -53,7 +53,7 @@ Uma forma só, sempre na superfície tinta. Dentro dela `foreground`, `border` e
 
 ## Onde aparece
 
-- Modelo de Caso, `case-omnichat.html` e a vitrine. "Quer conversar sobre um problema parecido?", o Botão "WhatsApp +55 11 97734-6175", o Link "linkedin.com/in/maiajeff", as páginas e "Voltar ao topo".
+- A Home, os quatro casos, o modelo de Caso e a vitrine. "Quer conversar sobre um problema parecido?", o Botão "WhatsApp +55 11 97734-6175", o Link "linkedin.com/in/maiajeff", as páginas e "Voltar ao topo".
 - Nas páginas publicadas, o Rodapé de contato (`.footer`) das cinco páginas, com a coluna "Fora daqui" e o Voltar ao topo sentado no morro da onda.
 
 ## Vizinhos

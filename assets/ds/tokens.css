@@ -74,6 +74,13 @@
   --text-apoio:   0.9375rem;                                  /* 15, Inter */
   --text-rotulo:  0.75rem;                                    /* 12, Inter 700, caixa alta */
 
+  /* A frase do hero, fora da escala. O tamanho sai da largura do hero
+     (cqi), para cada linha caber sem quebrar: 115px em 1440 e 63px em
+     768, numa linha por frase. No hero estreito, cada frase em três
+     linhas, 82px em 390. */
+  --text-hero:          min(9cqi, 8.5rem);
+  --text-hero-estreito: 23cqi;
+
   --leading-display: 1.22; /* o mesmo dos posts. O Ç do Anton desce fundo, e abaixo disso a cedilha bate no til da linha de baixo */
   --leading-titulo: 1.1;
   --leading-corpo: 1.55;

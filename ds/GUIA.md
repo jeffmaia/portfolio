@@ -46,6 +46,8 @@ Estas peças estão em toda página de caso, sempre no mesmo lugar, e não passa
 | Proporção de respostas entre grupos | Gráfico, `pilhas` | Barras soltas, que perdem o total de cada grupo |
 | Posição numa escala com sinal, antes e depois | Gráfico, `escala` | Dois Dados, que escondem onde fica o zero |
 | Uma tela ou protótipo | Imagem, `moldura` (`retrato` para celular) | Imagem sem moldura, que flutua no papel |
+| Uma tela de celular com o texto que leva até ela | Imagem, `moldura` `retrato` em `figure-ao-lado` | A tela sozinha na coluna, com metade da Seção vazia |
+| Telas com fundo vazio em volta | Imagem, `moldura` com `data-recorte` | A imagem inteira, com o fundo nos cantos |
 | Várias telas na ordem do percurso | Imagem, `galeria` (`data-abertura` se a primeira é o todo) | Abas, que escondem a sequência |
 | Uma imagem que é ambiente, não objeto | Imagem, `sangria`, se o caso não tiver o Destaque na tinta | Moldura, que a transforma em tela |
 | A ação principal do trecho | Botão | Link, que some ao lado do texto |
@@ -68,7 +70,7 @@ A tabela acima já aponta a variante. Esta parte diz o que existe no código hoj
 | Antes e depois | lados, conversa, `citacao`, `confronto` | |
 | Destaque | frase na tinta, frase no papel, `nota`, `atrito` | |
 | Gráfico | `barras`, `pilhas`, `escala`, com os tons `cheio`, `trama` e `vazio` | |
-| Imagem | `moldura` (com `retrato`), `galeria` (com `abertura`), `sangria` | |
+| Imagem | `moldura` (com `retrato`, `recorte` e ao lado), `galeria` (com `abertura`), `sangria` | |
 | Sumário | coluna fixa, trilho abaixo de 1100px | |
 | Cabeçalho e Rodapé | uma forma | |
 

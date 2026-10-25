@@ -25,7 +25,7 @@ Os nomes seguem o shadcn quando existe um equivalente (decisão D6).
 | Antes e depois | Compare | Confronto, Conversa, Citação | sim |
 | Destaque | Callout | Grito, Declaração final, Linha de nota, Atrito | sim |
 | Gráfico | Chart | Barras, Pilhas, Escala de NPS | não |
-| Imagem | Figure | Moldura, Galeria, Sangria | não |
+| Imagem | Figure | Moldura (com recorte e ao lado), Galeria, Sangria | não |
 | Sumário | Table of contents | Nasceu com a variação 4. As seções do caso com ícone, a da vez marcada. No celular vira um trilho na borda direita | sim |
 
 O Omnichat usa 13 dos 15. É por isso que ele basta como página de prova.

@@ -6,7 +6,7 @@ O Jeff DS (tokens, cores, tipografia, componentes dos posts) está em https://cl
 
 ## Estado
 
-Fases 0 a 5 fechadas. As cinco ondas da Fase 5 foram aprovadas e estão no artifact, e as quinze peças da biblioteca estão no código. A próxima é a Fase 6, a migração da Home e dos quatro casos.
+Fases 0 a 5 fechadas. As cinco ondas da Fase 5 foram aprovadas e estão no artifact, e as quinze peças da biblioteca estão no código. Na Fase 6 a Home e os quatro casos foram migrados e aprovados por você, o Manifesto saiu do ar e o site antigo foi para `arquivo/site-antigo/`. Os cinco passos estão feitos e falta o commit (ver Fase 6, mais abaixo).
 
 Entregas da Fase 1, em `ds/`. `INVENTARIO.md` (matriz peça por página medida nas páginas reais), `capturas/index.html` (cada peça em 390, 768 e 1440px), `CONTRASTE.md`, `PORQUES.md` (os comentários do CSS e do HTML por peça) e `auditoria/` (os scripts que refazem tudo). A pasta do Industry foi para `arquivo/handoff/`.
 
@@ -196,71 +196,83 @@ Andamento da Onda 5.
 - O GUIA passou a Imagem para "no código hoje" e ganhou a linha do Cartão `caso`. As RECEITAS descrevem o hero novo e a Lista de casos com o rótulo e o alinhamento. O RITMO pôs a moldura e a galeria nas peças médias, uma Imagem por Seção e uma galeria por caso, e a regra 7 ganhou a exceção da Home (a Lista de casos e o hero mostram os três acentos). Os Fundamentos dizem que a frase do hero é a única fora da escala, que o hero pede `primary`, `secondary` e `chart-3`, e que o Carregamento é o mesmo gesto do hero. Na seção Hero, mais abaixo, a especificação antiga fica como registro.
 - No artifact, `SiteImagem`, `SiteHero` e `SiteCartaoCaso` entraram no grupo Site · Mídia e Home (versão 19). As doze prévias foram refeitas com o CSS de agora, o CSS e o JS do site foram atualizados em `site/`, os sete ícones do hero foram para `site/icones/`, e o README ganhou a Onda 5 e a exceção da Home. As três prévias novas foram testadas sozinhas no navegador. A da Imagem carrega as telas do Framer e o protótipo do Figma de fora, como o site, e não consegui ver no claude.ai se o card deixa.
 
-## Decisões da Fase 0
+## Fase 6
 
-| | Decisão | Status |
-| --- | --- | --- |
-| D1 | O site adota o Jeff DS inteiro. Saem o verde marca texto, a trama e a Instrument Serif. | Aprovada |
-| D2 | Um Jeff DS só, com núcleo da marca e duas superfícies, Posts e Site, no mesmo artifact. | Aprovada |
-| D3 | O hero fica, com formato novo (ver abaixo). O revelar fica repintado. A passagem com o J vira o Carregamento em camadas e a cena dos casos vira lista de Cartões. A onda e a trama saem. | Ajustada |
-| D4 | A tinta vira superfície pontual, no rodapé e em no máximo uma parada por página. O topo do caso deixa de ser escuro. | Aprovada |
-| D5 | Acento dominante por caso. Processo em lime, Omnichat em azul, Inpulse em verde, Mapa em azul. | Aprovada |
-| D6 | Só HTML, CSS e JS, sem servidor e sem build. Usar a nomenclatura e os tokens do shadcn. | Ajustada |
-| D7 | O manifesto sai desta versão e será repensado no futuro. Continua no ar até a Fase 6. | Ajustada |
-| D8 | Arquivar a pasta `handoff/`, que descreve o sistema Industry, já obsoleto. | Aprovada |
+Plano aprovado por você em 25 de outubro de 2026, com todas as recomendações.
 
-## Regras que já valem
+| Passo | O quê |
+| --- | --- |
+| 0 | Gerador e casca. O `comum.py` aceita qualquer acento e qualquer página atual, e o `caso.py` monta qualquer caso. O Omnichat sai idêntico |
+| 1 | Mapa de experiência |
+| 2 | Inpulse |
+| 3 | Processo com IA |
+| 4 | Home, e o Manifesto sai do ar |
+| 5 | Limpeza dos arquivos antigos e dos documentos |
 
-1. Lime, azul e verde nunca viram texto, nunca são a única borda de um controle e nunca são o anel de foco. Sobre o papel o contraste deles fica entre 1,1 e 1,5 para 1. Texto, borda e foco são sempre tinta.
-2. Tokens com nomes do shadcn apontando para o Jeff DS. `background` paper, `foreground` ink, `primary` lime com texto em tinta, `secondary` azul, `muted` e `accent` mist, `border` e `ring` ink, `radius` 12px, gráficos em lime, azul e verde.
-3. Componentes com nomes do shadcn (Button, Badge, Card, Tabs, Sheet, Dialog, Carousel, Table, Separator) e variantes por atributo de dados, sem React nem Tailwind.
-4. Tudo funciona sem JS e com movimento reduzido.
-5. Hover só existe onde há mouse. Toda regra de hover fica dentro de `@media (hover: hover) and (pointer: fine)`, e nada pode depender dele para ser descoberto. No toque, o retorno vem do pressionado (`:active`) e do foco, e todo alvo tem pelo menos 44px. A separação é por capacidade de entrada, nunca por largura de tela, e tablet com toque segue o celular.
+Cada página para numa conferência sua no navegador, em 390, 768 e 1440, sem JS e com movimento reduzido.
 
-## Fases
+Decisões que valem para os três casos.
 
-0. Decisões de base. Aprovada.
-1. Inventário fechado e auditoria. Capturas em 390, 768 e 1440px, matriz peça por página, fusões, contraste, porquês extraídos dos comentários do CSS, pasta handoff arquivada.
-2. Fundamentos do site. Escala tipográfica fluida, espaço, grade, estados, movimento, tokens no padrão shadcn e revisão da lista de componentes, provados numa página só, a do Omnichat.
-3. Modelo de documentação. Ficha de dez campos, guia de decisão, receitas de Home e Caso, regras de ritmo, CLAUDE.md completo.
-4. Piloto visual. A prova do Omnichat vira a página publicada, no lugar de `case-omnichat.html`.
-5. Biblioteca completa, em cinco ondas.
-6. Migração da Home e dos quatro casos. Manifesto sai do menu, do rodapé e da Home.
-7. Governança.
+1. Uma cena por caso no Topo, presa ao indicador, desenhada em `ds/ilustracoes/gerar.py`. A cena é mostrada sozinha antes de você aprovar a página.
+2. O Contexto aceita o `t-lead` e mais um parágrafo de apoio, para o texto de hoje ficar inteiro.
+3. Os dois pontos do texto viram ponto final, e "30–40 min" vira "30 a 40 min".
+4. As seções que estavam na tinta passam para o papel (D4), o Link "Todos os casos" sai do Topo e a ficha do projeto sobe para o Topo.
 
-## Hero
+Mapa (azul, cinco seções). 01 Contexto, 02 O que move a nota, 03 Processo, 04 Solução, 05 Resultado.
 
-Esta é a especificação da Fase 0, que guiou a primeira versão da Onda 5 (o quadro com a tela que se desmontava). Você trocou a direção no meio da onda, e o hero de agora está em `ds/fichas/hero.md` e `ds/ROTEIRO-HERO.md`. O texto abaixo fica como registro.
+5. A 01 deixa de se chamar "A pergunta". A pergunta é o `t-lead` e o parágrafo sobre o grupo é o apoio.
+6. A linha 3 do Processo junta os dois parágrafos num só, com o mesmo texto.
+7. O 890 sai do Dado em grupo, porque já está nas barras. Ficam +48, 16 campus e 12 etapas, em terços.
 
-A frase continua a mesma e passa a ficar alinhada à esquerda. "O ofício continua o mesmo. O jeito de fazer, não." Ao lado, uma ilustração no estilo da marca que apoia a provocação, com movimento ligado à rolagem.
+Inpulse (verde, cinco seções). 01 Contexto, 02 O aluno, 03 Descoberta, 04 Experimento, 05 Resultado.
 
-### O cuidado que muda tudo
+8. As falas dos alunos saem do Contexto e vão para a Seção "02 · O aluno", com o título "O que o aluno dizia" e o Antes e depois `citacao`.
+9. A Descoberta fica com o primeiro parágrafo, a nota "O aluno de medicina", o segundo parágrafo e o protótipo em `moldura` `retrato` com o Link. Mudou na sua revisão de 25 de outubro. Os três viram parágrafos corridos à esquerda, a nota no meio, e o protótipo fica à direita com o Link.
+10. No Experimento fica a frase no papel "O calendário doía mais que o boletim", e a nota "O que a gente cortou" vira o parágrafo que fecha a Seção. Os níveis de desejabilidade são a legenda das `pilhas`.
+11. A imagem do Resultado vai para a `moldura`, porque são telas do app e a `sangria` não pode ficar com o Destaque na tinta. A `sangria` fica na biblioteca sem página que a use.
 
-A frase diz que uma coisa fica e outra vai embora. Se a ilustração inteira se desfaz na rolagem, ela contradiz a frase, porque diz que nada fica. O movimento precisa separar as duas metades. O jeito de fazer se desmonta e sai da tela. O ofício fica parado e termina sozinho no quadro.
+Processo (lime, oito seções). 01 Contexto, 02 O problema, 03 O que a gente fez, 04 Rituais, 05 Liderança, 06 O novo funil, 07 Antes e depois, 08 Resultado.
 
-### Ideias descartadas
+12. A regra 12 do `ds/RITMO.md` passa a "de quatro a oito seções". Oito marcas do trilho somam uns 300px e cabem no celular.
+13. Os dois títulos de hoje ficam nos Passos `par`, e a Seção 02 ganha um título curto novo, que vem para você aprovar.
+14. Na 03 a ordem é estágios, o atrito "A primeira tentativa não foi essa" e as Abas, para a 03 e a 04 não fecharem com a mesma peça. A saída dos estágios se chama "Os rascunhos".
+15. Na Liderança fica a frase "O que sobra pra gente?", e "O que destravou" vira o último parágrafo.
+16. No Resultado o "~1 sem" e o "30 a 40 min" saem do Dado em grupo, porque estão nas barras. Ficam o Kanban e os 100%.
 
-1. Robô, cérebro com circuito ou o brilho de quatro pontas que virou símbolo de IA. São o lugar comum que a frase tenta evitar.
-2. Mão humana e mão de robô, ou tela dividida em antes e depois. Contam uma disputa, e a frase fala de continuidade.
-3. Partículas ou poeira se dissolvendo. É efeito genérico, pesa no celular e não diz o que fica.
-4. Lápis que vira cursor. É literal demais e coloca a mudança na ferramenta, que é justamente o que o lead diz que não é o ponto.
+Home e Manifesto.
 
-### Recomendada. O esboço que sobra
+17. Na Home a cortina do Carregamento não monta a tela, porque o hero faz esse papel. A frase do hero ganha um degrau próprio em `tokens.css`, fora da escala de texto. As notas do rascunho ficam como estão. A descrição para a busca é a linha de apoio do hero.
+18. A página do Manifesto sai do ar. O git guarda a página para ela ser repensada depois.
+19. Na limpeza, os CSS e JS antigos, as fotos, a trama e a cortina do J vão para `arquivo/site-antigo/`, depois de conferir que nada aponta para eles.
 
-Uma tela de produto pronta, desenhada no traço de 2px da marca, montada em camadas por cima de um esboço feito à mão. Na rolagem a tela se desmonta na ordem do que hoje a IA já produz. Primeiro saem as cores chapadas, depois os textos, depois os componentes, depois a grade. Cada camada desliza para fora do quadro com um leve giro, como adesivo descolando. No fim sobra só o esboço à mão, com uma anotação de quem decide, uma seta e um "por quê?".
+Andamento.
 
-O que fica é a decisão, que é o ofício. O que vai embora é a produção da tela, que é o jeito. Conversa direto com os casos, em que o protótipo já nasce desenvolvido e o design passa a decidir onde a atenção humana faz diferença.
-
-### Alternativas
-
-1. A mesa que esvazia. A cena "mesa" do Jeff DS com a pessoa cercada de ferramentas do jeito antigo, régua, post its, telas impressas. Na rolagem as ferramentas se soltam e saem, e ficam a pessoa e uma folha com a decisão. Tem gente na cena, o que aproxima, mas fica mais carregada ao lado de uma frase grande.
-2. A pergunta que fica. A cena "pergunta" com a pessoa diante de uma parede de ícones adesivo. Os ícones se espalham e sobra um adesivo grande de interrogação. É a mais simples de produzir e a mais fraca de sentido, porque a pergunta não aparece na frase.
-
-### Especificação do movimento
-
-1. Ligado à rolagem, do topo da página até o hero sair da tela. Nada acontece sozinho com o tempo.
-2. Cinco camadas saem em escada, cada uma com deslocamento e giro próprios, sempre para fora do quadro. O esboço não se move.
-3. CSS com linha do tempo de rolagem onde o navegador suporta, e JS com `requestAnimationFrame` como reserva.
-4. Sem JS ou com movimento reduzido aparece um quadro parado com as camadas levemente afastadas umas das outras, em vista explodida, que conta a mesma ideia sem movimento.
-5. A ilustração é decorativa para leitor de tela. A frase carrega o sentido.
-6. Desktop com a frase em 7 colunas e a ilustração em 5. No celular a frase vem primeiro e a ilustração entra abaixo, menor.
+- Passo 0, em 25 de outubro de 2026. O `comum.py` aceita o acento (`cabeca`) e qualquer página atual no menu e no rodapé (`PAGINAS`, `atual`), e os blocos do Topo e do fechamento recebem o texto do caso. O miolo de cada caso mora em `ds/prova/casos/`, um módulo por caso, e o `caso.py` gera todos os casos de `CASOS`. As peças que levam conteúdo (Passos, Gráfico, galeria, Dado em grupo, Seção) saíram da vitrine para `ds/prova/pecas.py`, e a vitrine e as páginas usam o mesmo código. O Omnichat, as variações e a vitrine saíram idênticos, byte a byte. Na vitrine mudou só a amostra do Passos, com a terceira decisão do Mapa num parágrafo (decisão 6).
+- Passo 1, Mapa. A cena `mapa-salto.svg` desenha o chão como o zero, o antes como um poço de 33 pontos e o depois como um degrau de 15 no lime, com a pessoa em cima e o percurso tracejado de um para o outro. A página é gerada por `ds/prova/casos/mapa.py`, com todo o texto da página antiga.
+- Ajustes que a página pediu. A ficha da Etiqueta não tem rótulo sobre o grupo, então os eixos são uma lista de Etiquetas com o nome "Eixos do mapa" para leitor de tela, logo depois do parágrafo que fala dos eixos. O "12 etapas" quebrava em duas linhas no Cartão de um terço, então o valor é "12" e a frase começa com "etapas", como no "16 campus" ao lado. O "palavras‑chave" usa o hífen que não quebra.
+- Conferido em 1440, 768 e 390 sem rolagem lateral. O título tem quatro linhas em 1440 e em 390 e duas em 768. Os `id` não se repetem e todo `aria-labelledby` aponta para um elemento que existe. O revelar só esconde com `.js-mov`, então sem JS e com movimento reduzido a página nasce pronta (conferido no código).
+- Revisão sua do Mapa, em 25 de outubro de 2026. No Gráfico `escala`, os dois valores passaram para uma linha só, cada um sobre o próprio ponto e na ordem dos pontos. O da esquerda termina no ponto dele e o da direita começa no dele, então os dois não se cobrem, por perto que fiquem. Numa queda a figura leva `data-sentido="queda"`, que o `pecas.escala` põe sozinho. Testado com os pontos colados (10 e 12), nas duas bordas e numa queda. A ficha do Gráfico foi atualizada. Na cena, o tracejado agora sai do vértice da seta e entra pelo meio da abertura, e a seta aponta para onde a linha chega, para baixo, no rumo do degrau.
+- Passo 2, Inpulse, em 25 de outubro de 2026. A cena `inpulse-salto.svg` desenha as recuperações como folhas de prova empilhadas, oito no papel para o antes e seis no lime para o depois, com o contorno tracejado das duas que saíram. A aluna ao lado olha o app no celular, com a tela no lime. A página é gerada por `ds/prova/casos/inpulse.py`, com as decisões 8 a 11. A citação, as pilhas, a moldura, a frase no papel e o Link `externo` passaram para `ds/prova/pecas.py`, e a vitrine saiu idêntica.
+- Saíram três rótulos que eram texto de apoio. "Protótipo navegável" (o `iframe` tem o título "Protótipo do aplicativo Inpulse"), "Três níveis de desejabilidade" (os níveis viraram a legenda das pilhas) e "O que a gente cortou" (a nota virou o parágrafo final, decisão 10). As fichas da Imagem, do Gráfico e do Antes e depois apontam para as Seções novas.
+- Conferido em 1440, 768 e 390 sem rolagem lateral. O título tem quatro linhas em 1440 e em 390 e duas em 768, e o "6 em 10" do Salto cabe numa linha em 390. Os `id` não se repetem e todo `aria-labelledby` aponta para um elemento que existe. Sem JS e com movimento reduzido conferido só no código.
+- Revisão sua do Inpulse, em 25 de outubro de 2026. Duas formas novas da Imagem, montadas na vitrine e aplicadas na página, à espera da sua aprovação para irem à ficha.
+  - Ao lado (`div.figure-ao-lado`). Com 760px de Seção o texto corre à esquerda e a moldura `retrato` fica à direita, com o Link embaixo. Abaixo disso, o texto vem antes e a tela depois. Usada na Descoberta.
+  - Recorte (`data-recorte`, com `--zoom`). A moldura fica em 16:9 e a imagem cresce por dentro, centrada. A imagem das telas do app tem 3234 por 3260px, com as telas numa faixa diagonal e fundo vazio nos cantos. Medido no arquivo, o recorte só fica sem fundo com `--zoom: 2`, a imagem com o dobro da largura do quadro. Com 1,9 ainda escapa 1px nos degraus da faixa. Usada no Resultado. O `width` e o `height` da imagem passaram aos valores reais (antes 1600 por 900), o que mudou também o palco da Imagem na vitrine.
+- Aprovadas por você em 25 de outubro de 2026, o recorte, o ao lado e a página do Inpulse. A ficha da Imagem ganhou as duas formas (Use quando, Variantes, Limites, Acessibilidade e Código), e o GUIA e o COMPONENTES citam as duas.
+- Passo 3, Processo com IA, em 25 de outubro de 2026. A cena `processo-salto.svg` é um calendário de parede com oito semanas, os dois meses do antes. Uma semana fica no lime e as outras sete só com o contorno tracejado, e o robô é o Claude que fez o rascunho. A página é gerada por `ds/prova/casos/processo.py`, com oito Seções e as decisões 12 a 16. O par, os estágios, o funil, a trilha, os ritos, as Abas numeradas, o confronto e o atrito passaram para `ds/prova/pecas.py`, e a vitrine saiu idêntica.
+- Ajustes que a página pediu. O título do Design System abre o fim da Seção 06 em `t-lead`, porque a Seção tem um `h2` só. A declaração do fechamento passava de sete linhas na tinta em 1440, e a ficha do Destaque aceita quatro. A primeira frase ficou no Destaque e a segunda virou o corpo, com as mesmas palavras. "O que destravou" virou o começo do último parágrafo ("O que destravou foi mudar o critério antes da rotina"). Saíram os rótulos "destino", "Usabilidade" e "A trilha do componente", e "User stories (US)" ficou "User stories", como na vitrine.
+- Decidido por você em 25 de outubro de 2026. A Seção 02 se chama "Dois gargalos ao mesmo tempo" (decisão 13). O título do caso tinha cinco linhas em 390 e em 1440, porque "COM CLAUDE NO CENTRO" passava 1px da coluna em 390 e 6px em 1440. Ele perdeu o "Reconstruindo o" e virou "Processo de produto e design com Claude no centro". Ficou com três linhas em 390 e em 1440, e duas em 768.
+- Conferido em 1440, 768 e 390 sem rolagem lateral. As oito marcas do trilho somam 242px em 390. Os `id` não se repetem e todo `aria-labelledby` aponta para um elemento que existe.
+- Revisão sua do Processo, em 25 de outubro de 2026. Nas Abas, o ícone, o número e o nome agora se alinham pelo centro, como no Sumário (antes pela linha de base, e o ícone descia). Vale para o Omnichat também, e a ficha das Abas diz isso.
+- As barras do Gráfico não contavam a história. O antes em trama enchia o trilho e parecia só marcar o espaço, e o valor ficava na beira direita, longe da ponta. Estudo com três direções em `ds/vitrine/estudo/barras.html`, gerado por `ds/vitrine/estudo_barras.py`, cada uma com o tempo do Processo e os acessos do Mapa. Um trilho só (antes e depois no mesmo trilho, o valor sobre a ponta, como a escala), barras soltas (cada barra do tamanho do valor, e o tracejado do que saiu) e unidades (um quadrado por semana ou por dez minutos, com a trama na faixa). Você escolheu a direção 1, um trilho só, em 25 de outubro de 2026.
+- As barras viraram um trilho só no componente. O antes é a área de muted com o fio de tinta na ponta, o depois é o acento por cima, e cada valor termina sobre a ponta da sua barra, como na escala. Numa queda o grupo leva `data-sentido="queda"`, que o `pecas.barras` põe sozinho. A chave embaixo usa os rótulos do primeiro grupo. No Mapa os rótulos ficaram "Sem o mapa" e "Com o mapa", para caberem sobre a ponta. A regra da escala usava a mesma classe `.chart__marco` sem escopo e passava por cima das barras. As duas agora ficam presas à própria figura, e a escala continua certa na subida e na queda. A ficha do Gráfico foi reescrita na parte das barras.
+- Conferido em 1440, 768 e 390 sem rolagem lateral. Em 390 cada valor cabe numa linha, e nenhum se cobre.
+- Revisão sua do Mapa. Num salto o acento cobria o antes, e o 20 virava só o fio, sem o muted que a chave mostra. Agora a barra menor fica por cima, nas duas direções, e o antes tem no mínimo 4px. A tampa da entrada passou para cima das duas, para nada aparecer antes da hora.
+- O fio do antes passou a só subir do trilho, rumo ao valor, como você pediu.
+- Revisão sua das barras, em 25 de outubro de 2026. O fio do antes saía do trilho e, no Processo, ficava sobrando na ponta de uma barra cheia. Ele saiu. O antes agora termina num fio de tinta de 2px só dentro do trilho, como o depois, e o fio some debaixo do contorno quando a barra chega a 100. O único fio que cruza o eixo é o zero da escala, a do NPS.
+- Nas barras, cada marco se alinha ao lado da barra a que ele se liga, como você explicou. O da barra menor, que nasce na esquerda do trilho, vai pela esquerda, e o da maior vai pela direita, na ponta dela. Antes os dois iam pela direita, e o 20 do Mapa ficava solto debaixo do fim de “Sem o mapa”.
+- Passo 4, Home e Manifesto, em 25 de outubro de 2026. A Home é gerada por `ds/prova/home.py`, com o hero e a Lista de casos de `ds/prova/comum.py`, no lime, e a descrição para a busca é a linha de apoio do hero. O título do Processo na Lista de casos acompanhou o título novo. A cortina da Home leva `data-sem-chegada` e não monta a tela na chegada nem na volta, só desce ao sair (módulo 0 do `componentes.js`). A frase do hero ganhou `--text-hero` e `--text-hero-estreito` em `tokens.css`, com os mesmos tamanhos de antes. A página do Manifesto saiu (`manifesto/index.html` apagado, o git guarda). O `manifesto.css` e o `manifesto.js` ficam para a limpeza do passo 5.
+- Conferido em 1440, 768 e 390 sem rolagem lateral. A frase tem 115px, 62px e 82px. Um `h1` só, os `id` não se repetem e todo `aria-labelledby` aponta para um elemento que existe. A cortina nasce escondida, desce ao clicar num caso e volta escondida pelo voltar do navegador.
+- Passo 5, limpeza, em 25 de outubro de 2026, depois da sua aprovação das barras e da Home. Conferido antes que nenhuma página, gerador ou estilo do site aponta para o que saiu. Foram para `arquivo/site-antigo/assets/` o `base`, o `home`, o `caso` e o `manifesto` (CSS e JS), a trama `bg-weave` e `bg-weave-dark`, as fotos do hero antigo e a cortina do J, que morava no `base.css` e no `base.js`. O `CREDITOS.md`, que era só das fotos, foi junto. O `assets/analytics.js` fica, porque as páginas novas usam. Os scripts de `ds/auditoria/` passaram a ler o CSS do arquivo e dizem que são registro da Fase 1. O `arquivo/LEIAME.md` ganhou a seção do site antigo.
+- Documentos. As RECEITAS dão a Home como publicada, com a cortina escondida na chegada e o tamanho próprio da frase, o Contexto com o parágrafo de apoio e o meio do Caso de duas a seis Seções. A regra 12 do RITMO passou a "de quatro a oito", e as fichas do Sumário e da Seção acompanharam. As fichas do Cabeçalho, do Cartão, do Gráfico, do Hero e do Rodapé deixaram de dizer que a página publicada ainda é a antiga. O `ds/PROXIMA-SESSAO.md` foi reescrito para depois da Fase 6.
+- O Sumário escalonava a chegada só até o sexto item, e no Processo o sétimo e o oitavo chegavam junto com o primeiro. Agora escalona até o oitavo.

@@ -26,6 +26,8 @@ FICHAS = AQUI.parent / "fichas"
 sys.path.insert(0, str(AQUI.parent / "prova"))
 import comum as c  # noqa: E402
 import caso  # noqa: E402
+import pecas as pc  # noqa: E402
+from casos import mapa, inpulse, processo  # noqa: E402
 
 P = "../../"
 P_SUB = "../../../"
@@ -65,6 +67,7 @@ CASCA = [
 
 # Peças com um estudo de direções aberto, em ds/vitrine/estudo/.
 ESTUDOS = {"passos": '\n        <a class="link" data-variant="seguir" href="estudo/index.html">Ver o estudo do Passos, seis direções <i aria-hidden="true">→</i></a>',
+           "grafico": '\n        <a class="link" data-variant="seguir" href="estudo/barras.html">Ver o estudo das barras, três direções <i aria-hidden="true">→</i></a>',
            "hero": '\n        <a class="link" data-variant="seguir" href="estudo/hero/index.html">Ver o estudo do hero, a frase em três momentos <i aria-hidden="true">→</i></a>'}
 
 # A contração certa para "a ficha do Link" e "a ficha da Etiqueta".
@@ -117,8 +120,9 @@ DADOS = [
     ("grafico", "Gráfico", 1440, [
         "Role o palco. Cada Seção usa uma forma, com o texto do Inpulse, do Mapa de experiência e do Processo com&nbsp;IA.",
         "Quando o Gráfico entra na tela, o bloco sobe e logo depois o preenchimento corre da esquerda. Na escala, o percurso vai do antes ao depois, e só então aparece o ponto de&nbsp;depois.",
-        "Nas barras, o antes é trama e o depois é o acento. Nas pilhas, entusiasta é o acento, receptivo é trama e indiferente é o papel. Nada depende só da&nbsp;cor.",
-        "Troque a largura. Com menos de 600px de Seção o nome de cada pilha fica em cima da faixa, e os dois pares de barras ficam um embaixo do&nbsp;outro.",
+        "Nas barras, o antes e o depois dividem o mesmo trilho. O antes é o muted, o depois é o acento, cada um com um fio de tinta na ponta, dentro do trilho, e cada valor termina sobre a ponta da sua barra. No Processo o tempo encolhe e sobra muted. No Mapa o acento passa do&nbsp;antes.",
+        "Nas pilhas, entusiasta é o acento, receptivo é trama e indiferente é o papel. Nada depende só da&nbsp;cor.",
+        "Troque a largura. Com menos de 600px de Seção o nome de cada pilha fica em cima da faixa, e as duas grandezas das barras ficam uma embaixo da&nbsp;outra. Os valores nunca se cobrem, nem com as pontas&nbsp;perto.",
         "Com leitor de tela, cada Gráfico é uma figura com título, e os valores são lidos como texto. As faixas ficam&nbsp;escondidas.",
         "Nenhuma forma reage a mouse, toque ou foco. O Gráfico mostra, não&nbsp;age.",
     ]),
@@ -129,6 +133,8 @@ MIDIA = [
     ("imagem", "Imagem", 1440, [
         "Role o palco. A moldura do protótipo do Inpulse, a galeria do Mapa de experiência e a sangria do resultado do Inpulse, cada uma na sua&nbsp;Seção.",
         "Na moldura, o protótipo se navega ali mesmo. Em retrato ele para de crescer em 400px, e o Link logo abaixo abre o protótipo em tela&nbsp;cheia.",
+        "Ao lado do texto, o protótipo fica à direita e o texto corre à esquerda quando a Seção tem 760px. Abaixo disso, o texto vem antes e o protótipo&nbsp;depois.",
+        "Recortada, a moldura fica em 16:9 e as telas do Inpulse crescem por dentro até nenhum canto mostrar o fundo. Confira os quatro cantos em 390, 768 e&nbsp;1440.",
         "Na galeria, a primeira tela ocupa a linha inteira e as outras quatro vão duas a duas quando a Seção tem 600px. Abaixo disso, uma debaixo da&nbsp;outra.",
         "Na sangria, a faixa vai até a beira da tela. Em 1440 ela sangra só para a direita, porque a coluna da esquerda é do Sumário. Nenhuma largura abre rolagem para o&nbsp;lado.",
         "Nenhuma forma reage a mouse, toque ou foco. Entram com o revelar da&nbsp;página.",
@@ -549,151 +555,64 @@ def amostra_destaque():
 
 # ── Onda 3, com o texto das páginas publicadas ───────────────
 
-def passo(icone, titulo, *pars, num=None, marca="", efeito=None, i=None, depois=""):
-    """Um Cartão do Passos: o adesivo no canto, o número vazado, o rótulo
-    do estágio, o nome, o texto e o efeito."""
-    estilo = f' style="--i: {i}"' if i is not None else ""
-    n = f'<span class="step__num" aria-hidden="true">{num:02d}</span>' if num else ""
-    m = f'<span class="t-rotulo">{marca}</span>' if marca else ""
-    ef = f'<p class="step__efeito"><span class="t-rotulo">{efeito[0]}</span> {efeito[1]}</p>' if efeito else ""
-    return (f'<li class="step"{estilo}>{c.icone(P_SUB, icone, 64, "icone step__icone")}{n}{m}'
-            f'<h3 class="step__titulo">{titulo}</h3>{"".join(f"<p>{x}</p>" for x in pars)}{depois}{ef}</li>')
+def passo(*a, **k):
+    return pc.passo(P_SUB, *a, **k)
 
 
 def passos_padrao():
-    return '<ol class="steps">' + "".join([
-        passo("grafico", "Entender os&nbsp;dados do&nbsp;NPS",
-              "Clusterizamos os comentários do NPS em grandes eixos e subcategorias, com uma divisão entre semestres. Era preciso um relatório que ilustrasse a jornada do aluno do início ao fim da graduação, para que a ação surtisse efeito no período específico de cada problema.",
-              num=1, efeito=("Consequência", "A insatisfação deixou de ser uma nota única e&nbsp;passou a ter lugar e momento na jornada.")),
-        passo("pessoa", "Completar o&nbsp;que a&nbsp;reclamação não&nbsp;contava",
-              "As informações que tínhamos não bastavam, e fomos atrás dos alunos para preencher outros aspectos da vida deles. Um aluno que mora longe da instituição sofre muito mais com um cancelamento de aula em cima da hora do que um aluno que mora perto do campus, e nada disso aparece na nota.",
-              num=2, efeito=("Consequência", "As ações passaram a considerar o contexto de&nbsp;vida do&nbsp;aluno, não só a&nbsp;reclamação registrada.")),
-        passo("rota", "Achar um&nbsp;formato que&nbsp;obrigue a&nbsp;percorrer",
-              "Antes do tabuleiro testamos dois formatos mais óbvios, um dashboard de indicadores e um resumo executivo de duas páginas por campus. Os dois falharam pelo mesmo motivo. Entregavam a conclusão pronta, e ninguém precisava percorrer a jornada do aluno para chegar nela.",
-              "O tabuleiro foi escolhido porque obriga quem lê a&nbsp;andar por semestre e&nbsp;por&nbsp;eixo, e&nbsp;é nesse trajeto que o time reconhece o próprio aluno e&nbsp;propõe ação.",
-              num=3, efeito=("Consequência", "O formato virou parte da solução, não a&nbsp;embalagem da pesquisa.")),
-    ]) + "</ol>"
+    return pc.sequencia(P_SUB, mapa.DECISOES)
 
 
 def passos_par():
-    return '<ul class="steps" data-layout="par">' + "".join([
-        passo("dialogo", "O&nbsp;trabalho vivia em&nbsp;reunião", "A gente discutia bem e decidia bem. Depois alguém tinha que transformar aquilo em PRD, story, relatório e protótipo. Esse alguém sempre demorava."),
-        passo("calendario", "A&nbsp;garantia prévia custava semanas", "Como construir era caro, quase toda validação acontecia antes do desenvolvimento. Fazia sentido, e consumia semanas."),
-    ]) + "</ul>"
+    return pc.par(P_SUB, processo.PROBLEMAS)
 
 
-ENTREGAS = [
-    ("visao", "lampada", "Visão de produto", "Vira direção antes de virar backlog.", "A habilidade lê a transcrição do ritual e devolve o rascunho da visão. O time revisa e ajusta, em vez de escrever do zero depois da conversa."),
-    ("prd", "lapis", "PRD", "Chega pronto para discussão, não para redação.", "Com o PRD já rascunhado, a Planning deixou de ser um rito semanal. Acontece sob demanda, e a maior parte dela é assíncrona."),
-    ("us", "janela", "User stories", "Entram no Kanban já documentadas.", "O refinamento virou tirar dúvida sobre o que já está escrito na story e desenhado no protótipo. Foi o que derrubou o ritual de quatro horas para quarenta minutos."),
-    ("usabilidade", "lupa", "Relatório de usabilidade", "Análise no lugar de rodada de teste.", "O Claude aponta problema de fluxo com consistência, usando heurística de Norman e Nielsen mais o que a gente já sabe do público da Omni."),
-    ("prototipo", "celular", "Protótipo", "Nasce desenvolvido e segue direto para a&nbsp;engenharia.", "O protótipo sai do Claude Design e vai para o Claude Code, de onde a engenharia assume. Design usa o Claude Code para manter a biblioteca fiel à do código, que é a referência principal."),
-]
+ENTREGAS = processo.ENTREGAS
 
 
 def entregas(prefixo):
-    abas, paineis = [], []
-    for i, (cid, ic, nome, sub, txt) in enumerate(ENTREGAS, 1):
-        abas.append(f'<button class="tab" type="button" role="tab" id="{prefixo}-{cid}" aria-controls="{prefixo}-painel-{cid}">{c.icone(P_SUB, ic, 32, "icone-inline")}<span class="t-rotulo">0{i}</span>{nome}</button>')
-        paineis.append(f"""<div class="tabs__painel" id="{prefixo}-painel-{cid}" tabindex="0">
-  <h3 class="tabs__painel-titulo">{c.icone(P_SUB, ic, 32, "icone-inline")}<span class="t-rotulo">0{i}</span>{nome}</h3>
-  <p><strong>{sub}</strong> {txt}</p>
-</div>""")
-    return f"""<div class="tabs" data-tabs>
-  <div class="tabs__lista" aria-label="Entregas da saída" aria-orientation="vertical">{"".join(abas)}</div>
-  <div class="tabs__paineis">{"".join(paineis)}</div>
-</div>"""
+    return pc.abas(P_SUB, ENTREGAS, prefixo, "Entregas da saída")
 
 
 def passos_estagios():
-    lista = '<ul class="step__lista">' + "".join(f"<li>{nome}</li>" for _, _, nome, _, _ in ENTREGAS) + "</ul>"
-    return '<ol class="steps" data-layout="estagios">' + "".join([
-        passo("dialogo", "Transcrição dos rituais", "O que o time já falava em reunião, agora capturado como matéria&nbsp;prima.", marca="Entrada"),
-        passo("robo", "Habilidades no&nbsp;Claude", "Habilidades que a gente criou leem a transcrição e devolvem os rascunhos.", marca="Camada"),
-        passo("janela", "Cinco entregas", marca="Saída", depois=lista),
-    ]) + "</ol>"
+    return pc.estagios(P_SUB, [
+        ("dialogo", "Transcrição dos rituais", "O que o time já falava em reunião, agora capturado como matéria&nbsp;prima.", "Entrada", None),
+        ("robo", "Habilidades no&nbsp;Claude", "Habilidades que a gente criou leem a transcrição e devolvem os rascunhos.", "Camada", None),
+        ("janela", "Cinco entregas", None, "Saída", [nome for _, _, nome, _, _ in ENTREGAS]),
+    ])
 
 
-FASES = [
-    ("Identificação de oportunidades", "Dado de produto, pesquisa e canais de feedback alimentam uma árvore de oportunidades que facilita escolher o que entra em pauta.", "Produto e design, com&nbsp;dados alimentando a&nbsp;árvore."),
-    ("Validação de desejabilidade e diferencial", "Confirmamos se a aposta faz sentido antes de o time gastar tempo desenhando a solução.", "Produto e design."),
-    ("Definição e prototipagem", "É aqui que nasce a maior parte da solução. O&nbsp;protótipo já sai desenvolvido e segue para a&nbsp;engenharia sem etapa de tradução no&nbsp;meio.", "Produto, design e engenharia, com&nbsp;prototipação distribuída entre os&nbsp;três."),
-    ("Delivery", "Alfa na engenharia, que garante o funcionamento do que foi construído. Beta, aberto ou fechado, validando o experimento antes de abrir para todos.", "Engenharia no alfa, time inteiro no beta."),
-    ("Depois do lançamento", "O foco vira satisfação e adoção. A&nbsp;validação qualitativa entra quando o&nbsp;dado quantitativo mostra desvio do&nbsp;esperado.", "Produto, design e dados, junto de GA e GTM."),
-]
+FASES = processo.FASES
 
 
-FASE_ICONES = ["lupa", "alvo", "lapis", "celular", "grafico"]
+FASE_ICONES = processo.FASE_ICONES
 
 
 def passos_funil():
-    return '<ol class="steps" data-layout="funil">' + "".join(
-        passo(FASE_ICONES[i], nome, txt, num=i + 1, efeito=("Quem conduz", quem), i=i)
-        for i, (nome, txt, quem) in enumerate(FASES)) + "</ol>"
+    return pc.funil(P_SUB, FASES, FASE_ICONES)
 
 
 def passos_trilha():
-    return '<ol class="steps" data-layout="trilha">' + "".join([
-        passo("lampada", "Criação", "Novo componente nasce a partir de uma&nbsp;necessidade do&nbsp;produto.", num=1),
-        passo("olho", "Comportamento e&nbsp;uso", "Definição escrita pensando também na&nbsp;leitura do&nbsp;Claude.", num=2),
-        passo("verifica", "Aprovação no&nbsp;código", "Validação direto no&nbsp;código, antes de subir para o repositório no&nbsp;GitHub.", num=3),
-    ]) + "</ol>"
+    return pc.trilha(P_SUB, processo.TRILHA)
 
 
-def rito(icone, nome, texto):
-    return f'<li class="step"><div class="step__topo">{c.icone(P_SUB, icone, 40, "icone step__icone")}<h3 class="step__titulo">{nome}</h3></div><p>{texto}</p></li>'
+def rito(*a):
+    return pc.rito(P_SUB, *a)
 
 
 def passos_ritos():
-    return '<ul class="steps" data-layout="ritos">' + "".join([
-        rito("calendario", "Planning", "Virou assíncrona e sob&nbsp;demanda, não&nbsp;mais um rito&nbsp;semanal."),
-        rito("pessoa", "Daily", "Ficou só com engenharia. Produto entra quando&nbsp;precisa."),
-        rito("lupa", "Refinamento", "De 4 horas para 40&nbsp;minutos, porque virou tirar dúvida sobre o&nbsp;que já&nbsp;está escrito."),
-    ]) + "</ul>"
+    return pc.ritos(P_SUB, processo.RITOS)
 
 
 def citacao():
-    def lado(variante, ic, quando, fala, autoria):
-        return f"""<div class="card compare__lado" data-variant="{variante}">
-    <p class="compare__cabeca"><span class="badge">{c.icone(P_SUB, ic, 20, "icone-inline")}{quando}</span></p>
-    <figure class="compare__citacao">
-      <blockquote><p>{fala}</p></blockquote>
-      <figcaption>{autoria}</figcaption>
-    </figure>
-  </div>"""
-    return f"""<div class="compare" data-variant="citacao">
-  {lado("muted", "xis", "Antes", "“Precisamos correr atrás de&nbsp;nota, elas levam dias para&nbsp;sair, e quando saem a gente tem que&nbsp;anotar pra ver todas em&nbsp;um&nbsp;mesmo lugar. Difícil se preparar dessa maneira.”", "Nota 2 no NPS, de uma estudante no 3º semestre.")}
-  {lado("acento", "check", "Depois", "“Com o Inpulse eu não preciso ficar anotando as&nbsp;notas dos complexos temáticos, e isso facilitou pra eu achar o&nbsp;que devo estudar para&nbsp;as recuperações.”", "Aluna do 5º semestre de medicina.")}
-</div>"""
+    return pc.citacao(P_SUB, *inpulse.FALAS)
 
 
-DIMENSOES = [
-    ("Prototipação", "Concentrada em design", "Distribuída entre produto, design e engenharia"),
-    ("Validação qualitativa", "Quase sempre antes do desenvolvimento", "Depois do lançamento, quando o dado mostra desvio do esperado"),
-    ("Rituais", "Longos e na agenda", "Curtos e assíncronos"),
-    ("Testes A/B", "Poucas variações, porque cada uma custava caro para construir", "Muitas variações, porque desenvolver ficou ágil e barato"),
-]
+DIMENSOES = processo.DIMENSOES
 
 
 def confronto():
-    linhas = "".join(f"""
-    <tr role="row">
-      <th role="rowheader" scope="row">{d}</th>
-      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Antes</span>{a}</td>
-      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Depois</span>{b}</td>
-    </tr>""" for d, a, b in DIMENSOES)
-    return f"""<table class="compare" data-variant="confronto" role="table">
-  <caption class="sr">O trabalho do time antes e depois, em quatro dimensões</caption>
-  <thead>
-    <tr role="row">
-      <th role="columnheader" scope="col"><span class="t-rotulo">Dimensão</span></th>
-      <th role="columnheader" scope="col"><span class="badge">Antes</span></th>
-      <th role="columnheader" scope="col"><span class="badge">Depois</span></th>
-    </tr>
-  </thead>
-  <tbody>{linhas}
-  </tbody>
-</table>"""
+    return pc.confronto(DIMENSOES, "O trabalho do time antes e depois, em quatro dimensões")
 
 
 def amostra_passos():
@@ -740,92 +659,34 @@ def palco_antes_e_depois():
 
 # ── Onda 4, com o texto das páginas publicadas ───────────────
 
-def valor(v):
-    # O til de aproximação é lido como "til". Quem ouve recebe "cerca de".
-    if v.startswith("~"):
-        return f'<span aria-hidden="true">~</span><span class="sr">cerca de </span>{v[1:]}'
-    return v
+valor = pc.valor
 
 
-def barras(titulo, grupos):
-    """`grupos` é uma lista de (nome ou None, linhas), e cada linha é
-    (rótulo, valor escrito, valor de 0 a 100, tom)."""
-    def linha(rotulo, escrito, num, tom):
-        return (f'<div class="chart__linha"><dt class="chart__rotulo">{rotulo}</dt><dd class="chart__valor">{valor(escrito)}</dd>'
-                f'<dd class="chart__trilho" aria-hidden="true"><span class="chart__preenche" data-tom="{tom}" style="--valor: {num}"></span></dd></div>')
-    def grupo(nome, linhas):
-        cab = f'<h3 class="chart__nome">{nome}</h3>' if nome else ""
-        return f'<div class="chart__grupo">{cab}<dl class="chart__linhas">{"".join(linha(*x) for x in linhas)}</dl></div>'
-    return f"""<figure class="chart" data-variant="barras" data-revelar>
-  <figcaption class="t-rotulo">{titulo}</figcaption>
-  <div class="chart__grupos">{"".join(grupo(*g) for g in grupos)}</div>
-</figure>"""
+barras = pc.barras
 
 
 def barras_processo():
-    return barras("Tempo antes e depois", [
-        ("Discovery", [("Antes", "1 a 2 meses", 100, "trama"), ("Depois", "~1 semana", 12.5, "cheio")]),
-        ("Refinamento semanal", [("Antes", "4 a 5 h", 100, "trama"), ("Depois", "30 a 40 min", 13, "cheio")]),
-    ])
+    return barras(*processo.TEMPOS)
 
 
 def barras_mapa():
-    return barras("Usuários únicos no primeiro mês", [
-        (None, [("Sem o mapa de experiência", "20", 2.2, "trama"), ("Com o mapa de experiência", "890", 100, "cheio")]),
-    ])
-
-
-NIVEIS = [
-    ("cheio", "Entusiasta", "entusiasta", "entusiastas", "Demonstra interesse de maneira espontânea."),
-    ("trama", "Receptivo", "receptivo", "receptivos", "Demonstra interesse a partir de uma interação ou pergunta do&nbsp;facilitador."),
-    ("vazio", "Indiferente", "indiferente", "indiferentes", "Verbaliza a falta de interesse, ou ignora que a funcionalidade&nbsp;existe."),
-]
-
-# Reações de 10 participantes por funcionalidade: entusiasta, receptivo e
-# indiferente, na ordem da página do Inpulse.
-REACOES = [
-    ("Próximas avaliações", (0, 8, 2)),
-    ("Faltas", (0, 10, 0)),
-    ("Situação atual", (1, 9, 0)),
-    ("Últimas avaliações", (1, 8, 1)),
-    ("Calendário", (3, 7, 0)),
-    ("Planejar estudos", (1, 8, 1)),
-]
+    return pc.barras(*mapa.ACESSOS)
 
 
 def pilhas():
-    legenda = "".join(
-        f'<div><dt><span class="chart__amostra" data-tom="{tom}" aria-hidden="true"></span>{nome}</dt><dd>{desc}</dd></div>'
-        for tom, nome, _, _, desc in NIVEIS)
-    def pilha(nome, contas):
-        partes = "".join(f'<span class="chart__parte" data-tom="{NIVEIS[i][0]}" style="--n: {n}"></span>' for i, n in enumerate(contas) if n)
-        conta = " · ".join(f"{n} {NIVEIS[i][2] if n == 1 else NIVEIS[i][3]}" for i, n in enumerate(contas) if n)
-        return f'<li class="chart__pilha"><p class="chart__nome">{nome}</p><div class="chart__trilho" aria-hidden="true">{partes}</div><p class="chart__conta">{conta}</p></li>'
-    return f"""<figure class="chart" data-variant="pilhas" data-revelar>
-  <figcaption class="t-rotulo">Reações de 10 participantes, em seis das dez funcionalidades testadas</figcaption>
-  <dl class="chart__legenda">{legenda}</dl>
-  <ol class="chart__pilhas">{"".join(pilha(*x) for x in REACOES)}</ol>
-</figure>"""
+    return pc.pilhas(*inpulse.REACOES)
 
 
 def escala():
-    return """<figure class="chart" data-variant="escala" style="--antes: -33; --depois: 15" data-revelar>
-  <figcaption class="t-rotulo">Nota geral de NPS<span class="sr">, numa escala de −100 a +100</span></figcaption>
-  <div class="chart__escala">
-    <p class="chart__marco" data-ponto="antes"><span class="chart__numero">−33</span><span class="t-rotulo">Antes</span></p>
-    <p class="chart__marco" data-ponto="depois"><span class="chart__numero">+15</span><span class="t-rotulo">Depois</span></p>
-    <div class="chart__eixo" aria-hidden="true"><span class="chart__percurso"></span><span class="chart__zero"></span><span class="chart__ponto" data-ponto="antes"></span><span class="chart__ponto" data-ponto="depois"></span></div>
-    <p class="chart__regua t-rotulo" aria-hidden="true"><span>−100</span><span>0</span><span>+100</span></p>
-  </div>
-</figure>"""
+    return pc.escala("Nota geral de NPS", -33, 15)
 
 
 def amostra_grafico():
     def no(acento, conteudo):
         return f'<div data-acento="{acento}">{conteudo}</div>'
     return amostra("Gráfico", "".join([
-        item("Barras, um par, no azul do Mapa", 'data-variant="barras"', no("azul", barras_mapa())),
-        item("Barras, dois pares, no lime do Processo", 'data-variant="barras"', no("lime", barras_processo())),
+        item("Barras, uma grandeza, no azul do Mapa", 'data-variant="barras"', no("azul", barras_mapa())),
+        item("Barras, duas grandezas, no lime do Processo", 'data-variant="barras"', no("lime", barras_processo())),
         item("Pilhas, com a legenda, no verde do Inpulse", 'data-variant="pilhas"', no("verde", pilhas())),
         item("Escala, no azul do Mapa", 'data-variant="escala"', no("azul", escala())),
     ]))
@@ -847,52 +708,30 @@ def palco_grafico():
 
 # ── Onda 5, com as telas e o texto das páginas publicadas ────
 
-FIGMA_INPULSE = "https://www.figma.com/proto/w5TixfaNOqjwjYoY8hZ0cg/Painel-Longitudinal---Aluno?page-id=2891%3A23975&amp;node-id=2891-27267&amp;p=f&amp;viewport=521%2C589%2C0.07&amp;t=N9ol2L7UQFaCxwX8-1&amp;scaling=scale-down&amp;content-scaling=fixed&amp;starting-point-node-id=2891%3A27267"
-EMBED_INPULSE = "https://embed.figma.com/proto/w5TixfaNOqjwjYoY8hZ0cg/Painel-Longitudinal---Aluno?page-id=2891%3A23975&amp;node-id=2891-27267&amp;starting-point-node-id=2891%3A27267&amp;scaling=scale-down&amp;content-scaling=fixed&amp;embed-host=share"
-FIGMA_MAPA = "https://www.figma.com/proto/8fvE9ztg50OQFqWIqGfH3y/Mapa-de-Experie%CC%82ncia-Estudante-Medicina?page-id=221%3A2&amp;node-id=288-1762&amp;starting-point-node-id=288%3A1762&amp;t=rEOOuyzD3vuwNv1m-1"
+FIGMA_MAPA = mapa.FIGMA
 
-TELAS_MAPA = [
-    ("jB0FYWxzKTWaMHwYRuFkT0OR8", "O tabuleiro do mapa, com as 12 etapas da graduação distribuídas do START ao FINISH.", "O tabuleiro, do primeiro ao último&nbsp;semestre"),
-    ("2u2l4cvOcOdO1jQGPl637PRYmWI", "Uma etapa aberta sobre o tabuleiro, com o achado da pesquisa e a régua de sentimento na base da tela.", "Uma etapa aberta, com a régua de&nbsp;sentimento"),
-    ("Gt20MHEWr6seNOXMahLIqb4plQ", "Visão ampla institucional, com experiência, sugestões, apps e oportunidades cruzados com os pares de etapas.", "Visão ampla, lado&nbsp;institucional"),
-    ("3IY6aXgfkDIxVCej0xa2DWhplw", "Visão ampla pessoal, com mental, físico, financeiro, futuro e dores cruzados com os pares de etapas.", "Visão ampla, lado&nbsp;pessoal"),
-    ("D6BfM2dEe92QhBtCV7Q9lTCTu0", "Gráfico de sentimento com três linhas, financeiro, físico e mental, ao longo dos seis pares de etapas.", "O sentimento por eixo ao longo do&nbsp;curso"),
-]
+TELAS_MAPA = mapa.TELAS
 
 
-def tela(id_, alt, larg=4320, alt_=3072):
-    return f'<img src="https://framerusercontent.com/images/{id_}.png" alt="{alt}" width="{larg}" height="{alt_}" loading="lazy" decoding="async">'
+tela = pc.tela
 
 
 def moldura_prototipo():
-    return f"""<figure class="figure" data-variant="moldura" data-formato="retrato" data-revelar>
-  <div class="figure__quadro"><iframe src="{EMBED_INPULSE}" title="Protótipo do aplicativo Inpulse" allowfullscreen loading="lazy"></iframe></div>
-  <figcaption class="figure__legenda">Navegue pelo app aqui mesmo, ou abra o protótipo em&nbsp;tela&nbsp;cheia.</figcaption>
-</figure>
-<a class="link" data-variant="externo" href="{FIGMA_INPULSE}" target="_blank" rel="noopener">Abrir o protótipo completo <i aria-hidden="true">↗</i></a>"""
+    return pc.moldura(pc.prototipo(*inpulse.PROTOTIPO), inpulse.PROTOTIPO_LEGENDA, retrato=True, link=inpulse.FIGMA)
 
 
 def moldura_tela():
     id_, alt, leg = TELAS_MAPA[1]
-    return f"""<figure class="figure" data-variant="moldura" data-revelar>
-  <div class="figure__quadro">{tela(id_, alt)}</div>
-  <figcaption class="figure__legenda">{leg[0].upper() + leg[1:]}</figcaption>
-</figure>"""
+    return pc.moldura(tela(id_, alt), leg[0].upper() + leg[1:])
 
 
 def galeria():
-    itens = "".join(
-        f'<li><figure><div class="figure__quadro">{tela(id_, alt)}</div><figcaption class="figure__legenda"><span class="t-rotulo">Fig. 0{n}</span>{leg}</figcaption></figure></li>'
-        for n, (id_, alt, leg) in enumerate(TELAS_MAPA, 1))
-    return f"""<div class="figure" data-variant="galeria" data-abertura data-revelar>
-  <ol class="figure__lista">{itens}</ol>
-</div>
-<a class="link" data-variant="externo" href="{FIGMA_MAPA}" target="_blank" rel="noopener">Abrir o mapa completo <i aria-hidden="true">↗</i></a>"""
+    return pc.galeria(mapa.TELAS, (FIGMA_MAPA, "Abrir o mapa completo"))
 
 
 def sangria():
     return f"""<figure class="figure" data-variant="sangria" data-revelar>
-  <div class="figure__quadro">{tela("aV4KtUaueCwZ17TJ4mz299XAw", "Telas do aplicativo Inpulse, com o boletim por complexo temático, o calendário acadêmico e a situação atual do aluno.", 1600, 900)}</div>
+  <div class="figure__quadro">{tela(*inpulse.TELAS_APP)}</div>
 </figure>"""
 
 
@@ -907,7 +746,9 @@ STATS_INPULSE = [
 def amostra_imagem():
     return amostra("Imagem", "".join([
         item("Moldura, retrato, com o protótipo do Inpulse", 'data-variant="moldura" data-formato="retrato"', moldura_prototipo()),
+        item("Moldura, retrato, ao lado do texto, a Descoberta do Inpulse", 'div.figure-ao-lado', pc.ao_lado(pc.prosa(*inpulse.DESCOBERTA), moldura_prototipo())),
         item("Moldura, com uma tela do Mapa de experiência", 'data-variant="moldura"', moldura_tela()),
+        item("Moldura, recortada, as telas do Inpulse", 'data-variant="moldura" data-recorte style="--zoom: 2"', pc.moldura(pc.tela(*inpulse.TELAS_APP), zoom=inpulse.ZOOM_APP)),
         item("Galeria, com abertura, as cinco telas do Mapa", 'data-variant="galeria" data-abertura', galeria()),
         item("Sangria, as telas do Inpulse", 'data-variant="sangria"', sangria()),
     ]))

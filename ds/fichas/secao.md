@@ -34,7 +34,7 @@ A Seção não vai para a superfície tinta. A parada de tinta da página é o D
 
 ## Limites
 
-- De quatro a seis Seções por caso, contando Contexto e Resultado (regra 12 do `ds/RITMO.md`).
+- De quatro a oito Seções por caso, contando Contexto e Resultado (regra 12 do `ds/RITMO.md`).
 - Até três parágrafos antes da peça.
 - Uma peça por Seção. A exceção é o Resultado, que leva o Dado em grupo, o Destaque na tinta e o fechamento, nessa ordem.
 - Título de até três linhas em 390px.
@@ -59,7 +59,7 @@ A Seção não vai para a superfície tinta. A parada de tinta da página é o D
 ## Onde aparece
 
 - Modelo de Caso, cinco Seções. "01 · Contexto", só o parágrafo em `t-lead`. "02 · O problema", com o título "Ninguém tinha desenhado a fronteira de entrada". "03 · Processo", "04 · Antes e depois" e "05 · Resultado".
-- Na página publicada do Omnichat, `case-omnichat.html`, gerada com o modelo.
+- Nas páginas publicadas dos quatro casos, geradas com o modelo.
 - Nas páginas publicadas, a Seção e o Cabeçalho de seção dos quatro casos (ver `ds/INVENTARIO.md`).
 
 ## Vizinhos

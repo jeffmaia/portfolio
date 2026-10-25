@@ -87,7 +87,7 @@ Na superfície tinta não entra. A tinta da página é a do Resultado, e o Antes
 - Modelo de Caso, Seção 04, a conversa. "O mesmo lead de Instagram, nas duas versões da fronteira de entrada", com "Conversa abandonada" de um lado e "Lead convertido" do outro, e a legenda "Conversa ilustrativa."
 - Vitrine, na amostra e no palco do Antes e depois, com a citação do Inpulse, a conversa do Omnichat e o confronto do Processo.
 - Nas páginas publicadas, o Confronto do Processo, Seção 08. "O mesmo time, com o eixo do trabalho deslocado", em quatro dimensões, "Prototipação", "Validação qualitativa", "Rituais" e "Testes A/B".
-- A Citação do Inpulse, na Seção 01. "O que o aluno dizia", com a nota 2 no NPS de uma estudante do 3º semestre antes e a aluna do 5º semestre depois.
+- A Citação do Inpulse, na Seção 02, "O aluno". "O que o aluno dizia", com a nota 2 no NPS de uma estudante do 3º semestre antes e a aluna do 5º semestre depois.
 
 ## Vizinhos
 

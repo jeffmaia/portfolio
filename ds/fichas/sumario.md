@@ -4,7 +4,7 @@
 
 ## Use quando
 
-A página tem de quatro a seis Seções numeradas, que é o Caso. O leitor escaneia antes de ler e precisa saber em que parte está, quanto já passou e como pular para outra.
+A página tem de quatro a oito Seções numeradas, que é o Caso. O leitor escaneia antes de ler e precisa saber em que parte está, quanto já passou e como pular para outra.
 
 ## Não use quando
 
@@ -39,7 +39,7 @@ O Sumário não vai para a superfície tinta.
 ## Limites
 
 - Um por página, só no Caso.
-- De quatro a seis itens, um por Seção. O CSS escalona a chegada até o sexto.
+- De quatro a oito itens, um por Seção. O CSS escalona a chegada até o oitavo.
 - Nome de até duas palavras, numa linha na coluna de 260px. No trilho, número e nome cabem juntos no aviso, que não quebra linha.
 - Um ícone por item, sem repetir dentro do Sumário. Fora dele os ícones podem voltar (regra 8 do `ds/RITMO.md`).
 
@@ -64,8 +64,9 @@ O Sumário não vai para a superfície tinta.
 ## Onde aparece
 
 - Modelo de Caso e `case-omnichat.html`. "01 Contexto", "02 O problema", "03 Processo", "04 Antes e depois" e "05 Resultado", com os ícones robô, fronteira, camadas, diálogo e gráfico.
+- Nos outros três casos, com cinco Seções no Mapa e no Inpulse e oito no Processo.
 - A vitrine (`ds/vitrine/index.html`), com as cinco ondas da Fase 5 como Seções.
-- Nas páginas publicadas não existe. Nasceu com a variação 4, e o trilho venceu a faixa no cabeçalho e o botão flutuante (ver `ds/FUNDAMENTOS.md`).
+- Nasceu com a variação 4, e o trilho venceu a faixa no cabeçalho e o botão flutuante (ver `ds/FUNDAMENTOS.md`).
 
 ## Vizinhos
 

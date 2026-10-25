@@ -497,7 +497,7 @@ button { font: inherit; color: inherit; }
 .tabs__lista { display: none; }
 .tabs__painel { display: grid; gap: var(--space-12); padding-block: var(--space-24); border-top: var(--stroke) solid var(--border); }
 .tabs__painel:last-child { border-bottom: var(--stroke) solid var(--border); }
-.tabs__painel-titulo { display: flex; gap: var(--space-12); align-items: baseline; font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.tabs__painel-titulo { display: flex; gap: var(--space-12); align-items: center; font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
 .tabs__efeito, .card__efeito, .step__efeito { display: grid; gap: var(--space-4); font-size: var(--text-apoio); padding: var(--space-16); border-radius: var(--radius); background: var(--muted); color: var(--ink); }
 
 .tabs--js .tabs__lista {
@@ -520,10 +520,11 @@ button { font: inherit; color: inherit; }
 @keyframes painel-entra { from { opacity: 0; transform: translateY(8px); } }
 .tabs--js .tabs__painel-titulo { display: none; }
 
+/* O ícone, o número e o nome se alinham pelo centro, como no Sumário. */
 .tab {
   display: flex;
   gap: var(--space-12);
-  align-items: baseline;
+  align-items: center;
   width: 100%;
   min-height: var(--alvo);
   padding: var(--space-12) var(--space-16);
@@ -696,21 +697,50 @@ button { font: inherit; color: inherit; }
 .chart [data-tom="cheio"] { background: var(--acento); }
 .chart [data-tom="trama"] { background: repeating-linear-gradient(135deg, var(--foreground) 0 1.5px, transparent 1.5px 6px) var(--background); }
 .chart [data-tom="vazio"] { background: var(--background); }
+.chart [data-tom="muted"] { background: var(--muted); }
 .chart__nome { font-size: var(--text-apoio); font-weight: 700; line-height: 1.3; }
 
-/* Barras. Cada grandeza é um grupo, o antes em trama e o depois
-   cheio, e o valor encostado na direita, sobre a ponta do trilho. */
-.chart__grupos { display: grid; gap: var(--space-32) var(--grade-vao); }
-.chart__grupo { display: grid; gap: var(--space-16); align-content: start; min-width: 0; }
-.chart__linhas { display: grid; gap: var(--space-16); }
-.chart__linha { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: var(--space-8) var(--space-16); }
-.chart__linha > .chart__trilho { grid-column: 1 / -1; }
-.chart__rotulo { font-size: var(--text-apoio); line-height: 1.4; }
-.chart__valor { font-weight: 700; line-height: 1.3; text-align: right; font-variant-numeric: tabular-nums; }
-/* O preenchimento passa 2px do valor, e o fio da ponta some debaixo
+/* Barras. Cada grandeza é um grupo, com o antes e o depois no mesmo
+   trilho, como na escala. O antes é a área de muted e o depois é o
+   acento, cada um com um fio de tinta na ponta, só dentro do trilho.
+   A barra menor fica por cima, para as
+   duas cores aparecerem sempre: numa queda o acento cobre o começo do
+   muted e o resto do muted é o que saiu, e num salto o muted cobre o
+   começo do acento e o resto do acento é o que cresceu.
+
+   Os dois valores ficam numa linha só, acima do trilho, e cada um
+   termina sobre a ponta da sua barra, na ordem das pontas. O menor
+   termina na ponta dele e o maior na dele, então os dois não se
+   cobrem. Numa queda o depois é o menor (data-sentido="queda"). */
+.chart__grupos { display: grid; gap: var(--space-48) var(--grade-vao); }
+.chart__grupo {
+  --pmin: calc(min(var(--antes), var(--depois)) * 1%);
+  --pmax: calc(max(var(--antes), var(--depois)) * 1%);
+  display: grid;
+  gap: var(--space-12);
+  align-content: start;
+  min-width: 0;
+}
+.chart__marcos { display: grid; grid-template-columns: minmax(max-content, var(--pmin)) minmax(max-content, calc(var(--pmax) - var(--pmin))) 1fr; }
+/* Cada marco se alinha ao lado da barra a que ele se liga. O da barra
+   menor, que nasce na esquerda do trilho, se alinha pela esquerda. O da
+   maior termina na ponta dela e se alinha pela direita. */
+.chart__marcos > .chart__marco { grid-row: 1; display: flex; flex-direction: column; gap: var(--space-4); padding-inline-end: var(--space-4); }
+.chart__marcos > [data-ponto="antes"], [data-sentido="queda"] .chart__marcos > [data-ponto="depois"] { grid-column: 1; justify-self: start; align-items: start; text-align: start; }
+.chart__marcos > [data-ponto="depois"], [data-sentido="queda"] .chart__marcos > [data-ponto="antes"] { grid-column: 2; justify-self: end; align-items: end; text-align: end; }
+.chart__valor { font-size: var(--text-lead); font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.chart__barra { position: relative; }
+.chart[data-variant="barras"] .chart__trilho { height: 32px; }
+.chart__antes, .chart__preenche { position: absolute; top: 0; bottom: 0; left: 0; }
+.chart__antes { width: calc(max(4px, var(--antes) * 1%) + var(--stroke)); background: var(--muted); }
+.chart__grupo:not([data-sentido="queda"]) .chart__antes { z-index: 1; }
+/* As duas barras passam 2px do valor, e o fio da ponta some debaixo
    do contorno quando chega a 100, para a ponta não engrossar. Um valor
    muito pequeno ainda deixa ver um traço. */
-.chart__preenche { flex: none; width: calc(max(4px, var(--valor) * 1%) + var(--stroke)); border-right: var(--stroke) solid var(--border); }
+.chart__antes, .chart__preenche { border-right: var(--stroke) solid var(--border); }
+.chart__preenche { width: calc(max(4px, var(--depois) * 1%) + var(--stroke)); }
+.chart__chave { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); font-size: var(--text-apoio); }
+.chart__chave > span { display: inline-flex; align-items: center; gap: var(--space-8); }
 
 /* Pilhas. Uma faixa por grupo, e a faixa inteira é o total. Cada
    parte ocupa a proporção da contagem dela (--n), com um fio de tinta
@@ -731,20 +761,25 @@ button { font: inherit; color: inherit; }
 /* Escala. Um eixo com sinal, de --min a --max (−100 a +100, o do NPS),
    o zero marcado acima e abaixo do eixo e o percurso do antes ao depois
    cheio. O antes é um ponto vazado e o depois um ponto de tinta. Os
-   dois valores ficam acima do eixo, cada um na sua linha, para nunca
-   se encostarem por perto que fiquem. Cada um se ancora na própria
-   posição, à esquerda no começo do eixo e à direita no fim. */
+   dois valores ficam numa linha só, acima do próprio ponto e na ordem
+   dos pontos. O da esquerda termina no ponto dele e o da direita começa
+   no dele, então os dois nunca se cobrem, por perto que fiquem. Perto
+   da borda o valor empurra e passa por cima do ponto. Numa queda o
+   depois fica à esquerda (data-sentido="queda"). */
 .chart[data-variant="escala"] {
   --min: -100;
   --max: 100;
   --pa: calc((var(--antes) - var(--min)) / (var(--max) - var(--min)) * 100%);
   --pd: calc((var(--depois) - var(--min)) / (var(--max) - var(--min)) * 100%);
   --pz: calc((0 - var(--min)) / (var(--max) - var(--min)) * 100%);
+  --pe: min(var(--pa), var(--pd));
+  --pdir: max(var(--pa), var(--pd));
 }
-.chart__escala { display: grid; gap: var(--space-8); }
-.chart__marco { position: relative; left: var(--p); display: flex; align-items: baseline; gap: var(--space-8); width: fit-content; transform: translateX(calc(var(--p) * -1)); }
-.chart__marco[data-ponto="antes"] { --p: var(--pa); }
-.chart__marco[data-ponto="depois"] { --p: var(--pd); }
+.chart__escala { display: grid; grid-template-columns: minmax(max-content, var(--pe)) 1fr minmax(max-content, calc(100% - var(--pdir))); row-gap: var(--space-8); }
+.chart__escala > :not(.chart__marco) { grid-column: 1 / -1; }
+.chart__escala > .chart__marco { grid-row: 1; display: flex; flex-direction: column-reverse; gap: var(--space-4); }
+.chart__escala > [data-ponto="antes"], [data-sentido="queda"] .chart__escala > [data-ponto="depois"] { grid-column: 1; align-items: end; padding-inline-end: var(--space-4); text-align: end; }
+.chart__escala > [data-ponto="depois"], [data-sentido="queda"] .chart__escala > [data-ponto="antes"] { grid-column: 3; align-items: start; padding-inline-start: var(--space-4); }
 .chart__numero { font-family: var(--font-display); font-size: var(--text-sub); line-height: 1; font-variant-numeric: tabular-nums; }
 .chart__eixo {
   position: relative;
@@ -769,11 +804,12 @@ button { font: inherit; color: inherit; }
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 2;
   background: var(--background);
   transform-origin: right;
   transition: transform var(--dur-lenta) var(--ease-saida) var(--dur-media);
 }
-.js-mov .chart[data-revelar] :is(.chart__grupo + .chart__grupo, .chart__linha + .chart__linha) .chart__trilho::after { transition-delay: calc(var(--dur-media) + var(--dur-rapida)); }
+.js-mov .chart[data-revelar] .chart__grupo + .chart__grupo .chart__trilho::after { transition-delay: calc(var(--dur-media) + var(--dur-rapida)); }
 .js-mov .chart[data-revelar].revelado .chart__trilho::after { transform: scaleX(0); }
 .js-mov .chart[data-revelar] .chart__percurso { clip-path: inset(0 100% 0 0); transition: clip-path var(--dur-lenta) var(--ease-saida) var(--dur-media); }
 .js-mov .chart[data-revelar].revelado .chart__percurso { clip-path: inset(0); }
@@ -820,6 +856,24 @@ button { font: inherit; color: inherit; }
    para de crescer antes de virar paisagem, e o aparelho fica do mesmo
    tamanho em qualquer largura. */
 .figure[data-formato="retrato"] > .figure__quadro { max-width: 400px; }
+
+/* Recorte. Quando a imagem tem fundo em volta do que importa (telas
+   espalhadas na diagonal), a moldura fica em 16:9 e a imagem cresce
+   por dentro, centrada, até o fundo sair do quadro. O quanto cresce
+   (--zoom) é medido na imagem, e é a página que escreve. */
+.figure[data-recorte] > .figure__quadro { aspect-ratio: 16 / 9; }
+.figure[data-recorte] > .figure__quadro > img { height: 100%; object-fit: cover; scale: var(--zoom, 1); }
+
+/* Ao lado. Uma tela de celular é estreita, e sozinha na coluna deixa
+   metade da Seção vazia ao lado. Com 760px de Seção o texto que leva
+   até ela corre à esquerda e a moldura fica à direita, com o Link logo
+   embaixo. Na Seção estreita o texto vem antes e a tela depois. */
+.figure-ao-lado { display: grid; gap: var(--space-32) var(--grade-vao); align-items: start; }
+@container (min-width: 760px) {
+  .figure-ao-lado { grid-template-columns: minmax(0, 1fr) minmax(0, 400px); grid-template-rows: auto 1fr; column-gap: var(--space-48); }
+  .figure-ao-lado > .prosa { grid-row: 1 / span 2; }
+  .figure-ao-lado > :not(.prosa) { grid-column: 2; }
+}
 
 /* Galeria. As telas abertas, na ordem do percurso, sem seta e sem
    ponto, porque estão todas à vista. Duas por linha com 600px de
@@ -1123,6 +1177,8 @@ html:not(.js) .menu-botao { display: none; }
   .sumario__lista > li:nth-child(4) { --i: 3; }
   .sumario__lista > li:nth-child(5) { --i: 4; }
   .sumario__lista > li:nth-child(6) { --i: 5; }
+  .sumario__lista > li:nth-child(7) { --i: 6; }
+  .sumario__lista > li:nth-child(8) { --i: 7; }
 
   /* O nome da seção, ao lado das marcas enquanto a página rola. */
   .js .sumario__aviso {
@@ -1269,7 +1325,7 @@ html:not(.js) .menu-botao { display: none; }
   z-index: 1;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: min(9cqi, 8.5rem);
+  font-size: var(--text-hero);
   line-height: var(--leading-display);
   letter-spacing: 0.005em;
   text-transform: uppercase;
@@ -1315,7 +1371,7 @@ html:not(.js) .menu-botao { display: none; }
 }
 @container (max-width: 599px) {
   .hero { --traco-rascunho: 1.5px; }
-  .hero__frase { font-size: 23cqi; }
+  .hero__frase { font-size: var(--text-hero-estreito); }
   .hero__linha { width: auto; white-space: normal; }
   .hero__q { display: block; width: fit-content; }
   .hero__linha + .hero__linha { margin-top: .22em; }
