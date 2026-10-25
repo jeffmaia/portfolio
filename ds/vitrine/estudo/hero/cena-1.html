@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="lime">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Hero, cena 1, Rascunho · Estudo da vitrine</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__rolar { min-height: 60vh; }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+
+.eh {
+  container-type: inline-size;
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: var(--space-48);
+  /* A primeira tela deixa ver o começo da Lista de casos, o rótulo e o
+     alto dos primeiros Cartões, para ficar claro que a página continua. */
+  min-height: calc(100svh - var(--altura-cabecalho) - 9rem);
+  padding-block: var(--space-48);
+}
+/* A frase do tamanho da coluna. A primeira linha, a mais longa, ocupa
+   10,8 vezes o tamanho da fonte em Anton, e 9cqi deixa uma folga. */
+.eh__frase {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: min(9cqi, 8.5rem);
+  line-height: var(--leading-display);
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+}
+.eh__linha { position: relative; display: block; width: fit-content; white-space: nowrap; }
+.eh__q { position: relative; }
+.eh__p { position: relative; display: inline-block; isolation: isolate; }
+.eh__apoio { position: relative; z-index: 1; max-width: 34ch; }
+.eh__adesivo { position: absolute; z-index: 2; width: max(36px, var(--t, .6em)); height: auto; transform: rotate(var(--g, 0deg)); }
+/* Os adesivos do ofício sentam na primeira linha, e os do jeito de
+   fazer embaixo da segunda. */
+.eh__a--lapis   { --t: .62em; --g: -14deg; left: -.34em; top: -.46em; }
+.eh__a--lupa    { --t: .56em; --g: 9deg;   left: 54%;    top: -.52em; }
+.eh__a--pessoa  { --t: .6em;  --g: -6deg;  right: -.42em; top: -.5em; }
+.eh__a--janela  { --t: .56em; --g: -10deg; left: 50%;    top: 2.3em; }
+.eh__a--dialogo { --t: .52em; --g: 8deg;   left: 64%;    top: 2.42em; }
+.eh__a--celular { --t: .54em; --g: 12deg;  left: 77%;    top: 2.26em; }
+.eh__a--camadas { --t: .5em;  --g: -8deg;  right: -.3em; top: 2.32em; }
+.eh__a--esboco  { --t: .86em; --g: 7deg;   right: 3%;    top: 1.08em; }
+/* No celular cada frase quebra em três linhas, para a frase ganhar o
+   peso que tem no desktop. A linha mais larga, "O MESMO.", ocupa 3,8
+   vezes o tamanho da fonte, e 23cqi deixa uma folga. As linhas curtas
+   deixam espaço à direita, e os adesivos descem pela tela nesse vão,
+   os do ofício nas três primeiras e os do jeito de fazer nas três
+   últimas. */
+@media (max-width: 719px) {
+  .eh { min-height: 0; padding-block: var(--space-48) var(--space-64); }
+}
+@container (max-width: 599px) {
+  .eh__frase { font-size: 23cqi; }
+  .eh__linha { width: auto; white-space: normal; }
+  .eh__q { display: block; width: fit-content; }
+  .eh__linha + .eh__linha { margin-top: .22em; }
+  .eh .eh__p--emenda::before { right: -.08em !important; border-right: var(--stroke) solid var(--ink) !important; border-radius: .06em !important; }
+  .eh .eh__p--jeito:not(.eh__p--emenda)::before { left: -.08em; border-left: var(--stroke) solid var(--ink) !important; border-radius: .06em; }
+  .eh__linha + .eh__linha > .eh__q:last-child { margin-top: .14em; }
+  .eh[data-cena="1"] .eh__frase { -webkit-text-stroke: 1.5px var(--ink); margin-top: .5em; }
+  .eh[data-cena="1"] .eh__hachura { background-image: repeating-linear-gradient(135deg, var(--ink) 0 1.5px, transparent 1.5px 7px); }
+  .eh[data-cena="1"] .eh__linha::before, .eh[data-cena="1"] .eh__linha::after { display: none; }
+  .eh[data-cena="1"] .eh__q::before,
+  .eh[data-cena="1"] .eh__q::after { content: ""; position: absolute; left: -2cqi; width: 104cqi; border-top: 1.5px dashed rgb(0 0 0 / .45); }
+  .eh[data-cena="1"] .eh__q::before { top: .25em; }
+  .eh[data-cena="1"] .eh__q::after { top: 1.02em; }
+  .eh__nota { font-size: 15px; }
+  .eh__nota--topo { right: auto !important; left: 0; top: -1.6em !important; }
+  .eh__adesivo { --t: 48px; }
+  .eh__a--pessoa  { left: auto;  right: 0;    top: .38em; }
+  .eh__a--lapis   { left: auto;  right: 16%;  top: .26em; }
+  .eh__a--lupa    { left: auto;  right: 0;    top: 1.52em; }
+  .eh__a--janela  { left: auto;  right: 15%;  top: 4.02em; }
+  .eh__a--dialogo { left: auto;  right: 0;    top: 4.22em; }
+  .eh__a--celular { left: auto;  right: 1%;   top: 5.32em; }
+  .eh__a--camadas { left: 2.1em; right: auto; top: 6.58em; }
+  .eh__a--esboco  { --t: 76px;   right: 0;    top: 6.2em; }
+}
+.eh__rotulo { position: absolute; font-family: var(--font-texto); }
+
+/* 1. Rascunho */
+.eh[data-cena="1"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgb(0 0 0 / .14) 1px, transparent 1px) 0 0 / calc((100% + var(--grade-vao)) / 12) 100%;
+  pointer-events: none;
+}
+.eh[data-cena="1"] .eh__frase { color: transparent; -webkit-text-stroke: 2px var(--ink); filter: url(#tremor); }
+.eh[data-cena="1"] .eh__linha::before,
+.eh[data-cena="1"] .eh__linha::after {
+  content: "";
+  position: absolute;
+  left: -2cqi;
+  width: 104cqi;
+  border-top: 1.5px dashed rgb(0 0 0 / .45);
+}
+.eh[data-cena="1"] .eh__linha::before { top: .25em; }
+.eh[data-cena="1"] .eh__linha::after { top: 1.02em; }
+.eh__hachura { background: repeating-linear-gradient(135deg, var(--ink) 0 2px, transparent 2px 9px); -webkit-background-clip: text; background-clip: text; }
+.eh[data-cena="1"] .eh__p--nao::after {
+  content: "";
+  position: absolute;
+  inset: -.06em -.2em -.02em -.16em;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  transform: rotate(-4deg);
+}
+.eh__nota { position: absolute; font-family: var(--font-flare); font-weight: 300; font-size: max(16px, .2em); line-height: 1.1; letter-spacing: 0; text-transform: none; -webkit-text-stroke: 0; color: var(--ink); white-space: nowrap; }
+.eh__esboco-apoio { width: min(100%, 520px); height: auto; }
+
+/* 2 e 3. Cores. O fundo de cada palavra é um adesivo com contorno de
+   tinta, atrás do texto. */
+.eh[data-cena="2"] .eh__p::before, .eh[data-cena="3"] .eh__p::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border: var(--stroke) solid var(--ink);
+}
+.eh__p--oficio::before { inset: .14em -.1em .08em; background: var(--lime); border-radius: .1em; transform: rotate(-2deg); }
+.eh__p--mesmo::before { width: 1.15em; aspect-ratio: 1; right: -.28em; top: -.08em; background: var(--azul); border-radius: 50%; }
+.eh__p--jeito::before { left: -.08em; right: -.08em; bottom: .02em; height: .36em; background: var(--verde); border-radius: .06em; transform: skewX(-12deg); }
+/* No desktop os dois pedaços de "jeito de fazer," são uma faixa só:
+   o primeiro cobre o espaço, e os contornos de dentro somem. */
+.eh__p--emenda::before { right: -.4em !important; border-right: 0 !important; border-radius: .06em 0 0 .06em !important; }
+.eh__p--jeito:not(.eh__p--emenda)::before { left: 0; border-left: 0 !important; border-radius: 0 .06em .06em 0; }
+.eh__p--nao::before { inset: -.12em -.12em .06em; background: var(--ink); border-radius: .1em; transform: rotate(3deg); }
+.eh[data-cena="2"] .eh__p--nao, .eh[data-cena="3"] .eh__p--nao { color: var(--paper); }
+</style>
+</head>
+<body>
+
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="../../../../case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="tremor"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="3.5"/></filter>
+</svg>
+<main id="conteudo" class="container">
+  <section class="eh" data-cena="1" aria-labelledby="eh-frase">
+  <h1 class="eh__frase" id="eh-frase"><span class="eh__linha"><span class="eh__q">o&nbsp;<span class="eh__p eh__p--oficio eh__hachura">ofício</span></span> <span class="eh__q">continua</span> <span class="eh__q">o&nbsp;<span class="eh__p eh__p--mesmo">mesmo.</span></span></span><span class="eh__linha"><span class="eh__q">o&nbsp;<span class="eh__p eh__p--jeito eh__p--emenda">jeito</span></span> <span class="eh__q"><span class="eh__p eh__p--jeito">de&nbsp;fazer,</span></span> <span class="eh__q"><span class="eh__p eh__p--nao">não.</span></span></span><span class="eh__nota eh__nota--topo" aria-hidden="true" style="right: -1cqi; top: -.42em">Anton, o maior da tela</span><span class="eh__nota" aria-hidden="true" style="right: 0; bottom: -.5em">o não fica</span></h1>
+  <svg class="eh__esboco-apoio" viewBox="0 0 520 90" fill="none" aria-hidden="true" focusable="false"><g stroke="#000" stroke-width="2.5" stroke-linecap="round" filter="url(#tremor)"><path d="M4 14C159.33333333333334 16 314.6666666666667 17 470 15.0"/><path d="M4 46C169.33333333333334 44 334.6666666666667 48 500 45.0"/><path d="M4 78C102.66666666666667 75 201.33333333333334 79 300 76.5"/></g></svg><p class="sr">Ajudo times de&nbsp;produto e&nbsp;design a&nbsp;integrar IA no&nbsp;processo real de&nbsp;trabalho, não&nbsp;só na&nbsp;ferramenta.</p>
+</section>
+  <section class="lista-casos" id="casos" aria-labelledby="casos-titulo">
+  <h2 class="section__rotulo t-rotulo" id="casos-titulo">Quatro casos</h2>
+  <div class="cards" data-layout="mosaico"><article class="card" data-variant="caso" data-acento="lime" data-tamanho="meio">
+    <p class="t-rotulo">01 · Processo com IA</p>
+    <h3>Reconstruindo o&nbsp;processo de&nbsp;produto e&nbsp;design com&nbsp;Claude no&nbsp;centro</h3>
+    <p class="t-apoio">A maior mudança não foi trocar de ferramenta. Foi perceber quantas reuniões existiam só porque ninguém tinha um jeito melhor de&nbsp;transformar uma conversa em&nbsp;entregável.</p>
+    <div class="card__base">
+      <div class="stat" data-variant="salto">
+        <span class="stat__antes"><span class="sr">De </span>2 meses</span>
+        <span class="stat__valor"><span class="sr">para </span>1 semana</span>
+        <p class="stat__frase">de discovery, no&nbsp;lugar de&nbsp;um a&nbsp;dois meses</p>
+      </div>
+      <p class="card__ficha">Liderança de produto e design · 1 mês</p>
+      <a class="link" data-variant="seguir" href="../../../../case-processo.html"><span>Ver o caso<span class="sr">, Processo com IA</span></span> <i aria-hidden="true">→</i></a>
+    </div>
+  </article><article class="card" data-variant="caso" data-acento="azul" data-tamanho="meio">
+    <p class="t-rotulo">02 · Omnichat</p>
+    <h3>Verificação de&nbsp;intenção dos&nbsp;agentes conversacionais</h3>
+    <p class="t-apoio">A maior perda de conversão não estava na&nbsp;interface. Estava na&nbsp;camada onde a&nbsp;intenção do&nbsp;lead entra no&nbsp;sistema.</p>
+    <div class="card__base">
+      <div class="stat" data-variant="salto">
+        <span class="stat__antes"><span class="sr">De </span>24%</span>
+        <span class="stat__valor"><span class="sr">para </span>32%</span>
+        <p class="stat__frase">de conversão de leads qualificados nas&nbsp;origens redesenhadas</p>
+      </div>
+      <p class="card__ficha">Product Design Manager · 4 meses</p>
+      <a class="link" data-variant="seguir" href="../../../../case-omnichat.html"><span>Ver o caso<span class="sr">, Omnichat</span></span> <i aria-hidden="true">→</i></a>
+    </div>
+  </article><article class="card" data-variant="caso" data-acento="verde" data-tamanho="meio">
+    <p class="t-rotulo">03 · Inpulse</p>
+    <h3>Solução que&nbsp;ajudou a&nbsp;diminuir a&nbsp;recuperação dos&nbsp;alunos</h3>
+    <p class="t-apoio">Uma prova de medicina vira cinco notas separadas e cinco recuperações independentes. Não existia lugar nenhum onde o&nbsp;aluno visse isso junto antes de&nbsp;já estar em&nbsp;recuperação.</p>
+    <div class="card__base">
+      <div class="stat" data-variant="salto">
+        <span class="stat__antes"><span class="sr">De </span>8 em 10</span>
+        <span class="stat__valor"><span class="sr">para </span>6 em 10</span>
+        <p class="stat__frase">avaliações em recuperação, em média, numa base de&nbsp;420&nbsp;alunos</p>
+      </div>
+      <p class="card__ficha">Idealizador, mentor e designer · 10 meses</p>
+      <a class="link" data-variant="seguir" href="../../../../case-inpulse.html"><span>Ver o caso<span class="sr">, Inpulse</span></span> <i aria-hidden="true">→</i></a>
+    </div>
+  </article><article class="card" data-variant="caso" data-acento="azul" data-tamanho="meio">
+    <p class="t-rotulo">04 · Mapa de experiência</p>
+    <h3>Como um&nbsp;mapa de&nbsp;experiência ajudou a&nbsp;deixar o&nbsp;NPS positivo</h3>
+    <p class="t-apoio">Um relatório de pesquisa que 16 campus liam e a&nbsp;partir do&nbsp;qual agiam, em&nbsp;vez de&nbsp;arquivar junto com&nbsp;os&nbsp;outros.</p>
+    <div class="card__base">
+      <div class="stat" data-variant="salto">
+        <span class="stat__antes"><span class="sr">De </span>−33</span>
+        <span class="stat__valor"><span class="sr">para </span>+15</span>
+        <p class="stat__frase">de NPS, a nota geral de&nbsp;um grupo com&nbsp;16&nbsp;campus</p>
+      </div>
+      <p class="card__ficha">Idealizador e mentor · 3 meses</p>
+      <a class="link" data-variant="seguir" href="../../../../case-mapa-experiencia.html"><span>Ver o caso<span class="sr">, Mapa de experiência</span></span> <i aria-hidden="true">→</i></a>
+    </div>
+  </article></div>
+</section>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="../../../../case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="../../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../../assets/ds/componentes.js"></script>
+</body>
+</html>

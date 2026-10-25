@@ -1,0 +1,502 @@
+[
+ {
+  "familia": "Casca, toda página divide",
+  "nome": "Pular para o conteúdo",
+  "faz": "Atalho de teclado que salta a navegação",
+  "seletor": ".pular",
+  "par": [],
+  "captura": false
+ },
+ {
+  "familia": "Casca, toda página divide",
+  "nome": "Barra com assinatura",
+  "faz": "Topo fixo, a assinatura encolhe até o J na rolagem e inverte sobre o escuro",
+  "seletor": ".nav",
+  "par": [
+   "Moldura, cabeçalho"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Casca, toda página divide",
+  "nome": "Botão de menu",
+  "faz": "Dois traços que se juntam no hover e cruzam no clique",
+  "seletor": ".menu-btn",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Casca, toda página divide",
+  "nome": "Menu em painel",
+  "faz": "Casos e links de fora, com uma retícula de pontos sobre a página",
+  "seletor": ".menu, .reticula",
+  "par": [],
+  "captura": "menu"
+ },
+ {
+  "familia": "Casca, toda página divide",
+  "nome": "Superfícies papel e tinta",
+  "faz": "Fundo claro com trama e fundo escuro, alternando por seção",
+  "seletor": ".tinta, .folha",
+  "par": [
+   "BlocoTinta"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Casca, toda página divide",
+  "nome": "Onda",
+  "faz": "Borda ondulada entre seções, com morro para a seta e física na rolagem",
+  "seletor": ".onda--clara, .onda--escura, .onda-defs",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Casca, toda página divide",
+  "nome": "Rodapé de contato",
+  "faz": "Chamada, WhatsApp, LinkedIn e colunas de links",
+  "seletor": ".footer",
+  "par": [
+   "Fechamento"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Casca, toda página divide",
+  "nome": "Voltar ao topo",
+  "faz": "Seta que sobe junto com o morro da onda no fim da página",
+  "seletor": ".subir",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Casca, toda página divide",
+  "nome": "Passagem entre páginas",
+  "faz": "Cortina com o J e o traço que vira barra de progresso",
+  "seletor": ".transicao",
+  "par": [],
+  "captura": false
+ },
+ {
+  "familia": "Ação e navegação",
+  "nome": "Botão principal",
+  "faz": "Ação mais importante da área, preenchido com seta",
+  "seletor": ".btn-green",
+  "par": [
+   "Tag preenchida"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Ação e navegação",
+  "nome": "Link",
+  "faz": "Sublinhado, com seta inclinada quando sai do site",
+  "seletor": ".link, .link-solto",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Ação e navegação",
+  "nome": "Voltar para os casos",
+  "faz": "Primeira linha do topo de cada caso",
+  "seletor": ".voltar",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Ação e navegação",
+  "nome": "Próximo caso",
+  "faz": "Fecha o caso levando ao seguinte da fila",
+  "seletor": ".proximo-link",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Ação e navegação",
+  "nome": "Seta de descer",
+  "faz": "Convite para rolar, sentada no morro da onda",
+  "seletor": ".descer",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Ação e navegação",
+  "nome": "Trilho de pontos",
+  "faz": "Navegação direta entre os quatro casos da cena",
+  "seletor": ".cena__trilho",
+  "par": [
+   "RitmoCarrossel"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Texto e rótulo",
+  "nome": "Micro rótulo",
+  "faz": "Caixa alta pequena que nomeia o bloco",
+  "seletor": ".micro",
+  "par": [
+   "rótulo da Moldura"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Texto e rótulo",
+  "nome": "Etiquetas de assunto",
+  "faz": "Tema do caso, a última no acento",
+  "seletor": ".etiquetas",
+  "par": [
+   "TagCard"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Texto e rótulo",
+  "nome": "Cabeçalho de seção",
+  "faz": "Número, régua e título",
+  "seletor": ".secao__topo",
+  "par": [
+   "Moldura, cabeçalho"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Texto e rótulo",
+  "nome": "Abertura",
+  "faz": "Primeiro parágrafo do caso, em corpo maior",
+  "seletor": ".abertura",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Texto e rótulo",
+  "nome": "Corpo de texto",
+  "faz": "Texto corrido, em uma ou duas colunas",
+  "seletor": ".corpo-texto",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Texto e rótulo",
+  "nome": "Grito",
+  "faz": "A frase que a seção existe para carregar, com legenda",
+  "seletor": ".grito",
+  "par": [
+   "CenaPagina",
+   "BlocoTinta"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Texto e rótulo",
+  "nome": "Linha de nota",
+  "faz": "Rótulo na margem e o que destravou ao lado",
+  "seletor": ".linha-nota",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Texto e rótulo",
+  "nome": "Atrito",
+  "faz": "O que deu errado no caminho e a regra que nasceu dele",
+  "seletor": ".atrito",
+  "par": [
+   "BlocoTinta"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Texto e rótulo",
+  "nome": "Citação",
+  "faz": "Fala de usuário com autoria, antes e depois",
+  "seletor": ".citacoes",
+  "par": [
+   "Citacao",
+   "AntesDepois"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Texto e rótulo",
+  "nome": "Declaração final",
+  "faz": "O que o caso deixa, em frase de fechamento",
+  "seletor": ".fecho--unido",
+  "par": [
+   "Fechamento"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Abertura de página",
+  "nome": "Hero editorial",
+  "faz": "Frase em quatro fileiras com fotos que trocam e deslizam",
+  "seletor": ".hero",
+  "par": [
+   "Capa"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Abertura de página",
+  "nome": "Topo do caso",
+  "faz": "Etiquetas, título, texto de apoio e o salto do resultado",
+  "seletor": ".caso-topo",
+  "par": [
+   "CapaSangrada"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Abertura de página",
+  "nome": "Salto",
+  "faz": "Número antigo riscado e o novo grande",
+  "seletor": ".salto",
+  "par": [
+   "Dado",
+   "NumeroSangrado"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Abertura de página",
+  "nome": "Convite ao manifesto",
+  "faz": "Respiro claro entre os casos e o rodapé",
+  "seletor": ".fecho:has(.fecho__link)",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Organização",
+  "nome": "Contêiner de página",
+  "faz": "Coluna central com margem lateral, que prende o conteúdo à largura de leitura",
+  "seletor": ".wrap",
+  "par": [
+   "safe-side, canvas"
+  ],
+  "captura": false,
+  "nova": true
+ },
+ {
+  "familia": "Organização",
+  "nome": "Seção",
+  "faz": "Moldura de cada parte do caso, com variantes de grade",
+  "seletor": ".secao",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Organização",
+  "nome": "Bloco com rótulo",
+  "faz": "Grupo de rótulo e conteúdo dentro da seção",
+  "seletor": ".bloco",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Organização",
+  "nome": "Ficha do projeto",
+  "faz": "Duração, papel e time",
+  "seletor": ".ficha, .ficha-lateral, .faixa-ficha",
+  "par": [
+   "Cards"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Organização",
+  "nome": "Cena dos casos",
+  "faz": "Palco fixo que troca o caso na rolagem, com contador",
+  "seletor": ".cena",
+  "par": [
+   "Cards"
+  ],
+  "captura": "viewport"
+ },
+ {
+  "familia": "Organização",
+  "nome": "Orbe do número",
+  "faz": "Disco que repete o número do caso à frente",
+  "seletor": ".cena__orbe",
+  "par": [
+   "Dado"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Organização",
+  "nome": "Ações do fim",
+  "faz": "Convite para conversar e o próximo caso",
+  "seletor": ".acoes",
+  "par": [
+   "Fechamento"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Sequência e processo",
+  "nome": "Linhas indexadas",
+  "faz": "Itens numerados com título, texto e consequência",
+  "seletor": ".linhas",
+  "par": [
+   "Passos",
+   "Lista"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Sequência e processo",
+  "nome": "Estágios",
+  "faz": "Entrada, camada e saída, com o meio destacado",
+  "seletor": ".estagios",
+  "par": [
+   "Passos"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Sequência e processo",
+  "nome": "Abas",
+  "faz": "Saídas para explorar uma a uma, deitam em carrossel no celular",
+  "seletor": ".abas",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Sequência e processo",
+  "nome": "Ritos",
+  "faz": "Nome do rito e o que mudou nele",
+  "seletor": ".ritos",
+  "par": [
+   "Lista"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Sequência e processo",
+  "nome": "Funil",
+  "faz": "Cinco colunas que estreitam",
+  "seletor": ".funil",
+  "par": [
+   "Passos"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Sequência e processo",
+  "nome": "Trilha",
+  "faz": "Caminho curto de marcos na horizontal",
+  "seletor": ".rail",
+  "par": [
+   "Passos"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Comparação",
+  "nome": "Confronto",
+  "faz": "Tabela de dimensões com antes e depois",
+  "seletor": ".confronto",
+  "par": [
+   "AntesDepois"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Comparação",
+  "nome": "Conversa",
+  "faz": "Diálogo do agente antes e depois, com nota da camada",
+  "seletor": ".conversas",
+  "par": [
+   "AntesDepois"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Dados",
+  "nome": "Números do resultado",
+  "faz": "Quatro números que fecham a conta",
+  "seletor": ".numeros",
+  "par": [
+   "Dado"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Dados",
+  "nome": "Barras",
+  "faz": "Antes e depois que crescem na entrada",
+  "seletor": ".barras",
+  "par": [
+   "Barras"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Dados",
+  "nome": "Pilhas",
+  "faz": "Barras empilhadas por grupo de resposta, com legenda",
+  "seletor": ".pilhas",
+  "par": [
+   "Barras",
+   "Waffle"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Dados",
+  "nome": "Escala de NPS",
+  "faz": "Faixa de menos 100 a mais 100 com antes e depois",
+  "seletor": ".nps",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Mídia",
+  "nome": "Moldura",
+  "faz": "Protótipo ou tela em retrato, com borda",
+  "seletor": ".moldura",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Mídia",
+  "nome": "Galeria",
+  "faz": "Sequência de imagens na ordem do percurso",
+  "seletor": ".galeria",
+  "par": [],
+  "captura": true
+ },
+ {
+  "familia": "Mídia",
+  "nome": "Sangria",
+  "faz": "Imagem de borda a borda, sem moldura",
+  "seletor": ".sangria",
+  "par": [
+   "FaixaDividida"
+  ],
+  "captura": true
+ },
+ {
+  "familia": "Comportamento",
+  "nome": "Revelar na entrada",
+  "faz": "Sobe e aparece ao entrar na tela, com rede de segurança",
+  "seletor": "[data-revelar]",
+  "par": [],
+  "captura": false
+ },
+ {
+  "familia": "Comportamento",
+  "nome": "Régua de leitura",
+  "faz": "Progresso da leitura do caso",
+  "seletor": ".regua",
+  "par": [],
+  "captura": false
+ },
+ {
+  "familia": "Comportamento",
+  "nome": "Carrossel de tela estreita",
+  "faz": "Trilhas que deitam no celular",
+  "seletor": ".abas__lista, .rail",
+  "par": [],
+  "captura": false
+ }
+]

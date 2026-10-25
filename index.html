@@ -1,368 +1,188 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-acento="lime">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- Duas marcas postas antes do primeiro pixel.
-
-     .js: a folha de estilo só esconde o painel do menu quando
-     esta classe existe, então sem script nenhum link do site fica
-     inalcançável.
-
-     .chegando: a página anterior pediu a passagem, e a cortina
-     entra cobrindo e sai por baixo. A animação é de CSS puro; se
-     o script do rodapé falhar, ela sai sozinha e nunca deixa a
-     página coberta. -->
-<script>
-(function () {
-  var h = document.documentElement;
-  h.classList.add("js");
-  try {
-    if (sessionStorage.getItem("jm-passagem")) {
-      sessionStorage.removeItem("jm-passagem");
-      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) h.classList.add("chegando");
-    }
-  } catch (e) {}
-})();
-</script>
-
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
 <title>Jeff Maia · Product Design Manager</title>
-<meta name="description" content="Ajudo times de produto e design a integrar IA no processo real de trabalho, não só na ferramenta. Quatro casos: Omnichat, Inpulse, Mapa de Experiência e a reconstrução do processo de produto e design com Claude no centro.">
-<!-- O favicon é o mesmo desenho da marca encolhida: o "J" com o
-     sublinhado verde, sem ícone nem moldura à parte. -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23fafffa'/%3E%3Ctext x='50' y='72' font-family='Arial, Helvetica, sans-serif' font-weight='800' font-size='64' text-anchor='middle' fill='%23121613'%3EJ%3C/text%3E%3Crect x='27' y='78' width='46' height='7' rx='2' fill='%232bee4b'/%3E%3C/svg%3E">
+<meta name="description" content="Ajudo times de produto e design a integrar IA no processo real de trabalho, não só na ferramenta.">
+<script src="assets/analytics.js"></script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" href="assets/home.css">
-<script src="assets/analytics.js"></script>
+<link rel="stylesheet" href="assets/ds/tokens.css">
+<link rel="stylesheet" href="assets/ds/componentes.css">
+
 </head>
-<body class="face-unica">
+<body>
+<div class="carga" aria-hidden="true" data-sem-chegada hidden>
+  <div class="carga__quadro">
+    <svg class="carga__tela" viewBox="0 0 240 300" fill="none">
+      <g class="carga__esboco" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 10C70 6 160 12 232 8c4 82-2 202 2 284-74 4-164-2-228 2 4-84-2-204 2-284Z"/>
+        <path d="M24 40c66-3 126 3 192-1 2 31-2 61 1 89-67 3-127-2-194 2 3-30-1-60 1-90Z"/>
+        <path d="M26 42l188 84M214 41L25 128"/>
+        <path d="M24 152c56-3 106 3 156-2M24 168c46-3 86 2 116-2"/>
+        <path d="M24 192c36-3 66 2 88-1 2 29-2 54 1 77-33 3-63-2-91 2 3-26-1-54 2-78Z"/>
+        <path d="M128 192c32-3 62 2 88-1 2 29-2 54 1 77-27 3-57-2-90 2 3-26-1-54 1-78Z"/>
+      </g>
+      <g class="carga__camada carga__camada--grade" stroke="#000" stroke-width="1.6" stroke-dasharray="1 6" stroke-linecap="round">
+        <path d="M20 22v262M85 22v262M155 22v262M220 22v262M12 140h216"/>
+      </g>
+      <g class="carga__camada carga__camada--componentes" stroke="#000" stroke-width="2">
+        <rect x="2" y="2" width="236" height="296" rx="12"/>
+        <rect x="20" y="36" width="200" height="96" rx="8"/>
+        <rect x="36" y="104" width="64" height="18" rx="9"/>
+        <rect x="20" y="186" width="94" height="86" rx="8"/>
+        <rect x="126" y="186" width="94" height="86" rx="8"/>
+      </g>
+      <g class="carga__camada carga__camada--textos" fill="#000">
+        <rect x="36" y="50" width="122" height="10" rx="3"/>
+        <rect x="36" y="66" width="84" height="10" rx="3"/>
+        <rect x="36" y="84" width="104" height="5" rx="2.5"/>
+        <rect x="48" y="110" width="40" height="5" rx="2.5"/>
+        <rect x="20" y="148" width="148" height="6" rx="3"/>
+        <rect x="20" y="162" width="102" height="6" rx="3"/>
+        <rect x="32" y="204" width="56" height="6" rx="3"/>
+        <rect x="32" y="216" width="44" height="5" rx="2.5"/>
+        <rect x="138" y="204" width="56" height="6" rx="3"/>
+        <rect x="138" y="216" width="66" height="5" rx="2.5"/>
+      </g>
+      <g class="carga__camada carga__camada--cores">
+        <rect class="carga__cor" x="20" y="36" width="200" height="96" rx="8"/>
+        <rect x="36" y="104" width="64" height="18" rx="9" fill="#edfe5e"/>
+        <rect x="126" y="186" width="94" height="86" rx="8" fill="#dee5dd"/>
+      </g>
+    </svg>
+    <div class="carga__barra"><i></i></div>
+  </div>
+</div>
 
-<!-- Os recortes das ondas. O primeiro serve a todas as bordas
-     comuns: elas são desenhadas no mesmo quadro e na mesma fase, e o
-     clipPath em objectBoundingBox estica a forma até a largura de
-     cada seção. Os outros dois são as ondas que carregam uma seta e
-     incham num morro no meio da largura para recebê-la: uma para a
-     cena, outra para o rodapé, porque o morro do rodapé cresce com a
-     rolagem e o da cena não. Os três já vêm desenhados aqui, então
-     as bordas existem sem JS. -->
-<svg class="onda-defs" aria-hidden="true" focusable="false"><defs><clipPath id="onda-recorte" clipPathUnits="objectBoundingBox"><path id="onda-caminho" d="M0,1 L0.0000,0.5167 L0.0250,0.4905 L0.0500,0.4658 L0.0750,0.4438 L0.1000,0.4256 L0.1250,0.4120 L0.1500,0.4035 L0.1750,0.4001 L0.2000,0.4016 L0.2250,0.4074 L0.2500,0.4167 L0.2750,0.4284 L0.3000,0.4416 L0.3250,0.4551 L0.3500,0.4681 L0.3750,0.4800 L0.4000,0.4903 L0.4250,0.4988 L0.4500,0.5058 L0.4750,0.5116 L0.5000,0.5167 L0.5250,0.5218 L0.5500,0.5276 L0.5750,0.5346 L0.6000,0.5431 L0.6250,0.5534 L0.6500,0.5653 L0.6750,0.5783 L0.7000,0.5918 L0.7250,0.6050 L0.7500,0.6167 L0.7750,0.6260 L0.8000,0.6318 L0.8250,0.6333 L0.8500,0.6299 L0.8750,0.6214 L0.9000,0.6078 L0.9250,0.5896 L0.9500,0.5676 L0.9750,0.5429 L1.0000,0.5167 L1,1 Z"/></clipPath><clipPath id="onda-recorte-bolha" clipPathUnits="objectBoundingBox"><path id="onda-caminho-bolha" d="M0,1 L0.0000,0.7583 L0.0208,0.7474 L0.0417,0.7369 L0.0625,0.7272 L0.0833,0.7186 L0.1042,0.7115 L0.1250,0.7060 L0.1458,0.7023 L0.1667,0.7003 L0.1875,0.7001 L0.2083,0.7015 L0.2292,0.7041 L0.2480,0.7071 L0.2606,0.7091 L0.2732,0.7109 L0.2858,0.7119 L0.2984,0.7117 L0.3110,0.7094 L0.3236,0.7042 L0.3362,0.6949 L0.3488,0.6804 L0.3614,0.6594 L0.3740,0.6309 L0.3866,0.5944 L0.3992,0.5500 L0.4118,0.4986 L0.4244,0.4424 L0.4370,0.3843 L0.4496,0.3284 L0.4622,0.2790 L0.4748,0.2403 L0.4874,0.2159 L0.5000,0.2083 L0.5126,0.2185 L0.5252,0.2454 L0.5378,0.2870 L0.5504,0.3394 L0.5630,0.3987 L0.5756,0.4604 L0.5882,0.5208 L0.6008,0.5767 L0.6134,0.6261 L0.6260,0.6681 L0.6386,0.7024 L0.6512,0.7296 L0.6638,0.7506 L0.6764,0.7665 L0.6890,0.7786 L0.7016,0.7876 L0.7142,0.7946 L0.7268,0.8000 L0.7394,0.8044 L0.7520,0.8079 L0.7708,0.8120 L0.7917,0.8151 L0.8125,0.8165 L0.8333,0.8164 L0.8542,0.8144 L0.8750,0.8107 L0.8958,0.8052 L0.9167,0.7981 L0.9375,0.7895 L0.9583,0.7798 L0.9792,0.7693 L1.0000,0.7584 L1,1 Z"/></clipPath><clipPath id="onda-recorte-subir" clipPathUnits="objectBoundingBox"><path id="onda-caminho-subir" d="M0,1 L0.0000,0.7583 L0.0208,0.7474 L0.0417,0.7369 L0.0625,0.7272 L0.0833,0.7186 L0.1042,0.7115 L0.1250,0.7060 L0.1458,0.7023 L0.1667,0.7003 L0.1875,0.7001 L0.2083,0.7015 L0.2292,0.7041 L0.2480,0.7071 L0.2606,0.7091 L0.2732,0.7109 L0.2858,0.7119 L0.2984,0.7117 L0.3110,0.7094 L0.3236,0.7042 L0.3362,0.6949 L0.3488,0.6804 L0.3614,0.6594 L0.3740,0.6309 L0.3866,0.5944 L0.3992,0.5500 L0.4118,0.4986 L0.4244,0.4424 L0.4370,0.3843 L0.4496,0.3284 L0.4622,0.2790 L0.4748,0.2403 L0.4874,0.2159 L0.5000,0.2083 L0.5126,0.2185 L0.5252,0.2454 L0.5378,0.2870 L0.5504,0.3394 L0.5630,0.3987 L0.5756,0.4604 L0.5882,0.5208 L0.6008,0.5767 L0.6134,0.6261 L0.6260,0.6681 L0.6386,0.7024 L0.6512,0.7296 L0.6638,0.7506 L0.6764,0.7665 L0.6890,0.7786 L0.7016,0.7876 L0.7142,0.7946 L0.7268,0.8000 L0.7394,0.8044 L0.7520,0.8079 L0.7708,0.8120 L0.7917,0.8151 L0.8125,0.8165 L0.8333,0.8164 L0.8542,0.8144 L0.8750,0.8107 L0.8958,0.8052 L0.9167,0.7981 L0.9375,0.7895 L0.9583,0.7798 L0.9792,0.7693 L1.0000,0.7584 L1,1 Z"/></clipPath></defs></svg>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
 
-<a class="pular" href="#casos">Pular para os casos</a>
-
-<header class="nav">
-  <div class="wrap nav__inner">
-    <!-- A marca encolhe até a inicial na rolagem. O tracinho verde
-         mora no bloco que segura o "J" e o "eff", então encolhe
-         junto, sem precisar de uma segunda regra. -->
-    <a class="wordmark" href="index.html" aria-label="Jeff Maia, Product Design Manager">
-      <span class="wordmark__nome">J<span class="wordmark__dobra">eff</span></span>
-      <span class="wordmark__dobra wordmark__sobrenome">Maia</span>
-      <span class="wordmark__dobra wordmark__papel">Product Design Manager</span>
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
     </a>
-
-    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
-      <span class="menu-btn__traco"></span>
-      <span class="menu-btn__traco"></span>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
     </button>
   </div>
 </header>
 
-<!-- Sem aria-hidden aqui: sem script o painel fica aberto no
-     fluxo, e a marca fixa esconderia do leitor de tela um menu que
-     está à vista. Quem escreve o estado é o JS, que já começa
-     fechando o painel. -->
-<!-- A retícula: o véu de pontos que cai sobre a faixa de página que
-     o painel não cobre. Fica fora do painel de propósito, porque o
-     que ela cobre é a página, não o menu. -->
-<div class="reticula" aria-hidden="true"></div>
-
-<div class="menu" id="menu">
-  <nav class="wrap menu__inner" aria-label="Principal">
-    <div class="menu__grupo">
-      <p class="micro menu__rotulo">Casos</p>
-      <ul class="menu__lista">
-        <li style="--i:0"><a class="menu__item" href="case-processo.html">Processo com IA</a></li>
-        <li style="--i:1"><a class="menu__item" href="case-omnichat.html">Omnichat</a></li>
-        <li style="--i:2"><a class="menu__item" href="case-inpulse.html">Inpulse</a></li>
-        <li style="--i:3"><a class="menu__item" href="case-mapa-experiencia.html">Mapa de experiência</a></li>
-      </ul>
-    </div>
-
-    <div class="menu__grupo">
-      <p class="micro menu__rotulo">Fora daqui</p>
-      <ul class="menu__lista menu__lista--fora">
-        <li style="--i:4"><a class="menu__item" href="manifesto/index.html">Manifesto<i aria-hidden="true">↗</i></a></li>
-        <li style="--i:5"><a class="menu__item" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn<i aria-hidden="true">↗</i></a></li>
-        <li style="--i:6"><a class="menu__item" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp<i aria-hidden="true">↗</i></a></li>
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="index.html" aria-current="page"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
       </ul>
     </div>
   </nav>
-  <div class="onda onda--escura onda--pe" aria-hidden="true"></div>
 </div>
 
-<main>
-
-  <!-- O hero virou a mesma trama escura da cena logo abaixo: as
-       duas dividem cor e textura de propósito, para a onda entre
-       elas sumir e a rolagem começar como um bloco só. Palavra e
-       fotografia agora pesam igual, cada par numa fileira própria
-       em vez de dentro da frase corrida; por isso o par de fotos
-       que trocava sozinho no scroll virou duas fotos fixas, uma em
-       cada fileira.
-
-       As fotos vão com alt vazio de propósito: aqui elas são ritmo
-       de leitura, não conteúdo. O que o leitor de tela ouve é a
-       frase inteira, sem interrupção. -->
-  <section class="hero">
-    <div class="wrap hero__inner">
-      <!-- As quatro fileiras têm foto, e as trocas acontecem uma
-           depois da outra, de cima para baixo, em looping.
-
-           O lado da foto alterna: texto e foto, foto e texto,
-           texto e foto, foto e texto. Quem manda é a ordem do
-           HTML, e ela vale só no desktop; em tela estreita a
-           fileira empilha e o texto vem sempre primeiro, para a
-           leitura não trocar de perna no meio da frase.
-
-           São 6 fotos reais para 8 posições, então duas aparecem
-           duas vezes. O emparelhamento acima não é aleatório: as
-           quatro primeiras imagens são diferentes entre si, as
-           quatro finais também, e as duas repetidas entram como
-           foto de baixo numa fileira que já trocou antes de
-           reaparecerem como foto de cima mais abaixo. Assim a
-           mesma imagem nunca está em duas fileiras ao mesmo tempo.
-           Quando houver duas fotos novas, elas entram no lugar de
-           jeito-teclado (base) e jeito-wireframe (base) e a
-           repetição some. -->
-      <h1 class="hero__titulo">
-        <span class="hero__linha" data-revelar>
-          <span class="txt">O&nbsp;ofício</span>
-          <span class="foto">
-            <img class="foto__base" src="assets/fotos/jeito-teclado.jpg" alt="" width="840" height="560" loading="eager" decoding="async">
-            <img class="foto__nova" src="assets/fotos/oficio-tipos.jpg" alt="" width="840" height="560" loading="eager" decoding="async">
-          </span>
-        </span>
-        <span class="hero__linha" data-revelar data-revelar-atraso="1">
-          <span class="foto">
-            <img class="foto__base" src="assets/fotos/jeito-wireframe.jpg" alt="" width="840" height="560" loading="eager" decoding="async">
-            <img class="foto__nova" src="assets/fotos/jeito-teclado.jpg" alt="" width="840" height="560" loading="eager" decoding="async">
-          </span>
-          <span class="txt">continua o&nbsp;mesmo.</span>
-        </span>
-        <span class="hero__linha" data-revelar data-revelar-atraso="2">
-          <span class="txt">O&nbsp;jeito de&nbsp;fazer,</span>
-          <span class="foto">
-            <img class="foto__base" src="assets/fotos/oficio-esboco.jpg" alt="" width="840" height="560" loading="eager" decoding="async">
-            <img class="foto__nova" src="assets/fotos/jeito-wireframe.jpg" alt="" width="840" height="560" loading="eager" decoding="async">
-          </span>
-        </span>
-        <span class="hero__linha" data-revelar data-revelar-atraso="3">
-          <span class="foto">
-            <img class="foto__base" src="assets/fotos/oficio-mao-tipo.jpg" alt="" width="840" height="560" loading="eager" decoding="async">
-            <img class="foto__nova" src="assets/fotos/jeito-monitores.jpg" alt="" width="840" height="560" loading="eager" decoding="async">
-          </span>
-          <span class="txt">não.</span>
-        </span>
-      </h1>
-
-      <div class="hero__foot" data-revelar data-revelar-atraso="4">
-        <p class="hero__lead">Ajudo times de&nbsp;produto e&nbsp;design a&nbsp;integrar IA no&nbsp;processo real de&nbsp;trabalho, não&nbsp;só na&nbsp;ferramenta.</p>
-      </div>
-    </div>
-
-    <!-- A seta desceu para dentro da onda preta da cena, no morro
-         que a própria onda faz para recebê-la. O rótulo fica acima
-         do morro, ainda no fundo escuro do hero. É o par exato da
-         seta de voltar ao topo, no morro do rodapé. -->
-    <a class="descer" href="#casos">
-      <span class="micro">Quatro casos abaixo</span>
-      <svg class="descer__seta" width="16" height="26" viewBox="0 0 16 26" fill="none" aria-hidden="true" focusable="false"><path d="M8 0v24M1 17l7 7 7-7" stroke="currentColor" stroke-width="2.1"/></svg>
-    </a>
-  </section>
-
-  <!-- A cena. O palco gruda no alto da tela e a rolagem passa a
-       trocar o que está dentro dele: o caso em destaque primeiro,
-       os outros três depois. O orbe desce e encolhe nas passagens.
-
-       Sem script, em movimento reduzido ou em tela curta, .cena--viva
-       nunca é posta e os quatro casos ficam empilhados no fluxo
-       normal, cada um inteiro e com o seu número à vista. -->
-  <section id="casos" class="cena" aria-labelledby="casos-titulo">
-    <div class="onda onda--escura onda--bolha" aria-hidden="true"></div>
-
-    <div class="cena__palco">
-      <div class="wrap cena__quadro">
-        <div class="cena__cabeca" data-revelar>
-          <span class="micro" id="casos-titulo">Quatro casos</span>
-          <span class="micro cena__contador"><b data-contador>01</b> / 04</span>
-        </div>
-
-        <div class="cena__grade">
-          <div class="cena__atos">
-
-            <article class="ato">
-              <p class="micro ato__num"><b>Caso 01</b> · Em destaque</p>
-              <h2 class="ato__titulo">Reconstruindo o&nbsp;processo de&nbsp;produto e&nbsp;design<br>com&nbsp;Claude no&nbsp;centro</h2>
-              <p class="ato__desc">A&nbsp;maior mudança não foi trocar de&nbsp;ferramenta. Foi perceber quantas reuniões existiam só porque ninguém tinha um&nbsp;jeito melhor de&nbsp;transformar uma&nbsp;conversa em&nbsp;entregável.</p>
-              <p class="ato__stat"><b>1 semana</b> <span>De&nbsp;discovery, no&nbsp;lugar de&nbsp;um&nbsp;a&nbsp;dois meses</span></p>
-              <dl class="ficha">
-                <div><dt class="micro">Papel</dt><dd>Liderei o&nbsp;processo de&nbsp;produto e&nbsp;design, conectando delivery, GA e&nbsp;GTM</dd></div>
-                <div><dt class="micro">Ritmo</dt><dd>Refinamento semanal de&nbsp;30 a&nbsp;40 minutos, no&nbsp;lugar de&nbsp;4 a&nbsp;5 horas</dd></div>
-                <div><dt class="micro">Duração</dt><dd>1 mês para&nbsp;validar o&nbsp;novo desenho, que&nbsp;segue evoluindo</dd></div>
-              </dl>
-              <a class="btn-green" href="case-processo.html">Ver o caso completo
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
-              </a>
-            </article>
-
-            <article class="ato">
-              <p class="micro ato__num"><b>Caso 02</b> · Omnichat</p>
-              <h2 class="ato__titulo">Redesenhando a&nbsp;verificação de&nbsp;intenção dos&nbsp;agentes conversacionais</h2>
-              <p class="ato__desc">A&nbsp;maior perda de&nbsp;conversão não estava na&nbsp;interface. Estava na&nbsp;camada onde a&nbsp;intenção do&nbsp;lead entra no&nbsp;sistema.</p>
-              <p class="ato__stat"><b>+8%</b> <span>Conversão de&nbsp;leads qualificados, de&nbsp;24% para&nbsp;32% nas&nbsp;origens redesenhadas</span></p>
-              <p class="ato__ficha">Product Design Manager · 4 meses</p>
-              <a class="btn-green" href="case-omnichat.html">Ver o caso
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
-              </a>
-            </article>
-
-            <article class="ato">
-              <p class="micro ato__num"><b>Caso 03</b> · Inpulse</p>
-              <h2 class="ato__titulo">Solução que&nbsp;ajudou a&nbsp;diminuir a&nbsp;recuperação dos&nbsp;alunos</h2>
-              <p class="ato__desc">Uma&nbsp;prova de&nbsp;medicina vira cinco notas separadas e&nbsp;cinco recuperações independentes. Não existia lugar nenhum onde o&nbsp;aluno visse isso junto antes de&nbsp;já estar em&nbsp;recuperação.</p>
-              <p class="ato__stat"><b>−25%</b> <span>A&nbsp;média de&nbsp;recuperação caiu de&nbsp;8 para&nbsp;6 a&nbsp;cada&nbsp;10 avaliações, numa base de&nbsp;420 alunos</span></p>
-              <p class="ato__ficha">Idealizador, mentor e&nbsp;designer · 10 meses</p>
-              <a class="btn-green" href="case-inpulse.html">Ver o caso
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
-              </a>
-            </article>
-
-            <article class="ato">
-              <p class="micro ato__num"><b>Caso 04</b> · Mapa de experiência</p>
-              <h2 class="ato__titulo">Como um&nbsp;mapa de&nbsp;experiência ajudou a&nbsp;deixar o&nbsp;NPS positivo</h2>
-              <p class="ato__desc">Um&nbsp;relatório de&nbsp;pesquisa que&nbsp;16 campus liam e&nbsp;a&nbsp;partir do&nbsp;qual agiam, em&nbsp;vez de&nbsp;arquivar junto com&nbsp;os&nbsp;outros.</p>
-              <p class="ato__stat"><b>+48</b> <span>Pontos de&nbsp;NPS, de&nbsp;33 negativos para&nbsp;15 positivos em&nbsp;16 campus</span></p>
-              <p class="ato__ficha">Idealizador e&nbsp;mentor · 3 meses</p>
-              <a class="btn-green" href="case-mapa-experiencia.html">Ver o caso
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
-              </a>
-            </article>
-
-          </div>
-
-          <!-- O orbe repete o número do caso que está à frente. Ele
-               é decoração com dado dentro: o mesmo número já está
-               no texto do caso, então aqui vai escondido do leitor
-               de tela para não ser lido duas vezes. -->
-          <div class="cena__orbe" aria-hidden="true">
-            <div class="orbe__disco">
-              <span class="orbe__valor" data-orbe-valor>1 semana</span>
-              <span class="orbe__valor" data-orbe-valor>+8%</span>
-              <span class="orbe__valor" data-orbe-valor>−25%</span>
-              <span class="orbe__valor" data-orbe-valor>+48</span>
-            </div>
-            <div class="orbe__legendas">
-              <p class="orbe__legenda" data-orbe-legenda>De&nbsp;discovery, no&nbsp;lugar de&nbsp;um&nbsp;a&nbsp;dois meses</p>
-              <p class="orbe__legenda" data-orbe-legenda>Conversão de&nbsp;leads qualificados, de&nbsp;24% para&nbsp;32%</p>
-              <p class="orbe__legenda" data-orbe-legenda>Recuperação por&nbsp;avaliação, de&nbsp;8 para&nbsp;6 em&nbsp;cada&nbsp;10</p>
-              <p class="orbe__legenda" data-orbe-legenda>Pontos de&nbsp;NPS, de&nbsp;33 negativos para&nbsp;15 positivos</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <ol class="cena__trilho">
-        <li><button type="button" data-ir="0" aria-label="Ir para o caso 01"><i></i></button></li>
-        <li><button type="button" data-ir="1" aria-label="Ir para o caso 02"><i></i></button></li>
-        <li><button type="button" data-ir="2" aria-label="Ir para o caso 03"><i></i></button></li>
-        <li><button type="button" data-ir="3" aria-label="Ir para o caso 04"><i></i></button></li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- Um respiro claro entre a cena e o rodapé, e o lugar próprio
-       do manifesto, que antes disputava espaço com o lead do hero. -->
-  <section class="fecho">
-    <div class="onda onda--clara" aria-hidden="true"></div>
-    <div class="wrap fecho__inner">
-      <p class="micro fecho__micro" data-revelar>Fora dos casos</p>
-      <h2 data-revelar data-revelar-atraso="1">Escrevi um&nbsp;manifesto sobre&nbsp;o&nbsp;que&nbsp;muda quando a&nbsp;IA entra no&nbsp;processo, e&nbsp;sobre&nbsp;o&nbsp;que&nbsp;não muda.</h2>
-      <a class="link micro fecho__link" href="manifesto/index.html" data-revelar data-revelar-atraso="2">Ler o manifesto completo<i aria-hidden="true">↗</i></a>
-    </div>
-  </section>
-
-</main>
-
-<footer class="footer">
-  <div class="onda onda--escura onda--subir" aria-hidden="true"></div>
-  <!-- A seta de voltar ao topo mora dentro da onda preta, no morro
-       que a onda faz para recebê-la. Conforme a página chega ao
-       fim, o morro cresce e a seta sobe junto com ele: são os dois
-       dizendo, sem escrever, que dali em diante só se anda para
-       cima. É o par exato da seta de descer, lá no alto.
-
-       #top e não um id nosso: a barra é fixa, e uma âncora para um
-       elemento fixo não faz o navegador rolar nada. "#top" sem
-       elemento correspondente é o fragmento que o HTML define como
-       "o começo do documento". -->
-  <div class="footer__subir">
-    <a class="subir" href="#top">
-      <span class="micro">Voltar ao topo</span>
-      <svg class="subir__seta" width="16" height="26" viewBox="0 0 16 26" fill="none" aria-hidden="true" focusable="false"><path d="M8 26V2M1 9l7-7 7 7" stroke="currentColor" stroke-width="2.1"/></svg>
-    </a>
+<main id="conteudo" class="container">
+  <section class="hero" aria-labelledby="hero-frase">
+  <svg class="hero__filtro" aria-hidden="true" focusable="false"><filter id="hero-tremor"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="3.5"/></filter></svg><span class="hero__grade" aria-hidden="true"></span>
+  <h1 class="hero__frase" id="hero-frase"><span class="hero__linha" style="--i: 0"><span class="hero__q" style="--i: 0">o&nbsp;<span class="hero__p hero__p--oficio">ofício</span></span> <span class="hero__q" style="--i: 1">continua</span> <span class="hero__q" style="--i: 2">o&nbsp;<span class="hero__p hero__p--mesmo">mesmo.</span></span></span> <span class="hero__linha" style="--i: 1"><span class="hero__q" style="--i: 3">o&nbsp;<span class="hero__p hero__p--jeito hero__p--emenda">jeito</span></span> <span class="hero__q" style="--i: 4"><span class="hero__p hero__p--jeito">de&nbsp;fazer,</span></span> <span class="hero__q" style="--i: 5"><span class="hero__p hero__p--nao">não.</span></span></span><span class="hero__nota hero__nota--topo" aria-hidden="true">Anton, o maior da tela</span><span class="hero__nota hero__nota--pe" aria-hidden="true">o não fica</span><img class="hero__adesivo hero__a--lapis" src="assets/ds/icones/lapis-lime.svg" alt="" width="96" height="96"><img class="hero__adesivo hero__a--lupa" src="assets/ds/icones/lupa-lime.svg" alt="" width="96" height="96"><img class="hero__adesivo hero__a--pessoa" src="assets/ds/icones/pessoa-lime.svg" alt="" width="96" height="96"><img class="hero__adesivo hero__a--janela" src="assets/ds/icones/janela-lime.svg" alt="" width="96" height="96"><img class="hero__adesivo hero__a--dialogo" src="assets/ds/icones/dialogo-lime.svg" alt="" width="96" height="96"><img class="hero__adesivo hero__a--celular" src="assets/ds/icones/celular-lime.svg" alt="" width="96" height="96"><img class="hero__adesivo hero__a--camadas" src="assets/ds/icones/camadas-lime.svg" alt="" width="96" height="96"><svg class="hero__adesivo hero__a--esboco" viewBox="0 0 120 140" fill="none" aria-hidden="true" focusable="false"><g stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.2 7.2C44.4 6.0 79.6 9.8 115.8 6.6C111.8 51.7 110.8 87.7 112.8 132.8C79.4 135.8 40.0 136.8 6.6 135.8C3.8 93.9 4.0 48.1 4.2 7.2l3 1.0" fill="#f9f9f7"/><path d="M16.8 18.8C47.4 21.8 72.0 22.8 102.6 21.8C100.2 36.3 100.8 46.7 101.4 62.2C76.2 59.6 50.0 65.0 19.8 63.4C15.8 50.5 15.8 30.7 16.8 18.8l4 -1.0"/><path d="M22 24l76 36M98 22L20 62"/><path d="M18 82C44.0 83 70.0 79 96 82.5"/><path d="M18 96C36.66666666666667 93 55.333333333333336 97 74 94.5"/><path d="M25.0 110C44.0 109.5 63.0 109 63.0 110a7.0 7.0 0 0 1 0.9 14C44.0 125 25.0 125.2 25.0 124a7.0 7.0 0 0 1 2 -15"/></g></svg></h1>
+  <div class="hero__apoio">
+    <p class="t-sub">Ajudo times de&nbsp;produto e&nbsp;design a&nbsp;integrar IA no&nbsp;processo real de&nbsp;trabalho, não&nbsp;só na&nbsp;ferramenta.</p>
+    <svg class="hero__rascunho" viewBox="0 0 520 90" fill="none" aria-hidden="true" focusable="false"><g stroke="#000" stroke-width="2.5" stroke-linecap="round"><path style="--i: 0" d="M4 14C159.33333333333334 16 314.6666666666667 17 470 15.0"/><path style="--i: 1" d="M4 46C169.33333333333334 44 334.6666666666667 48 500 45.0"/><path style="--i: 2" d="M4 78C102.66666666666667 75 201.33333333333334 79 300 76.5"/></g></svg>
   </div>
-
-  <div class="wrap">
-    <div class="footer__grid">
-      <div data-revelar>
-        <h2>Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
-        <p class="footer__contact">
-          <a class="link" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff</a>
-        </p>
-        <a class="btn-green" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
-        </a>
+</section>
+  <section class="lista-casos" id="casos" aria-labelledby="casos-titulo">
+  <h2 class="section__rotulo t-rotulo" id="casos-titulo">Quatro casos</h2>
+  <div class="cards" data-layout="mosaico" data-revelar><article class="card" data-variant="caso" data-acento="lime" data-tamanho="meio">
+    <p class="t-rotulo">01 · Processo com IA</p>
+    <h3>Processo de&nbsp;produto e&nbsp;design com&nbsp;Claude no&nbsp;centro</h3>
+    <p class="t-apoio">A maior mudança não foi trocar de ferramenta. Foi perceber quantas reuniões existiam só porque ninguém tinha um jeito melhor de&nbsp;transformar uma conversa em&nbsp;entregável.</p>
+    <div class="card__base">
+      <div class="stat" data-variant="salto">
+        <span class="stat__antes"><span class="sr">De </span>2 meses</span>
+        <span class="stat__valor"><span class="sr">para </span>1 semana</span>
+        <p class="stat__frase">de discovery, no&nbsp;lugar de&nbsp;um a&nbsp;dois meses</p>
       </div>
-
-      <div class="footer__col" data-revelar data-revelar-atraso="1">
-        <h3>Casos</h3>
-        <ul>
-          <li><a href="case-processo.html">Processo com IA</a></li>
-          <li><a href="case-omnichat.html">Omnichat</a></li>
-          <li><a href="case-inpulse.html">Inpulse</a></li>
-          <li><a href="case-mapa-experiencia.html">Mapa de experiência</a></li>
-        </ul>
-      </div>
-
-      <div class="footer__col" data-revelar data-revelar-atraso="2">
-        <h3>Fora daqui</h3>
-        <ul>
-          <li><a href="manifesto/index.html">Manifesto<i aria-hidden="true">↗</i></a></li>
-          <li><a href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn<i aria-hidden="true">↗</i></a></li>
-          <li><a href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp<i aria-hidden="true">↗</i></a></li>
-        </ul>
-      </div>
+      <p class="card__ficha">Liderança de produto e design · 1 mês</p>
+      <a class="link" data-variant="seguir" href="case-processo.html"><span>Ver o caso<span class="sr">, Processo com IA</span></span> <i aria-hidden="true">→</i></a>
     </div>
-
+  </article><article class="card" data-variant="caso" data-acento="azul" data-tamanho="meio">
+    <p class="t-rotulo">02 · Omnichat</p>
+    <h3>Verificação de&nbsp;intenção dos&nbsp;agentes conversacionais</h3>
+    <p class="t-apoio">A maior perda de conversão não estava na&nbsp;interface. Estava na&nbsp;camada onde a&nbsp;intenção do&nbsp;lead entra no&nbsp;sistema.</p>
+    <div class="card__base">
+      <div class="stat" data-variant="salto">
+        <span class="stat__antes"><span class="sr">De </span>24%</span>
+        <span class="stat__valor"><span class="sr">para </span>32%</span>
+        <p class="stat__frase">de conversão de leads qualificados nas&nbsp;origens redesenhadas</p>
+      </div>
+      <p class="card__ficha">Product Design Manager · 4 meses</p>
+      <a class="link" data-variant="seguir" href="case-omnichat.html"><span>Ver o caso<span class="sr">, Omnichat</span></span> <i aria-hidden="true">→</i></a>
+    </div>
+  </article><article class="card" data-variant="caso" data-acento="verde" data-tamanho="meio">
+    <p class="t-rotulo">03 · Inpulse</p>
+    <h3>Solução que&nbsp;ajudou a&nbsp;diminuir a&nbsp;recuperação dos&nbsp;alunos</h3>
+    <p class="t-apoio">Uma prova de medicina vira cinco notas separadas e cinco recuperações independentes. Não existia lugar nenhum onde o&nbsp;aluno visse isso junto antes de&nbsp;já estar em&nbsp;recuperação.</p>
+    <div class="card__base">
+      <div class="stat" data-variant="salto">
+        <span class="stat__antes"><span class="sr">De </span>8 em 10</span>
+        <span class="stat__valor"><span class="sr">para </span>6 em 10</span>
+        <p class="stat__frase">avaliações em recuperação, em média, numa base de&nbsp;420&nbsp;alunos</p>
+      </div>
+      <p class="card__ficha">Idealizador, mentor e designer · 10 meses</p>
+      <a class="link" data-variant="seguir" href="case-inpulse.html"><span>Ver o caso<span class="sr">, Inpulse</span></span> <i aria-hidden="true">→</i></a>
+    </div>
+  </article><article class="card" data-variant="caso" data-acento="azul" data-tamanho="meio">
+    <p class="t-rotulo">04 · Mapa de experiência</p>
+    <h3>Como um&nbsp;mapa de&nbsp;experiência ajudou a&nbsp;deixar o&nbsp;NPS positivo</h3>
+    <p class="t-apoio">Um relatório de pesquisa que 16 campus liam e a&nbsp;partir do&nbsp;qual agiam, em&nbsp;vez de&nbsp;arquivar junto com&nbsp;os&nbsp;outros.</p>
+    <div class="card__base">
+      <div class="stat" data-variant="salto">
+        <span class="stat__antes"><span class="sr">De </span>−33</span>
+        <span class="stat__valor"><span class="sr">para </span>+15</span>
+        <p class="stat__frase">de NPS, a nota geral de&nbsp;um grupo com&nbsp;16&nbsp;campus</p>
+      </div>
+      <p class="card__ficha">Idealizador e mentor · 3 meses</p>
+      <a class="link" data-variant="seguir" href="case-mapa-experiencia.html"><span>Ver o caso<span class="sr">, Mapa de experiência</span></span> <i aria-hidden="true">→</i></a>
+    </div>
+  </article></div>
+</section>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="index.html" aria-current="page">Home</a></li>
+          <li><a class="link" href="case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
     <div class="footer__meta">
-      <span class="micro">Jeff Maia · Product Design Manager</span>
-      <span class="micro">São Paulo, Brasil</span>
-
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
     </div>
   </div>
 </footer>
 
-<!-- A cortina da passagem entre páginas. Fica fora da tela até que
-     um link interno seja clicado, ou até que a página anterior peça
-     a entrada. -->
-<div class="transicao" aria-hidden="true">
-  <span class="transicao__marca">J<i></i></span>
-</div>
-
-<script src="assets/base.js"></script>
-<script src="assets/home.js"></script>
+<script src="assets/ds/componentes.js"></script>
 </body>
 </html>

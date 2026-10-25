@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Hero da Home, ficha · Jeff DS no site</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__rolar { min-height: 60vh; }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+</style>
+</head>
+<body>
+
+<a class="pular" href="#conteudo">Pular para a ficha</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="../../../case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container ficha-pagina">
+  <header class="ficha-pagina__topo">
+    <a class="link" data-variant="voltar" href="../index.html#peca-hero"><i aria-hidden="true">←</i> Vitrine</a>
+    <span class="badge"><code>Hero</code></span>
+    <h1 class="t-display">Hero da Home</h1>
+    <p class="t-sub">A frase que abre a Home e é a própria cena, do rascunho à página pronta.</p>
+  </header>
+  <section class="ficha-pagina__palco" aria-labelledby="na-pagina">
+    <h2 id="na-pagina">Na página</h2>
+    <p class="t-apoio prosa">A peça montada numa página com o texto real e outras peças em&nbsp;volta.</p>
+    <div class="palco" data-palco data-largura-inicial="1440" data-altura="800">
+          <div class="palco__barra">
+            <div class="palco__larguras" role="group" aria-label="Largura do quadro, em pixels"><button class="button" type="button" data-variant="outline" data-largura="390" aria-pressed="false">390</button><button class="button" type="button" data-variant="outline" data-largura="768" aria-pressed="false">768</button><button class="button" type="button" data-variant="outline" data-largura="1440" aria-pressed="false">1440</button></div>
+            <a class="link" data-variant="seguir" href="../palco/hero.html">Abrir em página inteira <i aria-hidden="true">→</i></a>
+          </div>
+          <div class="palco__janela"><iframe src="../palco/hero.html" title="Hero da Home, na página" loading="lazy"></iframe></div>
+        </div>
+    <p class="t-rotulo">O que testar</p>
+    <ul class="testar"><li>Abra a página e não role. Em uns 3s a frase vai do rascunho à página pronta. A grade e o contorno à mão com as guias, a hachura no ofício, as notas e o não circulado. Depois a tinta, as cores atrás das palavras e por fim os&nbsp;adesivos.</li><li>A sequência roda uma vez só e para no fim. Para rever, recarregue a&nbsp;página.</li><li>Role devagar. A primeira linha quase não se move, a segunda sobe um pouco mais, e os adesivos mais que a frase. Nada gira nem muda de&nbsp;cor.</li><li>Em 390 a frase quebra em seis linhas e os adesivos descem pelo vão da direita. Do tablet para cima são duas linhas, e no desktop o começo da Lista de casos aparece embaixo da&nbsp;frase.</li><li>Sem JS ou com movimento reduzido, a página chega pronta, como no segundo hero da&nbsp;amostra.</li></ul>
+  </section>
+  <article class="doc">
+<h2>Use quando</h2>
+<ul><li><strong>A abertura da Home.</strong> É a única página que tem hero. A frase é "O ofício continua o mesmo. O jeito de fazer, não.", e a linha de apoio diz o que o Jeff faz.</li></ul>
+<h2>Não use quando</h2>
+<ul><li>É o começo de um caso. Use o Topo do caso, com as Etiquetas, o título, a frase de apoio, a ficha e o Dado <code>salto</code> (ver <code>ds/RECEITAS.md</code>).</li><li>É uma frase que o leitor precisa levar embora no meio de uma página. Use Destaque.</li><li>É o número que prova o caso. Use Dado <code>salto</code>.</li><li>É a chegada de qualquer página. Ela é do Carregamento, que é fundamento e não peça.</li></ul>
+<h2>Anatomia</h2>
+<ol><li>Caixa, <code>section.hero</code>, obrigatória, rotulada pela frase com <code>aria-labelledby</code>.</li><li>Filtro do tremor, <code>svg.hero__filtro</code> com o <code>filter#hero-tremor</code>, obrigatório no hero que se move. Escondido do leitor de tela.</li><li>Grade do rascunho, <code>span.hero__grade</code>, decorativa.</li><li>Frase, <code>h1.hero__frase</code>, obrigatória. Duas linhas (<code>span.hero__linha</code>), cada uma com três pedaços (<code>span.hero__q</code>) e um número de ordem (<code>--i</code>), e as palavras marcadas com cor (<code>span.hero__p</code>).</li><li>Notas do rascunho, <code>span.hero__nota</code>, decorativas, dentro do <code>h1</code> e escondidas do leitor de tela.</li><li>Adesivos, os sete ícones do acento (<code>img.hero__adesivo</code>) e a folha de esboço solta, dentro do <code>h1</code>, decorativos.</li><li>Apoio, <code>div.hero__apoio</code>, obrigatório. A linha de apoio em <code>p.t-sub</code> e, no mesmo lugar, os três traços do rascunho em <code>svg.hero__rascunho</code>.</li></ol>
+<h2>Variantes</h2>
+<div class="tabela"><table><thead><tr><th>Atributo</th><th>Valor</th><th>Como fica</th><th>Quando</th></tr></thead><tbody><tr><td>sem atributo</td><td></td><td>Com movimento, a chegada do rascunho à página pronta e o deslocamento na rolagem</td><td>A Home</td></tr><tr><td><code>data-parado</code></td><td>sem valor</td><td>A página pronta, sem chegada e sem deslocamento</td><td>A amostra da vitrine, para ver o fim parado</td></tr></tbody></table></div>
+<p><strong>A frase.</strong> O tamanho sai da largura do hero, e não da escala de texto. Do tablet para cima são duas linhas, uma por frase, e a primeira ocupa 10,8 vezes o tamanho da fonte em Anton (115px em 1440, 63px em 768). No celular cada frase quebra em três linhas, "O ofício / continua / o mesmo." e "O jeito / de fazer, / não.", para ganhar o peso que tem no desktop (82px em 390). A entrelinha é a do <code>leading-display</code>, que dá espaço ao til do NÃO.</p>
+<p><strong>As cores.</strong> Ficam sempre atrás das palavras, como adesivos com contorno de tinta. O <code>primary</code> (lime) marca OFÍCIO, o <code>secondary</code> (azul) é um círculo no fim de MESMO, o <code>chart-3</code> (verde) sublinha JEITO DE FAZER, e o NÃO fica numa caixa de tinta, com o texto em papel. A faixa verde é feita de dois pedaços, porque no celular quebra depois de "jeito". No desktop os dois emendam numa faixa só.</p>
+<p><strong>Os adesivos.</strong> Os do ofício, o que continua, sentam na primeira linha (lápis, lupa e pessoa). Os do jeito de fazer, o que mudou, sentam embaixo da segunda (tela, conversa, celular e camadas), com a folha de esboço ao lado do NÃO. No celular eles descem pelo vão que as linhas curtas deixam à direita. O robô fica de fora, lugar comum de IA.</p>
+<p><strong>A dobra.</strong> No desktop o hero deixa 9rem da primeira tela, onde aparecem o rótulo Quatro casos e o alto dos primeiros Cartões, para ficar claro que a página continua. Abaixo de 720px o hero tem a altura do conteúdo.</p>
+<h2>Limites</h2>
+<ul><li>Um hero por site, na Home.</li><li>A frase não muda e não quebra de outro jeito. Se um dia mudar, o tamanho se mede de novo pela linha mais larga.</li><li>Sete adesivos e a folha de esboço. Mais que isso, a frase perde para os ícones.</li><li>A linha de apoio em até três linhas no celular e duas no desktop.</li></ul>
+<h2>Comportamento</h2>
+<ol><li><strong>Mouse.</strong> Não tem.</li><li><strong>Toque.</strong> Não tem.</li><li><strong>Foco.</strong> Não recebe foco.</li><li><strong>Movimento.</strong> A chegada roda uma vez, em uns 3,2s, e para pronta. Todos os tempos saem dos tokens.<ul><li>Rascunho. A grade aparece em <code>dur-media</code>. A partir de <code>dur-media</code>, cada linha é escrita da esquerda para a direita em <code>dur-lenta</code> com <code>ease-troca</code>, a segunda uma <code>dur-media</code> depois. No celular cada pedaço vem uma <code>dur-rapida</code> depois do anterior. As guias tracejadas vêm junto com a linha. A hachura corre por OFÍCIO, os traços da linha de apoio se desenham, entram as notas e o NÃO é circulado, cada um em <code>dur-media</code>.</li><li>Cores. Em duas <code>dur-lenta</code> e meia (1,6s), o contorno se enche de tinta, o tremor some e o rascunho se apaga, em <code>dur-media</code>. As cores colam atrás das palavras com <code>ease-saida</code>, uma <code>dur-rapida</code> depois da outra, e o NÃO vira papel quando a caixa chega. A linha de apoio aparece.</li><li>Adesivos. Em 3,9 <code>dur-lenta</code> (2,5s) os adesivos chegam, meia <code>dur-rapida</code> um depois do outro, de um tamanho maior e girados até assentar.</li><li>Rolagem. O progresso vai do topo da página até o hero sair de baixo do cabeçalho, pela linha do tempo de rolagem do CSS e, onde ela não existe, pelo módulo 5 do <code>componentes.js</code>. A primeira linha sobe 8px, a segunda 40px e os adesivos de 60 a 120px. No celular é a metade. Nada gira nem muda de cor.</li></ul></li><li><strong>Sem JS.</strong> A página chega pronta, sem chegada e sem deslocamento.</li><li><strong>Movimento reduzido.</strong> A página chega pronta, sem chegada e sem deslocamento. O rascunho não existe.</li></ol>
+<h2>Acessibilidade</h2>
+<ul><li>O <code>h1</code> é a frase inteira, lida uma vez. As notas, os adesivos e a folha de esboço ficam escondidos do leitor de tela, e o texto fica em minúsculas no HTML, com a caixa alta só no CSS.</li><li>A grade, o filtro e os traços do rascunho são decorativos.</li><li>A chegada dura menos de 5s, então não pede botão de pausa (WCAG, critério 2.2.2).</li><li>Tinta sobre papel, tinta sobre o lime, o azul e o verde, e papel sobre a tinta passam com folga. Ver <code>ds/CONTRASTE.md</code>.</li></ul>
+<h2>Onde aparece</h2>
+<ul><li>Vitrine, na amostra e no palco da Home, com a Lista de casos logo abaixo.</li><li>O estudo dos três momentos parados, em <code>ds/vitrine/estudo/hero/</code>.</li><li>A Home publicada, desde o passo 4 da Fase 6. As fotos do hero antigo foram para <code>arquivo/site-antigo/</code>.</li></ul>
+<h2>Vizinhos</h2>
+<ul><li><strong>Topo do caso.</strong> A abertura de cada caso, com título, ficha e número.</li><li><strong>Destaque.</strong> A frase que fica, no meio de uma página.</li><li><strong>Carregamento.</strong> O mesmo gesto, do esboço à página pronta, na chegada de toda página.</li></ul>
+<h2>Par nos posts</h2>
+<p>A capa do carrossel, com a tese curta em Anton e os ícones adesivo em volta. Lá a capa é parada, e aqui ela se escreve na chegada.</p>
+<h2>Código</h2>
+<pre><code>&lt;section class="hero" aria-labelledby="hero-frase"&gt;
+  &lt;svg class="hero__filtro" aria-hidden="true" focusable="false"&gt;&lt;filter id="hero-tremor"&gt;…&lt;/filter&gt;&lt;/svg&gt;
+  &lt;span class="hero__grade" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;h1 class="hero__frase" id="hero-frase"&gt;
+    &lt;span class="hero__linha" style="--i: 0"&gt;
+      &lt;span class="hero__q" style="--i: 0"&gt;o&amp;nbsp;&lt;span class="hero__p hero__p--oficio"&gt;ofício&lt;/span&gt;&lt;/span&gt;
+      &lt;span class="hero__q" style="--i: 1"&gt;continua&lt;/span&gt;
+      &lt;span class="hero__q" style="--i: 2"&gt;o&amp;nbsp;&lt;span class="hero__p hero__p--mesmo"&gt;mesmo.&lt;/span&gt;&lt;/span&gt;
+    &lt;/span&gt;
+    &lt;span class="hero__linha" style="--i: 1"&gt;
+      &lt;span class="hero__q" style="--i: 3"&gt;o&amp;nbsp;&lt;span class="hero__p hero__p--jeito hero__p--emenda"&gt;jeito&lt;/span&gt;&lt;/span&gt;
+      &lt;span class="hero__q" style="--i: 4"&gt;&lt;span class="hero__p hero__p--jeito"&gt;de&amp;nbsp;fazer,&lt;/span&gt;&lt;/span&gt;
+      &lt;span class="hero__q" style="--i: 5"&gt;&lt;span class="hero__p hero__p--nao"&gt;não.&lt;/span&gt;&lt;/span&gt;
+    &lt;/span&gt;
+    &lt;span class="hero__nota hero__nota--topo" aria-hidden="true"&gt;Anton, o maior da tela&lt;/span&gt;
+    &lt;span class="hero__nota hero__nota--pe" aria-hidden="true"&gt;o não fica&lt;/span&gt;
+    &lt;img class="hero__adesivo hero__a--lapis" src="assets/ds/icones/lapis-lime.svg" alt="" width="96" height="96"&gt;
+    …
+  &lt;/h1&gt;
+  &lt;div class="hero__apoio"&gt;
+    &lt;p class="t-sub"&gt;Ajudo times de produto e design a integrar IA no processo real de trabalho, não só na ferramenta.&lt;/p&gt;
+    &lt;svg class="hero__rascunho" viewBox="0 0 520 90" aria-hidden="true" focusable="false"&gt;…&lt;/svg&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+<p>O HTML sai da função <code>hero</code> de <code>ds/prova/comum.py</code>, que escreve os pedaços, os adesivos e a folha de esboço. Estilo e chegada em <code>assets/ds/componentes.css</code>, nas receitas (<code>.hero</code> e as partes <code>hero__</code>). A chegada é toda de CSS, com os tempos dos tokens. O deslocamento usa o progresso <code>--p</code>, da linha do tempo de rolagem ou do módulo 5 do <code>componentes.js</code>.</p>
+<p><strong>Decidido na Fase 6.</strong> O tamanho da frase ganhou degraus próprios em <code>tokens.css</code>, <code>text-hero</code> e <code>text-hero-estreito</code>, fora da escala de texto. As notas do rascunho ficam como estão. Na Home a cortina do Carregamento não monta a tela, porque o hero já é a chegada (<code>data-sem-chegada</code>, ver <code>ds/FUNDAMENTOS.md</code>).</p>
+<p>Entrou na Onda 5, com a direção trocada por você no meio da onda, e a chegada e a rolagem foram aprovadas na vitrine em 24 de outubro de 2026. O roteiro está em <code>ds/ROTEIRO-HERO.md</code>.</p>
+  </article>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="../../../case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+<script src="../vitrine.js"></script>
+</body>
+</html>

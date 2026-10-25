@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Imagem, ficha · Jeff DS no site</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__rolar { min-height: 60vh; }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+</style>
+</head>
+<body>
+
+<a class="pular" href="#conteudo">Pular para a ficha</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="../../../case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container ficha-pagina">
+  <header class="ficha-pagina__topo">
+    <a class="link" data-variant="voltar" href="../index.html#peca-imagem"><i aria-hidden="true">←</i> Vitrine</a>
+    <span class="badge"><code>Figure</code></span>
+    <h1 class="t-display">Imagem</h1>
+    <p class="t-sub">A tela, o percurso ou o ambiente do caso, em moldura, galeria ou sangria.</p>
+  </header>
+  <section class="ficha-pagina__palco" aria-labelledby="na-pagina">
+    <h2 id="na-pagina">Na página</h2>
+    <p class="t-apoio prosa">A peça montada numa página com o texto real e outras peças em&nbsp;volta.</p>
+    <div class="palco" data-palco data-largura-inicial="1440" data-altura="800">
+          <div class="palco__barra">
+            <div class="palco__larguras" role="group" aria-label="Largura do quadro, em pixels"><button class="button" type="button" data-variant="outline" data-largura="390" aria-pressed="false">390</button><button class="button" type="button" data-variant="outline" data-largura="768" aria-pressed="false">768</button><button class="button" type="button" data-variant="outline" data-largura="1440" aria-pressed="false">1440</button></div>
+            <a class="link" data-variant="seguir" href="../palco/imagem.html">Abrir em página inteira <i aria-hidden="true">→</i></a>
+          </div>
+          <div class="palco__janela"><iframe src="../palco/imagem.html" title="Imagem, na página" loading="lazy"></iframe></div>
+        </div>
+    <p class="t-rotulo">O que testar</p>
+    <ul class="testar"><li>Role o palco. A moldura do protótipo do Inpulse, a galeria do Mapa de experiência e a sangria do resultado do Inpulse, cada uma na sua&nbsp;Seção.</li><li>Na moldura, o protótipo se navega ali mesmo. Em retrato ele para de crescer em 400px, e o Link logo abaixo abre o protótipo em tela&nbsp;cheia.</li><li>Ao lado do texto, o protótipo fica à direita e o texto corre à esquerda quando a Seção tem 760px. Abaixo disso, o texto vem antes e o protótipo&nbsp;depois.</li><li>Recortada, a moldura fica em 16:9 e as telas do Inpulse crescem por dentro até nenhum canto mostrar o fundo. Confira os quatro cantos em 390, 768 e&nbsp;1440.</li><li>Na galeria, a primeira tela ocupa a linha inteira e as outras quatro vão duas a duas quando a Seção tem 600px. Abaixo disso, uma debaixo da&nbsp;outra.</li><li>Na sangria, a faixa vai até a beira da tela. Em 1440 ela sangra só para a direita, porque a coluna da esquerda é do Sumário. Nenhuma largura abre rolagem para o&nbsp;lado.</li><li>Nenhuma forma reage a mouse, toque ou foco. Entram com o revelar da&nbsp;página.</li></ul>
+  </section>
+  <article class="doc">
+<h2>Use quando</h2>
+<ul><li><strong>Uma tela ou um protótipo.</strong> O leitor precisa ver o produto como objeto, pousado no papel. Use <code>moldura</code>, e <code>data-formato="retrato"</code> quando é uma tela de celular.</li><li><strong>Uma tela de celular com o texto que leva até ela.</strong> A tela é estreita, e sozinha na coluna deixaria metade da Seção vazia. Ponha o texto e a <code>moldura</code> <code>retrato</code> em <code>div.figure-ao-lado</code>.</li><li><strong>Uma imagem com fundo vazio em volta do que importa.</strong> Telas espalhadas na diagonal, por exemplo. Use <code>moldura</code> com <code>data-recorte</code>, e a imagem cresce por dentro do quadro até o fundo sair.</li><li><strong>Várias telas na ordem do percurso.</strong> O leitor precisa ver todas de uma vez, na ordem em que quem usa passa por elas. Use <code>galeria</code>, e <code>data-abertura</code> quando a primeira é o todo de que as outras são recorte.</li><li><strong>Uma imagem que é ambiente, não objeto.</strong> As telas do produto pronto, vistas como paisagem, cortadas na altura. Use <code>sangria</code>.</li></ul>
+<h2>Não use quando</h2>
+<ul><li>As telas são longas e o leitor vai ver uma ou duas. Use Abas, com uma tela por painel.</li><li>A imagem só decora uma Seção que já se entende pelo texto. Texto corrido não leva imagem.</li><li>É a ilustração do caso, presa ao indicador. Ela mora no Cartão do acento do Topo, com o Dado <code>salto</code>.</li><li>É um número desenhado, de série ou proporção. Use Gráfico.</li><li>A sangria entraria no mesmo caso que o Destaque na tinta. As duas são o peso forte da página, e entra só uma (regra 2 do <code>ds/RITMO.md</code>). Use <code>moldura</code>.</li></ul>
+<h2>Anatomia</h2>
+<p><strong>Moldura e sangria.</strong></p>
+<ol><li>Caixa, <code>figure.figure</code> com <code>data-variant</code>, obrigatória.</li><li>Quadro, <code>div.figure__quadro</code>, obrigatório. Dentro, um <code>img</code> com <code>width</code> e <code>height</code>, ou um <code>iframe</code> com <code>title</code>.</li><li>Legenda, <code>figcaption.figure__legenda</code>, opcional. Uma frase sobre o que se vê ou o que fazer com a tela.</li></ol>
+<p><strong>Galeria.</strong></p>
+<ol><li>Caixa, <code>div.figure</code> com <code>data-variant="galeria"</code>, obrigatória, e <code>data-abertura</code> opcional.</li><li>Lista, <code>ol.figure__lista</code>, obrigatória, porque a ordem é a do percurso.</li><li>Itens, um <code>li</code> por tela, cada um com uma <code>figure</code>, o quadro e a legenda. A legenda começa pelo número da figura num rótulo (<code>span.t-rotulo</code>, "Fig. 01").</li></ol>
+<p>Quando a tela tem uma versão completa fora da página, o Link <code>externo</code> vem logo depois da Imagem ("Abrir o protótipo completo", "Abrir o mapa completo").</p>
+<h2>Variantes</h2>
+<div class="tabela"><table><thead><tr><th>Atributo</th><th>Valor</th><th>Como fica</th><th>Quando</th></tr></thead><tbody><tr><td><code>data-variant</code></td><td><code>moldura</code></td><td>O quadro com o contorno de tinta, o <code>radius</code> e o <code>muted</code> por baixo</td><td>Uma tela ou protótipo</td></tr><tr><td></td><td><code>galeria</code></td><td>Os quadros abertos, duas por linha com 600px de Seção</td><td>Várias telas na ordem do percurso</td></tr><tr><td></td><td><code>sangria</code></td><td>A faixa de beira a beira, sem contorno e sem raio, com fundo de tinta por baixo</td><td>A imagem que é ambiente</td></tr><tr><td><code>data-formato</code></td><td><code>retrato</code></td><td>A moldura para de crescer em 400px</td><td>Uma tela de celular</td></tr><tr><td><code>data-abertura</code></td><td>sem valor</td><td>A primeira tela da galeria ocupa a linha inteira</td><td>A primeira é o todo e as outras são recorte</td></tr><tr><td><code>data-recorte</code></td><td>sem valor, com <code>--zoom</code> no <code>style</code></td><td>A moldura fica em 16:9 e a imagem cresce por dentro, centrada</td><td>A imagem tem fundo vazio em volta do que importa</td></tr><tr><td><code>div.figure-ao-lado</code></td><td>em volta do texto e da moldura</td><td>O texto à esquerda e a tela à direita, com o Link embaixo</td><td>Uma tela de celular com o texto que leva até ela</td></tr></tbody></table></div>
+<p>A moldura é a caixa do sistema. O contorno de 2px em <code>border</code> e o <code>muted</code> por baixo impedem a imagem de flutuar solta no papel e dão onde terminar a uma tela clara como ele. O <code>iframe</code> dentro da moldura tem a altura entre 520px e 720px, conforme a tela.</p>
+<p>No recorte, o quadro fica em 16:9 em qualquer largura e a imagem enche por cima, centrada, com a escala de <code>--zoom</code>. O quanto ela cresce é medido no arquivo, e é a página que escreve. Escolha o menor <code>--zoom</code> com que nenhum canto mostra fundo, conferido nos degraus da faixa, não só no centro. As telas do Inpulse, 3234 por 3260px numa faixa diagonal, pedem <code>--zoom: 2</code>, a imagem com o dobro da largura do quadro. Com 1,9 ainda escapa 1px.</p>
+<p>Ao lado, a partir de 760px de Seção o texto corre à esquerda, numa coluna que ocupa o que sobra, e a moldura <code>retrato</code> fica à direita, em 400px, com o Link logo embaixo dela. O vão entre as duas é o <code>space-48</code>. Abaixo de 760px o texto vem antes e a tela depois, um debaixo do outro. O texto é prosa corrida, sem Destaque no meio, porque a nota no meio de dois parágrafos quebra a leitura ao lado da tela.</p>
+<p>A galeria decide o arranjo pela largura da Seção, como o Passos. Com 600px de Seção são duas telas por linha, e abaixo disso uma debaixo da outra. Duas e não três, porque são telas densas.</p>
+<p>A sangria é o contrário da moldura. O quadro sai da coluna e vai até a beira da tela, e o recuo é a distância da coluna à beira, que é a margem da página ou, na tela larga, a metade do que sobra além dos 1280px. No caso, a partir de 1100px a coluna da esquerda é do Sumário, e a faixa sangra só para a direita. A altura é fixa, entre 260px e 560px, e a imagem enche por cima.</p>
+<p>Na superfície tinta o contorno da moldura vira papel, porque <code>border</code> troca por dentro. A Imagem não entra lá no caso, porque a tinta é a do Resultado.</p>
+<p>Pelo <code>ds/RITMO.md</code>, a <code>moldura</code> e a <code>galeria</code> são médias, e a <code>sangria</code> é forte.</p>
+<h2>Limites</h2>
+<ul><li>Uma <code>sangria</code> por caso, e só se o caso não tiver o Destaque na tinta.</li><li>Uma <code>galeria</code> por caso, de três a seis telas. Mais que isso, as telas viram Abas ou duas Seções.</li><li>Uma Imagem por Seção.</li><li>Ao lado, só a <code>moldura</code> <code>retrato</code>. Uma tela larga ao lado do texto fica pequena demais para ler.</li><li>No recorte, o <code>--zoom</code> não passa de 2,5. Mais que isso, a imagem perde nitidez e o que se vê já é outra imagem, que vale recortar no arquivo.</li><li>Legenda de até duas linhas. O número da figura só na galeria.</li><li>Toda <code>img</code> leva <code>width</code> e <code>height</code> com a proporção real, para a página não pular quando ela chega.</li></ul>
+<h2>Comportamento</h2>
+<ol><li><strong>Mouse.</strong> Não tem. A Imagem mostra, não age. O protótipo dentro do <code>iframe</code> tem o comportamento dele.</li><li><strong>Toque.</strong> Não tem. O Link <code>externo</code> logo depois tem 44px.</li><li><strong>Foco.</strong> A Imagem não recebe foco. O <code>iframe</code> recebe, com o anel do navegador em volta do quadro.</li><li><strong>Movimento.</strong> A figura leva <code>data-revelar</code> e entra subindo 16px em <code>dur-lenta</code> com <code>ease-saida</code>. A galeria entra inteira, para a leitura das telas não esperar.</li><li><strong>Sem JS.</strong> Aparece pronta.</li><li><strong>Movimento reduzido.</strong> Aparece pronta.</li></ol>
+<h2>Acessibilidade</h2>
+<ul><li>Toda <code>img</code> tem <code>alt</code> que diz o que a tela mostra ("O tabuleiro do mapa, com as 12 etapas da graduação distribuídas do START ao FINISH"). A legenda complementa, não repete.</li><li>O <code>iframe</code> tem <code>title</code> ("Protótipo do aplicativo Inpulse").</li><li>Na galeria a lista é ordenada, e quem ouve recebe a ordem do percurso.</li><li>As imagens vêm com <code>loading="lazy"</code> e <code>decoding="async"</code>.</li><li>O recorte esconde parte da imagem, então o <code>alt</code> descreve o que fica à vista no quadro.</li><li>Ao lado, a ordem do HTML é a da leitura, o texto antes e a tela depois, igual no celular.</li><li>A sangria não esconde texto. O que ela precisa dizer está no <code>alt</code> e no texto da Seção.</li></ul>
+<h2>Onde aparece</h2>
+<ul><li>Vitrine, na amostra e no palco da Imagem.</li><li>Nas páginas publicadas, a <code>moldura</code> <code>retrato</code> ao lado do texto no Inpulse, Seção 03, depois de três parágrafos corridos. O protótipo navegável do aplicativo, com a legenda "Navegue pelo app aqui mesmo, ou abra o protótipo em tela cheia" e o Link "Abrir o protótipo completo".</li><li>A <code>galeria</code> com abertura no Mapa de experiência, Seção 04. As cinco telas do mapa, da "Fig. 01 · O tabuleiro, do primeiro ao último semestre" à "Fig. 05 · O sentimento por eixo ao longo do curso", e o Link "Abrir o mapa completo".</li><li>A <code>moldura</code> com <code>data-recorte</code> e <code>--zoom: 2</code> no Resultado do Inpulse, Seção 05. As telas do aplicativo, com o boletim por complexo temático, o calendário acadêmico e a situação atual do aluno. Elas estavam na <code>sangria</code>, que não pode ficar na mesma Seção que o Destaque na tinta (decisão 11 da Fase 6). A <code>sangria</code> fica na biblioteca, sem página que a use.</li></ul>
+<h2>Vizinhos</h2>
+<ul><li><strong>Abas.</strong> Telas longas, vistas uma de cada vez.</li><li><strong>Gráfico.</strong> O número desenhado, não a tela.</li><li><strong>Cartão do acento com a ilustração.</strong> A cena do caso, presa ao indicador do Topo.</li><li><strong>Destaque na tinta.</strong> O outro peso forte da página, que não entra junto com a sangria.</li></ul>
+<h2>Par nos posts</h2>
+<p>Mockup, a tela dentro de um aparelho, para a <code>moldura</code>. A <code>galeria</code> e a <code>sangria</code> não têm par, porque o carrossel mostra uma imagem por vez e nunca sai da margem.</p>
+<h2>Código</h2>
+<pre><code>&lt;!-- Moldura, retrato --&gt;
+&lt;figure class="figure" data-variant="moldura" data-formato="retrato" data-revelar&gt;
+  &lt;div class="figure__quadro"&gt;&lt;iframe src="https://embed.figma.com/proto/…" title="Protótipo do aplicativo Inpulse" allowfullscreen loading="lazy"&gt;&lt;/iframe&gt;&lt;/div&gt;
+  &lt;figcaption class="figure__legenda"&gt;Navegue pelo app aqui mesmo, ou abra o protótipo em tela cheia.&lt;/figcaption&gt;
+&lt;/figure&gt;
+&lt;a class="link" data-variant="externo" href="https://www.figma.com/proto/…" target="_blank" rel="noopener"&gt;Abrir o protótipo completo &lt;i aria-hidden="true"&gt;↗&lt;/i&gt;&lt;/a&gt;
+
+&lt;!-- Moldura, retrato, ao lado do texto --&gt;
+&lt;div class="figure-ao-lado" data-revelar&gt;
+  &lt;div class="prosa"&gt;&lt;p&gt;…&lt;/p&gt;&lt;p&gt;…&lt;/p&gt;&lt;p&gt;…&lt;/p&gt;&lt;/div&gt;
+  &lt;figure class="figure" data-variant="moldura" data-formato="retrato"&gt;
+    &lt;div class="figure__quadro"&gt;&lt;iframe src="https://embed.figma.com/proto/…" title="Protótipo do aplicativo Inpulse" allowfullscreen loading="lazy"&gt;&lt;/iframe&gt;&lt;/div&gt;
+    &lt;figcaption class="figure__legenda"&gt;Navegue pelo app aqui mesmo, ou abra o protótipo em tela cheia.&lt;/figcaption&gt;
+  &lt;/figure&gt;
+  &lt;a class="link" data-variant="externo" href="https://www.figma.com/proto/…" target="_blank" rel="noopener"&gt;Abrir o protótipo completo &lt;i aria-hidden="true"&gt;↗&lt;/i&gt;&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;!-- Moldura, recortada --&gt;
+&lt;figure class="figure" data-variant="moldura" data-recorte style="--zoom: 2" data-revelar&gt;
+  &lt;div class="figure__quadro"&gt;&lt;img src="…" alt="Telas do aplicativo Inpulse, com o boletim por complexo temático, o calendário acadêmico e a situação atual do aluno." width="3234" height="3260" loading="lazy" decoding="async"&gt;&lt;/div&gt;
+&lt;/figure&gt;
+
+&lt;!-- Galeria, com abertura --&gt;
+&lt;div class="figure" data-variant="galeria" data-abertura data-revelar&gt;
+  &lt;ol class="figure__lista"&gt;
+    &lt;li&gt;&lt;figure&gt;
+      &lt;div class="figure__quadro"&gt;&lt;img src="…" alt="O tabuleiro do mapa, com as 12 etapas da graduação distribuídas do START ao FINISH." width="4320" height="3072" loading="lazy" decoding="async"&gt;&lt;/div&gt;
+      &lt;figcaption class="figure__legenda"&gt;&lt;span class="t-rotulo"&gt;Fig. 01&lt;/span&gt;O tabuleiro, do primeiro ao último semestre&lt;/figcaption&gt;
+    &lt;/figure&gt;&lt;/li&gt;
+    &lt;li&gt;…&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;
+
+&lt;!-- Sangria --&gt;
+&lt;figure class="figure" data-variant="sangria" data-revelar&gt;
+  &lt;div class="figure__quadro"&gt;&lt;img src="…" alt="Telas do aplicativo Inpulse, com o boletim por complexo temático, o calendário acadêmico e a situação atual do aluno." width="3234" height="3260" loading="lazy" decoding="async"&gt;&lt;/div&gt;
+&lt;/figure&gt;</code></pre>
+<p>Estilo em <code>assets/ds/componentes.css</code>, seção Figure (<code>.figure</code> e as partes <code>figure__</code>, o recorte, o <code>.figure-ao-lado</code> e os arranjos da galeria e do ao lado em <code>@container</code>). Não tem script além do revelar. O <code>body</code> tem <code>overflow-x: clip</code>, para a sangria não abrir rolagem para o lado onde a barra de rolagem ocupa lugar.</p>
+<p>Entrou na Onda 5 e foi aprovada por você na vitrine, como está, em 24 de outubro de 2026. O recorte e o ao lado entraram na Fase 6, no Inpulse, e foram aprovados por você na vitrine e na página em 25 de outubro de 2026.</p>
+  </article>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="../../../case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+<script src="../vitrine.js"></script>
+</body>
+</html>

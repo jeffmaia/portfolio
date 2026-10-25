@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Direção 4, Diagrama · Estudo do Passos</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__vazio { display: grid; place-items: center; min-height: 70vh; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+
+.estudo-topo { display: grid; gap: var(--space-16); padding-bottom: var(--space-16); }
+.estudo-topo .t-sub { max-width: 44ch; }
+
+.d4 .escada { display: grid; gap: var(--space-32); }
+.d4 .degrau { display: grid; gap: var(--space-12); align-content: start; }
+.d4 .degrau__base { display: flex; align-items: flex-end; padding-top: 28px; }
+.d4 .degrau__bloco { height: 72px; }
+.d4 .degrau__base > .degrau__bloco { width: 100%; }
+.d4 .degrau__bloco { position: relative; display: grid; place-items: end start; height: calc(56px + var(--i) * 40px); padding: var(--space-12); border: var(--stroke) solid var(--border); border-radius: var(--radius) var(--radius) 0 0; background: var(--acento); color: var(--ink); filter: drop-shadow(4px 4px 0 var(--ink)); }
+.d4 .degrau__bloco .icone { position: absolute; top: -28px; right: var(--space-12); --icone: 56px; }
+.d4 .degrau__bloco .num { font-family: var(--font-display); font-size: 2.5rem; line-height: 1; }
+.d4 .trilhos { display: grid; gap: var(--space-32); }
+.d4 .trilhos > li { display: grid; gap: var(--space-12); }
+.d4 .trilho { position: relative; display: flex; align-items: center; height: 56px; }
+.d4 .trilho::before { content: ""; position: absolute; left: 28px; right: 10px; height: var(--stroke); background: var(--ink); }
+.d4 .trilho::after { content: ""; position: absolute; right: 0; border: 8px solid transparent; border-left: 12px solid var(--ink); border-right: 0; }
+.d4 .trilho .icone { position: relative; --icone: 56px; }
+.d4 .maquina { display: grid; gap: var(--space-16); justify-items: center; }
+.d4 .maquina > .seta { transform: rotate(90deg); }
+.d4 .modulo { display: grid; gap: var(--space-8); justify-items: center; text-align: center; padding: var(--space-24); width: 100%; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.d4 .modulo .icone { --icone: 64px; }
+.d4 .modulo--meio { background: var(--acento); color: var(--ink); filter: drop-shadow(4px 4px 0 var(--ink)); }
+.d4 .modulo--meio .icone { --icone: 96px; }
+.d4 .entregas { display: grid; gap: var(--space-4); justify-items: center; }
+.d4 .funil { display: grid; }
+.d4 .funil > li { display: grid; grid-template-columns: 88px minmax(0, 1fr); column-gap: var(--space-16); }
+.d4 .funil__forma { position: relative; }
+.d4 .funil__forma svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(3px 3px 0 var(--ink)); }
+.d4 .funil__forma .num { position: absolute; top: var(--space-16); left: 0; right: 0; text-align: center; font-family: var(--font-display); font-size: 1.5rem; line-height: 1; }
+.d4 .funil__texto { display: grid; gap: var(--space-8); padding-block: var(--space-16); }
+.d4 .estrada { display: none; }
+.d4 .marcos { display: grid; gap: var(--space-24); position: relative; padding-left: 72px; }
+.d4 .marcos::before { content: ""; position: absolute; left: 20px; top: 0; bottom: 0; width: 16px; border-inline: var(--stroke) solid var(--ink); background: var(--acento) linear-gradient(var(--paper) 50%, transparent 0) center / 2px 14px repeat-y; }
+.d4 .marcos > li { position: relative; display: grid; gap: var(--space-8); min-height: 56px; }
+.d4 .marcos > li .icone { position: absolute; left: -72px; top: 0; --icone: 56px; }
+.d4 .laco { display: grid; gap: var(--space-24); }
+.d4 .laco > li { display: grid; gap: var(--space-8); justify-items: start; }
+.d4 .laco > li .icone { --icone: 56px; }
+.d4 .laco__volta { display: none; }
+@media (min-width: 720px) {
+  .d4 .escada { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--grade-vao); }
+  .d4 .degrau__base { height: calc(56px + 2 * 40px + 28px); }
+  .d4 .degrau__bloco { height: calc(56px + var(--i) * 40px); }
+  .d4 .trilhos { grid-template-columns: 1fr 1fr; column-gap: var(--grade-vao); }
+  .d4 .maquina { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.3fr) auto minmax(0, 1fr); align-items: center; }
+  .d4 .maquina > .seta { transform: none; }
+  .d4 .funil > li { grid-template-columns: 200px minmax(0, 1fr); column-gap: var(--grade-vao); }
+  .d4 .estrada { display: block; width: 100%; height: 120px; margin-bottom: calc(-1 * var(--space-48)); }
+  .d4 .marcos { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--grade-vao); padding-left: 0; }
+  .d4 .marcos::before { display: none; }
+  .d4 .marcos > li { justify-items: center; text-align: center; padding-top: 72px; }
+  .d4 .marcos > li .icone { left: 50%; top: 0; transform: translateX(-50%); }
+  .d4 .laco { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--grade-vao); }
+  .d4 .laco__volta { display: block; grid-column: 1 / -1; height: 48px; margin-inline: 28px; border: var(--stroke) solid var(--ink); border-top: 0; border-radius: 0 0 24px 24px; position: relative; }
+  .d4 .laco__volta::after { content: ""; position: absolute; left: -10px; top: -14px; border: 9px solid transparent; border-bottom: 14px solid var(--ink); border-top: 0; }
+}
+</style>
+</head>
+<body class="d4">
+
+<a class="pular" href="#conteudo">Pular para o estudo</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="../../../case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container caso">
+  <nav class="sumario" data-sumario aria-label="Nesta direção">
+    <p class="t-rotulo sumario__titulo">Nesta direção</p>
+    <ol class="sumario__lista" id="sumario-lista"><li><a class="sumario__item" href="#s1"><img class="icone" src="../../../assets/ds/icones/rota-azul.svg" alt="" width="32" height="32"><span class="sumario__num">01</span><span class="sumario__nome">Sequência</span></a></li><li><a class="sumario__item" href="#s2"><img class="icone" src="../../../assets/ds/icones/camadas-azul.svg" alt="" width="32" height="32"><span class="sumario__num">02</span><span class="sumario__nome">Par</span></a></li><li><a class="sumario__item" href="#s3"><img class="icone" src="../../../assets/ds/icones/robo-azul.svg" alt="" width="32" height="32"><span class="sumario__num">03</span><span class="sumario__nome">Estágios</span></a></li><li><a class="sumario__item" href="#s4"><img class="icone" src="../../../assets/ds/icones/alvo-azul.svg" alt="" width="32" height="32"><span class="sumario__num">04</span><span class="sumario__nome">Funil</span></a></li><li><a class="sumario__item" href="#s5"><img class="icone" src="../../../assets/ds/icones/lampada-azul.svg" alt="" width="32" height="32"><span class="sumario__num">05</span><span class="sumario__nome">Trilha</span></a></li><li><a class="sumario__item" href="#s6"><img class="icone" src="../../../assets/ds/icones/calendario-azul.svg" alt="" width="32" height="32"><span class="sumario__num">06</span><span class="sumario__nome">Ritos</span></a></li></ol>
+    <button class="sumario__botao" type="button" aria-expanded="false" aria-controls="sumario-lista" hidden><span class="sr">Seções deste palco</span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span></button>
+    <span class="sumario__aviso" aria-hidden="true"></span>
+  </nav>
+  <div>
+    <header class="estudo-topo">
+      <a class="link" data-variant="voltar" href="index.html"><i aria-hidden="true">←</i> Estudo do Passos</a>
+      <p class="t-rotulo">Direção 4 · A forma desenhada</p>
+      <h1 class="t-display">Diagrama</h1>
+      <p class="t-sub">A forma de cada Passos é desenhada na gramática dos adesivos. A sequência sobe como escada, o funil é um funil de verdade ao lado do texto, a trilha é uma estrada e os ritos fecham um&nbsp;laço.</p>
+    </header>
+    <section class="section" id="s1" aria-labelledby="s1-titulo">
+      <p class="section__rotulo t-rotulo">01 · Sequência</p>
+      <h2 class="t-titulo" id="s1-titulo">Etapas em ordem, com o texto do&nbsp;Mapa</h2>
+      <ol class="escada"><li class="degrau" style="--i: 0"><div class="degrau__base" aria-hidden="true"><div class="degrau__bloco"><img class="icone" src="../../../assets/ds/icones/grafico-azul.svg" alt="" width="56" height="56"><span class="num">01</span></div></div><h3 class="step__titulo">Entender os&nbsp;dados do&nbsp;NPS</h3><p>Clusterizamos os comentários do NPS em grandes eixos e subcategorias, com uma divisão entre semestres. Era preciso um relatório que ilustrasse a jornada do aluno do início ao fim da graduação, para que a ação surtisse efeito no período específico de cada problema.</p><p class="step__efeito"><span class="t-rotulo">Consequência</span> A insatisfação deixou de ser uma nota única e&nbsp;passou a ter lugar e momento na jornada.</p></li><li class="degrau" style="--i: 1"><div class="degrau__base" aria-hidden="true"><div class="degrau__bloco"><img class="icone" src="../../../assets/ds/icones/pessoa-azul.svg" alt="" width="56" height="56"><span class="num">02</span></div></div><h3 class="step__titulo">Completar o&nbsp;que a&nbsp;reclamação não&nbsp;contava</h3><p>As informações que tínhamos não bastavam, e fomos atrás dos alunos para preencher outros aspectos da vida deles. Um aluno que mora longe sofre muito mais com um cancelamento de aula em cima da hora, e nada disso aparece na nota.</p><p class="step__efeito"><span class="t-rotulo">Consequência</span> As ações passaram a considerar o contexto de&nbsp;vida do&nbsp;aluno, não só a&nbsp;reclamação registrada.</p></li><li class="degrau" style="--i: 2"><div class="degrau__base" aria-hidden="true"><div class="degrau__bloco"><img class="icone" src="../../../assets/ds/icones/rota-azul.svg" alt="" width="56" height="56"><span class="num">03</span></div></div><h3 class="step__titulo">Achar um&nbsp;formato que&nbsp;obrigue a&nbsp;percorrer</h3><p>O tabuleiro foi escolhido porque obriga quem lê a&nbsp;andar por semestre e&nbsp;por&nbsp;eixo, e&nbsp;é nesse trajeto que o time reconhece o próprio aluno e&nbsp;propõe ação.</p><p class="step__efeito"><span class="t-rotulo">Consequência</span> O formato virou parte da solução, não a&nbsp;embalagem da pesquisa.</p></li></ol>
+    </section>
+    <section class="section" id="s2" aria-labelledby="s2-titulo">
+      <p class="section__rotulo t-rotulo">02 · Par</p>
+      <h2 class="t-titulo" id="s2-titulo">Duas coisas ao mesmo tempo, com o&nbsp;Processo</h2>
+      <ul class="trilhos"><li><div class="trilho" aria-hidden="true"><img class="icone" src="../../../assets/ds/icones/dialogo-azul.svg" alt="" width="56" height="56"></div><h3 class="step__titulo">O&nbsp;trabalho vivia em&nbsp;reunião</h3><p>A gente discutia bem e decidia bem. Depois alguém tinha que transformar aquilo em PRD, story, relatório e protótipo. Esse alguém sempre demorava.</p></li><li><div class="trilho" aria-hidden="true"><img class="icone" src="../../../assets/ds/icones/calendario-azul.svg" alt="" width="56" height="56"></div><h3 class="step__titulo">A&nbsp;garantia prévia custava semanas</h3><p>Como construir era caro, quase toda validação acontecia antes do desenvolvimento. Fazia sentido, e consumia semanas.</p></li></ul>
+    </section>
+    <section class="section" id="s3" aria-labelledby="s3-titulo">
+      <p class="section__rotulo t-rotulo">03 · Estágios</p>
+      <h2 class="t-titulo" id="s3-titulo">Entrada, meio e&nbsp;saída, com o&nbsp;Processo</h2>
+      <div class="maquina" role="list"><div role="listitem" class="modulo "><img class="icone" src="../../../assets/ds/icones/dialogo-azul.svg" alt="" width="56" height="56"><span class="t-rotulo">Entrada</span><h3 class="step__titulo">Transcrição dos rituais</h3><p>O que o time já falava em reunião, agora capturado como matéria&nbsp;prima.</p></div><svg class="seta" viewBox="0 0 40 24" width="40" height="24" aria-hidden="true"><path d="M3 12h32M27 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div role="listitem" class="modulo modulo--meio"><img class="icone" src="../../../assets/ds/icones/robo-azul.svg" alt="" width="56" height="56"><span class="t-rotulo">Camada</span><h3 class="step__titulo">Habilidades no&nbsp;Claude</h3><p>Habilidades que a gente criou leem a transcrição e devolvem os rascunhos.</p></div><svg class="seta" viewBox="0 0 40 24" width="40" height="24" aria-hidden="true"><path d="M3 12h32M27 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg><div role="listitem" class="modulo "><img class="icone" src="../../../assets/ds/icones/janela-azul.svg" alt="" width="56" height="56"><span class="t-rotulo">Saída</span><h3 class="step__titulo">Cinco entregas</h3><ul class=entregas><li class=t-apoio>Visão de produto</li><li class=t-apoio>PRD</li><li class=t-apoio>User stories</li><li class=t-apoio>Relatório de usabilidade</li><li class=t-apoio>Protótipo</li></ul></div></div>
+    </section>
+    <section class="section" id="s4" aria-labelledby="s4-titulo">
+      <p class="section__rotulo t-rotulo">04 · Funil</p>
+      <h2 class="t-titulo" id="s4-titulo">Cada etapa filtra a&nbsp;anterior, com o&nbsp;Processo</h2>
+      <ol class="funil"><li><div class="funil__forma"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="0.0,0 100.0,0 94.0,100 6.0,100" fill="var(--acento)" stroke="var(--ink)" stroke-width="2.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg><span class="num" aria-hidden="true">01</span></div><div class="funil__texto"><h3 class="step__titulo">Identificação de oportunidades</h3><p>Dado de produto, pesquisa e canais de feedback alimentam uma árvore de oportunidades que facilita escolher o que entra em pauta.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Produto e design, com&nbsp;dados alimentando a&nbsp;árvore.</p></div></li><li><div class="funil__forma"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="6.0,0 94.0,0 88.0,100 12.0,100" fill="var(--acento)" stroke="var(--ink)" stroke-width="2.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg><span class="num" aria-hidden="true">02</span></div><div class="funil__texto"><h3 class="step__titulo">Validação de desejabilidade e&nbsp;diferencial</h3><p>Confirmamos se a aposta faz sentido antes de o time gastar tempo desenhando a solução.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Produto e design.</p></div></li><li><div class="funil__forma"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="12.0,0 88.0,0 82.0,100 18.0,100" fill="var(--acento)" stroke="var(--ink)" stroke-width="2.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg><span class="num" aria-hidden="true">03</span></div><div class="funil__texto"><h3 class="step__titulo">Definição e&nbsp;prototipagem</h3><p>É aqui que nasce a maior parte da solução. O&nbsp;protótipo já sai desenvolvido e segue para a&nbsp;engenharia sem etapa de tradução no&nbsp;meio.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Produto, design e engenharia.</p></div></li><li><div class="funil__forma"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="18.0,0 82.0,0 76.0,100 24.0,100" fill="var(--acento)" stroke="var(--ink)" stroke-width="2.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg><span class="num" aria-hidden="true">04</span></div><div class="funil__texto"><h3 class="step__titulo">Delivery</h3><p>Alfa na engenharia, que garante o funcionamento do que foi construído. Beta, aberto ou fechado, validando o experimento antes de abrir para todos.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Engenharia no alfa, time inteiro no beta.</p></div></li><li><div class="funil__forma"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon points="24.0,0 76.0,0 70.0,100 30.0,100" fill="var(--acento)" stroke="var(--ink)" stroke-width="2.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg><span class="num" aria-hidden="true">05</span></div><div class="funil__texto"><h3 class="step__titulo">Depois do lançamento</h3><p>O foco vira satisfação e adoção. A&nbsp;validação qualitativa entra quando o&nbsp;dado quantitativo mostra desvio do&nbsp;esperado.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Produto, design e dados.</p></div></li></ol>
+    </section>
+    <section class="section" id="s5" aria-labelledby="s5-titulo">
+      <p class="section__rotulo t-rotulo">05 · Trilha</p>
+      <h2 class="t-titulo" id="s5-titulo">Um caminho curto, com o&nbsp;Processo</h2>
+      <div><svg class="estrada" viewBox="0 0 900 120" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 60 Q75 10 150 60 T300 60 T450 60 T600 60 T750 60 T900 60" fill="none" stroke="var(--ink)" stroke-width="22" vector-effect="non-scaling-stroke"/>
+  <path d="M0 60 Q75 10 150 60 T300 60 T450 60 T600 60 T750 60 T900 60" fill="none" stroke="var(--acento)" stroke-width="16" vector-effect="non-scaling-stroke"/>
+  <path d="M0 60 Q75 10 150 60 T300 60 T450 60 T600 60 T750 60 T900 60" fill="none" stroke="var(--paper)" stroke-width="2" stroke-dasharray="10 10" vector-effect="non-scaling-stroke"/>
+</svg><ol class="marcos"><li><img class="icone" src="../../../assets/ds/icones/lampada-azul.svg" alt="" width="56" height="56"><h3 class="step__titulo">Criação</h3><p>Novo componente nasce a partir de uma&nbsp;necessidade do&nbsp;produto.</p></li><li><img class="icone" src="../../../assets/ds/icones/olho-azul.svg" alt="" width="56" height="56"><h3 class="step__titulo">Comportamento e&nbsp;uso</h3><p>Definição escrita pensando também na&nbsp;leitura do&nbsp;Claude.</p></li><li><img class="icone" src="../../../assets/ds/icones/verifica-azul.svg" alt="" width="56" height="56"><h3 class="step__titulo">Aprovação no&nbsp;código</h3><p>Validação direto no&nbsp;código, antes de subir para o repositório no&nbsp;GitHub.</p></li></ol></div>
+    </section>
+    <section class="section" id="s6" aria-labelledby="s6-titulo">
+      <p class="section__rotulo t-rotulo">06 · Ritos</p>
+      <h2 class="t-titulo" id="s6-titulo">Ritos de time, com o&nbsp;Processo</h2>
+      <ul class="laco"><li><img class="icone" src="../../../assets/ds/icones/calendario-azul.svg" alt="" width="56" height="56"><h3 class="step__titulo">Planning</h3><p>Virou assíncrona e sob&nbsp;demanda, não&nbsp;mais um rito&nbsp;semanal.</p></li><li><img class="icone" src="../../../assets/ds/icones/pessoa-azul.svg" alt="" width="56" height="56"><h3 class="step__titulo">Daily</h3><p>Ficou só com engenharia. Produto entra quando&nbsp;precisa.</p></li><li><img class="icone" src="../../../assets/ds/icones/lupa-azul.svg" alt="" width="56" height="56"><h3 class="step__titulo">Refinamento</h3><p>De 4 horas para 40&nbsp;minutos, porque virou tirar dúvida sobre o&nbsp;que já&nbsp;está escrito.</p></li><li class="laco__volta" aria-hidden="true"></li></ul>
+    </section>
+  </div>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="../../../case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+</body>
+</html>

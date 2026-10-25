@@ -1,0 +1,1647 @@
+/* ============================================================
+   Jeff DS, superfície Site. Base e componentes.
+
+   Carregada depois de tokens.css. Cada componente pede cor pelos
+   nomes semânticos (foreground, border, ring...), nunca pela cor
+   da marca direto, e é isso que deixa o mesmo componente funcionar
+   no papel e na tinta.
+
+   Os estados seguem uma regra só, que vale para o site inteiro:
+
+   - hover só existe onde há mouse. Toda regra de hover mora dentro
+     de @media (hover: hover) and (pointer: fine). Celular e tablet
+     com toque nunca veem hover, e nada no site depende dele para
+     ser descoberto.
+   - pressionado (:active) existe em todo lugar. No toque é o único
+     retorno de que o dedo acertou.
+   - foco (:focus-visible) é sempre um anel de 2px na cor ring, que
+     é tinta no papel e papel na tinta. Nunca um acento.
+   - desabilitado não depende só de cor: o contorno fica tracejado.
+   - onde o ponteiro é o dedo (pointer: coarse), todo alvo tem pelo
+     menos 44px de altura.
+   ============================================================ */
+
+/* ── Base ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* O pulo para uma âncora para abaixo do cabeçalho fixo, e não
+     embaixo dele. Quem acrescenta outra barra fixa aumenta o valor. */
+  scroll-padding-top: var(--rolagem-topo, 88px);
+}
+/* Pular para uma seção ou voltar ao topo rola a página até lá, em
+   vez de cortar seco para o destino. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-texto);
+  font-size: var(--text-corpo);
+  line-height: var(--leading-corpo);
+  letter-spacing: var(--tracking-texto);
+  -webkit-font-smoothing: antialiased;
+  /* A Imagem em sangria vai até a beira medindo pela largura da tela,
+     que conta a barra de rolagem onde ela ocupa lugar. O que passar
+     some aqui, sem abrir rolagem para o lado. */
+  overflow-x: clip;
+}
+img, svg { display: block; max-width: 100%; }
+h1, h2, h3, p, ol, ul, dl, dd, figure { margin: 0; }
+ol, ul { padding: 0; list-style: none; }
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+button { font: inherit; color: inherit; }
+
+:focus-visible {
+  outline: var(--stroke) solid var(--ring);
+  outline-offset: 3px;
+}
+
+/* Pular para o conteúdo: fora da tela até receber foco. */
+.pular {
+  position: absolute;
+  left: var(--page-margem);
+  top: var(--space-8);
+  z-index: 100;
+  padding: var(--space-8) var(--space-16);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+.pular:focus-visible { transform: none; }
+
+/* ── Estilos de texto ────────────────────────────────────────
+   Rótulo, apoio, corpo e lead não são componentes: são degraus da
+   escala, aplicados por classe onde o HTML não basta. */
+.t-rotulo {
+  font-family: var(--font-texto);
+  font-size: var(--text-rotulo);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: var(--tracking-rotulo);
+  text-transform: uppercase;
+}
+.t-apoio { font-size: var(--text-apoio); line-height: 1.5; }
+.t-lead { font-size: var(--text-lead); line-height: 1.5; font-weight: 400; }
+.t-display {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 400;
+  line-height: var(--leading-display);
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+}
+.t-titulo, .t-sub {
+  font-family: var(--font-flare);
+  font-weight: 300;
+  line-height: var(--leading-titulo);
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 144;
+}
+.t-titulo { font-size: var(--text-titulo); }
+.t-sub { font-size: var(--text-sub); }
+
+/* ── Grade ─────────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: calc(var(--page-max) + var(--page-margem) * 2);
+  margin-inline: auto;
+  padding-inline: var(--page-margem);
+}
+.grade {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--grade-vao);
+  row-gap: var(--space-32);
+}
+.grade > * { grid-column: 1 / -1; }
+
+/* ── Movimento: revelar na entrada ───────────────────────────
+   O estado escondido só existe com a classe .js-mov, posta pelo
+   script quando há JS e o movimento não está reduzido. Sem isso,
+   tudo aparece pronto. */
+.js-mov [data-revelar] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--dur-lenta) var(--ease-saida), transform var(--dur-lenta) var(--ease-saida);
+}
+.js-mov [data-revelar].revelado { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ============================================================
+   Button
+   Variantes por data-variant: primary (padrão, acento preenchido)
+   e outline (só contorno). Sempre pílula, sempre contorno de 2px
+   em tinta: o acento é o fundo, nunca a borda.
+   ============================================================ */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  min-height: 40px;
+  padding: var(--space-8) var(--space-24);
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-family: var(--font-texto);
+  font-size: var(--text-apoio);
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--dur-media) var(--ease-saida), color var(--dur-media) var(--ease-saida), transform var(--dur-rapida) var(--ease-saida);
+}
+.button[data-variant="outline"] { background: transparent; color: var(--foreground); }
+.button svg { flex: none; }
+.button > [aria-hidden="true"] { display: inline-block; transition: transform var(--dur-media) var(--ease-saida); }
+.button:active { transform: translateY(2px); }
+.button:disabled,
+.button[aria-disabled="true"] {
+  background: transparent;
+  color: var(--foreground);
+  border-style: dashed;
+  opacity: .6;
+  cursor: not-allowed;
+  transform: none;
+}
+/* Com mouse, o botão inverte: fundo de tinta e texto de papel (ou
+   o contrário, na superfície tinta). */
+@media (hover: hover) and (pointer: fine) {
+  .button:not(:disabled):not([aria-disabled="true"]):hover {
+    background: var(--foreground);
+    color: var(--background);
+  }
+  .button:not(:disabled):not([aria-disabled="true"]):hover > [aria-hidden="true"] { transform: translateX(3px); }
+}
+
+/* ============================================================
+   Link
+   Sublinhado sempre, porque no toque não existe hover para revelar
+   que algo é clicável. Variantes por data-variant: voltar (seta à
+   esquerda), seguir (seta à direita), externo (seta inclinada) e
+   topo (seta para cima).
+
+   O retorno é um marca texto: o acento corre da esquerda para a
+   direita por trás da tinta, só na largura das palavras. É
+   preenchimento, que é o único papel que o acento pode ter. A
+   mesma marca serve o item do menu, o do sumário e a marca do
+   cabeçalho.
+   ============================================================ */
+.link,
+.sheet__item > span,
+.marca b,
+.sumario__nome {
+  background-image: linear-gradient(var(--marca, var(--acento)), var(--marca, var(--acento)));
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-size var(--dur-media) var(--ease-saida), color var(--dur-media) var(--ease-saida);
+}
+.link {
+  color: inherit;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-thickness: var(--stroke);
+  text-underline-offset: 0.22em;
+  border-radius: 2px;
+}
+/* Com variante o Link vira caixa. Dentro de uma grade ou de uma
+   coluna flex ela esticaria até a largura toda, e o marca texto
+   correria pelo vazio. A largura fica a das palavras e da seta. */
+.link[data-variant] { display: inline-flex; align-items: center; gap: var(--space-8); width: fit-content; }
+.link i { font-style: normal; text-decoration: none; display: inline-block; transition: transform var(--dur-media) var(--ease-saida); }
+.link:active { background-size: 100% 100%; color: var(--ink); transition-duration: var(--dur-rapida); }
+@media (hover: hover) and (pointer: fine) {
+  .link:hover { background-size: 100% 100%; color: var(--ink); }
+  .link[data-variant="seguir"]:hover i { transform: translateX(4px); }
+  .link[data-variant="voltar"]:hover i { transform: translateX(-4px); }
+  .link[data-variant="externo"]:hover i { transform: translate(2px, -2px); }
+  .link[data-variant="topo"]:hover i { transform: translateY(-3px); }
+}
+
+/* ============================================================
+   Badge
+   Etiqueta em pílula. O padrão é papel com contorno; data-variant
+   acento usa o acento da página como fundo.
+   ============================================================ */
+.badges { display: flex; flex-wrap: wrap; gap: var(--space-8); }
+/* O grupo é uma lista. Cada item vira caixa flex, para a linha do texto
+   em volta não esticar a altura da Etiqueta. */
+.badges > li { display: flex; }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-4) var(--space-12);
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--background);
+  color: var(--foreground);
+  font-size: var(--text-rotulo);
+  font-weight: 700;
+  letter-spacing: var(--tracking-rotulo);
+  line-height: 1.3;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.badge[data-variant="acento"] { background: var(--acento); color: var(--ink); }
+.badge[data-variant="tinta"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* ============================================================
+   Section
+   Cada parte numerada do caso, numa coluna só ao lado do Sumário:
+   rótulo com régua de 2px, título, texto e uma peça, todos filhos
+   diretos, sem embrulho. Não há variante lado, porque a coluna da
+   esquerda é do Sumário.
+   ============================================================ */
+.section { display: grid; gap: var(--space-24); padding-top: var(--space-64); }
+.section__rotulo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+}
+.section__rotulo::after {
+  content: "";
+  flex: 1;
+  height: var(--stroke);
+  background: var(--border);
+}
+.prosa { max-width: var(--leitura); }
+.prosa > * + * { margin-top: var(--space-16); }
+
+/* ============================================================
+   Card
+   A caixa do sistema: contorno de 2px, raio de 12, fundo que
+   pode ser papel, mist ou o acento.
+   ============================================================ */
+.card {
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  color: var(--foreground);
+  padding: var(--space-24);
+  min-width: 0;
+}
+.card[data-variant="muted"] { background: var(--muted); color: var(--ink); }
+.card[data-variant="acento"] { background: var(--acento); color: var(--ink); }
+.card__titulo { margin-bottom: var(--space-16); }
+
+/* O grupo em mosaico: seis colunas na largura do conteúdo, e cada
+   Cartão diz quanto ocupa com data-tamanho. No celular todos ocupam
+   a linha inteira; os tamanhos entram no bloco de 720 e de 1100. */
+.cards[data-layout="mosaico"] { display: grid; gap: var(--grade-vao); grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.cards[data-layout="mosaico"] > .card { grid-column: 1 / -1; display: grid; gap: var(--space-12); align-content: start; }
+.cards[data-layout="mosaico"] > .card .icone { --icone: 48px; }
+.cards[data-layout="mosaico"] > .card h3 { font-size: var(--text-lead); line-height: 1.3; }
+/* O Dado em grupo: o valor desce do degrau numero para o display, e
+   a frase fica à mesma distância do número que os itens do Cartão. */
+.cards[data-layout="mosaico"] .stat { gap: var(--space-12); }
+.cards[data-layout="mosaico"] .stat__valor { font-size: var(--text-display); }
+
+/* O Cartão de caso, na Lista de casos da Home. Cada um leva o acento
+   do próprio caso (data-acento no Cartão), e o acento entra só na
+   base, onde mora o número que o caso promete. O título e a frase
+   ficam no papel, para os quatro lado a lado não virarem quatro
+   blocos chapados disputando o olho. A base desce até o pé, e o que
+   sobra de altura numa linha fica no papel, acima dela.
+
+   Lado a lado, os Cartões dividem as linhas da grade (subgrid): o
+   rótulo, o título, a frase e a base de um começam na mesma altura que
+   os do vizinho, por mais que um título ou uma frase tenha uma linha a
+   mais. Dentro da base vale o mesmo para o Dado, a ficha e o Link, e
+   as bases saem alinhadas por cima e por baixo. Onde não há subgrid, a
+   base só desce até o pé. */
+.cards[data-layout="mosaico"] > .card[data-variant="caso"],
+.card[data-variant="caso"] { display: flex; flex-direction: column; gap: var(--space-12); padding-bottom: 0; overflow: hidden; }
+@supports (grid-template-rows: subgrid) {
+  .cards[data-layout="mosaico"] > .card[data-variant="caso"] {
+    display: grid;
+    grid-row: span 6;
+    grid-template-rows: subgrid;
+    row-gap: var(--space-12);
+  }
+  .cards[data-layout="mosaico"] > .card[data-variant="caso"] > .card__base {
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    row-gap: var(--space-16);
+    margin-top: 0;
+  }
+}
+.card[data-variant="caso"] h3 { font-size: var(--text-lead); line-height: 1.3; }
+.card__base {
+  display: grid;
+  gap: var(--space-16);
+  justify-items: start;
+  margin: auto calc(var(--space-24) * -1) 0;
+  padding: var(--space-24);
+  border-top: var(--stroke) solid var(--border);
+  background: var(--acento);
+  color: var(--ink);
+  /* O marca texto do Link sobre o acento seria acento sobre acento.
+     Aqui ele corre em papel. */
+  --marca: var(--paper);
+}
+.card[data-variant="caso"] > .t-apoio { max-width: var(--leitura); margin-bottom: var(--space-12); }
+.card[data-variant="caso"] .stat__valor { font-size: var(--text-display); }
+.card__ficha { font-size: var(--text-apoio); line-height: 1.45; }
+
+/* A ficha do projeto é um Card com uma lista de definição dentro. */
+.ficha { display: grid; gap: var(--space-16); }
+.ficha div { display: grid; gap: var(--space-4); }
+.ficha dt { font-size: var(--text-rotulo); font-weight: 700; letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.ficha dd { font-size: var(--text-apoio); line-height: 1.45; }
+
+/* ============================================================
+   Stat
+   Número em Anton com a frase que diz do que ele é. data-variant
+   salto: o valor de antes riscado acima do novo.
+   ============================================================ */
+.stat { display: grid; gap: var(--space-8); align-content: start; }
+.stat__valor {
+  font-family: var(--font-display);
+  font-size: var(--text-numero);
+  font-weight: 400;
+  line-height: .95;
+  letter-spacing: 0.005em;
+}
+.stat__antes {
+  font-family: var(--font-display);
+  font-size: var(--text-sub);
+  line-height: 1;
+  text-decoration: line-through;
+  text-decoration-thickness: 3px;
+}
+.stat__frase { font-size: var(--text-apoio); line-height: 1.45; max-width: 36ch; }
+
+/* ============================================================
+   Steps
+   Cada etapa é um Cartão com o ícone adesivo sobre o canto e o
+   número vazado em Anton. data-layout troca o arranjo: par (dois
+   ao mesmo tempo), estagios (entrada, meio no acento e saída,
+   ligados por setas), funil (Cartões que estreitam), trilha (fio
+   tracejado entre os adesivos) e ritos (folhas de agenda).
+
+   O arranjo segue a largura da Seção, não a da tela: a partir de
+   1100px o Sumário ocupa a coluna da esquerda e a Seção volta a ter
+   uns 750px. Três lado a lado só com 900px de Seção.
+   ============================================================ */
+.section { container-type: inline-size; }
+.steps { display: grid; gap: var(--space-48) var(--grade-vao); padding-top: var(--space-24); }
+.step {
+  position: relative;
+  display: grid;
+  gap: var(--space-12);
+  align-content: start;
+  min-width: 0;
+  padding: var(--space-48) var(--space-24) var(--space-24);
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  color: var(--foreground);
+}
+.step > p { max-width: var(--leitura); }
+.step__icone { position: absolute; top: -30px; left: var(--space-16); --icone: 64px; }
+.step__num {
+  position: absolute;
+  top: var(--space-12);
+  right: var(--space-16);
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--foreground);
+}
+.step__titulo { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+/* A lista de dentro do Cartão, como as entregas da saída: fios em vez
+   de pílulas, porque um nome longo não cabe numa pílula de um terço. */
+.step__lista { display: grid; font-size: var(--text-apoio); }
+.step__lista li { padding-block: var(--space-8); border-top: 1px solid var(--border); }
+.step__lista li:last-child { border-bottom: 1px solid var(--border); }
+
+/* Estágios: o meio no acento, e uma seta de tinta entre um Cartão e
+   o próximo, para baixo em coluna e para o lado em fila. */
+.steps[data-layout="estagios"] { gap: 72px; }
+.steps[data-layout="estagios"] > .step:nth-child(2) { background: var(--acento); color: var(--ink); }
+.steps[data-layout="estagios"] > .step:nth-child(2) .step__num { -webkit-text-stroke-color: var(--ink); }
+.steps[data-layout="estagios"] > .step:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -50px;
+  width: 40px;
+  height: 24px;
+  background: var(--foreground);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 24'%3E%3Cpath d='M3 12h32M27 4l8 8-8 8' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 24'%3E%3Cpath d='M3 12h32M27 4l8 8-8 8' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  transform: translateX(-50%) rotate(90deg);
+}
+
+/* Funil: cada Cartão um pouco mais estreito que o anterior, pelo
+   índice --i, centrados. */
+.steps[data-layout="funil"] { justify-items: center; }
+.steps[data-layout="funil"] > .step { width: calc(100% - var(--i, 0) * 9%); }
+
+/* Trilha: um fio tracejado liga os adesivos e só aparece entre os
+   Cartões. Vertical em coluna, horizontal em fila. */
+.steps[data-layout="trilha"] { position: relative; }
+.steps[data-layout="trilha"]::before { content: ""; position: absolute; top: 0; bottom: 0; left: 47px; border-left: var(--stroke) dashed var(--border); }
+
+/* Ritos: folhas de agenda, com o nome em Anton na faixa do acento. */
+.steps[data-layout="ritos"] { gap: var(--space-24); padding-top: 0; }
+.steps[data-layout="ritos"] > .step { gap: 0; padding: 0; overflow: hidden; }
+.step__topo { display: flex; align-items: center; gap: var(--space-12); padding: var(--space-12) var(--space-16); border-bottom: var(--stroke) solid var(--border); background: var(--acento); color: var(--ink); }
+.step__topo .step__icone { position: static; --icone: 40px; }
+.step__topo .step__titulo { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; line-height: 1; text-transform: uppercase; }
+.steps[data-layout="ritos"] > .step > p { padding: var(--space-16); }
+
+@container (min-width: 600px) {
+  .steps[data-layout="par"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .steps[data-layout="ritos"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@container (min-width: 900px) {
+  .steps:not([data-layout]),
+  .steps[data-layout="trilha"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .steps[data-layout="estagios"] { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr); align-items: stretch; }
+  .steps[data-layout="estagios"] > .step:not(:last-child)::after { left: auto; right: -56px; top: 50%; bottom: auto; transform: translateY(-50%); }
+  .steps[data-layout="trilha"]::before { top: 50%; bottom: auto; left: 0; right: 0; border-left: 0; border-top: var(--stroke) dashed var(--border); }
+}
+
+/* ============================================================
+   Tabs
+   Sem JS, e em tela estreita, é uma lista aberta: cada painel com
+   o seu título, um debaixo do outro. O script transforma em abas
+   só a partir de 720px, com a lista na esquerda e o painel na
+   direita, e teclado como no padrão de abas (setas, Home, End).
+
+   A aba escolhida não se distingue só pela cor: ganha contorno de
+   2px e peso 700, além do acento no fundo.
+   ============================================================ */
+.tabs__lista { display: none; }
+.tabs__painel { display: grid; gap: var(--space-12); padding-block: var(--space-24); border-top: var(--stroke) solid var(--border); }
+.tabs__painel:last-child { border-bottom: var(--stroke) solid var(--border); }
+.tabs__painel-titulo { display: flex; gap: var(--space-12); align-items: center; font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.tabs__efeito, .card__efeito, .step__efeito { display: grid; gap: var(--space-4); font-size: var(--text-apoio); padding: var(--space-16); border-radius: var(--radius); background: var(--muted); color: var(--ink); }
+
+.tabs--js .tabs__lista {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+.tabs--js { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--grade-vao); align-items: start; }
+.tabs--js .tabs__painel { border: var(--stroke) solid var(--border); border-radius: var(--radius); padding: var(--space-32); }
+.tabs--js .tabs__painel:last-child { border-bottom-width: var(--stroke); }
+/* Os painéis moram todos na mesma célula da grade, e a caixa fica
+   com a altura do maior. Trocar de aba não mexe no resto da página.
+   O escondido sai com visibility, que também o tira do Tab e do
+   leitor de tela. */
+.tabs--js .tabs__paineis { display: grid; }
+.tabs--js .tabs__painel { grid-area: 1 / 1; }
+.tabs--js .tabs__painel[hidden] { display: grid; visibility: hidden; }
+/* O painel que chega sobe um pouco e aparece, em vez de trocar seco. */
+.tabs--js .tabs__painel:not([hidden]) { animation: painel-entra var(--dur-media) var(--ease-saida); }
+@keyframes painel-entra { from { opacity: 0; transform: translateY(8px); } }
+.tabs--js .tabs__painel-titulo { display: none; }
+
+/* O ícone, o número e o nome se alinham pelo centro, como no Sumário. */
+.tab {
+  display: flex;
+  gap: var(--space-12);
+  align-items: center;
+  width: 100%;
+  min-height: var(--alvo);
+  padding: var(--space-12) var(--space-16);
+  border: var(--stroke) solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  text-align: left;
+  line-height: 1.35;
+  cursor: pointer;
+  transition: background-color var(--dur-media) var(--ease-saida), border-color var(--dur-media) var(--ease-saida);
+}
+.tab[aria-selected="true"] { border-color: var(--border); background: var(--acento); color: var(--ink); font-weight: 700; }
+.tab:active { background: var(--muted); }
+.tab[aria-selected="true"]:active { background: var(--acento); }
+@media (hover: hover) and (pointer: fine) {
+  .tab:not([aria-selected="true"]):hover { background: var(--muted); color: var(--ink); }
+}
+
+/* ============================================================
+   Compare
+   Antes e depois lado a lado a partir do tablet, empilhados no
+   celular. O depois carrega o acento, o antes fica no mist: a
+   diferença lê pelo rótulo e pelo fundo, nunca só pelo fundo.
+   Variante conversa: turnos de fala dentro de cada lado.
+   ============================================================ */
+.compare { display: grid; gap: var(--grade-vao); }
+.compare__lado { display: grid; gap: var(--space-24); align-content: start; }
+.compare__cabeca { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-8); }
+.turnos { display: grid; gap: var(--space-16); }
+.turno { display: grid; gap: var(--space-4); justify-items: start; }
+.turno__fala {
+  max-width: 34ch;
+  padding: var(--space-12) var(--space-16);
+  border: var(--stroke) solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: var(--text-apoio);
+  line-height: 1.45;
+}
+.turno--agente { justify-items: end; text-align: right; }
+.turno--agente .turno__fala { background: var(--ink); color: var(--paper); text-align: left; }
+.turno__nota { font-size: var(--text-apoio); font-style: italic; font-family: var(--font-flare); font-weight: 300; }
+
+/* Citação: a fala de quem usou, em Fraunces, a voz de conversa. O
+   Anton fica para a voz do caso, no Destaque. */
+.compare__citacao { display: grid; gap: var(--space-16); margin: 0; }
+.compare__citacao blockquote { margin: 0; font-family: var(--font-flare); font-weight: 300; font-size: var(--text-lead); line-height: 1.35; }
+.compare__citacao figcaption { font-size: var(--text-apoio); line-height: 1.5; }
+
+/* Confronto: uma tabela de verdade. A coluna do depois é a faixa do
+   acento, de cima a baixo. No celular cada linha vira um bloco, com o
+   nome do lado escrito em cada célula, e a cabeça sai da tela mas
+   continua para o leitor de tela. */
+.compare[data-variant="confronto"] { display: table; width: 100%; border-collapse: collapse; }
+.compare[data-variant="confronto"] th,
+.compare[data-variant="confronto"] td { padding: var(--space-16); text-align: left; vertical-align: top; }
+.compare[data-variant="confronto"] tbody th { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.compare[data-variant="confronto"] tr { border-bottom: var(--stroke) solid var(--border); }
+.compare[data-variant="confronto"] td:last-child,
+.compare[data-variant="confronto"] thead th:last-child { background: var(--acento); color: var(--ink); }
+.compare__marca { display: none; }
+
+@media (max-width: 719px) {
+  .compare[data-variant="confronto"],
+  .compare[data-variant="confronto"] tbody,
+  .compare[data-variant="confronto"] tr,
+  .compare[data-variant="confronto"] th,
+  .compare[data-variant="confronto"] td { display: block; }
+  .compare[data-variant="confronto"] thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .compare[data-variant="confronto"] { border-top: var(--stroke) solid var(--border); }
+  .compare[data-variant="confronto"] tr { display: grid; gap: var(--space-8); padding-block: var(--space-16); }
+  .compare[data-variant="confronto"] th,
+  .compare[data-variant="confronto"] td { padding: 0; }
+  .compare[data-variant="confronto"] td { display: grid; gap: var(--space-4); padding: var(--space-12) var(--space-16); }
+  .compare[data-variant="confronto"] td:last-child { border-radius: var(--radius); }
+  .compare__marca { display: block; }
+}
+@media (min-width: 720px) {
+  .compare[data-variant="confronto"] { border-top: var(--stroke) solid var(--border); }
+  .compare[data-variant="confronto"] thead th:first-child,
+  .compare[data-variant="confronto"] tbody th { width: 25%; }
+}
+
+/* ============================================================
+   Callout
+   O trecho que a Seção existe para carregar, em quatro formas.
+   Com a classe superficie-tinta é a frase que fica, a parada escura
+   da página (D4: no máximo uma). Sem atributo é a frase no papel,
+   sem caixa, na margem do texto. data-variant nota e atrito são os
+   médios: a régua com o rótulo, e a caixa muted com o alerta.
+   ============================================================ */
+.callout { display: grid; gap: var(--space-16); }
+.callout > .badge { justify-self: start; }
+.callout.superficie-tinta { gap: var(--space-24); border-radius: var(--radius); padding: clamp(24px, 4vw, 56px); }
+.callout__frase {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 400;
+  line-height: var(--leading-display);
+  text-transform: uppercase;
+  max-width: 20ch;
+}
+.callout__legenda { font-size: var(--text-apoio); line-height: 1.5; max-width: 52ch; }
+
+/* Nota: a régua em cima, o rótulo e o texto. A partir de 720px o
+   rótulo fica num terço e o texto nos outros dois, na mesma linha
+   de base. */
+.callout[data-variant="nota"] { gap: var(--space-8); padding-top: var(--space-16); border-top: var(--stroke) solid var(--border); }
+.callout[data-variant="nota"] > p:last-child { max-width: var(--leitura); }
+
+/* Atrito: o tropeço e a regra que ficou, na caixa muted com o
+   alerta. Fica fora da tinta, que é uma só e mora no Resultado. A
+   partir de 720px o ícone desce para a margem esquerda, e o título
+   e o texto alinham na coluna da direita. */
+.callout[data-variant="atrito"] {
+  gap: var(--space-12) var(--space-24);
+  padding: clamp(24px, 3vw, 40px);
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--muted);
+  color: var(--ink);
+}
+.callout[data-variant="atrito"] .icone { --icone: 48px; }
+.callout[data-variant="atrito"] h3 { font-size: var(--text-lead); line-height: 1.3; }
+
+@media (min-width: 720px) {
+  .callout[data-variant="nota"] { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: var(--grade-vao); align-items: baseline; }
+  .callout[data-variant="atrito"] { grid-template-columns: auto minmax(0, 1fr); }
+  .callout[data-variant="atrito"] .icone { grid-row: span 2; }
+  .callout[data-variant="atrito"] > :not(.icone) { grid-column: 2; }
+}
+
+/* ============================================================
+   Chart
+   O valor que só se entende ao lado de outros. Três formas, em
+   data-variant: barras (uma grandeza antes e depois), pilhas (a
+   proporção de respostas em cada grupo) e escala (a posição numa
+   escala com sinal, antes e depois).
+
+   O desenho vem das Barras dos posts: trilho de papel com contorno
+   de 2px, e o preenchimento com um fio de tinta na ponta. A diferença
+   entre os valores nunca fica só na cor, porque o azul e o mist quase
+   se confundem. São três tons com forma própria, em data-tom: cheio
+   (o acento), trama (fios de tinta na diagonal) e vazio (o papel).
+
+   Os valores vêm no HTML como números, em variáveis (--valor, --n,
+   --antes, --depois), porque são dado e não aparência. O texto ao
+   lado diz o mesmo número, e o desenho fica escondido do leitor de
+   tela.
+
+   Entra com o revelar da página: o bloco sobe, e logo depois o
+   preenchimento corre da esquerda para a direita. Sem JS ou com
+   movimento reduzido ele já nasce pronto.
+   ============================================================ */
+.chart { display: grid; gap: var(--space-24); min-width: 0; }
+
+/* O trilho. Numa faixa de 20px o raio de 12 viraria pílula, então ele
+   fica na metade, como nos posts. */
+.chart__trilho {
+  position: relative;
+  display: flex;
+  height: 20px;
+  border: var(--stroke) solid var(--border);
+  border-radius: calc(var(--radius) / 2);
+  background: var(--background);
+  overflow: hidden;
+}
+.chart__preenche, .chart__parte { background: var(--acento); }
+.chart [data-tom="cheio"] { background: var(--acento); }
+.chart [data-tom="trama"] { background: repeating-linear-gradient(135deg, var(--foreground) 0 1.5px, transparent 1.5px 6px) var(--background); }
+.chart [data-tom="vazio"] { background: var(--background); }
+.chart [data-tom="muted"] { background: var(--muted); }
+.chart__nome { font-size: var(--text-apoio); font-weight: 700; line-height: 1.3; }
+
+/* Barras. Cada grandeza é um grupo, com o antes e o depois no mesmo
+   trilho, como na escala. O antes é a área de muted e o depois é o
+   acento, cada um com um fio de tinta na ponta, só dentro do trilho.
+   A barra menor fica por cima, para as
+   duas cores aparecerem sempre: numa queda o acento cobre o começo do
+   muted e o resto do muted é o que saiu, e num salto o muted cobre o
+   começo do acento e o resto do acento é o que cresceu.
+
+   Os dois valores ficam numa linha só, acima do trilho, e cada um
+   termina sobre a ponta da sua barra, na ordem das pontas. O menor
+   termina na ponta dele e o maior na dele, então os dois não se
+   cobrem. Numa queda o depois é o menor (data-sentido="queda"). */
+.chart__grupos { display: grid; gap: var(--space-48) var(--grade-vao); }
+.chart__grupo {
+  --pmin: calc(min(var(--antes), var(--depois)) * 1%);
+  --pmax: calc(max(var(--antes), var(--depois)) * 1%);
+  display: grid;
+  gap: var(--space-12);
+  align-content: start;
+  min-width: 0;
+}
+.chart__marcos { display: grid; grid-template-columns: minmax(max-content, var(--pmin)) minmax(max-content, calc(var(--pmax) - var(--pmin))) 1fr; }
+/* Cada marco se alinha ao lado da barra a que ele se liga. O da barra
+   menor, que nasce na esquerda do trilho, se alinha pela esquerda. O da
+   maior termina na ponta dela e se alinha pela direita. */
+.chart__marcos > .chart__marco { grid-row: 1; display: flex; flex-direction: column; gap: var(--space-4); padding-inline-end: var(--space-4); }
+.chart__marcos > [data-ponto="antes"], [data-sentido="queda"] .chart__marcos > [data-ponto="depois"] { grid-column: 1; justify-self: start; align-items: start; text-align: start; }
+.chart__marcos > [data-ponto="depois"], [data-sentido="queda"] .chart__marcos > [data-ponto="antes"] { grid-column: 2; justify-self: end; align-items: end; text-align: end; }
+.chart__valor { font-size: var(--text-lead); font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.chart__barra { position: relative; }
+.chart[data-variant="barras"] .chart__trilho { height: 32px; }
+.chart__antes, .chart__preenche { position: absolute; top: 0; bottom: 0; left: 0; }
+.chart__antes { width: calc(max(4px, var(--antes) * 1%) + var(--stroke)); background: var(--muted); }
+.chart__grupo:not([data-sentido="queda"]) .chart__antes { z-index: 1; }
+/* As duas barras passam 2px do valor, e o fio da ponta some debaixo
+   do contorno quando chega a 100, para a ponta não engrossar. Um valor
+   muito pequeno ainda deixa ver um traço. */
+.chart__antes, .chart__preenche { border-right: var(--stroke) solid var(--border); }
+.chart__preenche { width: calc(max(4px, var(--depois) * 1%) + var(--stroke)); }
+.chart__chave { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); font-size: var(--text-apoio); }
+.chart__chave > span { display: inline-flex; align-items: center; gap: var(--space-8); }
+
+/* Pilhas. Uma faixa por grupo, e a faixa inteira é o total. Cada
+   parte ocupa a proporção da contagem dela (--n), com um fio de tinta
+   entre uma e outra. A conta escrita vem embaixo, na mesma margem em
+   todas, para o olho descer comparando. A legenda vem antes, com o que
+   cada tom quer dizer. */
+.chart__legenda { display: grid; gap: var(--space-16) var(--grade-vao); padding-bottom: var(--space-24); border-bottom: 1px solid var(--border); }
+.chart__legenda > div { display: grid; gap: var(--space-4); align-content: start; }
+.chart__legenda dt { display: flex; align-items: center; gap: var(--space-8); font-weight: 700; }
+.chart__legenda dd { font-size: var(--text-apoio); line-height: 1.45; }
+.chart__amostra { flex: none; width: 20px; height: 20px; border: var(--stroke) solid var(--border); border-radius: calc(var(--radius) / 3); }
+.chart__pilhas { display: grid; gap: var(--space-24); }
+.chart__pilha { display: grid; gap: var(--space-8); }
+.chart__parte { flex: var(--n) 0 0; min-width: 0; }
+.chart__parte + .chart__parte { border-left: var(--stroke) solid var(--border); }
+.chart__conta { font-size: var(--text-apoio); line-height: 1.4; font-variant-numeric: tabular-nums; }
+
+/* Escala. Um eixo com sinal, de --min a --max (−100 a +100, o do NPS),
+   o zero marcado acima e abaixo do eixo e o percurso do antes ao depois
+   cheio. O antes é um ponto vazado e o depois um ponto de tinta. Os
+   dois valores ficam numa linha só, acima do próprio ponto e na ordem
+   dos pontos. O da esquerda termina no ponto dele e o da direita começa
+   no dele, então os dois nunca se cobrem, por perto que fiquem. Perto
+   da borda o valor empurra e passa por cima do ponto. Numa queda o
+   depois fica à esquerda (data-sentido="queda"). */
+.chart[data-variant="escala"] {
+  --min: -100;
+  --max: 100;
+  --pa: calc((var(--antes) - var(--min)) / (var(--max) - var(--min)) * 100%);
+  --pd: calc((var(--depois) - var(--min)) / (var(--max) - var(--min)) * 100%);
+  --pz: calc((0 - var(--min)) / (var(--max) - var(--min)) * 100%);
+  --pe: min(var(--pa), var(--pd));
+  --pdir: max(var(--pa), var(--pd));
+}
+.chart__escala { display: grid; grid-template-columns: minmax(max-content, var(--pe)) 1fr minmax(max-content, calc(100% - var(--pdir))); row-gap: var(--space-8); }
+.chart__escala > :not(.chart__marco) { grid-column: 1 / -1; }
+.chart__escala > .chart__marco { grid-row: 1; display: flex; flex-direction: column-reverse; gap: var(--space-4); }
+.chart__escala > [data-ponto="antes"], [data-sentido="queda"] .chart__escala > [data-ponto="depois"] { grid-column: 1; align-items: end; padding-inline-end: var(--space-4); text-align: end; }
+.chart__escala > [data-ponto="depois"], [data-sentido="queda"] .chart__escala > [data-ponto="antes"] { grid-column: 3; align-items: start; padding-inline-start: var(--space-4); }
+.chart__numero { font-family: var(--font-display); font-size: var(--text-sub); line-height: 1; font-variant-numeric: tabular-nums; }
+.chart__eixo {
+  position: relative;
+  height: 20px;
+  margin-block: var(--space-12);
+  border: var(--stroke) solid var(--border);
+  border-radius: calc(var(--radius) / 2);
+  background: var(--background);
+}
+.chart__percurso { position: absolute; top: 0; bottom: 0; left: min(var(--pa), var(--pd)); width: calc(max(var(--pa), var(--pd)) - min(var(--pa), var(--pd))); background: var(--acento); }
+.chart__zero { position: absolute; top: -12px; bottom: -12px; left: var(--pz); width: var(--stroke); background: var(--foreground); transform: translateX(-50%); }
+.chart__ponto { position: absolute; top: 50%; width: 24px; height: 24px; border: var(--stroke) solid var(--border); border-radius: 50%; background: var(--background); transform: translate(-50%, -50%); }
+.chart__ponto[data-ponto="antes"] { left: var(--pa); }
+.chart__ponto[data-ponto="depois"] { left: var(--pd); background: var(--foreground); }
+.chart__regua { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
+
+/* A entrada. Nas barras e nas pilhas, uma tampa de papel sobre o
+   trilho encolhe para a direita e descobre o preenchimento. Na escala,
+   o percurso corre do antes até o depois, e só então o ponto e o valor
+   de depois aparecem. */
+.js-mov .chart[data-revelar] .chart__trilho::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--background);
+  transform-origin: right;
+  transition: transform var(--dur-lenta) var(--ease-saida) var(--dur-media);
+}
+.js-mov .chart[data-revelar] .chart__grupo + .chart__grupo .chart__trilho::after { transition-delay: calc(var(--dur-media) + var(--dur-rapida)); }
+.js-mov .chart[data-revelar].revelado .chart__trilho::after { transform: scaleX(0); }
+.js-mov .chart[data-revelar] .chart__percurso { clip-path: inset(0 100% 0 0); transition: clip-path var(--dur-lenta) var(--ease-saida) var(--dur-media); }
+.js-mov .chart[data-revelar].revelado .chart__percurso { clip-path: inset(0); }
+.js-mov .chart[data-revelar] [data-ponto="depois"] { opacity: 0; transition: opacity var(--dur-media) var(--ease-saida) calc(var(--dur-media) + var(--dur-lenta)); }
+.js-mov .chart[data-revelar].revelado [data-ponto="depois"] { opacity: 1; }
+
+@container (min-width: 600px) {
+  .chart__grupos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .chart__grupo:only-child { grid-column: 1 / -1; }
+  .chart__legenda { grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); }
+  .chart__pilha { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); column-gap: var(--grade-vao); }
+  .chart__pilha > .chart__nome { grid-row: span 2; }
+  .chart__pilha > :not(.chart__nome) { grid-column: 2; }
+}
+
+/* ============================================================
+   Figure
+   Onde entra pixel de produto. Três formas, em data-variant:
+   moldura (uma tela ou protótipo, pousada no papel), galeria (várias
+   telas na ordem do percurso) e sangria (a imagem que é ambiente e
+   atravessa a página de beira a beira).
+
+   A moldura é a caixa do sistema, com o contorno de tinta, o raio de
+   12 e o muted por baixo. É o que impede a imagem de flutuar solta no
+   papel, e o que dá onde terminar a uma tela clara como ele. A sangria
+   é o contrário da moldura: sem contorno e sem raio, uma faixa que o
+   papel atravessa.
+
+   Não reage a mouse, toque ou foco. Entra com o revelar da página.
+   ============================================================ */
+.figure { display: grid; gap: var(--space-12); min-width: 0; }
+.figure__quadro {
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--muted);
+}
+.figure__quadro > img { display: block; width: 100%; height: auto; }
+.figure__quadro > iframe { display: block; width: 100%; height: clamp(520px, 72vh, 720px); border: 0; }
+.figure__legenda { max-width: var(--leitura); font-size: var(--text-apoio); line-height: 1.45; }
+.figure__legenda .t-rotulo { margin-right: var(--space-8); }
+
+/* Retrato. Quando o que está dentro é uma tela de celular, a moldura
+   para de crescer antes de virar paisagem, e o aparelho fica do mesmo
+   tamanho em qualquer largura. */
+.figure[data-formato="retrato"] > .figure__quadro { max-width: 400px; }
+
+/* Recorte. Quando a imagem tem fundo em volta do que importa (telas
+   espalhadas na diagonal), a moldura fica em 16:9 e a imagem cresce
+   por dentro, centrada, até o fundo sair do quadro. O quanto cresce
+   (--zoom) é medido na imagem, e é a página que escreve. */
+.figure[data-recorte] > .figure__quadro { aspect-ratio: 16 / 9; }
+.figure[data-recorte] > .figure__quadro > img { height: 100%; object-fit: cover; scale: var(--zoom, 1); }
+
+/* Ao lado. Uma tela de celular é estreita, e sozinha na coluna deixa
+   metade da Seção vazia ao lado. Com 760px de Seção o texto que leva
+   até ela corre à esquerda e a moldura fica à direita, com o Link logo
+   embaixo. Na Seção estreita o texto vem antes e a tela depois. */
+.figure-ao-lado { display: grid; gap: var(--space-32) var(--grade-vao); align-items: start; }
+@container (min-width: 760px) {
+  .figure-ao-lado { grid-template-columns: minmax(0, 1fr) minmax(0, 400px); grid-template-rows: auto 1fr; column-gap: var(--space-48); }
+  .figure-ao-lado > .prosa { grid-row: 1 / span 2; }
+  .figure-ao-lado > :not(.prosa) { grid-column: 2; }
+}
+
+/* Galeria. As telas abertas, na ordem do percurso, sem seta e sem
+   ponto, porque estão todas à vista. Duas por linha com 600px de
+   Seção, e não três, porque são telas densas. Com data-abertura a
+   primeira é o todo de que as outras são recorte, e ocupa a linha
+   inteira: a diferença de largura diz, sem escrever, que as seguintes
+   são pedaços dela. */
+.figure__lista { display: grid; gap: var(--space-32) var(--grade-vao); }
+.figure__lista > li { min-width: 0; }
+.figure__lista figure { display: grid; gap: var(--space-12); }
+@container (min-width: 600px) {
+  .figure__lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .figure[data-abertura] .figure__lista > li:first-child { grid-column: 1 / -1; }
+}
+
+/* Sangria. A faixa sai da coluna e vai até a beira da tela: o recuo é
+   a distância da coluna à beira, que é a margem da página ou, na tela
+   larga, a metade do que sobra além dos 1280px. No caso a partir de
+   1100px a coluna da esquerda é do Sumário, e a faixa sangra só para a
+   direita. A altura é fixa e a imagem enche por cima, para a faixa ter
+   sempre a mesma proporção de página. */
+.figure[data-variant="sangria"] > .figure__quadro {
+  --sangra: max(var(--page-margem), (100vw - var(--page-max)) / 2);
+  margin-inline: calc(var(--sangra) * -1);
+  height: clamp(260px, 38vw, 560px);
+  border: 0;
+  border-radius: 0;
+  background: var(--ink);
+}
+.figure[data-variant="sangria"] > .figure__quadro > img { height: 100%; object-fit: cover; }
+@media (min-width: 1100px) {
+  .caso .figure[data-variant="sangria"] > .figure__quadro { margin-left: 0; }
+}
+
+/* ============================================================
+   Header e Sheet (menu)
+   ============================================================ */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--background);
+  border-bottom: var(--stroke) solid var(--border);
+}
+.header__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--space-16); min-height: calc(var(--altura-cabecalho) - var(--stroke)); }
+.marca { display: inline-flex; align-items: baseline; gap: var(--space-8); color: inherit; text-decoration: none; }
+.marca b { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; letter-spacing: 0.01em; text-transform: uppercase; }
+.marca span { font-size: var(--text-apoio); }
+@media (max-width: 719px) { .marca span { display: none; } }
+
+.marca:active b { background-size: 100% 100%; }
+@media (hover: hover) and (pointer: fine) {
+  .marca:hover b { background-size: 100% 100%; }
+}
+
+/* O botão do menu. As duas palavras moram na mesma célula da
+   grade, e por isso o botão tem sempre a largura da maior: na
+   troca, uma sobe e sai e a outra sobe e entra, sem o botão mudar
+   de tamanho. As duas linhas do ícone giram e viram um xis. A
+   palavra que não vale fica com visibility hidden, e o nome do
+   botão para o leitor de tela é sempre a que está na tela. */
+.menu-botao {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-12);
+  min-height: var(--alvo);
+  padding: var(--space-8) var(--space-16);
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--background);
+  font-weight: 700;
+  font-size: var(--text-apoio);
+  cursor: pointer;
+  transition: background-color var(--dur-media) var(--ease-saida), color var(--dur-media) var(--ease-saida), transform var(--dur-rapida) var(--ease-saida);
+}
+html:not(.js) .menu-botao { display: none; }
+.menu-botao:active { background: var(--muted); transform: translateY(1px); }
+.menu-botao[aria-expanded="true"] { background: var(--acento); color: var(--ink); }
+@media (hover: hover) and (pointer: fine) {
+  .menu-botao:hover { background: var(--muted); color: var(--ink); }
+  .menu-botao[aria-expanded="true"]:hover { background: var(--acento); }
+}
+.menu-botao__icone { position: relative; width: 16px; height: 10px; flex: none; }
+.menu-botao__icone i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--stroke);
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.menu-botao__icone i:first-child { top: 0; }
+.menu-botao__icone i:last-child { top: 8px; }
+.menu-botao[aria-expanded="true"] .menu-botao__icone i:first-child { transform: translateY(4px) rotate(45deg); }
+.menu-botao[aria-expanded="true"] .menu-botao__icone i:last-child { transform: translateY(-4px) rotate(-45deg); }
+.menu-botao__rotulos { display: grid; overflow: hidden; }
+.menu-botao__rotulos > span {
+  grid-area: 1 / 1;
+  transition: transform var(--dur-media) var(--ease-troca), opacity var(--dur-media) var(--ease-troca), visibility 0s;
+}
+.menu-botao[aria-expanded="true"] .menu-botao__rotulos > span:first-child,
+.menu-botao:not([aria-expanded="true"]) .menu-botao__rotulos > span:last-child {
+  opacity: 0;
+  visibility: hidden;
+  transition: transform var(--dur-media) var(--ease-troca), opacity var(--dur-media) var(--ease-troca), visibility 0s linear var(--dur-media);
+}
+.menu-botao[aria-expanded="true"] .menu-botao__rotulos > span:first-child { transform: translateY(-100%); }
+.menu-botao:not([aria-expanded="true"]) .menu-botao__rotulos > span:last-child { transform: translateY(100%); }
+
+/* O painel. Sem JS fica no fluxo, aberto, logo abaixo da barra. */
+.sheet { border-bottom: var(--stroke) solid var(--border); background: var(--background); }
+.sheet__inner { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-48); }
+.sheet__lista { display: grid; gap: var(--space-4); }
+.sheet__item {
+  display: flex;
+  align-items: center;
+  min-height: var(--alvo);
+  font-family: var(--font-flare);
+  font-weight: 300;
+  font-size: var(--text-sub);
+  line-height: 1.15;
+  color: inherit;
+  text-decoration: none;
+}
+.sheet__item > span { padding-inline: 3px; margin-inline: -3px; }
+.sheet__item[aria-current="page"] { text-decoration: underline; text-decoration-thickness: var(--stroke); text-underline-offset: .18em; }
+.sheet__item:active > span { background-size: 100% 100%; transition-duration: var(--dur-rapida); }
+@media (hover: hover) and (pointer: fine) {
+  .sheet__item:hover > span { background-size: 100% 100%; }
+}
+
+/* Com JS o painel desce por cima da página: a borda de baixo
+   corre do cabeçalho para baixo (clip-path) e os itens chegam um
+   depois do outro. Fechando, sobe mais rápido do que desceu. A
+   página por trás escurece um pouco, e um toque nela fecha. */
+.js .sheet {
+  position: fixed;
+  inset: var(--altura-cabecalho) 0 auto;
+  z-index: 49;
+  max-height: calc(100dvh - var(--altura-cabecalho));
+  overflow: auto;
+  clip-path: inset(0 0 100% 0);
+  visibility: hidden;
+  transition: clip-path var(--dur-media) var(--ease-troca), visibility 0s linear var(--dur-media);
+}
+.js .sheet.sheet--aberto {
+  clip-path: inset(0 0 -4px 0);
+  visibility: visible;
+  transition: clip-path var(--dur-lenta) var(--ease-saida), visibility 0s;
+}
+.js .sheet__lista > li,
+.js .sheet__contato {
+  opacity: 0;
+  transform: translateY(-12px);
+  transition: opacity var(--dur-rapida) var(--ease-troca), transform var(--dur-rapida) var(--ease-troca);
+}
+.js .sheet--aberto .sheet__lista > li,
+.js .sheet--aberto .sheet__contato {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--dur-media) var(--ease-saida), transform var(--dur-media) var(--ease-saida);
+  transition-delay: calc(var(--dur-rapida) * (2 + var(--i, 0)) / 3);
+}
+.sheet__lista > li:nth-child(2) { --i: 1; }
+.sheet__lista > li:nth-child(3) { --i: 2; }
+.sheet__lista > li:nth-child(4) { --i: 3; }
+.sheet__lista > li:nth-child(5) { --i: 4; }
+.sheet__lista > li:nth-child(6) { --i: 5; }
+.sheet__contato { --i: 6; }
+.sheet__fundo {
+  position: fixed;
+  inset: var(--altura-cabecalho) 0 0;
+  z-index: 48;
+  background: rgb(0 0 0 / .18);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur-media) var(--ease-troca), visibility 0s linear var(--dur-media);
+}
+.sheet__fundo--aberto { opacity: 1; visibility: visible; transition: opacity var(--dur-lenta) var(--ease-saida), visibility 0s; }
+/* O que sai do site (LinkedIn, WhatsApp) não disputa com a
+   navegação: corpo de apoio, em Inter, numa linha só, abaixo dos
+   itens do site. */
+.sheet__contato { display: grid; gap: var(--space-8); padding-top: var(--space-24); border-top: var(--stroke) solid var(--border); }
+.sheet__secundaria { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.sheet__secundaria a { display: inline-flex; align-items: center; min-height: var(--alvo); font-size: var(--text-apoio); }
+@media (min-width: 720px) {
+  .sheet__inner { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); align-items: end; }
+  .sheet__contato { border-top: 0; padding-top: 0; }
+}
+
+/* ============================================================
+   Sumário
+   As seções do caso, cada uma com o seu ícone. A partir de 1100px
+   senta fixo na coluna da esquerda. Abaixo disso a página tem uma
+   coluna só, e o sumário vira um trilho: marcas finas na borda
+   direita, dentro da margem, sem cobrir o texto. As lidas ficam em
+   tinta e a da vez cresce no acento. Enquanto a página rola, o nome
+   da seção aparece ao lado das marcas e some quando a rolagem para.
+   Um toque nas marcas abre a lista de lado. Perto do rodapé o
+   trilho sai de cena. Sem JS, a lista fica aberta no topo.
+
+   A seção na tela ganha aria-current, posto pelo script. O item
+   atual não depende só da cor: o ícone gira e cresce.
+   ============================================================ */
+.sumario { display: grid; gap: var(--space-12); align-content: start; }
+.sumario__lista { display: grid; gap: var(--space-4); }
+.sumario__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  min-height: var(--alvo);
+  padding: var(--space-4) var(--space-8);
+  color: inherit;
+  font-weight: 500;
+  line-height: 1.3;
+  text-decoration: none;
+}
+.sumario__item .icone { --icone: 32px; transition: transform var(--dur-media) var(--ease-saida); }
+.sumario__num { font-size: var(--text-rotulo); font-weight: 700; letter-spacing: var(--tracking-rotulo); }
+.sumario__nome { --marca: var(--muted); padding-inline: 3px; margin-inline: -3px; }
+.sumario__item[aria-current] .sumario__nome,
+.sumario__item:active .sumario__nome { --marca: var(--acento); background-size: 100% 100%; }
+.sumario__item[aria-current] .icone { transform: scale(1.12) rotate(-6deg); }
+@media (hover: hover) and (pointer: fine) {
+  .sumario__item:hover .sumario__nome { background-size: 100% 100%; }
+  .sumario__item:not([aria-current]):hover .icone { transform: translateY(-2px) rotate(-6deg); }
+}
+.sumario__botao, .sumario__aviso { display: none; }
+
+@media (max-width: 1099px) {
+  .js .sumario {
+    position: fixed;
+    z-index: 45;
+    top: var(--altura-cabecalho);
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    pointer-events: none;
+    transition: transform var(--dur-media) var(--ease-troca);
+  }
+  .js .sumario > * { pointer-events: auto; }
+  .js .sumario--escondido { transform: translateX(100%); }
+  .js .sumario__titulo { display: none; }
+
+  /* As marcas. O botão tem 44px de largura para o dedo, mas o que
+     se vê ocupa só a margem. */
+  .js .sumario__botao {
+    display: grid;
+    justify-items: end;
+    gap: 6px;
+    width: var(--alvo);
+    padding: var(--space-12) 4px var(--space-12) 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .sumario__seg {
+    display: block;
+    width: 8px;
+    height: 22px;
+    border: var(--stroke) solid var(--border);
+    border-radius: var(--radius-pill);
+    background: var(--background);
+    transition: height var(--dur-media) var(--ease-saida), width var(--dur-media) var(--ease-saida), background-color var(--dur-media) var(--ease-saida);
+  }
+  .sumario__seg[data-estado="lido"] { background: var(--foreground); }
+  .sumario__seg[data-estado="atual"] { width: 12px; height: 44px; background: var(--acento); }
+
+  /* A lista, que entra de lado com os itens chegando um a um. */
+  .js .sumario__lista {
+    position: absolute;
+    right: calc(var(--alvo) + var(--space-4));
+    width: min(300px, calc(100vw - var(--alvo) - var(--space-24)));
+    padding: var(--space-8);
+    border: var(--stroke) solid var(--border);
+    border-radius: var(--radius);
+    background: var(--background);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(24px);
+    transition: opacity var(--dur-rapida) var(--ease-troca), transform var(--dur-media) var(--ease-troca), visibility 0s linear var(--dur-media);
+  }
+  .js .sumario--aberto .sumario__lista {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity var(--dur-media) var(--ease-saida), transform var(--dur-lenta) var(--ease-saida), visibility 0s;
+  }
+  .js .sumario__lista > li { opacity: 0; transform: translateY(8px); transition: opacity var(--dur-rapida) var(--ease-troca), transform var(--dur-rapida) var(--ease-troca); }
+  .js .sumario--aberto .sumario__lista > li {
+    opacity: 1;
+    transform: none;
+    transition: opacity var(--dur-media) var(--ease-saida), transform var(--dur-media) var(--ease-saida);
+    transition-delay: calc(var(--dur-rapida) * (2 + var(--i, 0)) / 3);
+  }
+  .sumario__lista > li:nth-child(2) { --i: 1; }
+  .sumario__lista > li:nth-child(3) { --i: 2; }
+  .sumario__lista > li:nth-child(4) { --i: 3; }
+  .sumario__lista > li:nth-child(5) { --i: 4; }
+  .sumario__lista > li:nth-child(6) { --i: 5; }
+  .sumario__lista > li:nth-child(7) { --i: 6; }
+  .sumario__lista > li:nth-child(8) { --i: 7; }
+
+  /* O nome da seção, ao lado das marcas enquanto a página rola. */
+  .js .sumario__aviso {
+    display: block;
+    position: absolute;
+    right: calc(var(--alvo) + var(--space-4));
+    padding: var(--space-4) var(--space-12);
+    border: var(--stroke) solid var(--border);
+    border-radius: var(--radius-pill);
+    background: var(--background);
+    font-size: var(--text-apoio);
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(12px);
+    pointer-events: none;
+    transition: opacity var(--dur-media) var(--ease-troca), transform var(--dur-media) var(--ease-troca);
+  }
+  .js .sumario--rolando:not(.sumario--aberto):not(.sumario--escondido) .sumario__aviso { opacity: 1; transform: none; transition-timing-function: var(--ease-saida); }
+}
+
+/* ============================================================
+   Footer
+   A outra parada de tinta, fixa em toda página.
+   ============================================================ */
+.footer { padding-block: var(--space-secao) var(--space-32); }
+.footer__grade { display: grid; gap: var(--space-48); }
+.footer__meta a { font-size: var(--text-rotulo); font-weight: 700; letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.footer__chamada { display: grid; gap: var(--space-24); justify-items: start; }
+.footer__col { display: grid; gap: var(--space-12); align-content: start; }
+.footer__col ul { display: grid; gap: var(--space-4); }
+.footer__col a { display: inline-flex; align-items: center; min-height: 32px; }
+/* A página atual, na lista onde todo link já é sublinhado: perde o
+   sublinhado e ganha peso. A marca é de forma, não só de cor. */
+.footer__col a[aria-current="page"] { text-decoration: none; font-weight: 700; }
+.footer__meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-16); margin-top: var(--space-64); padding-top: var(--space-16); border-top: var(--stroke) solid var(--border); }
+
+/* ── Toque ───────────────────────────────────────────────────
+   Onde o ponteiro é o dedo, nenhum alvo fica abaixo de 44px. */
+@media (pointer: coarse) {
+  .button, .footer__col a { min-height: var(--alvo); }
+  .link[data-variant], .marca { min-height: var(--alvo); align-items: center; }
+}
+
+/* ============================================================
+   Layout a partir do tablet e do desktop
+   ============================================================ */
+@media (min-width: 720px) {
+  .cards[data-layout="mosaico"] > [data-tamanho="meio"] { grid-column: span 3; }
+  .cards[data-layout="mosaico"] > [data-tamanho="terco"] { grid-column: span 2; }
+  .compare { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .footer__grade { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); }
+}
+@media (min-width: 1100px) {
+  .cards[data-layout="mosaico"] > [data-tamanho="dois-tercos"] { grid-column: span 4; }
+}
+
+/* ============================================================
+   Receitas de página
+   Composições de componentes, sem cor nem forma próprias: só onde
+   cada peça senta na grade.
+   ============================================================ */
+
+/* Página de caso. A partir de 1100px o Sumário senta fixo numa
+   coluna de 260px à esquerda e o conteúdo ocupa o resto. Abaixo
+   disso a página tem uma coluna só, e o Sumário vira o trilho. */
+.caso { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+
+/* Topo do caso. O texto (etiquetas, título e frase de apoio), a
+   ficha e o Salto, no mesmo mosaico de seis colunas das seções. */
+.topo { display: grid; gap: var(--grade-vao); grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.topo > * { grid-column: 1 / -1; }
+.topo__texto { display: grid; gap: var(--space-24); }
+.topo__salto { display: grid; gap: var(--space-16); }
+.topo__salto .ilustracao { max-width: 260px; justify-self: end; margin-top: -24px; }
+@media (min-width: 720px) {
+  /* Entre 720 e 1099 a ficha e o Salto dividem a linha ao meio. */
+  .topo__ficha, .topo__salto { grid-column: span 3; }
+}
+@media (min-width: 1100px) {
+  .caso { grid-template-columns: 260px minmax(0, 1fr); column-gap: var(--space-48); }
+  .caso > .sumario { position: sticky; top: 96px; align-self: start; }
+  .topo__texto { grid-column: span 4; }
+  .topo__ficha { grid-column: span 2; }
+  .topo__salto { grid-column: 1 / -1; grid-template-columns: 1fr auto; align-items: end; }
+}
+
+/* Fechamento do caso. O convite e o botão para o próximo. */
+.fechamento { display: grid; gap: var(--space-24); justify-items: start; }
+
+/* Hero da Home. A frase é a própria cena (ver ds/ROTEIRO-HERO.md).
+
+   O HTML é o Momento 3, a página pronta: a frase em tinta, as cores do
+   Jeff DS desenhando a tipografia por trás e os adesivos em volta. É o
+   que aparece sem JS e com movimento reduzido. Com movimento, a chegada
+   começa do rascunho e anda até ali, uma vez só, em uns 3,2s:
+
+   1. Rascunho. A grade, as letras em contorno à mão escritas da
+      esquerda para a direita com as guias, a hachura no ofício, as
+      notas de quem desenha e o não circulado.
+   2. Cores. O contorno se enche de tinta, o rascunho se apaga e as
+      cores entram por trás das palavras como adesivo que assenta.
+   3. Ilustrações e ícones. Os adesivos chegam, os do ofício primeiro.
+
+   Na rolagem só há um deslocamento leve. A primeira linha quase não se
+   move, a segunda sobe um pouco mais, e os adesivos mais que a frase.
+   O progresso (--p) é o mesmo do topo até o hero sair de baixo do
+   cabeçalho, pela linha do tempo de rolagem do CSS e, onde ela não
+   existe, pelo módulo 5 do componentes.js.
+
+   Do tablet para cima a frase tem duas linhas, uma por frase, e o
+   tamanho sai da largura do hero: a primeira linha ocupa 10,8 vezes o
+   tamanho da fonte em Anton. No celular cada frase quebra em três
+   linhas, para ganhar o peso que tem no desktop, e os adesivos descem
+   pelo vão que as linhas curtas deixam à direita.
+
+   O texto nunca muda de cor para lime, azul ou verde. A cor fica
+   sempre atrás das palavras. */
+@property --p { syntax: "<number>"; inherits: true; initial-value: 0; }
+.hero {
+  container-type: inline-size;
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: var(--space-48);
+  /* No desktop a primeira tela deixa ver o começo da Lista de casos,
+     para ficar claro que a página continua. */
+  min-height: calc(100svh - var(--altura-cabecalho) - 9rem);
+  padding-block: var(--space-48);
+  /* Os tempos da chegada, tirados dos tokens: as cores começam em
+     1,6s e os adesivos em 2,5s. */
+  --m2: calc(var(--dur-lenta) * 2.5);
+  --m3: calc(var(--dur-lenta) * 3.9);
+  /* As três cores das palavras. O lime é o primary, o azul o
+     secondary, e o verde vem do terceiro tom dos gráficos. */
+  --hero-cor-1: var(--primary);
+  --hero-cor-2: var(--secondary);
+  --hero-cor-3: var(--chart-3);
+  --traco-rascunho: 2px;
+}
+.hero__filtro { position: absolute; width: 0; height: 0; }
+.hero__frase {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--text-hero);
+  line-height: var(--leading-display);
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+}
+.hero__linha { position: relative; display: block; width: fit-content; white-space: nowrap; }
+.hero__q { position: relative; }
+.hero__p { position: relative; display: inline-block; isolation: isolate; }
+.hero__p::before { content: ""; position: absolute; z-index: -1; border: var(--stroke) solid var(--foreground); }
+.hero__p--oficio::before { inset: .14em -.1em .08em; background: var(--hero-cor-1); border-radius: .1em; transform: rotate(-2deg); }
+.hero__p--mesmo::before { width: 1.15em; aspect-ratio: 1; right: -.28em; top: -.08em; background: var(--hero-cor-2); border-radius: 50%; }
+/* "jeito de fazer," é feito de dois pedaços, porque no celular quebra
+   depois de "jeito". No desktop o primeiro cobre o espaço e os dois
+   viram uma faixa só, sem os contornos de dentro. */
+.hero__p--jeito::before { left: 0; right: -.08em; bottom: .02em; height: .36em; background: var(--hero-cor-3); border-left-width: 0; border-radius: 0 .06em .06em 0; transform: skewX(-12deg); }
+.hero__p--emenda::before { left: -.08em; right: -.4em; border-left-width: var(--stroke); border-right-width: 0; border-radius: .06em 0 0 .06em; }
+.hero__p--nao { color: var(--background); }
+.hero__p--nao::before { inset: -.12em -.12em .06em; background: var(--foreground); border-radius: .1em; transform: rotate(3deg); }
+.hero__apoio { position: relative; z-index: 1; display: grid; }
+.hero__apoio > * { grid-area: 1 / 1; }
+.hero__apoio .t-sub { max-width: 34ch; }
+
+/* Os adesivos. Os do ofício sentam na primeira linha, e os do jeito de
+   fazer embaixo da segunda. --o é a ordem de chegada. */
+.hero__adesivo { position: absolute; z-index: 2; width: max(36px, var(--t, .6em)); height: auto; transform: rotate(var(--g, 0deg)); }
+.hero__a--lapis   { --t: .62em; --g: -14deg; --o: 0; --sobe: 70px;  left: -.34em; top: -.46em; }
+.hero__a--lupa    { --t: .56em; --g: 9deg;   --o: 1; --sobe: 90px;  left: 54%;    top: -.52em; }
+.hero__a--pessoa  { --t: .6em;  --g: -6deg;  --o: 2; --sobe: 60px;  right: -.42em; top: -.5em; }
+.hero__a--janela  { --t: .56em; --g: -10deg; --o: 3; --sobe: 110px; left: 50%;    top: 2.3em; }
+.hero__a--dialogo { --t: .52em; --g: 8deg;   --o: 4; --sobe: 80px;  left: 64%;    top: 2.42em; }
+.hero__a--celular { --t: .54em; --g: 12deg;  --o: 5; --sobe: 120px; left: 77%;    top: 2.26em; }
+.hero__a--camadas { --t: .5em;  --g: -8deg;  --o: 6; --sobe: 90px;  right: -.3em; top: 2.32em; }
+.hero__a--esboco  { --t: .86em; --g: 7deg;   --o: 7; --sobe: 70px;  right: 3%;    top: 1.08em; }
+
+/* O que só existe no rascunho. Fora do movimento não aparece. */
+.hero__grade, .hero__nota, .hero__rascunho { display: none; }
+.hero__nota { position: absolute; font-family: var(--font-flare); font-weight: 300; font-size: max(16px, .2em); line-height: 1.1; letter-spacing: 0; text-transform: none; -webkit-text-stroke: 0; color: var(--foreground); white-space: nowrap; }
+.hero__nota--topo { right: -1cqi; top: -.42em; }
+.hero__nota--pe { right: 0; bottom: -.5em; }
+.hero__rascunho { width: min(100%, 520px); height: auto; align-self: start; }
+
+@media (max-width: 719px) {
+  .hero { min-height: 0; padding-block: var(--space-48) var(--space-64); }
+}
+@container (max-width: 599px) {
+  .hero { --traco-rascunho: 1.5px; }
+  .hero__frase { font-size: var(--text-hero-estreito); }
+  .hero__linha { width: auto; white-space: normal; }
+  .hero__q { display: block; width: fit-content; }
+  .hero__linha + .hero__linha { margin-top: .22em; }
+  .hero__linha + .hero__linha > .hero__q:last-child { margin-top: .14em; }
+  .hero__p--jeito::before { left: -.08em; border-left-width: var(--stroke); border-radius: .06em; }
+  .hero__p--emenda::before { right: -.08em; border-right-width: var(--stroke); border-radius: .06em; }
+  .hero__nota { font-size: 15px; }
+  .hero__nota--topo { right: auto; left: 0; top: -1.6em; }
+  .hero__adesivo { --t: 48px; }
+  .hero__a--pessoa  { left: auto;  right: 0;    top: .38em; }
+  .hero__a--lapis   { left: auto;  right: 16%;  top: .26em; }
+  .hero__a--lupa    { left: auto;  right: 0;    top: 1.52em; }
+  .hero__a--janela  { left: auto;  right: 15%;  top: 4.02em; }
+  .hero__a--dialogo { left: auto;  right: 0;    top: 4.22em; }
+  .hero__a--celular { left: auto;  right: 1%;   top: 5.32em; }
+  .hero__a--camadas { left: 2.1em; right: auto; top: 6.58em; }
+  .hero__a--esboco  { --t: 76px;   right: 0;    top: 6.2em; }
+}
+
+/* A chegada. */
+@media (prefers-reduced-motion: no-preference) {
+  /* 1. Rascunho */
+  .js .hero:not([data-parado]) .hero__grade {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, color-mix(in srgb, var(--foreground) 14%, transparent) 1px, transparent 1px) 0 0 / calc((100% + var(--grade-vao)) / 12) 100%;
+    pointer-events: none;
+    animation: hero-aparece var(--dur-media) var(--ease-saida) both, hero-some var(--dur-media) var(--ease-troca) var(--m2) forwards;
+  }
+  .js .hero:not([data-parado]) .hero__frase { animation: hero-tinta var(--dur-media) var(--ease-troca) var(--m2) both; }
+  /* Cada linha é escrita da esquerda para a direita, e as guias vêm
+     junto com ela. */
+  .js .hero:not([data-parado]) .hero__linha { animation: hero-escreve var(--dur-lenta) var(--ease-troca) calc(var(--dur-media) * (1 + var(--i))) both; }
+  .js .hero:not([data-parado]) .hero__linha::before,
+  .js .hero:not([data-parado]) .hero__linha::after {
+    content: "";
+    position: absolute;
+    left: -2cqi;
+    width: 104cqi;
+    border-top: 1.5px dashed color-mix(in srgb, var(--foreground) 45%, transparent);
+    animation: hero-some var(--dur-media) var(--ease-troca) var(--m2) forwards;
+  }
+  .js .hero:not([data-parado]) .hero__linha::before { top: .25em; }
+  .js .hero:not([data-parado]) .hero__linha::after { top: 1.02em; }
+  .js .hero:not([data-parado]) .hero__p--oficio {
+    background: repeating-linear-gradient(135deg, var(--foreground) 0 2px, transparent 2px 9px) left / 0% 100% no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: hero-hachura var(--dur-media) var(--ease-saida) calc(var(--dur-lenta) * 1.4) both;
+  }
+  .js .hero:not([data-parado]) .hero__rascunho {
+    display: block;
+    animation: hero-some var(--dur-media) var(--ease-troca) var(--m2) forwards;
+  }
+  .js .hero:not([data-parado]) .hero__rascunho path {
+    stroke-dasharray: 520;
+    animation: hero-traco var(--dur-media) var(--ease-saida) calc(var(--dur-lenta) * 1.5 + var(--dur-rapida) * var(--i)) both;
+  }
+  .js .hero:not([data-parado]) .hero__nota {
+    display: block;
+    animation: hero-chega var(--dur-media) var(--ease-saida) calc(var(--dur-lenta) * 1.75) both, hero-some var(--dur-media) var(--ease-troca) var(--m2) forwards;
+  }
+  .js .hero:not([data-parado]) .hero__nota--pe { animation-delay: calc(var(--dur-lenta) * 1.75 + var(--dur-rapida)), var(--m2); }
+  .js .hero:not([data-parado]) .hero__p--nao::after {
+    content: "";
+    position: absolute;
+    inset: -.06em -.2em -.02em -.16em;
+    border: 3px solid var(--foreground);
+    border-radius: 50%;
+    rotate: -4deg;
+    animation: hero-circula var(--dur-media) var(--ease-saida) calc(var(--dur-lenta) * 2.125) both, hero-some var(--dur-media) var(--ease-troca) var(--m2) forwards;
+  }
+
+  /* 2. Cores */
+  .js .hero:not([data-parado]) .hero__p::before { animation: hero-cola var(--dur-media) var(--ease-saida) calc(var(--m2) + var(--dur-rapida) * var(--o)) both; }
+  .js .hero:not([data-parado]) .hero__p--oficio::before { --o: 1; }
+  .js .hero:not([data-parado]) .hero__p--mesmo::before { --o: 2; }
+  .js .hero:not([data-parado]) .hero__p--jeito::before { --o: 3; }
+  .js .hero:not([data-parado]) .hero__p--nao::before { --o: 4; }
+  /* O não fica em tinta até a caixa chegar, e só então vira papel. */
+  .js .hero:not([data-parado]) .hero__p--nao {
+    animation: hero-cor-tinta var(--dur-media) var(--ease-troca) var(--m2) both, hero-cor-papel var(--dur-rapida) linear calc(var(--m2) + var(--dur-rapida) * 5) forwards;
+  }
+  .js .hero:not([data-parado]) .hero__apoio .t-sub { animation: hero-chega var(--dur-media) var(--ease-saida) calc(var(--m2) + var(--dur-media) * 2.5) both; }
+
+  /* 3. Ilustrações e ícones */
+  .js .hero:not([data-parado]) .hero__adesivo { animation: hero-adesivo var(--dur-media) var(--ease-saida) calc(var(--m3) + var(--dur-rapida) * var(--o) / 2) both; }
+
+  /* Na rolagem, um deslocamento só. */
+  .js .hero:not([data-parado]) .hero__linha { translate: 0 calc(var(--p) * var(--sobe) * -1); }
+  .js .hero:not([data-parado]) .hero__linha:first-of-type { --sobe: 8px; }
+  .js .hero:not([data-parado]) .hero__linha + .hero__linha { --sobe: 40px; }
+  .js .hero:not([data-parado]) .hero__adesivo { translate: 0 calc(var(--p) * var(--sobe) * -1); }
+}
+@container (max-width: 599px) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* No celular cada pedaço da frase é escrito na sua vez, e as guias
+       acompanham os pedaços. O deslocamento é a metade. */
+    .js .hero:not([data-parado]) .hero__linha { animation: none; }
+    .js .hero:not([data-parado]) .hero__linha::before,
+    .js .hero:not([data-parado]) .hero__linha::after { display: none; }
+    .js .hero:not([data-parado]) .hero__q { animation: hero-escreve var(--dur-lenta) var(--ease-troca) calc(var(--dur-media) + var(--dur-rapida) * var(--i)) both; }
+    .js .hero:not([data-parado]) .hero__q::before,
+    .js .hero:not([data-parado]) .hero__q::after {
+      content: "";
+      position: absolute;
+      left: -2cqi;
+      width: 104cqi;
+      border-top: 1.5px dashed color-mix(in srgb, var(--foreground) 45%, transparent);
+      animation: hero-some var(--dur-media) var(--ease-troca) var(--m2) forwards;
+    }
+    .js .hero:not([data-parado]) .hero__q::before { top: .25em; }
+    .js .hero:not([data-parado]) .hero__q::after { top: 1.02em; }
+    .js .hero:not([data-parado]) .hero__p--oficio { background-image: repeating-linear-gradient(135deg, var(--foreground) 0 1.5px, transparent 1.5px 7px); }
+    .js .hero:not([data-parado]) :is(.hero__linha, .hero__adesivo) { translate: 0 calc(var(--p) * var(--sobe) * -.5); }
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .js .hero:not([data-parado]) {
+      view-timeline: --hero block;
+      view-timeline-inset: var(--altura-cabecalho) 0px;
+      animation: hero-progresso linear both;
+      animation-timeline: --hero;
+      animation-range: exit-crossing 0% exit-crossing 100%;
+    }
+  }
+}
+@keyframes hero-progresso { from { --p: 0; } to { --p: 1; } }
+@keyframes hero-aparece { from { opacity: 0; } }
+@keyframes hero-some { to { opacity: 0; } }
+@keyframes hero-chega { from { opacity: 0; translate: 0 8px; } }
+@keyframes hero-escreve { from { clip-path: inset(-50% 100% -50% -50%); } to { clip-path: inset(-50%); } }
+@keyframes hero-hachura { to { background-size: 100% 100%; } }
+@keyframes hero-traco { from { stroke-dashoffset: 520; } to { stroke-dashoffset: 0; } }
+@keyframes hero-circula { from { opacity: 0; scale: .7; } }
+@keyframes hero-tinta {
+  from { color: transparent; -webkit-text-stroke: var(--traco-rascunho) var(--foreground); filter: url(#hero-tremor); }
+  to { color: var(--foreground); -webkit-text-stroke: 0 transparent; filter: none; }
+}
+@keyframes hero-cor-tinta { from { color: transparent; } to { color: var(--foreground); } }
+@keyframes hero-cor-papel { to { color: var(--background); } }
+@keyframes hero-cola { from { opacity: 0; scale: 1.2; } }
+@keyframes hero-adesivo { from { opacity: 0; scale: 1.3; rotate: 14deg; } }
+
+/* Lista de casos. Um Cartão de caso por caso, na ordem da fila, no
+   mosaico com dois por linha a partir do tablet. */
+.lista-casos { display: grid; gap: var(--space-24); padding-bottom: var(--space-secao); }
+
+/* Grupo de links dentro do menu. */
+.grupo { display: grid; gap: var(--space-12); align-content: start; }
+
+/* Texto só para leitor de tela. */
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ============================================================
+   Carregamento
+   O mesmo gesto do hero da Home, do esboço à página pronta. A
+   página chega montando a tela por cima do esboço: primeiro o traço
+   à mão, depois a grade, os componentes, os textos e por fim as
+   cores. A barra embaixo avança uma vez a cada camada.
+
+   O tempo é da animação, não da rede: ela dura no mínimo 1,6s mesmo
+   com a página já pronta, porque uma transição que ninguém vê não
+   precisa existir. Se a rede demorar mais, a barra para perto do
+   fim e espera.
+
+   Só existe com JS e com movimento liberado. Se o script falhar, a
+   própria folha tira a cortina depois de 5s.
+   ============================================================ */
+.carga { display: none; }
+.js .carga {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  background: var(--paper);
+  color: var(--ink);
+  animation: carga-socorro 0s linear 5s forwards;
+}
+@keyframes carga-socorro { to { visibility: hidden; } }
+.js .carga[hidden] { display: none; }
+.carga__quadro { display: grid; gap: var(--space-16); justify-items: center; width: min(220px, 56vw); }
+.carga__tela { width: 100%; height: auto; overflow: visible; }
+.carga__barra { width: 100%; height: 10px; border: var(--stroke) solid var(--ink); border-radius: var(--radius-pill); overflow: hidden; background: var(--paper); }
+.carga__barra i { display: block; height: 100%; width: 0; background: var(--acento); border-right: var(--stroke) solid var(--ink); animation: carga-barra 1.5s steps(1, end) forwards; }
+.carga--pronta .carga__barra i { width: 100%; animation: none; transition: width 180ms var(--ease-saida); }
+@keyframes carga-barra {
+  0%   { width: 4%; }
+  20%  { width: 20%; }
+  40%  { width: 40%; }
+  60%  { width: 60%; }
+  80%  { width: 80%; }
+  100% { width: 90%; }
+}
+
+/* O esboço se desenha. */
+.carga__esboco path { stroke-dasharray: 900; stroke-dashoffset: 900; animation: carga-traco 0.5s var(--ease-saida) forwards; }
+@keyframes carga-traco { to { stroke-dashoffset: 0; } }
+
+/* As camadas chegam como adesivo sendo colado: de fora do quadro,
+   giradas, e assentam no lugar. */
+.carga__camada { opacity: 0; transform-box: view-box; transform-origin: 120px 150px; animation: carga-camada 0.36s var(--ease-saida) forwards; }
+.carga__camada--grade       { --de: translate(-90px, 70px) rotate(-14deg);  animation-delay: 0.30s; }
+.carga__camada--componentes { --de: translate(90px, 60px) rotate(12deg);    animation-delay: 0.60s; }
+.carga__camada--textos      { --de: translate(-90px, -60px) rotate(-12deg); animation-delay: 0.90s; }
+.carga__camada--cores       { --de: translate(90px, -70px) rotate(16deg);   animation-delay: 1.20s; mix-blend-mode: multiply; }
+.carga__cor { fill: var(--acento); }
+@keyframes carga-camada {
+  from { opacity: 0; transform: var(--de); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* A volta. Chegando pelo voltar do navegador, a tela faz o caminho
+   de trás para a frente: começa pronta e se desmonta, na ordem
+   inversa da chegada. Saem as cores, os textos, os componentes, a
+   grade, e por fim o traço do esboço se recolhe. A barra recua
+   junto. A classe volta vem do script da cabeça, quando a página é
+   carregada de novo, e carga--volta do componentes.js, quando ela
+   sai do cache do navegador. */
+.volta .carga__camada,
+.carga--volta .carga__camada { animation-name: carga-camada-sai; animation-timing-function: var(--ease-troca); animation-fill-mode: both; }
+.volta .carga__camada--cores,       .carga--volta .carga__camada--cores       { animation-delay: 0.20s; }
+.volta .carga__camada--textos,      .carga--volta .carga__camada--textos      { animation-delay: 0.50s; }
+.volta .carga__camada--componentes, .carga--volta .carga__camada--componentes { animation-delay: 0.80s; }
+.volta .carga__camada--grade,       .carga--volta .carga__camada--grade       { animation-delay: 1.10s; }
+.volta .carga__esboco path,
+.carga--volta .carga__esboco path { stroke-dashoffset: 0; animation: carga-traco-sai 0.5s var(--ease-troca) 1.40s forwards; }
+.volta .carga__barra i,
+.carga--volta .carga__barra i { animation-name: carga-barra-volta; }
+.volta .carga--pronta .carga__barra i,
+.carga--volta.carga--pronta .carga__barra i { width: 0; }
+@keyframes carga-camada-sai {
+  from { opacity: 1; transform: none; }
+  to   { opacity: 0; transform: var(--de); }
+}
+@keyframes carga-traco-sai { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 900; } }
+@keyframes carga-barra-volta {
+  0%   { width: 100%; }
+  20%  { width: 80%; }
+  40%  { width: 60%; }
+  60%  { width: 40%; }
+  80%  { width: 20%; }
+  100% { width: 6%; }
+}
+
+/* A saída: a cortina sobe e a página aparece. */
+.carga--saindo { transform: translateY(-100%); transition: transform 0.48s var(--ease-troca); }
+/* A entrada, quando um link interno é clicado: a cortina desce. */
+.carga--cobrindo { transform: translateY(-100%); animation: none; visibility: visible; }
+.carga--cobrindo.carga--desce { transform: none; transition: transform 0.36s var(--ease-troca); }
+.carga--cobrindo .carga__quadro { visibility: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .carga { display: none; }
+}
+
+/* ── Ícone adesivo e ilustração ──────────────────────────────
+   Os dois são decorativos: o sentido está sempre no texto ao lado,
+   e por isso entram com alt vazio. */
+.icone { display: block; flex: none; width: var(--icone, 56px); height: auto; }
+.icone-inline { display: inline-block; flex: none; width: 1.6em; height: auto; margin-right: var(--space-8); vertical-align: -0.45em; }
+.badge .icone-inline { width: 20px; margin: -6px 6px -6px -4px; vertical-align: middle; }
+.ilustracao { display: block; width: 100%; height: auto; }

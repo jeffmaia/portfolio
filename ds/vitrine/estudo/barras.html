@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Estudo das barras · Jeff DS no site</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__rolar { min-height: 60vh; }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+
+.estudo-topo { display: grid; gap: var(--space-16); padding-bottom: var(--space-16); }
+.estudo-topo .t-sub { max-width: 44ch; }
+</style>
+</head>
+<body>
+
+<a class="pular" href="#conteudo">Pular para o estudo</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="../../../case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container palco-pagina">
+  <div>
+    <header class="estudo-topo">
+      <a class="link" data-variant="voltar" href="../index.html#peca-grafico"><i aria-hidden="true">←</i> Vitrine</a>
+      <p class="t-rotulo">Estudo · Fase 6</p>
+      <h1 class="t-display">Três jeitos de&nbsp;fazer as&nbsp;barras</h1>
+      <p class="t-sub">O antes e depois do Gráfico, com o tempo do Processo e os acessos do Mapa. Uma figura conta uma queda e a outra um&nbsp;salto.</p>
+    </header>
+    <div class="prosa"><p>Hoje cada valor ocupa um trilho inteiro. O antes do Processo enche o trilho de trama e parece só marcar o espaço, e o valor fica na beira direita, longe da ponta da barra. Cada direção resolve isso de um jeito. Troque a largura do quadro, ou abra a direção em página&nbsp;inteira.</p></div>
+    
+      <div class="peca" id="b1">
+        <h3>1. Um trilho só</h3>
+        <p class="t-apoio prosa"><strong>Antes e depois no mesmo lugar.</strong> O antes e o depois dividem o mesmo trilho, como na escala. O muted é o tamanho do antes, o acento por cima é o depois, e cada valor termina sobre a ponta da sua barra. A queda se vê como o que sobrou de muted, e o salto como o acento passando do fio do&nbsp;antes.</p>
+        <div class="palco" data-palco data-largura-inicial="1440" data-altura="900">
+          <div class="palco__barra">
+            <div class="palco__larguras" role="group" aria-label="Largura do quadro, em pixels"><button class="button" type="button" data-variant="outline" data-largura="390" aria-pressed="false">390</button><button class="button" type="button" data-variant="outline" data-largura="768" aria-pressed="false">768</button><button class="button" type="button" data-variant="outline" data-largura="1440" aria-pressed="false">1440</button></div>
+            <a class="link" data-variant="seguir" href="barras-1.html">Abrir em página inteira <i aria-hidden="true">→</i></a>
+          </div>
+          <div class="palco__janela"><iframe src="barras-1.html" title="Direção 1, Um trilho só" loading="lazy"></iframe></div>
+        </div>
+      </div>
+      <div class="peca" id="b2">
+        <h3>2. Barras soltas</h3>
+        <p class="t-apoio prosa"><strong>Cada barra do tamanho do valor.</strong> Sem trilho vazio. Cada barra tem só o próprio tamanho, e o valor vem junto do rótulo, em cima. Na barra menor, o contorno tracejado vai até o tamanho da outra. É o tempo que saiu, ou o acesso que faltava, no mesmo tracejado das&nbsp;cenas.</p>
+        <div class="palco" data-palco data-largura-inicial="1440" data-altura="900">
+          <div class="palco__barra">
+            <div class="palco__larguras" role="group" aria-label="Largura do quadro, em pixels"><button class="button" type="button" data-variant="outline" data-largura="390" aria-pressed="false">390</button><button class="button" type="button" data-variant="outline" data-largura="768" aria-pressed="false">768</button><button class="button" type="button" data-variant="outline" data-largura="1440" aria-pressed="false">1440</button></div>
+            <a class="link" data-variant="seguir" href="barras-2.html">Abrir em página inteira <i aria-hidden="true">→</i></a>
+          </div>
+          <div class="palco__janela"><iframe src="barras-2.html" title="Direção 2, Barras soltas" loading="lazy"></iframe></div>
+        </div>
+      </div>
+      <div class="peca" id="b3">
+        <h3>3. Unidades</h3>
+        <p class="t-apoio prosa"><strong>O tempo contado em pedaços.</strong> Um quadrado por semana, ou por dez minutos, como as semanas do calendário da cena. Cheio até o mínimo e em trama até o máximo da faixa, porque &ldquo;1 a 2 meses&rdquo; são de 4 a 8 semanas. Conta bem o tempo, e no Mapa vira uma&nbsp;contagem.</p>
+        <div class="palco" data-palco data-largura-inicial="1440" data-altura="900">
+          <div class="palco__barra">
+            <div class="palco__larguras" role="group" aria-label="Largura do quadro, em pixels"><button class="button" type="button" data-variant="outline" data-largura="390" aria-pressed="false">390</button><button class="button" type="button" data-variant="outline" data-largura="768" aria-pressed="false">768</button><button class="button" type="button" data-variant="outline" data-largura="1440" aria-pressed="false">1440</button></div>
+            <a class="link" data-variant="seguir" href="barras-3.html">Abrir em página inteira <i aria-hidden="true">→</i></a>
+          </div>
+          <div class="palco__janela"><iframe src="barras-3.html" title="Direção 3, Unidades" loading="lazy"></iframe></div>
+        </div>
+      </div>
+  </div>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="../../../case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+<script src="../vitrine.js"></script>
+</body>
+</html>

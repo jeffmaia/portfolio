@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Gráfico, ficha · Jeff DS no site</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__rolar { min-height: 60vh; }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+</style>
+</head>
+<body>
+
+<a class="pular" href="#conteudo">Pular para a ficha</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="../../../case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container ficha-pagina">
+  <header class="ficha-pagina__topo">
+    <a class="link" data-variant="voltar" href="../index.html#peca-grafico"><i aria-hidden="true">←</i> Vitrine</a>
+    <span class="badge"><code>Chart</code></span>
+    <h1 class="t-display">Gráfico</h1>
+    <p class="t-sub">O valor que só se entende ao lado de outros, numa série, numa proporção ou numa escala.</p>
+  </header>
+  <section class="ficha-pagina__palco" aria-labelledby="na-pagina">
+    <h2 id="na-pagina">Na página</h2>
+    <p class="t-apoio prosa">A peça montada numa página com o texto real e outras peças em&nbsp;volta.</p>
+    <div class="palco" data-palco data-largura-inicial="1440" data-altura="800">
+          <div class="palco__barra">
+            <div class="palco__larguras" role="group" aria-label="Largura do quadro, em pixels"><button class="button" type="button" data-variant="outline" data-largura="390" aria-pressed="false">390</button><button class="button" type="button" data-variant="outline" data-largura="768" aria-pressed="false">768</button><button class="button" type="button" data-variant="outline" data-largura="1440" aria-pressed="false">1440</button></div>
+            <a class="link" data-variant="seguir" href="../palco/grafico.html">Abrir em página inteira <i aria-hidden="true">→</i></a>
+          </div>
+          <div class="palco__janela"><iframe src="../palco/grafico.html" title="Gráfico, na página" loading="lazy"></iframe></div>
+        </div>
+    <p class="t-rotulo">O que testar</p>
+    <ul class="testar"><li>Role o palco. Cada Seção usa uma forma, com o texto do Inpulse, do Mapa de experiência e do Processo com&nbsp;IA.</li><li>Quando o Gráfico entra na tela, o bloco sobe e logo depois o preenchimento corre da esquerda. Na escala, o percurso vai do antes ao depois, e só então aparece o ponto de&nbsp;depois.</li><li>Nas barras, o antes e o depois dividem o mesmo trilho. O antes é o muted, o depois é o acento, cada um com um fio de tinta na ponta, dentro do trilho, e cada valor termina sobre a ponta da sua barra. No Processo o tempo encolhe e sobra muted. No Mapa o acento passa do&nbsp;antes.</li><li>Nas pilhas, entusiasta é o acento, receptivo é trama e indiferente é o papel. Nada depende só da&nbsp;cor.</li><li>Troque a largura. Com menos de 600px de Seção o nome de cada pilha fica em cima da faixa, e as duas grandezas das barras ficam uma embaixo da&nbsp;outra. Os valores nunca se cobrem, nem com as pontas&nbsp;perto.</li><li>Com leitor de tela, cada Gráfico é uma figura com título, e os valores são lidos como texto. As faixas ficam&nbsp;escondidas.</li><li>Nenhuma forma reage a mouse, toque ou foco. O Gráfico mostra, não&nbsp;age.</li></ul>
+  </section>
+  <article class="doc">
+<h2>Use quando</h2>
+<ul><li><strong>Uma grandeza antes e depois, em tempo ou quantidade, e a proporção importa.</strong> O tamanho da barra mostra quanto encolheu ou cresceu, coisa que dois números soltos não mostram. Use <code>barras</code>.</li><li><strong>A proporção de respostas em cada grupo.</strong> Vários grupos com o mesmo total, e o que se compara é quanto de cada resposta coube em cada um. Use <code>pilhas</code>.</li><li><strong>Uma posição numa escala com sinal, antes e depois.</strong> O leitor precisa ver de que lado do zero o valor estava e para onde foi. Use <code>escala</code>.</li></ul>
+<h2>Não use quando</h2>
+<ul><li>É um número só, com o valor de antes, que prova o caso. Use Dado <code>salto</code>.</li><li>São de dois a quatro números que fecham a conta, cada um com a sua frase. Use Dado em grupo, porque o Gráfico pede série ou proporção.</li><li>O que mudou é uma regra, um fluxo ou um jeito de trabalhar, sem número. Use Antes e depois.</li><li>A diferença entre os valores é pequena demais para o olho ver na barra (de 40 para 42). Use Dado e diga a diferença em texto.</li><li>As pilhas teriam totais diferentes de um grupo para outro. A faixa inteira deixa de ser a mesma coisa. Use barras com a contagem, ou diga a proporção em texto.</li></ul>
+<h2>Anatomia</h2>
+<p><strong>Toda forma.</strong></p>
+<ol><li>Caixa, <code>figure.chart</code> com <code>data-variant</code>, obrigatória.</li><li>Título, <code>figcaption.t-rotulo</code>, obrigatório. Diz o que se mede e, quando precisa, de onde vem ("Reações de 10 participantes, em seis das dez funcionalidades testadas").</li><li>Trilho, <code>.chart__trilho</code>, a faixa de papel com contorno onde o valor se desenha. Escondido do leitor de tela.</li></ol>
+<p><strong>Barras.</strong></p>
+<ol><li>Grupos, <code>div.chart__grupos</code>, obrigatório.</li><li>Grupo, <code>div.chart__grupo</code>, um por grandeza. O nome da grandeza em <code>h3.chart__nome</code>, opcional quando o título já diz qual é. O grupo leva <code>--antes</code> e <code>--depois</code> no <code>style</code> e <code>data-sentido="queda"</code> quando o depois é menor.</li><li>Marcos, <code>dl.chart__marcos</code>, com uma <code>div.chart__marco</code> por momento (<code>data-ponto="antes"</code> e <code>data-ponto="depois"</code>). O momento em <code>dt.t-rotulo</code> e o valor escrito em <code>dd.chart__valor</code>.</li><li>Barra, <code>div.chart__barra</code>, escondida do leitor de tela. O trilho com o antes (<code>span.chart__antes</code>) e o depois (<code>span.chart__preenche</code>).</li><li>Chave, <code>p.chart__chave</code>, escondida do leitor de tela, com a amostra do antes e a do depois e os rótulos do primeiro grupo.</li></ol>
+<p><strong>Pilhas.</strong></p>
+<ol><li>Legenda, <code>dl.chart__legenda</code>, obrigatória. Um item por nível, com a amostra do tom (<code>span.chart__amostra</code>), o nome em <code>dt</code> e o que o nível quer dizer em <code>dd</code>.</li><li>Pilhas, <code>ol.chart__pilhas</code>, com um <code>li.chart__pilha</code> por grupo. O nome em <code>p.chart__nome</code>, o trilho com um <code>span.chart__parte</code> por nível e a conta escrita em <code>p.chart__conta</code>.</li></ol>
+<p><strong>Escala.</strong></p>
+<ol><li>Escala, <code>div.chart__escala</code>, obrigatória.</li><li>Marcos, <code>p.chart__marco</code> com <code>data-ponto="antes"</code> e <code>data-ponto="depois"</code>, o número em <code>span.chart__numero</code> (Anton) e o momento num rótulo.</li><li>Eixo, <code>div.chart__eixo</code>, escondido do leitor de tela, com o percurso (<code>.chart__percurso</code>), o zero (<code>.chart__zero</code>) e os dois pontos (<code>.chart__ponto</code>).</li><li>Régua, <code>p.chart__regua.t-rotulo</code>, com o mínimo, o zero e o máximo. Escondida do leitor de tela, que ouve a escala no título.</li></ol>
+<h2>Variantes</h2>
+<div class="tabela"><table><thead><tr><th>Forma</th><th>Como se escreve</th><th>Quando</th></tr></thead><tbody><tr><td><code>barras</code></td><td><code>figure.chart</code> com <code>data-variant="barras"</code></td><td>Uma grandeza antes e depois</td></tr><tr><td><code>pilhas</code></td><td><code>figure.chart</code> com <code>data-variant="pilhas"</code></td><td>A proporção de respostas em cada grupo</td></tr><tr><td><code>escala</code></td><td><code>figure.chart</code> com <code>data-variant="escala"</code></td><td>A posição numa escala com sinal, antes e depois</td></tr></tbody></table></div>
+<p><strong>Os tons.</strong> A diferença entre os valores nunca fica só na cor, porque o azul e o mist quase se confundem. Cada tom tem forma própria, em <code>data-tom</code>.</p>
+<div class="tabela"><table><thead><tr><th>Tom</th><th>Como fica</th><th>Nas barras</th><th>Nas pilhas</th></tr></thead><tbody><tr><td><code>cheio</code></td><td>o acento da página</td><td>o depois</td><td>o nível mais forte (Entusiasta)</td></tr><tr><td><code>muted</code></td><td>o muted</td><td>o antes</td><td></td></tr><tr><td><code>trama</code></td><td>fios de tinta na diagonal, sobre o papel</td><td></td><td>o nível do meio (Receptivo)</td></tr><tr><td><code>vazio</code></td><td>o papel</td><td></td><td>o nível mais fraco (Indiferente)</td></tr></tbody></table></div>
+<p>O trilho vem das Barras dos posts. Papel, contorno de 2px em <code>border</code>, 20px de altura nas pilhas e 32px nas barras, e o raio pela metade do <code>radius</code>, porque numa faixa estreita o raio inteiro viraria pílula. Nas barras, o antes e o depois levam um fio de tinta na ponta, só dentro do trilho, e as partes das pilhas, um fio entre uma e outra.</p>
+<p>Nas <code>barras</code>, cada grandeza é um grupo, com o antes e o depois no mesmo trilho, como na escala. O antes é a área de muted e o depois é o acento. Cada um termina num fio de tinta de 2px, o mesmo do contorno, que fica só dentro do trilho e some debaixo do contorno quando a barra chega a 100. Nenhum fio sai do trilho, porque o único fio que cruza o eixo é o zero da <code>escala</code>. A barra menor fica por cima, para as duas cores aparecerem sempre, da mesma cor da chave. Numa queda o acento cobre o começo do muted, e o muted que sobra é o que saiu. Num salto o muted cobre o começo do acento, e o acento que passa do antes é o que cresceu. O antes nunca fica com menos de 4px, para o 20 do Mapa ainda mostrar o muted. Os dois valores ficam numa linha só, acima do trilho, e cada um termina sobre a ponta da sua barra, na ordem das pontas. O menor termina na ponta dele e o maior na dele, então os dois nunca se cobrem. Quando o valor é mais largo que a barra, ele empurra o outro para a direita, mas continua do lado certo. O momento fica em cima e o valor embaixo, rente ao trilho. Cada marco se alinha ao lado da barra a que ele se liga. O da barra menor, que nasce na esquerda do trilho, se alinha pela esquerda, e o da maior se alinha pela direita, na ponta dela. Não há um lado só para os dois. Uma chave embaixo diz qual é o antes e qual é o depois. Com 600px de Seção, dois grupos ficam lado a lado, e um grupo sozinho ocupa a linha inteira.</p>
+<p>As barras eram dois trilhos, um por momento, com o antes em trama e o valor na beira direita. O antes cheio parecia só marcar o espaço, e o valor ficava longe da ponta que media. O estudo das três direções está em <code>ds/vitrine/estudo/barras.html</code>.</p>
+<p>Nas <code>pilhas</code>, a faixa inteira é o total do grupo, e cada parte ocupa a proporção da contagem dela. A conta escrita vem embaixo, na mesma margem em todas, para o olho descer comparando. Com 600px de Seção o nome do grupo vai para a esquerda, num terço, e a faixa e a conta ficam nos outros dois. A legenda vem antes das faixas, em três colunas com 600px de Seção, separada por um fio.</p>
+<p>Na <code>escala</code>, o eixo vai de <code>--min</code> a <code>--max</code> (−100 a +100, o do NPS). O zero é um fio de tinta que passa acima e abaixo do eixo, o percurso do antes ao depois é cheio, o antes é um ponto vazado e o depois um ponto de tinta. Os dois valores ficam numa linha só, acima do eixo, cada um sobre o próprio ponto e na ordem dos pontos, para o olho ligar o número à bolinha sem esforço. O valor da esquerda termina no ponto dele e o da direita começa no dele, então os dois nunca se cobrem, por perto que os pontos fiquem. Perto da borda o valor não sai do eixo e passa por cima do ponto, mas continua do lado certo. O número fica embaixo, rente ao eixo, e o momento em cima. Numa queda o depois é o ponto da esquerda, e a figura leva <code>data-sentido="queda"</code> para os valores trocarem de lado com os pontos.</p>
+<p>O Gráfico usa o acento da página. Na superfície tinta os papéis trocam por dentro e a forma continua de pé, mas ele não entra lá, porque a tinta é a do Resultado e mora no Destaque.</p>
+<p>Pelo <code>ds/RITMO.md</code>, as três formas são médias.</p>
+<h2>Limites</h2>
+<ul><li>Um Gráfico por Seção.</li><li><code>barras</code>, de um a dois grupos, com dois momentos cada. Rótulo de até três palavras e valor de até três, porque os dois dividem uma linha sobre o trilho.</li><li><code>pilhas</code>, de três a oito grupos e de dois a três níveis. Todos os grupos com o mesmo total. Nome do grupo de até três palavras.</li><li><code>escala</code>, dois pontos, antes e depois. Valores inteiros.</li><li>O título em uma linha no desktop.</li><li>Os valores do desenho são números de 0 a 100 nas barras (<code>--antes</code>, <code>--depois</code>), contagens nas pilhas (<code>--n</code>) e os pontos da escala (<code>--antes</code>, <code>--depois</code>). Quem escreve a página faz a conta das barras. "1 a 2 meses" é 100 e "~1 semana" é 12,5.</li></ul>
+<h2>Comportamento</h2>
+<ol><li><strong>Mouse.</strong> Não tem. O Gráfico mostra, não age.</li><li><strong>Toque.</strong> Não tem.</li><li><strong>Foco.</strong> Não recebe foco.</li><li><strong>Movimento.</strong> A figura leva <code>data-revelar</code> e entra subindo 16px em <code>dur-lenta</code> com <code>ease-saida</code>. Depois de <code>dur-media</code>, nas barras e nas pilhas uma tampa de papel sobre o trilho encolhe para a direita em <code>dur-lenta</code>, e o preenchimento aparece da esquerda para a direita. O segundo grupo espera mais <code>dur-rapida</code>. Na escala, o percurso corre do antes ao depois em <code>dur-lenta</code>, e só então o ponto e o valor de depois aparecem, em <code>dur-media</code>.</li><li><strong>Sem JS.</strong> Aparece pronto, com tudo desenhado.</li><li><strong>Movimento reduzido.</strong> Aparece pronto. A tampa, o percurso e o depois não esperam.</li></ol>
+<h2>Acessibilidade</h2>
+<ul><li>Cada Gráfico é uma <code>figure</code> com <code>figcaption</code>, e o leitor de tela ouve o título antes dos valores.</li><li>O desenho fica escondido (<code>aria-hidden</code>). Todo valor que a barra mostra está escrito ao lado, e é isso que o leitor de tela ouve.</li><li>Nas <code>barras</code>, cada momento é um par de <code>dt</code> e <code>dd</code> numa lista de definição, sempre o antes primeiro, mesmo quando o depois aparece à esquerda. Quem ouve recebe "Antes, 1 a 2 meses". A chave fica escondida, porque repete os rótulos.</li><li>Nas <code>pilhas</code>, a legenda é uma lista de definição com o que cada nível quer dizer, e cada grupo é um item de lista com o nome e a conta escrita.</li><li>Na <code>escala</code>, a faixa da régua vai no título só para o leitor de tela ("Nota geral de NPS, numa escala de −100 a +100").</li><li>O til de aproximação é lido como "cerca de" (<code>&lt;span aria-hidden="true"&gt;~&lt;/span&gt;&lt;span class="sr"&gt;cerca de &lt;/span&gt;</code>).</li><li>Os tons não dependem da cor. Cheio, muted, trama e vazio se distinguem também em tons de cinza, e nas barras o fio de tinta marca a ponta de cada barra.</li></ul>
+<h2>Onde aparece</h2>
+<ul><li>Vitrine, na amostra e no palco do Gráfico.</li><li>Nas páginas publicadas, as <code>barras</code> no Processo, Seção 08. "Tempo antes e depois", com Discovery de "1 a 2 meses" para "~1 semana" e o refinamento semanal de "4 a 5 h" para "30 a 40 min".</li><li>As <code>barras</code> no Mapa de experiência, Seção 05. "Usuários únicos no primeiro mês", de 20 "Sem o mapa" para 890 "Com o mapa".</li><li>As <code>pilhas</code> no Inpulse, Seção 04. "Reações de 10 participantes, em seis das dez funcionalidades testadas", com os três níveis de desejabilidade (Entusiasta, Receptivo e Indiferente) como a legenda. Antes eles eram ritos soltos, logo acima das faixas.</li><li>A <code>escala</code> no Mapa de experiência, Seção 02. "Nota geral de NPS", de −33 para +15.</li></ul>
+<h2>Vizinhos</h2>
+<ul><li><strong>Dado <code>salto</code>.</strong> Um número só, com o antes riscado.</li><li><strong>Dado em grupo.</strong> De dois a quatro números que fecham a conta, sem série.</li><li><strong>Antes e depois.</strong> A mudança sem número, em texto.</li><li><strong>Passos <code>funil</code>.</strong> Etapas que filtram, sem contagem.</li></ul>
+<h2>Par nos posts</h2>
+<p>Barras, o trilho com contorno e o preenchimento com o fio na ponta, para as <code>barras</code>, que dão o mesmo fio à ponta do antes. Waffle, os cem quadrados, faz o trabalho da proporção nos posts, e no site são as <code>pilhas</code>, porque o caso compara vários grupos e o waffle mostra um de cada vez. A <code>escala</code> não tem par.</p>
+<h2>Código</h2>
+<pre><code>&lt;!-- Barras --&gt;
+&lt;figure class="chart" data-variant="barras" data-revelar&gt;
+  &lt;figcaption class="t-rotulo"&gt;Tempo antes e depois&lt;/figcaption&gt;
+  &lt;div class="chart__grupos"&gt;
+    &lt;div class="chart__grupo" data-sentido="queda" style="--antes: 100; --depois: 12.5"&gt;
+      &lt;h3 class="chart__nome"&gt;Discovery&lt;/h3&gt;
+      &lt;dl class="chart__marcos"&gt;
+        &lt;div class="chart__marco" data-ponto="antes"&gt;&lt;dt class="t-rotulo"&gt;Antes&lt;/dt&gt;&lt;dd class="chart__valor"&gt;1 a 2 meses&lt;/dd&gt;&lt;/div&gt;
+        &lt;div class="chart__marco" data-ponto="depois"&gt;&lt;dt class="t-rotulo"&gt;Depois&lt;/dt&gt;&lt;dd class="chart__valor"&gt;&lt;span aria-hidden="true"&gt;~&lt;/span&gt;&lt;span class="sr"&gt;cerca de &lt;/span&gt;1 semana&lt;/dd&gt;&lt;/div&gt;
+      &lt;/dl&gt;
+      &lt;div class="chart__barra" aria-hidden="true"&gt;
+        &lt;div class="chart__trilho"&gt;&lt;span class="chart__antes"&gt;&lt;/span&gt;&lt;span class="chart__preenche"&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="chart__grupo"&gt;…&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;p class="chart__chave" aria-hidden="true"&gt;&lt;span&gt;&lt;span class="chart__amostra" data-tom="muted"&gt;&lt;/span&gt;Antes&lt;/span&gt;&lt;span&gt;&lt;span class="chart__amostra" data-tom="cheio"&gt;&lt;/span&gt;Depois&lt;/span&gt;&lt;/p&gt;
+&lt;/figure&gt;
+
+&lt;!-- Pilhas --&gt;
+&lt;figure class="chart" data-variant="pilhas" data-revelar&gt;
+  &lt;figcaption class="t-rotulo"&gt;Reações de 10 participantes, em seis das dez funcionalidades testadas&lt;/figcaption&gt;
+  &lt;dl class="chart__legenda"&gt;
+    &lt;div&gt;&lt;dt&gt;&lt;span class="chart__amostra" data-tom="cheio" aria-hidden="true"&gt;&lt;/span&gt;Entusiasta&lt;/dt&gt;&lt;dd&gt;Demonstra interesse de maneira espontânea.&lt;/dd&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;dt&gt;&lt;span class="chart__amostra" data-tom="trama" aria-hidden="true"&gt;&lt;/span&gt;Receptivo&lt;/dt&gt;&lt;dd&gt;…&lt;/dd&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;dt&gt;&lt;span class="chart__amostra" data-tom="vazio" aria-hidden="true"&gt;&lt;/span&gt;Indiferente&lt;/dt&gt;&lt;dd&gt;…&lt;/dd&gt;&lt;/div&gt;
+  &lt;/dl&gt;
+  &lt;ol class="chart__pilhas"&gt;
+    &lt;li class="chart__pilha"&gt;
+      &lt;p class="chart__nome"&gt;Calendário&lt;/p&gt;
+      &lt;div class="chart__trilho" aria-hidden="true"&gt;&lt;span class="chart__parte" data-tom="cheio" style="--n: 3"&gt;&lt;/span&gt;&lt;span class="chart__parte" data-tom="trama" style="--n: 7"&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;p class="chart__conta"&gt;3 entusiastas · 7 receptivos&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/figure&gt;
+
+&lt;!-- Escala --&gt;
+&lt;figure class="chart" data-variant="escala" style="--antes: -33; --depois: 15" data-revelar&gt;
+  &lt;figcaption class="t-rotulo"&gt;Nota geral de NPS&lt;span class="sr"&gt;, numa escala de −100 a +100&lt;/span&gt;&lt;/figcaption&gt;
+  &lt;div class="chart__escala"&gt;
+    &lt;p class="chart__marco" data-ponto="antes"&gt;&lt;span class="chart__numero"&gt;−33&lt;/span&gt;&lt;span class="t-rotulo"&gt;Antes&lt;/span&gt;&lt;/p&gt;
+    &lt;p class="chart__marco" data-ponto="depois"&gt;&lt;span class="chart__numero"&gt;+15&lt;/span&gt;&lt;span class="t-rotulo"&gt;Depois&lt;/span&gt;&lt;/p&gt;
+    &lt;div class="chart__eixo" aria-hidden="true"&gt;&lt;span class="chart__percurso"&gt;&lt;/span&gt;&lt;span class="chart__zero"&gt;&lt;/span&gt;&lt;span class="chart__ponto" data-ponto="antes"&gt;&lt;/span&gt;&lt;span class="chart__ponto" data-ponto="depois"&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;p class="chart__regua t-rotulo" aria-hidden="true"&gt;&lt;span&gt;−100&lt;/span&gt;&lt;span&gt;0&lt;/span&gt;&lt;span&gt;+100&lt;/span&gt;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/figure&gt;</code></pre>
+<p>Estilo em <code>assets/ds/componentes.css</code>, seção Chart (<code>.chart</code> e as partes <code>chart__</code>, os tons em <code>data-tom</code> e o arranjo em <code>@container</code>). Não tem script além do revelar. Uma parte que nenhuma pilha tem, como o indiferente do Calendário, sai do HTML em vez de entrar com <code>--n: 0</code>.</p>
+<p>Entrou na Onda 4 e foi aprovado por você na vitrine, como está, em 24 de outubro de 2026. Os casos publicados usam este desde a Fase 6, com as barras de um trilho só que você escolheu no estudo.</p>
+  </article>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="../../../case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+<script src="../vitrine.js"></script>
+</body>
+</html>

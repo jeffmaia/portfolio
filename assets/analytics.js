@@ -3,9 +3,11 @@
 const GA_MEASUREMENT_ID = "G-FZ28CNHCEJ";
 
 (() => {
-  /* Abrir os arquivos direto do disco não conta como visita: só o site
+  /* Abrir os arquivos direto do disco, ou servidos na própria máquina
+     para conferir, não conta como visita: só o site
      publicado deve alimentar a propriedade. */
   if (location.protocol === "file:") return;
+  if (["localhost", "127.0.0.1", "[::1]"].includes(location.hostname)) return;
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = function () { dataLayer.push(arguments); };

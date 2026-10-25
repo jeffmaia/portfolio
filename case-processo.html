@@ -1,644 +1,278 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-acento="lime">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- Duas marcas postas antes do primeiro pixel.
-
-     .js: a folha de estilo só esconde o painel do menu quando
-     esta classe existe, então sem script nenhum link do site fica
-     inalcançável.
-
-     .chegando: a página anterior pediu a passagem, e a cortina
-     entra cobrindo e sai por baixo. A animação é de CSS puro; se
-     o script do rodapé falhar, ela sai sozinha e nunca deixa a
-     página coberta. -->
-<script>
-(function () {
-  var h = document.documentElement;
-  h.classList.add("js");
-  try {
-    if (sessionStorage.getItem("jm-passagem")) {
-      sessionStorage.removeItem("jm-passagem");
-      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) h.classList.add("chegando");
-    }
-  } catch (e) {}
-})();
-</script>
-<title>Reconstruindo o processo de produto e design com Claude no centro · Jeff Maia</title>
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Processo de produto e design com Claude no centro · Jeff Maia</title>
 <meta name="description" content="A maior mudança não foi trocar de ferramenta. Foi perceber quantas reuniões existiam só porque ninguém tinha um jeito melhor de transformar uma conversa em entregável. Discovery de até dois meses para cerca de uma semana, refinamento semanal de quatro a cinco horas para trinta a quarenta minutos.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23fafffa'/%3E%3Ctext x='50' y='72' font-family='Arial, Helvetica, sans-serif' font-weight='800' font-size='64' text-anchor='middle' fill='%23121613'%3EJ%3C/text%3E%3Crect x='27' y='78' width='46' height='7' rx='2' fill='%232bee4b'/%3E%3C/svg%3E">
+<script src="assets/analytics.js"></script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" href="assets/caso.css">
-<script src="assets/analytics.js"></script>
+<link rel="stylesheet" href="assets/ds/tokens.css">
+<link rel="stylesheet" href="assets/ds/componentes.css">
+
 </head>
-<body class="caso">
+<body>
+<div class="carga" aria-hidden="true">
+  <div class="carga__quadro">
+    <svg class="carga__tela" viewBox="0 0 240 300" fill="none">
+      <g class="carga__esboco" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 10C70 6 160 12 232 8c4 82-2 202 2 284-74 4-164-2-228 2 4-84-2-204 2-284Z"/>
+        <path d="M24 40c66-3 126 3 192-1 2 31-2 61 1 89-67 3-127-2-194 2 3-30-1-60 1-90Z"/>
+        <path d="M26 42l188 84M214 41L25 128"/>
+        <path d="M24 152c56-3 106 3 156-2M24 168c46-3 86 2 116-2"/>
+        <path d="M24 192c36-3 66 2 88-1 2 29-2 54 1 77-33 3-63-2-91 2 3-26-1-54 2-78Z"/>
+        <path d="M128 192c32-3 62 2 88-1 2 29-2 54 1 77-27 3-57-2-90 2 3-26-1-54 1-78Z"/>
+      </g>
+      <g class="carga__camada carga__camada--grade" stroke="#000" stroke-width="1.6" stroke-dasharray="1 6" stroke-linecap="round">
+        <path d="M20 22v262M85 22v262M155 22v262M220 22v262M12 140h216"/>
+      </g>
+      <g class="carga__camada carga__camada--componentes" stroke="#000" stroke-width="2">
+        <rect x="2" y="2" width="236" height="296" rx="12"/>
+        <rect x="20" y="36" width="200" height="96" rx="8"/>
+        <rect x="36" y="104" width="64" height="18" rx="9"/>
+        <rect x="20" y="186" width="94" height="86" rx="8"/>
+        <rect x="126" y="186" width="94" height="86" rx="8"/>
+      </g>
+      <g class="carga__camada carga__camada--textos" fill="#000">
+        <rect x="36" y="50" width="122" height="10" rx="3"/>
+        <rect x="36" y="66" width="84" height="10" rx="3"/>
+        <rect x="36" y="84" width="104" height="5" rx="2.5"/>
+        <rect x="48" y="110" width="40" height="5" rx="2.5"/>
+        <rect x="20" y="148" width="148" height="6" rx="3"/>
+        <rect x="20" y="162" width="102" height="6" rx="3"/>
+        <rect x="32" y="204" width="56" height="6" rx="3"/>
+        <rect x="32" y="216" width="44" height="5" rx="2.5"/>
+        <rect x="138" y="204" width="56" height="6" rx="3"/>
+        <rect x="138" y="216" width="66" height="5" rx="2.5"/>
+      </g>
+      <g class="carga__camada carga__camada--cores">
+        <rect class="carga__cor" x="20" y="36" width="200" height="96" rx="8"/>
+        <rect x="36" y="104" width="64" height="18" rx="9" fill="#edfe5e"/>
+        <rect x="126" y="186" width="94" height="86" rx="8" fill="#dee5dd"/>
+      </g>
+    </svg>
+    <div class="carga__barra"><i></i></div>
+  </div>
+</div>
 
-<!-- O recorte da onda é um só para todas: elas são desenhadas no
-     mesmo quadro e na mesma fase, e o clipPath em objectBoundingBox
-     estica a forma até a largura de cada seção. O caminho já vem
-     desenhado aqui, então a borda ondulada existe sem JS. -->
-<svg class="onda-defs" aria-hidden="true" focusable="false"><defs><clipPath id="onda-recorte" clipPathUnits="objectBoundingBox"><path id="onda-caminho" d="M0,1 L0.0000,0.5167 L0.0250,0.4905 L0.0500,0.4658 L0.0750,0.4438 L0.1000,0.4256 L0.1250,0.4120 L0.1500,0.4035 L0.1750,0.4001 L0.2000,0.4016 L0.2250,0.4074 L0.2500,0.4167 L0.2750,0.4284 L0.3000,0.4416 L0.3250,0.4551 L0.3500,0.4681 L0.3750,0.4800 L0.4000,0.4903 L0.4250,0.4988 L0.4500,0.5058 L0.4750,0.5116 L0.5000,0.5167 L0.5250,0.5218 L0.5500,0.5276 L0.5750,0.5346 L0.6000,0.5431 L0.6250,0.5534 L0.6500,0.5653 L0.6750,0.5783 L0.7000,0.5918 L0.7250,0.6050 L0.7500,0.6167 L0.7750,0.6260 L0.8000,0.6318 L0.8250,0.6333 L0.8500,0.6299 L0.8750,0.6214 L0.9000,0.6078 L0.9250,0.5896 L0.9500,0.5676 L0.9750,0.5429 L1.0000,0.5167 L1,1 Z"/></clipPath><clipPath id="onda-recorte-bolha" clipPathUnits="objectBoundingBox"><path id="onda-caminho-bolha" d="M0,1 L0.0000,0.7583 L0.0208,0.7474 L0.0417,0.7369 L0.0625,0.7272 L0.0833,0.7186 L0.1042,0.7115 L0.1250,0.7060 L0.1458,0.7023 L0.1667,0.7003 L0.1875,0.7001 L0.2083,0.7015 L0.2292,0.7041 L0.2480,0.7071 L0.2606,0.7091 L0.2732,0.7109 L0.2858,0.7119 L0.2984,0.7117 L0.3110,0.7094 L0.3236,0.7042 L0.3362,0.6949 L0.3488,0.6804 L0.3614,0.6594 L0.3740,0.6309 L0.3866,0.5944 L0.3992,0.5500 L0.4118,0.4986 L0.4244,0.4424 L0.4370,0.3843 L0.4496,0.3284 L0.4622,0.2790 L0.4748,0.2403 L0.4874,0.2159 L0.5000,0.2083 L0.5126,0.2185 L0.5252,0.2454 L0.5378,0.2870 L0.5504,0.3394 L0.5630,0.3987 L0.5756,0.4604 L0.5882,0.5208 L0.6008,0.5767 L0.6134,0.6261 L0.6260,0.6681 L0.6386,0.7024 L0.6512,0.7296 L0.6638,0.7506 L0.6764,0.7665 L0.6890,0.7786 L0.7016,0.7876 L0.7142,0.7946 L0.7268,0.8000 L0.7394,0.8044 L0.7520,0.8079 L0.7708,0.8120 L0.7917,0.8151 L0.8125,0.8165 L0.8333,0.8164 L0.8542,0.8144 L0.8750,0.8107 L0.8958,0.8052 L0.9167,0.7981 L0.9375,0.7895 L0.9583,0.7798 L0.9792,0.7693 L1.0000,0.7584 L1,1 Z"/></clipPath><clipPath id="onda-recorte-subir" clipPathUnits="objectBoundingBox"><path id="onda-caminho-subir" d="M0,1 L0.0000,0.7583 L0.0208,0.7474 L0.0417,0.7369 L0.0625,0.7272 L0.0833,0.7186 L0.1042,0.7115 L0.1250,0.7060 L0.1458,0.7023 L0.1667,0.7003 L0.1875,0.7001 L0.2083,0.7015 L0.2292,0.7041 L0.2480,0.7071 L0.2606,0.7091 L0.2732,0.7109 L0.2858,0.7119 L0.2984,0.7117 L0.3110,0.7094 L0.3236,0.7042 L0.3362,0.6949 L0.3488,0.6804 L0.3614,0.6594 L0.3740,0.6309 L0.3866,0.5944 L0.3992,0.5500 L0.4118,0.4986 L0.4244,0.4424 L0.4370,0.3843 L0.4496,0.3284 L0.4622,0.2790 L0.4748,0.2403 L0.4874,0.2159 L0.5000,0.2083 L0.5126,0.2185 L0.5252,0.2454 L0.5378,0.2870 L0.5504,0.3394 L0.5630,0.3987 L0.5756,0.4604 L0.5882,0.5208 L0.6008,0.5767 L0.6134,0.6261 L0.6260,0.6681 L0.6386,0.7024 L0.6512,0.7296 L0.6638,0.7506 L0.6764,0.7665 L0.6890,0.7786 L0.7016,0.7876 L0.7142,0.7946 L0.7268,0.8000 L0.7394,0.8044 L0.7520,0.8079 L0.7708,0.8120 L0.7917,0.8151 L0.8125,0.8165 L0.8333,0.8164 L0.8542,0.8144 L0.8750,0.8107 L0.8958,0.8052 L0.9167,0.7981 L0.9375,0.7895 L0.9583,0.7798 L0.9792,0.7693 L1.0000,0.7584 L1,1 Z"/></clipPath></defs></svg>
+<a class="pular" href="#conteudo">Pular para o caso</a>
 
-<a class="pular" href="#contexto">Pular para o caso</a>
-
-<!-- Quanto falta para o fim da página. Sem JS fica em zero e some. -->
-<div class="regua" id="regua" aria-hidden="true"></div>
-
-<header class="nav">
-  <div class="wrap nav__inner">
-    <a class="wordmark" href="index.html" aria-label="Jeff Maia, Product Design Manager">
-      <span class="wordmark__nome">J<span class="wordmark__dobra">eff</span></span>
-      <span class="wordmark__dobra wordmark__sobrenome">Maia</span>
-      <span class="wordmark__dobra wordmark__papel">Product Design Manager</span>
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
     </a>
-
-    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
-      <span class="menu-btn__traco"></span>
-      <span class="menu-btn__traco"></span>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
     </button>
   </div>
 </header>
 
-<!-- Sem aria-hidden aqui: sem script o painel fica aberto no
-     fluxo, e a marca fixa esconderia do leitor de tela um menu que
-     está à vista. Quem escreve o estado é o JS, que já começa
-     fechando o painel. -->
-<!-- A retícula: o véu de pontos que cai sobre a faixa de página que
-     o painel não cobre. Fica fora do painel de propósito, porque o
-     que ela cobre é a página, não o menu. -->
-<div class="reticula" aria-hidden="true"></div>
-
-<div class="menu" id="menu">
-  <nav class="wrap menu__inner" aria-label="Principal">
-    <div class="menu__grupo">
-      <p class="micro menu__rotulo">Casos</p>
-      <ul class="menu__lista">
-        <li style="--i:0"><a class="menu__item" href="case-processo.html" aria-current="page">Processo com IA</a></li>
-        <li style="--i:1"><a class="menu__item" href="case-omnichat.html">Omnichat</a></li>
-        <li style="--i:2"><a class="menu__item" href="case-inpulse.html">Inpulse</a></li>
-        <li style="--i:3"><a class="menu__item" href="case-mapa-experiencia.html">Mapa de experiência</a></li>
-      </ul>
-    </div>
-
-    <div class="menu__grupo">
-      <p class="micro menu__rotulo">Fora daqui</p>
-      <ul class="menu__lista menu__lista--fora">
-        <li style="--i:4"><a class="menu__item" href="index.html">Home</a></li>
-        <li style="--i:5"><a class="menu__item" href="manifesto/index.html">Manifesto<i aria-hidden="true">↗</i></a></li>
-        <li style="--i:6"><a class="menu__item" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn<i aria-hidden="true">↗</i></a></li>
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="case-processo.html" aria-current="page"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
       </ul>
     </div>
   </nav>
-  <div class="onda onda--escura onda--pe" aria-hidden="true"></div>
 </div>
 
-<main>
+<main id="conteudo" class="container caso">
+  <nav class="sumario" data-sumario aria-label="Neste caso">
+    <p class="t-rotulo sumario__titulo">Neste caso</p>
+    <ol class="sumario__lista" id="sumario-lista"><li><a class="sumario__item" href="#contexto"><img class="icone" src="assets/ds/icones/robo-lime.svg" alt="" width="32" height="32"><span class="sumario__num">01</span><span class="sumario__nome">Contexto</span></a></li><li><a class="sumario__item" href="#problema"><img class="icone" src="assets/ds/icones/alerta-lime.svg" alt="" width="32" height="32"><span class="sumario__num">02</span><span class="sumario__nome">O problema</span></a></li><li><a class="sumario__item" href="#fluxo"><img class="icone" src="assets/ds/icones/camadas-lime.svg" alt="" width="32" height="32"><span class="sumario__num">03</span><span class="sumario__nome">O que a gente fez</span></a></li><li><a class="sumario__item" href="#rituais"><img class="icone" src="assets/ds/icones/calendario-lime.svg" alt="" width="32" height="32"><span class="sumario__num">04</span><span class="sumario__nome">Rituais</span></a></li><li><a class="sumario__item" href="#lideranca"><img class="icone" src="assets/ds/icones/pessoa-lime.svg" alt="" width="32" height="32"><span class="sumario__num">05</span><span class="sumario__nome">Liderança</span></a></li><li><a class="sumario__item" href="#funil"><img class="icone" src="assets/ds/icones/rota-lime.svg" alt="" width="32" height="32"><span class="sumario__num">06</span><span class="sumario__nome">O novo funil</span></a></li><li><a class="sumario__item" href="#antes-e-depois"><img class="icone" src="assets/ds/icones/dialogo-lime.svg" alt="" width="32" height="32"><span class="sumario__num">07</span><span class="sumario__nome">Antes e depois</span></a></li><li><a class="sumario__item" href="#resultado"><img class="icone" src="assets/ds/icones/grafico-lime.svg" alt="" width="32" height="32"><span class="sumario__num">08</span><span class="sumario__nome">Resultado</span></a></li></ol>
+    <button class="sumario__botao" type="button" aria-expanded="false" aria-controls="sumario-lista" hidden><span class="sr">Seções deste caso</span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span></button>
+    <span class="sumario__aviso" aria-hidden="true"></span>
+  </nav>
 
-  <!-- O topo repete o escuro do cartão da Home de propósito: quem
-       clicou no caso em destaque chega no mesmo lugar de onde saiu.
-       O título fica sozinho na largura toda; o salto e o texto de
-       apoio dividem a linha de baixo. -->
-  <header class="caso-topo tinta">
-    <div class="wrap caso-topo__inner">
-      <a class="voltar micro" href="index.html#casos"><i aria-hidden="true">←</i> Todos os casos</a>
+  <div>
+    <header class="topo">
+      <div class="topo__texto"><ul class="badges" role="list"><li><span class="badge">AX</span></li><li><span class="badge">Processo de produto e design</span></li><li><span class="badge" data-variant="acento">IA no fluxo de trabalho</span></li></ul><h1 class="t-display">Processo de&nbsp;produto e&nbsp;design com&nbsp;Claude no&nbsp;centro</h1><p class="t-sub">A maior mudança não foi trocar de ferramenta. Foi perceber quantas reuniões existiam só porque ninguém tinha um jeito melhor de&nbsp;transformar uma conversa em&nbsp;entregável.</p></div>
+      <div class="card topo__ficha" data-variant="muted"><p class="t-rotulo card__titulo">Ficha do projeto</p><dl class="ficha"><div><dt>Duração</dt><dd>1 mês para validar o novo desenho, que segue evoluindo</dd></div><div><dt>Jeff</dt><dd>Liderei o processo de produto e design, conectando delivery, GA e GTM</dd></div><div><dt>Time</dt><dd>Produto, design, engenharia e dados</dd></div></dl></div>
+      <div class="card topo__salto" data-variant="acento"><div class="stat " data-variant="salto">
+  <span class="stat__antes"><span class="sr">De </span>2 meses</span>
+  <span class="stat__valor"><span class="sr">para </span>1 semana</span>
+  <p class="stat__frase">O Discovery caiu de um a dois meses para cerca de uma semana. No mesmo desenho, o refinamento semanal saiu de quatro ou cinco horas para trinta ou quarenta minutos.</p>
+</div><img class="ilustracao" src="assets/ds/ilustracoes/processo-salto.svg" alt="" width="640" height="640" ></div>
+    </header>
 
-      <p class="etiquetas micro" data-revelar>
-        <span>AX</span>
-        <span>Processo de produto e design</span>
-        <span class="etiqueta--verde">IA no fluxo de trabalho</span>
-      </p>
+    <section class="section" id="contexto" aria-labelledby="contexto-rotulo">
+      <p class="section__rotulo t-rotulo" id="contexto-rotulo" data-revelar>01 · Contexto</p>
+      <p class="t-lead prosa" data-revelar>A Omni vende agentes conversacionais para varejo. Configurar esses agentes exige muita tentativa até a conversa ficar boa em&nbsp;produção, e o nosso processo não acompanhava esse&nbsp;ritmo.</p>
+    </section>
 
-      <h1 data-revelar>Reconstruindo o&nbsp;processo de&nbsp;produto e&nbsp;design com&nbsp;Claude no&nbsp;centro</h1>
+    <section class="section" id="problema" aria-labelledby="problema-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>02 · O problema</p>
+      <h2 class="t-titulo" id="problema-titulo" data-revelar>Dois gargalos ao&nbsp;mesmo tempo</h2>
+      <ul class="steps" data-layout="par" data-revelar><li class="step"><img class="icone step__icone" src="assets/ds/icones/dialogo-lime.svg" alt="" width="64" height="64"><h3 class="step__titulo">O&nbsp;trabalho vivia em&nbsp;reunião</h3><p>A gente discutia bem e decidia bem. Depois alguém tinha que transformar aquilo em PRD, story, relatório e protótipo. Esse alguém sempre demorava.</p></li><li class="step"><img class="icone step__icone" src="assets/ds/icones/calendario-lime.svg" alt="" width="64" height="64"><h3 class="step__titulo">A&nbsp;garantia prévia custava semanas</h3><p>Como construir era caro, quase toda validação acontecia antes do desenvolvimento. Fazia sentido, e consumia semanas.</p></li></ul>
+    </section>
 
-      <div class="caso-topo__pe">
-        <p class="caso-topo__lead" data-revelar data-revelar-atraso="1">A maior mudança não foi trocar de ferramenta. Foi perceber quantas reuniões existiam só porque ninguém tinha um jeito melhor de&nbsp;transformar uma conversa em&nbsp;entregável.</p>
+    <section class="section" id="fluxo" aria-labelledby="fluxo-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>03 · O que a gente fez</p>
+      <h2 class="t-titulo" id="fluxo-titulo" data-revelar>Da&nbsp;transcrição ao&nbsp;entregável</h2>
+      <ol class="steps" data-layout="estagios" data-revelar><li class="step"><img class="icone step__icone" src="assets/ds/icones/dialogo-lime.svg" alt="" width="64" height="64"><span class="t-rotulo">Entrada</span><h3 class="step__titulo">Transcrição dos rituais</h3><p>O que o time já falava em reunião, agora capturado como matéria&nbsp;prima.</p></li><li class="step"><img class="icone step__icone" src="assets/ds/icones/robo-lime.svg" alt="" width="64" height="64"><span class="t-rotulo">Camada</span><h3 class="step__titulo">Habilidades no&nbsp;Claude</h3><p>Habilidades que a gente criou leem a transcrição e devolvem os rascunhos.</p></li><li class="step"><img class="icone step__icone" src="assets/ds/icones/janela-lime.svg" alt="" width="64" height="64"><span class="t-rotulo">Saída</span><h3 class="step__titulo">Os rascunhos</h3><ul class="step__lista"><li>Visão de produto</li><li>PRD</li><li>User stories</li><li>Relatório de usabilidade</li><li>Protótipo</li></ul></li></ol>
+      <div class="callout" data-variant="atrito" data-revelar>
+  <img class="icone" src="assets/ds/icones/alerta-lime.svg" alt="" width="48" height="48">
+  <h3>A primeira tentativa não foi&nbsp;essa</h3>
+  <div class="prosa"><p>Cada um usava o Claude do seu jeito, e a gente passou a gerar documento mais rápido e alinhar menos. Dois PRDs da mesma semana com estruturas diferentes, e a engenharia perguntando qual era o padrão. Não existia.</p><p>A skill compartilhada nasceu como conserto disso, não como ideia de eficiência.</p></div>
+</div>
+      <div class="tabs" data-tabs data-revelar>
+  <div class="tabs__lista" aria-label="Os rascunhos" aria-orientation="vertical"><button class="tab" type="button" role="tab" id="rascunho-visao" aria-controls="rascunho-painel-visao"><img class="icone-inline" src="assets/ds/icones/lampada-lime.svg" alt="" width="32" height="32"><span class="t-rotulo">01</span>Visão de produto</button><button class="tab" type="button" role="tab" id="rascunho-prd" aria-controls="rascunho-painel-prd"><img class="icone-inline" src="assets/ds/icones/lapis-lime.svg" alt="" width="32" height="32"><span class="t-rotulo">02</span>PRD</button><button class="tab" type="button" role="tab" id="rascunho-us" aria-controls="rascunho-painel-us"><img class="icone-inline" src="assets/ds/icones/janela-lime.svg" alt="" width="32" height="32"><span class="t-rotulo">03</span>User stories</button><button class="tab" type="button" role="tab" id="rascunho-usabilidade" aria-controls="rascunho-painel-usabilidade"><img class="icone-inline" src="assets/ds/icones/lupa-lime.svg" alt="" width="32" height="32"><span class="t-rotulo">04</span>Relatório de usabilidade</button><button class="tab" type="button" role="tab" id="rascunho-prototipo" aria-controls="rascunho-painel-prototipo"><img class="icone-inline" src="assets/ds/icones/celular-lime.svg" alt="" width="32" height="32"><span class="t-rotulo">05</span>Protótipo</button></div>
+  <div class="tabs__paineis"><div class="tabs__painel" id="rascunho-painel-visao" tabindex="0">
+  <h3 class="tabs__painel-titulo"><img class="icone-inline" src="assets/ds/icones/lampada-lime.svg" alt="" width="32" height="32"><span class="t-rotulo">01</span>Visão de produto</h3>
+  <p><strong>Vira direção antes de virar backlog.</strong> A habilidade lê a transcrição do ritual e devolve o rascunho da visão. O time revisa e ajusta, em vez de escrever do zero depois da conversa.</p>
+</div><div class="tabs__painel" id="rascunho-painel-prd" tabindex="0">
+  <h3 class="tabs__painel-titulo"><img class="icone-inline" src="assets/ds/icones/lapis-lime.svg" alt="" width="32" height="32"><span class="t-rotulo">02</span>PRD</h3>
+  <p><strong>Chega pronto para discussão, não para redação.</strong> Com o PRD já rascunhado, a Planning deixou de ser um rito semanal. Acontece sob demanda, e a maior parte dela é assíncrona.</p>
+</div><div class="tabs__painel" id="rascunho-painel-us" tabindex="0">
+  <h3 class="tabs__painel-titulo"><img class="icone-inline" src="assets/ds/icones/janela-lime.svg" alt="" width="32" height="32"><span class="t-rotulo">03</span>User stories</h3>
+  <p><strong>Entram no Kanban já documentadas.</strong> O refinamento virou tirar dúvida sobre o que já está escrito na story e desenhado no protótipo. Foi o que derrubou o ritual de quatro horas para quarenta minutos.</p>
+</div><div class="tabs__painel" id="rascunho-painel-usabilidade" tabindex="0">
+  <h3 class="tabs__painel-titulo"><img class="icone-inline" src="assets/ds/icones/lupa-lime.svg" alt="" width="32" height="32"><span class="t-rotulo">04</span>Relatório de usabilidade</h3>
+  <p><strong>Análise no lugar de rodada de teste.</strong> O Claude aponta problema de fluxo com consistência, usando heurística de Norman e Nielsen mais o que a gente já sabe do público da Omni.</p>
+</div><div class="tabs__painel" id="rascunho-painel-prototipo" tabindex="0">
+  <h3 class="tabs__painel-titulo"><img class="icone-inline" src="assets/ds/icones/celular-lime.svg" alt="" width="32" height="32"><span class="t-rotulo">05</span>Protótipo</h3>
+  <p><strong>Nasce desenvolvido e segue direto para a&nbsp;engenharia.</strong> O protótipo sai do Claude Design e vai para o Claude Code, de onde a engenharia assume. Design usa o Claude Code para manter a biblioteca fiel à do código, que é a referência principal.</p>
+</div></div>
+</div>
+    </section>
 
-        <div class="salto" data-revelar data-revelar-atraso="2">
-          <span class="salto__de">2 meses</span>
-          <span class="salto__para">1 semana</span>
-          <p class="salto__que">O Discovery caiu de um a dois meses para cerca de uma semana. No mesmo desenho, o refinamento semanal saiu de quatro ou cinco horas para trinta ou quarenta minutos.</p>
-        </div>
-      </div>
-    </div>
-  </header>
+    <section class="section" id="rituais" aria-labelledby="rituais-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>04 · Rituais</p>
+      <h2 class="t-titulo" id="rituais-titulo" data-revelar>Saímos de&nbsp;Scrum para&nbsp;Kanban</h2>
+      <div class="prosa" data-revelar><p>Com o rascunho já pronto antes do encontro, o que sobrou para a agenda foi&nbsp;dúvida, não&nbsp;redação.</p></div>
+      <ul class="steps" data-layout="ritos" data-revelar><li class="step"><div class="step__topo"><img class="icone step__icone" src="assets/ds/icones/calendario-lime.svg" alt="" width="40" height="40"><h3 class="step__titulo">Planning</h3></div><p>Virou assíncrona e sob&nbsp;demanda, não&nbsp;mais um rito&nbsp;semanal.</p></li><li class="step"><div class="step__topo"><img class="icone step__icone" src="assets/ds/icones/pessoa-lime.svg" alt="" width="40" height="40"><h3 class="step__titulo">Daily</h3></div><p>Ficou só com engenharia. Produto entra quando&nbsp;precisa.</p></li><li class="step"><div class="step__topo"><img class="icone step__icone" src="assets/ds/icones/lupa-lime.svg" alt="" width="40" height="40"><h3 class="step__titulo">Refinamento</h3></div><p>De 4 horas para 40&nbsp;minutos, porque virou tirar dúvida sobre o&nbsp;que já&nbsp;está escrito.</p></li></ul>
+      <div class="prosa" data-revelar><p>Reduzimos bastante teste de usabilidade, porque o Claude passou a apontar problema de fluxo com consistência, usando heurística de Norman e Nielsen mais o que a gente já sabe do&nbsp;nosso público.</p></div>
+      <div class="callout" data-variant="atrito" data-revelar>
+  <img class="icone" src="assets/ds/icones/alerta-lime.svg" alt="" width="48" height="48">
+  <h3>Aqui eu cortei rápido&nbsp;demais</h3>
+  <div class="prosa"><p>A análise pegava tudo que é padrão de interface e não pegou a única coisa que travava um fluxo de configuração de agente, que era o nome de um campo no vocabulário de quem trabalha dentro de um varejista. Heurística não pega linguagem de domínio.</p><p>Hoje a regra é que teste com gente continua obrigatório quando a entrega traz vocabulário novo ou muda modelo mental.</p></div>
+</div>
+    </section>
 
-  <div class="folha">
-    <div class="onda onda--clara" aria-hidden="true"></div>
-    <div class="wrap folha__inner">
+    <section class="section" id="lideranca" aria-labelledby="lideranca-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>05 · Liderança</p>
+      <h2 class="t-titulo" id="lideranca-titulo" data-revelar>A&nbsp;conversa mais difícil não&nbsp;foi sobre&nbsp;ferramenta</h2>
+      <div class="callout" data-revelar>
+  <p class="callout__frase">O que sobra pra&nbsp;gente?</p>
+  <p class="callout__legenda">A pergunta que o time fez quando ficou claro que o rascunho do documento e da primeira tela sairia automático.</p>
+</div>
+      <div class="prosa" data-revelar><p>Eu respondi com produtividade, mostrando o tempo que aquilo liberava na semana, e foi a resposta errada. Ninguém se acalma ouvindo que vai produzir mais rápido quando a dúvida é se ainda precisa existir.</p><p>Por algumas semanas o time usou as skills no mínimo, entregando o suficiente e sem melhorar nada.</p><p>O que destravou foi mudar o critério antes da rotina. Parei de avaliar entregável e passei a avaliar decisão. Qual oportunidade entra, onde vale manter atrito, quando o campo está certo e o&nbsp;nome está errado.</p></div>
+    </section>
 
-      <!-- 01. O parágrafo de abertura abre na margem e a ficha corre
-           ao lado dele, na coluna da direita, começando na mesma
-           linha do rótulo da seção. -->
-      <section class="secao secao--ficha" id="contexto" aria-labelledby="t-contexto">
-        <div class="secao__topo" data-revelar>
-          <div class="secao__head">
-            <span class="micro" id="t-contexto">01 · Contexto</span>
-            <span class="secao__rule"></span>
-          </div>
-        </div>
+    <section class="section" id="funil" aria-labelledby="funil-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>06 · O novo funil</p>
+      <h2 class="t-titulo" id="funil-titulo" data-revelar>Cinco fases, do&nbsp;sinal ao&nbsp;pós&#8209;lançamento</h2>
+      <ol class="steps" data-layout="funil" data-revelar><li class="step" style="--i: 0"><img class="icone step__icone" src="assets/ds/icones/lupa-lime.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">01</span><h3 class="step__titulo">Identificação de oportunidades</h3><p>Dado de produto, pesquisa e canais de feedback alimentam uma árvore de oportunidades que facilita escolher o que entra em pauta.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Produto e design, com&nbsp;dados alimentando a&nbsp;árvore.</p></li><li class="step" style="--i: 1"><img class="icone step__icone" src="assets/ds/icones/alvo-lime.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">02</span><h3 class="step__titulo">Validação de desejabilidade e diferencial</h3><p>Confirmamos se a aposta faz sentido antes de o time gastar tempo desenhando a solução.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Produto e design.</p></li><li class="step" style="--i: 2"><img class="icone step__icone" src="assets/ds/icones/lapis-lime.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">03</span><h3 class="step__titulo">Definição e prototipagem</h3><p>É aqui que nasce a maior parte da solução. O&nbsp;protótipo já sai desenvolvido e segue para a&nbsp;engenharia sem etapa de tradução no&nbsp;meio.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Produto, design e engenharia, com&nbsp;prototipação distribuída entre os&nbsp;três.</p></li><li class="step" style="--i: 3"><img class="icone step__icone" src="assets/ds/icones/celular-lime.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">04</span><h3 class="step__titulo">Delivery</h3><p>Alfa na engenharia, que garante o funcionamento do que foi construído. Beta, aberto ou fechado, validando o experimento antes de abrir para todos.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Engenharia no alfa, time inteiro no beta.</p></li><li class="step" style="--i: 4"><img class="icone step__icone" src="assets/ds/icones/grafico-lime.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">05</span><h3 class="step__titulo">Depois do lançamento</h3><p>O foco vira satisfação e adoção. A&nbsp;validação qualitativa entra quando o&nbsp;dado quantitativo mostra desvio do&nbsp;esperado.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Produto, design e dados, junto de GA e GTM.</p></li></ol>
+      <p class="t-lead prosa" data-revelar>O&nbsp;Design System corre por&nbsp;fora do&nbsp;funil.</p>
+      <div class="prosa" data-revelar><p>Em paralelo ao funil roda o fluxo do Design System, com componente aprovado direto no código antes de subir para o&nbsp;GitHub.</p><p>Hoje áreas fora de design também prototipam, CS inclusive, o que abriu uma discussão interna sobre controle. Resolvi separando o que cada protótipo pode prometer, não restringindo quem&nbsp;cria.</p></div>
+      <ol class="steps" data-layout="trilha" data-revelar><li class="step"><img class="icone step__icone" src="assets/ds/icones/lampada-lime.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">01</span><h3 class="step__titulo">Criação</h3><p>Novo componente nasce a partir de uma&nbsp;necessidade do&nbsp;produto.</p></li><li class="step"><img class="icone step__icone" src="assets/ds/icones/olho-lime.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">02</span><h3 class="step__titulo">Comportamento e&nbsp;uso</h3><p>Definição escrita pensando também na&nbsp;leitura do&nbsp;Claude.</p></li><li class="step"><img class="icone step__icone" src="assets/ds/icones/verifica-lime.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">03</span><h3 class="step__titulo">Aprovação no&nbsp;código</h3><p>Validação direto no&nbsp;código, antes de subir para o repositório no&nbsp;GitHub.</p></li></ol>
+    </section>
 
-        <div class="abertura" data-revelar>
-          <p>A Omni vende agentes conversacionais para varejo. Configurar esses agentes exige muita tentativa até a conversa ficar boa em&nbsp;produção, e o nosso processo não acompanhava esse&nbsp;ritmo.</p>
-        </div>
+    <section class="section" id="antes-e-depois" aria-labelledby="antes-e-depois-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>07 · Antes e depois</p>
+      <h2 class="t-titulo" id="antes-e-depois-titulo" data-revelar>O&nbsp;mesmo time, com&nbsp;o&nbsp;eixo do&nbsp;trabalho deslocado</h2>
+      <table class="compare" data-variant="confronto" role="table" data-revelar>
+  <caption class="sr">O trabalho do time antes e depois, em quatro dimensões</caption>
+  <thead>
+    <tr role="row">
+      <th role="columnheader" scope="col"><span class="t-rotulo">Dimensão</span></th>
+      <th role="columnheader" scope="col"><span class="badge">Antes</span></th>
+      <th role="columnheader" scope="col"><span class="badge">Depois</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr role="row">
+      <th role="rowheader" scope="row">Prototipação</th>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Antes</span>Concentrada em design</td>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Depois</span>Distribuída entre produto, design e engenharia</td>
+    </tr>
+    <tr role="row">
+      <th role="rowheader" scope="row">Validação qualitativa</th>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Antes</span>Quase sempre antes do desenvolvimento</td>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Depois</span>Depois do lançamento, quando o dado mostra desvio do esperado</td>
+    </tr>
+    <tr role="row">
+      <th role="rowheader" scope="row">Rituais</th>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Antes</span>Longos e na agenda</td>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Depois</span>Curtos e assíncronos</td>
+    </tr>
+    <tr role="row">
+      <th role="rowheader" scope="row">Testes A/B</th>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Antes</span>Poucas variações, porque cada uma custava caro para construir</td>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Depois</span>Muitas variações, porque desenvolver ficou ágil e barato</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
 
-        <div class="bloco ficha-lateral" data-revelar data-revelar-atraso="1">
-          <span class="micro rotulo">Ficha do projeto</span>
-          <dl class="faixa-ficha">
-            <div><dt class="micro">Duração</dt><dd>1 mês para validar o novo desenho, que segue evoluindo</dd></div>
-            <div><dt class="micro">Jeff</dt><dd>Liderei o processo de produto e design, conectando delivery, GA e GTM</dd></div>
-            <div><dt class="micro">Time</dt><dd>Produto, design, engenharia e dados</dd></div>
-          </dl>
-        </div>
-      </section>
-
-      <!-- 02. Os dois problemas são simultâneos, não uma sequência:
-           correm lado a lado, uma coluna cada. -->
-      <section class="secao" aria-labelledby="t-problema">
-        <div class="secao__topo" data-revelar>
-          <div class="secao__head">
-            <span class="micro" id="t-problema">02 · O problema</span>
-            <span class="secao__rule"></span>
-          </div>
-        </div>
-
-        <div class="linhas linhas--par">
-          <div class="linha" data-revelar>
-            <span class="micro linha__num">01</span>
-            <h2 class="linha__titulo">O&nbsp;trabalho vivia em&nbsp;reunião</h2>
-            <p>A gente discutia bem e decidia bem. Depois alguém tinha que transformar aquilo em PRD, story, relatório e protótipo. Esse alguém sempre demorava.</p>
-          </div>
-          <div class="linha" data-revelar>
-            <span class="micro linha__num">02</span>
-            <h2 class="linha__titulo">A&nbsp;garantia prévia custava semanas</h2>
-            <p>Como construir era caro, quase toda validação acontecia antes do desenvolvimento. Fazia sentido, e consumia semanas.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- 03. Os três estágios viram tabela: rótulo na margem, o
-           que acontece no meio, o texto na direita. A saída abre em
-           cinco entregas, cada uma com o destino do lado. -->
-      <section class="secao" aria-labelledby="t-fluxo">
-        <div class="secao__topo" data-revelar>
-          <div class="secao__head">
-            <span class="micro">03 · O que a gente fez</span>
-            <span class="secao__rule"></span>
-          </div>
-          <h2 class="secao__titulo" id="t-fluxo">Da&nbsp;transcrição ao&nbsp;entregável</h2>
-        </div>
-
-        <div class="estagios" data-revelar>
-          <div class="estagio">
-            <span class="micro">entrada</span>
-            <h3>Transcrição dos rituais</h3>
-            <p>O que o time já falava em reunião, agora capturado como matéria-prima.</p>
-          </div>
-
-          <div class="estagio estagio--nucleo">
-            <span class="micro">camada</span>
-            <h3>Habilidades no Claude</h3>
-            <p>Habilidades que a gente criou leem a transcrição e devolvem os rascunhos.</p>
-          </div>
-
-          <div class="estagio estagio--saida">
-            <span class="micro">saída</span>
-            <div class="abas" data-abas>
-              <div class="abas__lista" role="tablist" aria-label="Saídas da camada">
-                <button class="aba" type="button" role="tab" id="aba-visao" aria-controls="painel-visao">Visão de produto</button>
-                <button class="aba" type="button" role="tab" id="aba-prd" aria-controls="painel-prd">PRD</button>
-                <button class="aba" type="button" role="tab" id="aba-us" aria-controls="painel-us">User stories (US)</button>
-                <button class="aba" type="button" role="tab" id="aba-usabilidade" aria-controls="painel-usabilidade">Relatório de usabilidade</button>
-                <button class="aba" type="button" role="tab" id="aba-prototipo" aria-controls="painel-prototipo">Protótipo</button>
-              </div>
-              <span class="micro entregas__cabeca">destino</span>
-              <div class="abas__paineis">
-                <div class="aba-painel" role="tabpanel" id="painel-visao" aria-labelledby="aba-visao" tabindex="0">
-                  <h3 class="aba-painel__nome">Visão de produto</h3>
-                  <span class="aba-painel__titulo">Vira direção antes de virar backlog</span>
-                  <p>A habilidade lê a transcrição do ritual e devolve o rascunho da visão. O time revisa e ajusta, em vez de escrever do zero depois da conversa.</p>
-                </div>
-                <div class="aba-painel" role="tabpanel" id="painel-prd" aria-labelledby="aba-prd" tabindex="0">
-                  <h3 class="aba-painel__nome">PRD</h3>
-                  <span class="aba-painel__titulo">Chega pronto para discussão, não para redação</span>
-                  <p>Com o PRD já rascunhado, a Planning deixou de ser um rito semanal. Acontece sob demanda, e a maior parte dela é assíncrona.</p>
-                </div>
-                <div class="aba-painel" role="tabpanel" id="painel-us" aria-labelledby="aba-us" tabindex="0">
-                  <h3 class="aba-painel__nome">User stories (US)</h3>
-                  <span class="aba-painel__titulo">Entram no Kanban já documentadas</span>
-                  <p>O refinamento virou tirar dúvida sobre o que já está escrito na story e desenhado no protótipo. Foi o que derrubou o ritual de quatro horas para quarenta minutos.</p>
-                </div>
-                <div class="aba-painel" role="tabpanel" id="painel-usabilidade" aria-labelledby="aba-usabilidade" tabindex="0">
-                  <h3 class="aba-painel__nome">Relatório de usabilidade</h3>
-                  <span class="aba-painel__titulo">Análise no lugar de rodada de teste</span>
-                  <p>O Claude aponta problema de fluxo com consistência, usando heurística de Norman e Nielsen mais o que a gente já sabe do público da Omni.</p>
-                </div>
-                <div class="aba-painel" role="tabpanel" id="painel-prototipo" aria-labelledby="aba-prototipo" tabindex="0">
-                  <h3 class="aba-painel__nome">Protótipo</h3>
-                  <span class="aba-painel__titulo">Nasce desenvolvido e segue direto para a&nbsp;engenharia</span>
-                  <p>O protótipo sai do Claude Design e vai para o Claude Code, de onde a engenharia assume. Design usa o Claude Code para manter a biblioteca fiel à do código, que é a referência principal.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="atrito" data-revelar>
-          <h3>A primeira tentativa não foi&nbsp;essa</h3>
-          <p>Cada um usava o Claude do seu jeito, e a gente passou a gerar documento mais rápido e alinhar menos. Dois PRDs da mesma semana com estruturas diferentes, e a engenharia perguntando qual era o padrão. Não existia.</p>
-          <p>A skill compartilhada nasceu como conserto disso, não como ideia de eficiência.</p>
-        </div>
-      </section>
-
-    </div>
+    <section class="section" id="resultado" aria-labelledby="resultado-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>08 · Resultado</p>
+      <h2 class="t-titulo" id="resultado-titulo" data-revelar>Sobrou tempo justamente onde o&nbsp;produto precisa de&nbsp;experimentação</h2>
+      <div class="prosa" data-revelar><p>E muito mais experimento rodando, que é o que decide a qualidade da conversa em produção.</p><p>Design segue revisando tudo que vira PR.</p></div>
+      <figure class="chart" data-variant="barras" data-revelar>
+  <figcaption class="t-rotulo">Tempo antes e depois</figcaption>
+  <div class="chart__grupos"><div class="chart__grupo" data-sentido="queda" style="--antes: 100; --depois: 12.5"><h3 class="chart__nome">Discovery</h3><dl class="chart__marcos"><div class="chart__marco" data-ponto="antes"><dt class="t-rotulo">Antes</dt><dd class="chart__valor">1 a 2 meses</dd></div><div class="chart__marco" data-ponto="depois"><dt class="t-rotulo">Depois</dt><dd class="chart__valor"><span aria-hidden="true">~</span><span class="sr">cerca de </span>1 semana</dd></div></dl><div class="chart__barra" aria-hidden="true"><div class="chart__trilho"><span class="chart__antes"></span><span class="chart__preenche"></span></div></div></div><div class="chart__grupo" data-sentido="queda" style="--antes: 100; --depois: 13"><h3 class="chart__nome">Refinamento semanal</h3><dl class="chart__marcos"><div class="chart__marco" data-ponto="antes"><dt class="t-rotulo">Antes</dt><dd class="chart__valor">4 a 5 h</dd></div><div class="chart__marco" data-ponto="depois"><dt class="t-rotulo">Depois</dt><dd class="chart__valor">30 a 40 min</dd></div></dl><div class="chart__barra" aria-hidden="true"><div class="chart__trilho"><span class="chart__antes"></span><span class="chart__preenche"></span></div></div></div></div>
+  <p class="chart__chave" aria-hidden="true"><span><span class="chart__amostra" data-tom="muted"></span>Antes</span><span><span class="chart__amostra" data-tom="cheio"></span>Depois</span></p>
+</figure>
+      <div class="callout" data-variant="atrito" data-revelar>
+  <img class="icone" src="assets/ds/icones/alerta-lime.svg" alt="" width="48" height="48">
+  <h3>A conta estava sendo lida ao&nbsp;contrário</h3>
+  <div class="prosa"><p>Um número desses também gera a pergunta que eu não queria receber, se dá para fazer com menos gente. O gargalo nunca foi produzir documento, era decidir com informação suficiente.</p><p>O que ganhamos não foi vaga a menos, foi aposta a mais no mesmo trimestre. E mais aposta exige mais gente sabendo julgar resultado.</p></div>
+</div>
+      <div class="cards" data-layout="mosaico" data-revelar><div class="card" data-tamanho="meio"><img class="icone" src="assets/ds/icones/calendario-lime.svg" alt="" width="48" height="48"><div class="stat"><span class="stat__valor">Kanban</span><p class="stat__frase">no lugar do&nbsp;Scrum, com&nbsp;Planning só&nbsp;quando&nbsp;necessário</p></div></div><div class="card" data-tamanho="meio"><img class="icone" src="assets/ds/icones/verifica-lime.svg" alt="" width="48" height="48"><div class="stat"><span class="stat__valor">100%</span><p class="stat__frase">dos PRs passam por revisão de&nbsp;design</p></div></div></div>
+      <div class="callout superficie-tinta" data-revelar>
+  <span class="badge" data-variant="acento">O que eu levo daqui</span>
+  <p class="callout__frase">O trabalho de design não é mais desenhar a&nbsp;tela primeiro.</p>
+  <p class="prosa">É decidir, entre tantas coisas que a IA já gera sozinha, onde a atenção humana ainda faz&nbsp;diferença.</p>
+</div>
+      <div class="fechamento" data-revelar>
+  <p class="prosa">Esse desenho segue em construção na Omni. Se quiser entender como aplicar algo parecido no seu time, <a class="link" href="https://wa.me/5511977346175" target="_blank" rel="noopener">me&nbsp;chama no&nbsp;WhatsApp</a> ou veja o próximo caso.</p>
+  <a class="button" href="case-omnichat.html">Próximo caso, Omnichat <span aria-hidden="true">→</span></a>
+</div>
+    </section>
   </div>
-
-  <!-- A parada escura: é aqui que o caso deixa de falar de processo
-       e passa a falar de gente. -->
-  <div class="tinta">
-    <div class="onda onda--escura" aria-hidden="true"></div>
-    <div class="wrap tinta__inner">
-
-      <!-- 04. Duas colunas: os três ritos descem em fila de um lado,
-           a usabilidade corre do outro. Os dois assuntos não dependem
-           um do outro, então não fazem fila. -->
-      <section class="secao secao--par" aria-labelledby="t-rituais">
-        <div class="secao__topo" data-revelar>
-          <div class="secao__head">
-            <span class="micro">04 · Rituais</span>
-            <span class="secao__rule"></span>
-          </div>
-          <h2 class="secao__titulo" id="t-rituais">Saímos de&nbsp;Scrum para&nbsp;Kanban</h2>
-        </div>
-        <p class="corpo-texto" data-revelar data-revelar-atraso="1">Com o rascunho já pronto antes do encontro, o que sobrou para a agenda foi&nbsp;dúvida, não&nbsp;redação.</p>
-
-        <div class="ritos coluna-a" data-revelar>
-          <div class="rito">
-            <span class="rito__nome">Planning</span>
-            <span class="rito__desc">Virou assíncrona e sob&nbsp;demanda, não&nbsp;mais um rito&nbsp;semanal.</span>
-          </div>
-          <div class="rito">
-            <span class="rito__nome">Daily</span>
-            <span class="rito__desc">Ficou só com engenharia. Produto entra quando&nbsp;precisa.</span>
-          </div>
-          <div class="rito">
-            <span class="rito__nome">Refinamento</span>
-            <span class="rito__desc">De 4 horas para 40&nbsp;minutos, porque virou tirar dúvida sobre o&nbsp;que já&nbsp;está escrito.</span>
-          </div>
-        </div>
-
-        <div class="bloco coluna-b" data-revelar>
-          <span class="micro rotulo">Usabilidade</span>
-          <p class="corpo-texto">Reduzimos bastante teste de usabilidade, porque o Claude passou a apontar problema de fluxo com consistência, usando heurística de Norman e Nielsen mais o que a gente já sabe do&nbsp;nosso público.</p>
-
-          <div class="atrito">
-            <h3>Aqui eu cortei rápido demais</h3>
-            <p>A análise pegava tudo que é padrão de interface e não pegou a única coisa que travava um fluxo de configuração de agente, que era o nome de um campo no vocabulário de quem trabalha dentro de um varejista. Heurística não pega linguagem de domínio.</p>
-            <p>Hoje a regra é que teste com gente continua obrigatório quando a entrega traz vocabulário novo ou muda modelo mental.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- 05. A seção que só existe pela ordem: a pergunta, de onde
-           ela veio, o que eu respondi e o que destravou. Tudo na
-           mesma margem, numa coluna só, sem nada correndo ao lado
-           para o olho escapar no meio do caminho. -->
-      <section class="secao secao--sequencia" aria-labelledby="t-lideranca">
-        <div class="secao__topo" data-revelar>
-          <div class="secao__head">
-            <span class="micro">05 · Liderança</span>
-            <span class="secao__rule"></span>
-          </div>
-          <h2 class="secao__titulo secao__titulo--sm" id="t-lideranca">A&nbsp;conversa mais difícil não&nbsp;foi sobre&nbsp;ferramenta</h2>
-        </div>
-
-        <div class="grito-par" data-revelar>
-          <p class="grito">O que sobra pra&nbsp;gente?</p>
-          <p class="legenda">A pergunta que o time fez quando ficou claro que o rascunho do documento e da primeira tela sairia automático.</p>
-        </div>
-
-        <div class="corpo-texto" data-revelar>
-          <p>Eu respondi com produtividade, mostrando o tempo que aquilo liberava na semana, e foi a resposta errada. Ninguém se acalma ouvindo que vai produzir mais rápido quando a dúvida é se ainda precisa existir.</p>
-          <p>Por algumas semanas o time usou as skills no mínimo, entregando o suficiente e sem melhorar nada.</p>
-        </div>
-
-        <div class="linha-nota" data-revelar>
-          <span class="micro">O que destravou</span>
-          <p>Mudar o critério antes da rotina. Parei de avaliar entregável e passei a avaliar decisão: qual oportunidade entra, onde vale manter atrito, quando o campo está certo e o&nbsp;nome está errado.</p>
-        </div>
-      </section>
-
-    </div>
-  </div>
-
-  <div class="folha">
-    <div class="onda onda--clara" aria-hidden="true"></div>
-    <div class="wrap folha__inner">
-
-      <!-- 06. As cinco fases são cinco colunas que estreitam: a
-           forma do funil é a própria grade. -->
-      <section class="secao" aria-labelledby="t-funil">
-        <div class="secao__topo" data-revelar>
-          <div class="secao__head">
-            <span class="micro">06 · O novo funil</span>
-            <span class="secao__rule"></span>
-          </div>
-          <h2 class="secao__titulo" id="t-funil">Cinco fases, do&nbsp;sinal ao&nbsp;pós-lançamento</h2>
-        </div>
-
-        <ol class="funil" data-revelar data-carrossel="Cinco fases do funil">
-          <li class="fase">
-            <span class="micro fase__num">01</span>
-            <span class="fase__nome">Identificação de oportunidades</span>
-            <p>Dado de produto, pesquisa e canais de feedback alimentam uma árvore de oportunidades que facilita escolher o que entra em pauta.</p>
-            <div class="fase__quem">
-              <span class="micro">Quem conduz</span>
-              <p>Produto e design, com&nbsp;dados alimentando a&nbsp;árvore.</p>
-            </div>
-          </li>
-          <li class="fase">
-            <span class="micro fase__num">02</span>
-            <span class="fase__nome">Validação de desejabilidade e diferencial</span>
-            <p>Confirmamos se a aposta faz sentido antes de o time gastar tempo desenhando a solução.</p>
-            <div class="fase__quem">
-              <span class="micro">Quem conduz</span>
-              <p>Produto e design.</p>
-            </div>
-          </li>
-          <li class="fase">
-            <span class="micro fase__num">03</span>
-            <span class="fase__nome">Definição e prototipagem</span>
-            <p>É aqui que nasce a maior parte da solução. O&nbsp;protótipo já sai desenvolvido e segue para a&nbsp;engenharia sem etapa de tradução no&nbsp;meio.</p>
-            <div class="fase__quem">
-              <span class="micro">Quem conduz</span>
-              <p>Produto, design e engenharia, com&nbsp;prototipação distribuída entre os&nbsp;três.</p>
-            </div>
-          </li>
-          <li class="fase">
-            <span class="micro fase__num">04</span>
-            <span class="fase__nome">Delivery</span>
-            <p>Alfa na engenharia, que garante o funcionamento do que foi construído. Beta, aberto ou fechado, validando o experimento antes de abrir para todos.</p>
-            <div class="fase__quem">
-              <span class="micro">Quem conduz</span>
-              <p>Engenharia no alfa, time inteiro no beta.</p>
-            </div>
-          </li>
-          <li class="fase">
-            <span class="micro fase__num">05</span>
-            <span class="fase__nome">Depois do lançamento</span>
-            <p>O foco vira satisfação e adoção. A&nbsp;validação qualitativa entra quando o&nbsp;dado quantitativo mostra desvio do&nbsp;esperado.</p>
-            <div class="fase__quem">
-              <span class="micro">Quem conduz</span>
-              <p>Produto, design e dados, junto de GA e GTM.</p>
-            </div>
-          </li>
-        </ol>
-      </section>
-
-      <!-- 07. Texto de um lado, a trilha do componente correndo na
-           horizontal embaixo, porque ela é um caminho. -->
-      <section class="secao" aria-labelledby="t-ds">
-        <div class="secao__topo" data-revelar>
-          <div class="secao__head">
-            <span class="micro">07 · Fluxo paralelo</span>
-            <span class="secao__rule"></span>
-          </div>
-          <h2 class="secao__titulo secao__titulo--sm" id="t-ds">O&nbsp;Design System corre por&nbsp;fora do&nbsp;funil</h2>
-        </div>
-
-        <div class="corpo-texto" data-revelar>
-          <p>Em paralelo ao funil roda o fluxo do Design System, com componente aprovado direto no código antes de subir para o&nbsp;GitHub.</p>
-          <p>Hoje áreas fora de design também prototipam, CS inclusive, o que abriu uma discussão interna sobre controle. Resolvi separando o que cada protótipo pode prometer, não restringindo quem&nbsp;cria.</p>
-        </div>
-
-        <div class="bloco" data-revelar data-revelar-atraso="1">
-          <span class="micro rotulo">A trilha do componente</span>
-          <div class="rail">
-            <div class="rail__marco">
-              <span class="rail__nome">Criação</span>
-              <span class="rail__desc">Novo componente nasce a partir de uma&nbsp;necessidade do&nbsp;produto.</span>
-            </div>
-            <div class="rail__marco">
-              <span class="rail__nome">Comportamento e uso</span>
-              <span class="rail__desc">Definição escrita pensando também na&nbsp;leitura do&nbsp;Claude.</span>
-            </div>
-            <div class="rail__marco">
-              <span class="rail__nome">Aprovação no código</span>
-              <span class="rail__desc">Validação direto no&nbsp;código, antes de subir para o repositório no&nbsp;GitHub.</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 08. Os dois estados lado a lado, separados por um fio.
-           Antes ficava metade escondida atrás de um botão. -->
-      <section class="secao" aria-labelledby="t-confronto">
-        <div class="secao__topo" data-revelar>
-          <div class="secao__head">
-            <span class="micro">08 · Antes e depois</span>
-            <span class="secao__rule"></span>
-          </div>
-          <h2 class="secao__titulo" id="t-confronto">O&nbsp;mesmo time, com&nbsp;o&nbsp;eixo do&nbsp;trabalho deslocado</h2>
-        </div>
-
-        <div class="confronto" data-revelar>
-          <div class="confronto__linha confronto__cabeca">
-            <span class="micro">Dimensão</span>
-            <span class="micro">Antes</span>
-            <span class="micro">Depois</span>
-          </div>
-          <div class="confronto__linha">
-            <span class="confronto__rotulo">Prototipação</span>
-            <p class="confronto__antes"><span class="micro confronto__marca">Antes</span>Concentrada em design</p>
-            <p class="confronto__depois"><span class="micro confronto__marca">Depois</span>Distribuída entre produto, design e engenharia</p>
-          </div>
-          <div class="confronto__linha">
-            <span class="confronto__rotulo">Validação qualitativa</span>
-            <p class="confronto__antes"><span class="micro confronto__marca">Antes</span>Quase sempre antes do desenvolvimento</p>
-            <p class="confronto__depois"><span class="micro confronto__marca">Depois</span>Depois do lançamento, quando o dado mostra desvio do esperado</p>
-          </div>
-          <div class="confronto__linha">
-            <span class="confronto__rotulo">Rituais</span>
-            <p class="confronto__antes"><span class="micro confronto__marca">Antes</span>Longos e na agenda</p>
-            <p class="confronto__depois"><span class="micro confronto__marca">Depois</span>Curtos e assíncronos</p>
-          </div>
-          <div class="confronto__linha">
-            <span class="confronto__rotulo">Testes A/B</span>
-            <p class="confronto__antes"><span class="micro confronto__marca">Antes</span>Poucas variações, porque cada uma custava caro para construir</p>
-            <p class="confronto__depois"><span class="micro confronto__marca">Depois</span>Muitas variações, porque desenvolver ficou ágil e barato</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- 09. O resultado: o gráfico ocupa a largura, o atrito
-           entra escuro e os quatro números fecham a conta. -->
-      <section class="secao" aria-labelledby="t-resultado">
-        <div class="secao__topo" data-revelar>
-          <div class="secao__head">
-            <span class="micro">09 · Resultado</span>
-            <span class="secao__rule"></span>
-          </div>
-          <h2 class="secao__titulo" id="t-resultado">Sobrou tempo justamente onde o&nbsp;produto precisa de&nbsp;experimentação</h2>
-        </div>
-
-        <div class="corpo-texto" data-revelar>
-          <p>E muito mais experimento rodando, que é o que decide a qualidade da conversa em produção.</p>
-          <p>Design segue revisando tudo que vira PR.</p>
-        </div>
-
-        <div class="bloco" data-revelar data-revelar-atraso="1">
-          <span class="micro barras__titulo">Tempo antes e depois</span>
-          <div class="barras" data-barras>
-            <div>
-              <div class="barra">
-                <div class="barra__cabeca">
-                  <span class="barra__rotulo">Discovery, antes</span>
-                  <span class="barra__valor">1 a 2 meses</span>
-                </div>
-                <div class="barra__trilho" style="--larg: 100%"><div class="barra__preenche"></div></div>
-              </div>
-              <div class="barra barra--depois">
-                <div class="barra__cabeca">
-                  <span class="barra__rotulo">Discovery, depois</span>
-                  <span class="barra__valor">~1 semana</span>
-                </div>
-                <div class="barra__trilho" style="--larg: 12.5%"><div class="barra__preenche"></div></div>
-              </div>
-            </div>
-            <div>
-              <div class="barra">
-                <div class="barra__cabeca">
-                  <span class="barra__rotulo">Refinamento semanal, antes</span>
-                  <span class="barra__valor">4 a 5 h</span>
-                </div>
-                <div class="barra__trilho" style="--larg: 100%"><div class="barra__preenche"></div></div>
-              </div>
-              <div class="barra barra--depois">
-                <div class="barra__cabeca">
-                  <span class="barra__rotulo">Refinamento semanal, depois</span>
-                  <span class="barra__valor">30 a 40 min</span>
-                </div>
-                <div class="barra__trilho" style="--larg: 13%"><div class="barra__preenche"></div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="atrito" data-revelar>
-          <h3>A conta estava sendo lida ao&nbsp;contrário</h3>
-          <p>Um número desses também gera a pergunta que eu não queria receber, se dá para fazer com menos gente. O gargalo nunca foi produzir documento, era decidir com informação suficiente.</p>
-          <p>O que ganhamos não foi vaga a menos, foi aposta a mais no mesmo trimestre. E mais aposta exige mais gente sabendo julgar resultado.</p>
-        </div>
-
-        <div class="numeros" data-revelar>
-          <div class="numero-caso">
-            <span class="numero-caso__valor">~1 sem</span>
-            <p class="numero-caso__label">de Discovery, no&nbsp;lugar de um a dois&nbsp;meses</p>
-          </div>
-          <div class="numero-caso">
-            <span class="numero-caso__valor">30–40 min</span>
-            <p class="numero-caso__label">de refinamento por semana, no&nbsp;lugar de&nbsp;4&nbsp;a&nbsp;5&nbsp;horas</p>
-          </div>
-          <div class="numero-caso">
-            <span class="numero-caso__valor">Kanban</span>
-            <p class="numero-caso__label">no lugar do&nbsp;Scrum, com&nbsp;Planning só&nbsp;quando&nbsp;necessário</p>
-          </div>
-          <div class="numero-caso">
-            <span class="numero-caso__valor">100%</span>
-            <p class="numero-caso__label">dos PRs passam por revisão de&nbsp;design</p>
-          </div>
-        </div>
-
-        <div class="fecho fecho--unido" data-revelar>
-          <div>
-            <span class="micro rotulo">O que eu levo daqui</span>
-            <p class="declaracao">O trabalho de design não é mais desenhar a&nbsp;tela primeiro. É decidir, entre tantas coisas que a IA já gera sozinha, onde a atenção humana ainda faz&nbsp;diferença.</p>
-          </div>
-        </div>
-
-        <div class="acoes" data-revelar>
-          <p>Esse desenho segue em construção na Omni. Se quiser entender como aplicar algo parecido no seu time, <a class="link" href="https://wa.me/5511977346175" target="_blank" rel="noopener">me&nbsp;chama no&nbsp;WhatsApp</a> ou veja o próximo caso.</p>
-          <div class="acoes__ir">
-            <a class="proximo-link" href="case-omnichat.html">Próximo caso <i aria-hidden="true">→</i></a>
-          </div>
-        </div>
-      </section>
-
-    </div>
-  </div>
-
 </main>
-
-<footer class="footer on-dark">
-  <div class="onda onda--escura onda--subir" aria-hidden="true"></div>
-  <!-- A seta de voltar ao topo mora dentro da onda preta, no morro
-       que a onda faz para recebê-la. Conforme a página chega ao
-       fim, o morro cresce e a seta sobe junto com ele: são os dois
-       dizendo, sem escrever, que dali em diante só se anda para
-       cima.
-
-       #top e não um id nosso: a barra é fixa, e uma âncora para um
-       elemento fixo não faz o navegador rolar nada. "#top" sem
-       elemento correspondente é o fragmento que o HTML define como
-       "o começo do documento". -->
-  <div class="footer__subir">
-    <a class="subir" href="#top">
-      <span class="micro">Voltar ao topo</span>
-      <svg class="subir__seta" width="16" height="26" viewBox="0 0 16 26" fill="none" aria-hidden="true" focusable="false"><path d="M8 26V2M1 9l7-7 7 7" stroke="currentColor" stroke-width="2.1"/></svg>
-    </a>
-  </div>
-
-  <div class="wrap">
-    <div class="footer__grid">
-      <div data-revelar>
-        <h2>Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
-        <p class="footer__contact">
-          <a class="link" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff</a>
-        </p>
-        <a class="btn-green" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
-        </a>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
       </div>
-
-      <div class="footer__col" data-revelar data-revelar-atraso="1">
-        <h3>Casos</h3>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
         <ul>
-          <li><a href="case-processo.html" aria-current="page">Processo com IA</a></li>
-          <li><a href="case-omnichat.html">Omnichat</a></li>
-          <li><a href="case-inpulse.html">Inpulse</a></li>
-          <li><a href="case-mapa-experiencia.html">Mapa de experiência</a></li>
+          <li><a class="link" href="index.html">Home</a></li>
+          <li><a class="link" href="case-processo.html" aria-current="page">Processo com IA</a></li>
+          <li><a class="link" href="case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="case-mapa-experiencia.html">Mapa de experiência</a></li>
         </ul>
-      </div>
-
-      <div class="footer__col" data-revelar data-revelar-atraso="2">
-        <h3>Fora daqui</h3>
-        <ul>
-          <li><a href="manifesto/index.html">Manifesto<i aria-hidden="true">↗</i></a></li>
-          <li><a href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn<i aria-hidden="true">↗</i></a></li>
-          <li><a href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp<i aria-hidden="true">↗</i></a></li>
-        </ul>
-      </div>
+      </nav>
     </div>
-
     <div class="footer__meta">
-      <span class="micro">Jeff Maia · Product Design Manager</span>
-      <span class="micro">São Paulo, Brasil</span>
-
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
     </div>
   </div>
 </footer>
 
-<!-- A cortina da passagem entre páginas. Fica fora da tela até que
-     um link interno seja clicado, ou até que a página anterior peça
-     a entrada. -->
-<div class="transicao" aria-hidden="true">
-  <span class="transicao__marca">J<i></i></span>
-</div>
-
-<script src="assets/base.js"></script>
-<script src="assets/caso.js"></script>
+<script src="assets/ds/componentes.js"></script>
 </body>
 </html>

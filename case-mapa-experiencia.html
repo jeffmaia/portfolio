@@ -1,487 +1,205 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-acento="azul">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- Duas marcas postas antes do primeiro pixel.
-
-     .js: a folha de estilo só esconde o painel do menu quando
-     esta classe existe, então sem script nenhum link do site fica
-     inalcançável.
-
-     .chegando: a página anterior pediu a passagem, e a cortina
-     entra cobrindo e sai por baixo. A animação é de CSS puro; se
-     o script do rodapé falhar, ela sai sozinha e nunca deixa a
-     página coberta. -->
-<script>
-(function () {
-  var h = document.documentElement;
-  h.classList.add("js");
-  try {
-    if (sessionStorage.getItem("jm-passagem")) {
-      sessionStorage.removeItem("jm-passagem");
-      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) h.classList.add("chegando");
-    }
-  } catch (e) {}
-})();
-</script>
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
 <title>Como um mapa de experiência ajudou a deixar o NPS positivo · Jeff Maia</title>
 <meta name="description" content="Um relatório de pesquisa em formato de tabuleiro que fez 16 campus lerem a pesquisa e agirem sobre ela. O NPS geral saiu de 33 negativos para 15 positivos no mesmo ciclo, com o acesso ao relatório indo de 20 para 890 usuários únicos no primeiro mês.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%23fafffa'/%3E%3Ctext x='50' y='72' font-family='Arial, Helvetica, sans-serif' font-weight='800' font-size='64' text-anchor='middle' fill='%23121613'%3EJ%3C/text%3E%3Crect x='27' y='78' width='46' height='7' rx='2' fill='%232bee4b'/%3E%3C/svg%3E">
+<script src="assets/analytics.js"></script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/base.css">
-<link rel="stylesheet" href="assets/caso.css">
-<script src="assets/analytics.js"></script>
+<link rel="stylesheet" href="assets/ds/tokens.css">
+<link rel="stylesheet" href="assets/ds/componentes.css">
+
 </head>
-<body class="caso">
+<body>
+<div class="carga" aria-hidden="true">
+  <div class="carga__quadro">
+    <svg class="carga__tela" viewBox="0 0 240 300" fill="none">
+      <g class="carga__esboco" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 10C70 6 160 12 232 8c4 82-2 202 2 284-74 4-164-2-228 2 4-84-2-204 2-284Z"/>
+        <path d="M24 40c66-3 126 3 192-1 2 31-2 61 1 89-67 3-127-2-194 2 3-30-1-60 1-90Z"/>
+        <path d="M26 42l188 84M214 41L25 128"/>
+        <path d="M24 152c56-3 106 3 156-2M24 168c46-3 86 2 116-2"/>
+        <path d="M24 192c36-3 66 2 88-1 2 29-2 54 1 77-33 3-63-2-91 2 3-26-1-54 2-78Z"/>
+        <path d="M128 192c32-3 62 2 88-1 2 29-2 54 1 77-27 3-57-2-90 2 3-26-1-54 1-78Z"/>
+      </g>
+      <g class="carga__camada carga__camada--grade" stroke="#000" stroke-width="1.6" stroke-dasharray="1 6" stroke-linecap="round">
+        <path d="M20 22v262M85 22v262M155 22v262M220 22v262M12 140h216"/>
+      </g>
+      <g class="carga__camada carga__camada--componentes" stroke="#000" stroke-width="2">
+        <rect x="2" y="2" width="236" height="296" rx="12"/>
+        <rect x="20" y="36" width="200" height="96" rx="8"/>
+        <rect x="36" y="104" width="64" height="18" rx="9"/>
+        <rect x="20" y="186" width="94" height="86" rx="8"/>
+        <rect x="126" y="186" width="94" height="86" rx="8"/>
+      </g>
+      <g class="carga__camada carga__camada--textos" fill="#000">
+        <rect x="36" y="50" width="122" height="10" rx="3"/>
+        <rect x="36" y="66" width="84" height="10" rx="3"/>
+        <rect x="36" y="84" width="104" height="5" rx="2.5"/>
+        <rect x="48" y="110" width="40" height="5" rx="2.5"/>
+        <rect x="20" y="148" width="148" height="6" rx="3"/>
+        <rect x="20" y="162" width="102" height="6" rx="3"/>
+        <rect x="32" y="204" width="56" height="6" rx="3"/>
+        <rect x="32" y="216" width="44" height="5" rx="2.5"/>
+        <rect x="138" y="204" width="56" height="6" rx="3"/>
+        <rect x="138" y="216" width="66" height="5" rx="2.5"/>
+      </g>
+      <g class="carga__camada carga__camada--cores">
+        <rect class="carga__cor" x="20" y="36" width="200" height="96" rx="8"/>
+        <rect x="36" y="104" width="64" height="18" rx="9" fill="#edfe5e"/>
+        <rect x="126" y="186" width="94" height="86" rx="8" fill="#dee5dd"/>
+      </g>
+    </svg>
+    <div class="carga__barra"><i></i></div>
+  </div>
+</div>
 
-<!-- O recorte da onda é um só para todas: elas são desenhadas no
-     mesmo quadro e na mesma fase, e o clipPath em objectBoundingBox
-     estica a forma até a largura de cada seção. O caminho já vem
-     desenhado aqui, então a borda ondulada existe sem JS. -->
-<svg class="onda-defs" aria-hidden="true" focusable="false"><defs><clipPath id="onda-recorte" clipPathUnits="objectBoundingBox"><path id="onda-caminho" d="M0,1 L0.0000,0.5167 L0.0250,0.4905 L0.0500,0.4658 L0.0750,0.4438 L0.1000,0.4256 L0.1250,0.4120 L0.1500,0.4035 L0.1750,0.4001 L0.2000,0.4016 L0.2250,0.4074 L0.2500,0.4167 L0.2750,0.4284 L0.3000,0.4416 L0.3250,0.4551 L0.3500,0.4681 L0.3750,0.4800 L0.4000,0.4903 L0.4250,0.4988 L0.4500,0.5058 L0.4750,0.5116 L0.5000,0.5167 L0.5250,0.5218 L0.5500,0.5276 L0.5750,0.5346 L0.6000,0.5431 L0.6250,0.5534 L0.6500,0.5653 L0.6750,0.5783 L0.7000,0.5918 L0.7250,0.6050 L0.7500,0.6167 L0.7750,0.6260 L0.8000,0.6318 L0.8250,0.6333 L0.8500,0.6299 L0.8750,0.6214 L0.9000,0.6078 L0.9250,0.5896 L0.9500,0.5676 L0.9750,0.5429 L1.0000,0.5167 L1,1 Z"/></clipPath><clipPath id="onda-recorte-bolha" clipPathUnits="objectBoundingBox"><path id="onda-caminho-bolha" d="M0,1 L0.0000,0.7583 L0.0208,0.7474 L0.0417,0.7369 L0.0625,0.7272 L0.0833,0.7186 L0.1042,0.7115 L0.1250,0.7060 L0.1458,0.7023 L0.1667,0.7003 L0.1875,0.7001 L0.2083,0.7015 L0.2292,0.7041 L0.2480,0.7071 L0.2606,0.7091 L0.2732,0.7109 L0.2858,0.7119 L0.2984,0.7117 L0.3110,0.7094 L0.3236,0.7042 L0.3362,0.6949 L0.3488,0.6804 L0.3614,0.6594 L0.3740,0.6309 L0.3866,0.5944 L0.3992,0.5500 L0.4118,0.4986 L0.4244,0.4424 L0.4370,0.3843 L0.4496,0.3284 L0.4622,0.2790 L0.4748,0.2403 L0.4874,0.2159 L0.5000,0.2083 L0.5126,0.2185 L0.5252,0.2454 L0.5378,0.2870 L0.5504,0.3394 L0.5630,0.3987 L0.5756,0.4604 L0.5882,0.5208 L0.6008,0.5767 L0.6134,0.6261 L0.6260,0.6681 L0.6386,0.7024 L0.6512,0.7296 L0.6638,0.7506 L0.6764,0.7665 L0.6890,0.7786 L0.7016,0.7876 L0.7142,0.7946 L0.7268,0.8000 L0.7394,0.8044 L0.7520,0.8079 L0.7708,0.8120 L0.7917,0.8151 L0.8125,0.8165 L0.8333,0.8164 L0.8542,0.8144 L0.8750,0.8107 L0.8958,0.8052 L0.9167,0.7981 L0.9375,0.7895 L0.9583,0.7798 L0.9792,0.7693 L1.0000,0.7584 L1,1 Z"/></clipPath><clipPath id="onda-recorte-subir" clipPathUnits="objectBoundingBox"><path id="onda-caminho-subir" d="M0,1 L0.0000,0.7583 L0.0208,0.7474 L0.0417,0.7369 L0.0625,0.7272 L0.0833,0.7186 L0.1042,0.7115 L0.1250,0.7060 L0.1458,0.7023 L0.1667,0.7003 L0.1875,0.7001 L0.2083,0.7015 L0.2292,0.7041 L0.2480,0.7071 L0.2606,0.7091 L0.2732,0.7109 L0.2858,0.7119 L0.2984,0.7117 L0.3110,0.7094 L0.3236,0.7042 L0.3362,0.6949 L0.3488,0.6804 L0.3614,0.6594 L0.3740,0.6309 L0.3866,0.5944 L0.3992,0.5500 L0.4118,0.4986 L0.4244,0.4424 L0.4370,0.3843 L0.4496,0.3284 L0.4622,0.2790 L0.4748,0.2403 L0.4874,0.2159 L0.5000,0.2083 L0.5126,0.2185 L0.5252,0.2454 L0.5378,0.2870 L0.5504,0.3394 L0.5630,0.3987 L0.5756,0.4604 L0.5882,0.5208 L0.6008,0.5767 L0.6134,0.6261 L0.6260,0.6681 L0.6386,0.7024 L0.6512,0.7296 L0.6638,0.7506 L0.6764,0.7665 L0.6890,0.7786 L0.7016,0.7876 L0.7142,0.7946 L0.7268,0.8000 L0.7394,0.8044 L0.7520,0.8079 L0.7708,0.8120 L0.7917,0.8151 L0.8125,0.8165 L0.8333,0.8164 L0.8542,0.8144 L0.8750,0.8107 L0.8958,0.8052 L0.9167,0.7981 L0.9375,0.7895 L0.9583,0.7798 L0.9792,0.7693 L1.0000,0.7584 L1,1 Z"/></clipPath></defs></svg>
+<a class="pular" href="#conteudo">Pular para o caso</a>
 
-<a class="pular" href="#contexto">Pular para o caso</a>
-
-<!-- Quanto falta para o fim da página. Sem JS fica em zero e some. -->
-<div class="regua" id="regua" aria-hidden="true"></div>
-
-<header class="nav">
-  <div class="wrap nav__inner">
-    <a class="wordmark" href="index.html" aria-label="Jeff Maia, Product Design Manager">
-      <span class="wordmark__nome">J<span class="wordmark__dobra">eff</span></span>
-      <span class="wordmark__dobra wordmark__sobrenome">Maia</span>
-      <span class="wordmark__dobra wordmark__papel">Product Design Manager</span>
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
     </a>
-
-    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
-      <span class="menu-btn__traco"></span>
-      <span class="menu-btn__traco"></span>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
     </button>
   </div>
 </header>
 
-<!-- Sem aria-hidden aqui: sem script o painel fica aberto no
-     fluxo, e a marca fixa esconderia do leitor de tela um menu que
-     está à vista. Quem escreve o estado é o JS, que já começa
-     fechando o painel. -->
-<!-- A retícula: o véu de pontos que cai sobre a faixa de página que
-     o painel não cobre. Fica fora do painel de propósito, porque o
-     que ela cobre é a página, não o menu. -->
-<div class="reticula" aria-hidden="true"></div>
-
-<div class="menu" id="menu">
-  <nav class="wrap menu__inner" aria-label="Principal">
-    <div class="menu__grupo">
-      <p class="micro menu__rotulo">Casos</p>
-      <ul class="menu__lista">
-        <li style="--i:0"><a class="menu__item" href="case-processo.html">Processo com IA</a></li>
-        <li style="--i:1"><a class="menu__item" href="case-omnichat.html">Omnichat</a></li>
-        <li style="--i:2"><a class="menu__item" href="case-inpulse.html">Inpulse</a></li>
-        <li style="--i:3"><a class="menu__item" href="case-mapa-experiencia.html" aria-current="page">Mapa de experiência</a></li>
-      </ul>
-    </div>
-
-    <div class="menu__grupo">
-      <p class="micro menu__rotulo">Fora daqui</p>
-      <ul class="menu__lista menu__lista--fora">
-        <li style="--i:4"><a class="menu__item" href="index.html">Home</a></li>
-        <li style="--i:5"><a class="menu__item" href="manifesto/index.html">Manifesto<i aria-hidden="true">↗</i></a></li>
-        <li style="--i:6"><a class="menu__item" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn<i aria-hidden="true">↗</i></a></li>
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="case-mapa-experiencia.html" aria-current="page"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
       </ul>
     </div>
   </nav>
-  <div class="onda onda--escura onda--pe" aria-hidden="true"></div>
 </div>
 
+<main id="conteudo" class="container caso">
+  <nav class="sumario" data-sumario aria-label="Neste caso">
+    <p class="t-rotulo sumario__titulo">Neste caso</p>
+    <ol class="sumario__lista" id="sumario-lista"><li><a class="sumario__item" href="#contexto"><img class="icone" src="assets/ds/icones/lupa-azul.svg" alt="" width="32" height="32"><span class="sumario__num">01</span><span class="sumario__nome">Contexto</span></a></li><li><a class="sumario__item" href="#nota"><img class="icone" src="assets/ds/icones/alvo-azul.svg" alt="" width="32" height="32"><span class="sumario__num">02</span><span class="sumario__nome">O que move a nota</span></a></li><li><a class="sumario__item" href="#processo"><img class="icone" src="assets/ds/icones/camadas-azul.svg" alt="" width="32" height="32"><span class="sumario__num">03</span><span class="sumario__nome">Processo</span></a></li><li><a class="sumario__item" href="#solucao"><img class="icone" src="assets/ds/icones/rota-azul.svg" alt="" width="32" height="32"><span class="sumario__num">04</span><span class="sumario__nome">Solução</span></a></li><li><a class="sumario__item" href="#resultado"><img class="icone" src="assets/ds/icones/grafico-azul.svg" alt="" width="32" height="32"><span class="sumario__num">05</span><span class="sumario__nome">Resultado</span></a></li></ol>
+    <button class="sumario__botao" type="button" aria-expanded="false" aria-controls="sumario-lista" hidden><span class="sr">Seções deste caso</span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span></button>
+    <span class="sumario__aviso" aria-hidden="true"></span>
+  </nav>
 
-<main>
+  <div>
+    <header class="topo">
+      <div class="topo__texto"><ul class="badges" role="list"><li><span class="badge">UX Research</span></li><li><span class="badge">UX Strategy</span></li><li><span class="badge" data-variant="acento">Pesquisa e NPS</span></li></ul><h1 class="t-display">Como um&nbsp;mapa de&nbsp;experiência ajudou a&nbsp;deixar o&nbsp;NPS positivo</h1><p class="t-sub">Um relatório de pesquisa que 16 campus liam e a&nbsp;partir do&nbsp;qual agiam, em&nbsp;vez de&nbsp;arquivar junto com&nbsp;os&nbsp;outros.</p></div>
+      <div class="card topo__ficha" data-variant="muted"><p class="t-rotulo card__titulo">Ficha do projeto</p><dl class="ficha"><div><dt>Duração</dt><dd>3 meses, da análise do NPS à entrega para&nbsp;os&nbsp;16 campus</dd></div><div><dt>Jeff</dt><dd>Idealizador e mentor do&nbsp;formato e&nbsp;da&nbsp;estratégia de entrega</dd></div><div><dt>Time</dt><dd>Anna Marsillac na&nbsp;pesquisa, Lucas Dias e&nbsp;Natália Dantas no design</dd></div></dl></div>
+      <div class="card topo__salto" data-variant="acento"><div class="stat " data-variant="salto">
+  <span class="stat__antes"><span class="sr">De </span>−33</span>
+  <span class="stat__valor"><span class="sr">para </span>+15</span>
+  <p class="stat__frase">A nota geral de NPS de um grupo educacional com 12 marcas e 16 campus, a&nbsp;partir das&nbsp;ações que cada campus construiu com o material. No mesmo ciclo, o acesso ao relatório saiu de 20 para 890 usuários únicos no&nbsp;primeiro mês.</p>
+</div><img class="ilustracao" src="assets/ds/ilustracoes/mapa-salto.svg" alt="" width="640" height="640" ></div>
+    </header>
 
-  <header class="caso-topo tinta">
-    <div class="wrap caso-topo__inner">
-      <a class="voltar micro" href="index.html#casos"><i aria-hidden="true">←</i> Todos os casos</a>
+    <section class="section" id="contexto" aria-labelledby="contexto-rotulo">
+      <p class="section__rotulo t-rotulo" id="contexto-rotulo" data-revelar>01 · Contexto</p>
+      <p class="t-lead prosa" data-revelar>Como ajudar cada campus a&nbsp;entender o&nbsp;motivo da&nbsp;nota negativa e&nbsp;a&nbsp;pensar em&nbsp;ações para&nbsp;melhorá-la?</p>
+      <div class="prosa" data-revelar><p>Um grupo educacional com 12 marcas e 16 campus ao redor do Brasil convivia com um NPS negativo, e as ações dos últimos semestres não tinham mudado esse cenário. A pesquisa existia. O que faltava era um formato que fizesse cada campus percorrer a experiência do próprio aluno antes de propor&nbsp;qualquer coisa.</p></div>
+    </section>
 
-      <p class="etiquetas micro" data-revelar>
-        <span>UX Research</span>
-        <span>UX Strategy</span>
-        <span class="etiqueta--verde">Pesquisa e NPS</span>
-      </p>
-
-      <h1 data-revelar>Como um&nbsp;mapa de&nbsp;experiência ajudou a&nbsp;deixar o&nbsp;NPS positivo</h1>
-
-      <div class="caso-topo__pe">
-        <p class="caso-topo__lead" data-revelar data-revelar-atraso="1">Um relatório de pesquisa que 16 campus liam e a&nbsp;partir do&nbsp;qual agiam, em&nbsp;vez de&nbsp;arquivar junto com&nbsp;os&nbsp;outros.</p>
-
-        <div class="salto" data-revelar data-revelar-atraso="2">
-          <span class="salto__de">−33</span>
-          <span class="salto__para">+15</span>
-          <p class="salto__que">A nota geral de NPS de um grupo educacional com 12 marcas e 16 campus, a&nbsp;partir das&nbsp;ações que cada campus construiu com o material. No mesmo ciclo, o acesso ao relatório saiu de 20 para 890 usuários únicos no&nbsp;primeiro mês.</p>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <div class="folha">
-    <div class="onda onda--clara" aria-hidden="true"></div>
-    <div class="wrap folha__inner">
-
-      <!-- 01. A pergunta que o caso persegue de um lado, e a ficha
-           correndo na coluna da direita, começando na mesma linha de
-           "01 · A pergunta". Em faixa, embaixo do texto, ela era um
-           metadado atravessando a página inteira antes de o caso ter
-           começado. -->
-      <section class="secao secao--ficha" id="contexto" aria-labelledby="t-pergunta">
-        <div class="secao__topo" data-revelar>
-          <div class="secao__head">
-            <span class="micro" id="t-pergunta">01 · A pergunta</span>
-            <span class="secao__rule"></span>
-          </div>
-        </div>
-
-        <div class="abertura" data-revelar>
-          <p>Como ajudar cada campus a&nbsp;entender o&nbsp;motivo da&nbsp;nota negativa e&nbsp;a&nbsp;pensar em&nbsp;ações para&nbsp;melhorá-la?</p>
-        </div>
-
-        <div class="corpo-texto" data-revelar data-revelar-atraso="1">
-          <p>Um grupo educacional com 12 marcas e 16 campus ao redor do Brasil convivia com um NPS negativo, e as ações dos últimos semestres não tinham mudado esse cenário. A pesquisa existia. O que faltava era um formato que fizesse cada campus percorrer a experiência do próprio aluno antes de propor&nbsp;qualquer coisa.</p>
-        </div>
-
-        <div class="bloco ficha-lateral" style="--ficha-faixas: 3" data-revelar data-revelar-atraso="2">
-          <span class="micro rotulo">Ficha do projeto</span>
-          <dl class="faixa-ficha">
-            <div><dt class="micro">Duração</dt><dd>3 meses, da análise do NPS à entrega para&nbsp;os&nbsp;16 campus</dd></div>
-            <div><dt class="micro">Jeff</dt><dd>Idealizador e mentor do&nbsp;formato e&nbsp;da&nbsp;estratégia de entrega</dd></div>
-            <div><dt class="micro">Time</dt><dd>Anna Marsillac na&nbsp;pesquisa, Lucas Dias e&nbsp;Natália Dantas no design</dd></div>
-          </dl>
-        </div>
-      </section>
-
-      <!-- 02. A nota geral numa escala com sinal: é o único gráfico
-           do site que precisa mostrar de que lado do zero a coisa
-           está. -->
-      <section class="secao" aria-labelledby="t-nota">
-        <div class="secao__topo" data-revelar>
-          <div class="secao__head">
-            <span class="micro">02 · O que move a nota</span>
-            <span class="secao__rule"></span>
-          </div>
-          <h2 class="secao__titulo" id="t-nota">Um&nbsp;mapa não move NPS sozinho</h2>
-        </div>
-
-        <div class="corpo-texto" data-revelar>
-          <p>Quem move é a ação que cada campus toma, e o que&nbsp;estava travado era a leitura da pesquisa. Nos semestres anteriores o&nbsp;relatório chegava e não&nbsp;virava plano.</p>
-          <p>Com o mapa, os&nbsp;16 campus construíram planos a&nbsp;partir do&nbsp;mesmo material, e a nota geral saiu de&nbsp;33 negativos para 15 positivos no&nbsp;ciclo seguinte.</p>
-        </div>
-
-        <div class="bloco" data-revelar data-revelar-atraso="1">
-          <span class="micro rotulo">Nota geral de NPS</span>
-          <div class="nps">
-            <div class="nps__eixo">
-              <span class="nps__zero"></span>
-              <span class="nps__faixa" style="--de: 33.5%; --curso: 24%"></span>
-            </div>
-            <p class="nps__regua micro"><span>−100</span><span>0</span><span>+100</span></p>
-            <div class="nps__valores">
-              <div>
-                <span class="nps__valor">−33</span>
-                <span class="nps__rotulo micro">antes</span>
-              </div>
-              <div>
-                <span class="nps__valor nps__valor--depois">+15</span>
-                <span class="nps__rotulo micro">depois</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </div>
+    <section class="section" id="nota" aria-labelledby="nota-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>02 · O que move a nota</p>
+      <h2 class="t-titulo" id="nota-titulo" data-revelar>Um&nbsp;mapa não move NPS sozinho</h2>
+      <div class="prosa" data-revelar><p>Quem move é a ação que cada campus toma, e o que&nbsp;estava travado era a leitura da pesquisa. Nos semestres anteriores o&nbsp;relatório chegava e não&nbsp;virava plano.</p><p>Com o mapa, os&nbsp;16 campus construíram planos a&nbsp;partir do&nbsp;mesmo material, e a nota geral saiu de&nbsp;33 negativos para 15 positivos no&nbsp;ciclo seguinte.</p></div>
+      <figure class="chart" data-variant="escala" style="--antes: -33; --depois: 15" data-revelar>
+  <figcaption class="t-rotulo">Nota geral de NPS<span class="sr">, numa escala de −100 a +100</span></figcaption>
+  <div class="chart__escala">
+    <p class="chart__marco" data-ponto="antes"><span class="chart__numero">−33</span><span class="t-rotulo">Antes</span></p>
+    <p class="chart__marco" data-ponto="depois"><span class="chart__numero">+15</span><span class="t-rotulo">Depois</span></p>
+    <div class="chart__eixo" aria-hidden="true"><span class="chart__percurso"></span><span class="chart__zero"></span><span class="chart__ponto" data-ponto="antes"></span><span class="chart__ponto" data-ponto="depois"></span></div>
+    <p class="chart__regua t-rotulo" aria-hidden="true"><span>−100</span><span>0</span><span>+100</span></p>
   </div>
+</figure>
+    </section>
 
-  <!-- A parada escura: como a pesquisa virou esse formato. As três
-       etapas ficavam atrás de uma aba, uma por vez; agora são três
-       linhas abertas, com a consequência de cada uma no fim. -->
-  <div class="tinta">
-    <div class="onda onda--escura" aria-hidden="true"></div>
-    <div class="wrap tinta__inner">
+    <section class="section" id="processo" aria-labelledby="processo-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>03 · Processo</p>
+      <h2 class="t-titulo" id="processo-titulo" data-revelar>Três decisões antes de&nbsp;desenhar qualquer&nbsp;tela</h2>
+      <ol class="steps" data-revelar><li class="step"><img class="icone step__icone" src="assets/ds/icones/grafico-azul.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">01</span><h3 class="step__titulo">Entender os&nbsp;dados do&nbsp;NPS</h3><p>Clusterizamos os comentários do NPS em grandes eixos e subcategorias, com uma divisão entre semestres. Era preciso um relatório que ilustrasse a jornada do aluno do início ao fim da graduação, para que a ação surtisse efeito no período específico de cada problema.</p><p class="step__efeito"><span class="t-rotulo">Consequência</span> A insatisfação deixou de ser uma nota única e&nbsp;passou a ter lugar e momento na jornada.</p></li><li class="step"><img class="icone step__icone" src="assets/ds/icones/pessoa-azul.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">02</span><h3 class="step__titulo">Completar o&nbsp;que a&nbsp;reclamação não&nbsp;contava</h3><p>As informações que tínhamos não bastavam, e fomos atrás dos alunos para preencher outros aspectos da vida deles. Um aluno que mora longe da instituição sofre muito mais com um cancelamento de aula em cima da hora do que um aluno que mora perto do campus, e nada disso aparece na nota.</p><p class="step__efeito"><span class="t-rotulo">Consequência</span> As ações passaram a considerar o contexto de&nbsp;vida do&nbsp;aluno, não só a&nbsp;reclamação registrada.</p></li><li class="step"><img class="icone step__icone" src="assets/ds/icones/rota-azul.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">03</span><h3 class="step__titulo">Achar um&nbsp;formato que&nbsp;obrigue a&nbsp;percorrer</h3><p>Antes do tabuleiro testamos dois formatos mais óbvios, um dashboard de indicadores e um resumo executivo de duas páginas por campus. Os dois falharam pelo mesmo motivo. Entregavam a conclusão pronta, e ninguém precisava percorrer a jornada do aluno para chegar nela. O tabuleiro foi escolhido porque obriga quem lê a&nbsp;andar por semestre e&nbsp;por&nbsp;eixo, e&nbsp;é nesse trajeto que o time reconhece o próprio aluno e&nbsp;propõe ação.</p><p class="step__efeito"><span class="t-rotulo">Consequência</span> O formato virou parte da solução, não a&nbsp;embalagem da pesquisa.</p></li></ol>
+    </section>
 
-      <section class="secao" aria-labelledby="t-processo">
-        <div class="secao__topo" data-revelar>
-          <div class="secao__head">
-            <span class="micro">03 · Processo</span>
-            <span class="secao__rule"></span>
-          </div>
-          <h2 class="secao__titulo" id="t-processo">Três decisões antes de&nbsp;desenhar qualquer&nbsp;tela</h2>
-        </div>
+    <section class="section" id="solucao" aria-labelledby="solucao-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>04 · Solução</p>
+      <h2 class="t-titulo" id="solucao-titulo" data-revelar>Um&nbsp;tabuleiro com&nbsp;as&nbsp;12 etapas da&nbsp;graduação</h2>
+      <div class="prosa" data-revelar><p>Cada instituição recebeu um mapa interativo para transitar por&nbsp;toda a jornada do estudante, com visualização por&nbsp;semestre e por&nbsp;eixo da vida do&nbsp;aluno.</p><p>O mesmo material resume a variação de sentimento entre semestres e&nbsp;as&nbsp;palavras&#8209;chave que aparecem em cada cruzamento de&nbsp;eixo e&nbsp;etapa.</p></div>
+      <ul class="badges" role="list" aria-label="Eixos do mapa" data-revelar><li><span class="badge">Saúde mental</span></li><li><span class="badge">Saúde física</span></li><li><span class="badge">Vida financeira</span></li><li><span class="badge">Expectativa de futuro</span></li><li><span class="badge">Dores</span></li><li><span class="badge">Experiência com a instituição</span></li><li><span class="badge">Sugestões</span></li><li><span class="badge">Aplicativos</span></li><li><span class="badge">Oportunidades</span></li></ul>
+      <div class="figure" data-variant="galeria" data-abertura data-revelar>
+  <ol class="figure__lista"><li><figure><div class="figure__quadro"><img src="https://framerusercontent.com/images/jB0FYWxzKTWaMHwYRuFkT0OR8.png" alt="O tabuleiro do mapa, com as 12 etapas da graduação distribuídas do START ao FINISH." width="4320" height="3072" loading="lazy" decoding="async"></div><figcaption class="figure__legenda"><span class="t-rotulo">Fig. 01</span>O tabuleiro, do primeiro ao último&nbsp;semestre</figcaption></figure></li><li><figure><div class="figure__quadro"><img src="https://framerusercontent.com/images/2u2l4cvOcOdO1jQGPl637PRYmWI.png" alt="Uma etapa aberta sobre o tabuleiro, com o achado da pesquisa e a régua de sentimento na base da tela." width="4320" height="3072" loading="lazy" decoding="async"></div><figcaption class="figure__legenda"><span class="t-rotulo">Fig. 02</span>Uma etapa aberta, com a régua de&nbsp;sentimento</figcaption></figure></li><li><figure><div class="figure__quadro"><img src="https://framerusercontent.com/images/Gt20MHEWr6seNOXMahLIqb4plQ.png" alt="Visão ampla institucional, com experiência, sugestões, apps e oportunidades cruzados com os pares de etapas." width="4320" height="3072" loading="lazy" decoding="async"></div><figcaption class="figure__legenda"><span class="t-rotulo">Fig. 03</span>Visão ampla, lado&nbsp;institucional</figcaption></figure></li><li><figure><div class="figure__quadro"><img src="https://framerusercontent.com/images/3IY6aXgfkDIxVCej0xa2DWhplw.png" alt="Visão ampla pessoal, com mental, físico, financeiro, futuro e dores cruzados com os pares de etapas." width="4320" height="3072" loading="lazy" decoding="async"></div><figcaption class="figure__legenda"><span class="t-rotulo">Fig. 04</span>Visão ampla, lado&nbsp;pessoal</figcaption></figure></li><li><figure><div class="figure__quadro"><img src="https://framerusercontent.com/images/D6BfM2dEe92QhBtCV7Q9lTCTu0.png" alt="Gráfico de sentimento com três linhas, financeiro, físico e mental, ao longo dos seis pares de etapas." width="4320" height="3072" loading="lazy" decoding="async"></div><figcaption class="figure__legenda"><span class="t-rotulo">Fig. 05</span>O sentimento por eixo ao longo do&nbsp;curso</figcaption></figure></li></ol>
+</div>
+<a class="link" data-variant="externo" href="https://www.figma.com/proto/8fvE9ztg50OQFqWIqGfH3y/Mapa-de-Experie%CC%82ncia-Estudante-Medicina?page-id=221%3A2&amp;node-id=288-1762&amp;starting-point-node-id=288%3A1762&amp;t=rEOOuyzD3vuwNv1m-1" target="_blank" rel="noopener" data-revelar>Abrir o mapa completo <i aria-hidden="true">↗</i></a>
+      <div class="callout" data-variant="nota" data-revelar>
+  <p class="t-rotulo callout__rotulo">Relatórios por eixo</p>
+  <p>Além do mapa, os principais eixos ganharam relatórios em profundidade, com recortes das entrevistas e as reclamações na íntegra. Os achados foram cruzados com informação de mercado, e cada um veio com uma lista curta de indicadores para acompanhar depois da&nbsp;ação.</p>
+</div>
+    </section>
 
-        <div class="linhas" data-revelar>
-          <div class="linha">
-            <span class="micro linha__num">01</span>
-            <h3 class="linha__titulo">Entender os&nbsp;dados do&nbsp;NPS</h3>
-            <div class="linha__par">
-              <p>Clusterizamos os comentários do NPS em grandes eixos e subcategorias, com uma divisão entre semestres. Era preciso um relatório que ilustrasse a jornada do aluno do início ao fim da graduação, para que a ação surtisse efeito no período específico de cada problema.</p>
-              <p class="linha__efeito"><span class="micro">Consequência</span> A insatisfação deixou de ser uma nota única e&nbsp;passou a ter lugar e momento na jornada.</p>
-            </div>
-          </div>
-
-          <div class="linha">
-            <span class="micro linha__num">02</span>
-            <h3 class="linha__titulo">Completar o&nbsp;que a&nbsp;reclamação não&nbsp;contava</h3>
-            <div class="linha__par">
-              <p>As informações que tínhamos não bastavam, e fomos atrás dos alunos para preencher outros aspectos da vida deles. Um aluno que mora longe da instituição sofre muito mais com um cancelamento de aula em cima da hora do que um aluno que mora perto do campus, e nada disso aparece na nota.</p>
-              <p class="linha__efeito"><span class="micro">Consequência</span> As ações passaram a considerar o contexto de&nbsp;vida do&nbsp;aluno, não só a&nbsp;reclamação registrada.</p>
-            </div>
-          </div>
-
-          <div class="linha">
-            <span class="micro linha__num">03</span>
-            <h3 class="linha__titulo">Achar um&nbsp;formato que&nbsp;obrigue a&nbsp;percorrer</h3>
-            <div class="linha__par">
-              <p>Antes do tabuleiro testamos dois formatos mais óbvios, um dashboard de indicadores e um resumo executivo de duas páginas por campus. Os dois falharam pelo mesmo motivo: entregavam a conclusão pronta, e ninguém precisava percorrer a jornada do aluno para chegar nela.</p>
-              <p>O tabuleiro foi escolhido porque obriga quem lê a&nbsp;andar por semestre e&nbsp;por&nbsp;eixo, e&nbsp;é nesse trajeto que o time reconhece o próprio aluno e&nbsp;propõe ação.</p>
-              <p class="linha__efeito"><span class="micro">Consequência</span> O formato virou parte da solução, não a&nbsp;embalagem da pesquisa.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </div>
+    <section class="section" id="resultado" aria-labelledby="resultado-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>05 · Resultado</p>
+      <h2 class="t-titulo" id="resultado-titulo" data-revelar>O&nbsp;relatório passou a&nbsp;ser lido</h2>
+      <div class="prosa" data-revelar><p>Com um trabalho de várias mãos, o engajamento com&nbsp;os&nbsp;relatórios mudou de&nbsp;patamar. A média de usuários únicos no primeiro mês era de 20 sem o&nbsp;mapa.</p><p>Com o mapa, foram 890 no mesmo período, e são esses acessos que&nbsp;viraram os planos de ação de cada&nbsp;campus.</p></div>
+      <figure class="chart" data-variant="barras" data-revelar>
+  <figcaption class="t-rotulo">Usuários únicos no primeiro mês</figcaption>
+  <div class="chart__grupos"><div class="chart__grupo" style="--antes: 2.2; --depois: 100"><dl class="chart__marcos"><div class="chart__marco" data-ponto="antes"><dt class="t-rotulo">Sem o mapa</dt><dd class="chart__valor">20</dd></div><div class="chart__marco" data-ponto="depois"><dt class="t-rotulo">Com o mapa</dt><dd class="chart__valor">890</dd></div></dl><div class="chart__barra" aria-hidden="true"><div class="chart__trilho"><span class="chart__antes"></span><span class="chart__preenche"></span></div></div></div></div>
+  <p class="chart__chave" aria-hidden="true"><span><span class="chart__amostra" data-tom="muted"></span>Sem o mapa</span><span><span class="chart__amostra" data-tom="cheio"></span>Com o mapa</span></p>
+</figure>
+      <div class="cards" data-layout="mosaico" data-revelar><div class="card" data-tamanho="terco"><img class="icone" src="assets/ds/icones/seta-azul.svg" alt="" width="48" height="48"><div class="stat"><span class="stat__valor">+48</span><p class="stat__frase">pontos de NPS, de 33 negativos para 15&nbsp;positivos</p></div></div><div class="card" data-tamanho="terco"><img class="icone" src="assets/ds/icones/lapis-azul.svg" alt="" width="48" height="48"><div class="stat"><span class="stat__valor">16</span><p class="stat__frase">campus construindo plano a&nbsp;partir do mesmo&nbsp;material</p></div></div><div class="card" data-tamanho="terco"><img class="icone" src="assets/ds/icones/calendario-azul.svg" alt="" width="48" height="48"><div class="stat"><span class="stat__valor">12</span><p class="stat__frase">etapas da graduação, cada uma com o&nbsp;próprio recorte de&nbsp;sentimento</p></div></div></div>
+      <div class="callout superficie-tinta" data-revelar>
+  <span class="badge" data-variant="acento">O que eu levo daqui</span>
+  <p class="callout__frase">Pesquisa que&nbsp;entrega a&nbsp;conclusão pronta não&nbsp;vira ação.</p>
+  <p class="prosa">O formato não é embalagem. Quando ele obriga o&nbsp;time a percorrer a jornada, o plano de ação nasce de quem vai executar, e é por&nbsp;isso que&nbsp;ele acontece.</p>
+</div>
+      <div class="fechamento" data-revelar>
+  <p class="prosa">Precisa transformar pesquisa em&nbsp;ação dentro do&nbsp;time? <a class="link" href="https://wa.me/5511977346175" target="_blank" rel="noopener">Me&nbsp;chama no&nbsp;WhatsApp</a> ou&nbsp;veja o&nbsp;próximo caso.</p>
+  <a class="button" href="case-processo.html">Próximo caso, Processo com IA <span aria-hidden="true">→</span></a>
+</div>
+    </section>
   </div>
-
-  <div class="folha">
-    <div class="onda onda--clara" aria-hidden="true"></div>
-    <div class="wrap folha__inner">
-
-      <!-- 04. O mapa. As cinco telas ficavam num carrossel, uma de
-           cada vez, com seta e ponto; agora estão abertas na
-           galeria, na ordem em que o campus percorria.
-
-           A primeira abre com as doze colunas. Ela é o tabuleiro
-           inteiro, e é dela que as outras quatro são recortes: em
-           meia página o caminho de doze etapas virava um desenho
-           bonito e ilegível. Não vai de beira a beira como a imagem
-           do Inpulse porque é clara como o papel: sem a margem em
-           volta, ela não teria onde terminar. -->
-      <section class="secao" aria-labelledby="t-mapa">
-        <div class="secao__topo" data-revelar>
-          <div class="secao__head">
-            <span class="micro">04 · Solução</span>
-            <span class="secao__rule"></span>
-          </div>
-          <h2 class="secao__titulo" id="t-mapa">Um&nbsp;tabuleiro com&nbsp;as&nbsp;12 etapas da&nbsp;graduação</h2>
-        </div>
-
-        <div class="corpo-texto" data-revelar>
-          <p>Cada instituição recebeu um mapa interativo para transitar por&nbsp;toda a jornada do estudante, com visualização por&nbsp;semestre e por&nbsp;eixo da vida do&nbsp;aluno.</p>
-          <p>O mesmo material resume a variação de sentimento entre semestres e&nbsp;as&nbsp;palavras-chave que aparecem em cada cruzamento de&nbsp;eixo e&nbsp;etapa.</p>
-        </div>
-
-        <div class="bloco" data-revelar data-revelar-atraso="1">
-          <span class="micro rotulo">Eixos do mapa</span>
-          <p class="etiquetas micro">
-            <span>Saúde mental</span>
-            <span>Saúde física</span>
-            <span>Vida financeira</span>
-            <span>Expectativa de futuro</span>
-            <span>Dores</span>
-            <span>Experiência com a instituição</span>
-            <span>Sugestões</span>
-            <span>Aplicativos</span>
-            <span>Oportunidades</span>
-          </p>
-        </div>
-
-        <ul class="galeria galeria--abertura" data-revelar>
-          <li>
-            <figure>
-              <img src="https://framerusercontent.com/images/jB0FYWxzKTWaMHwYRuFkT0OR8.png" alt="O tabuleiro do mapa, com as 12 etapas da graduação distribuídas do START ao FINISH." width="4320" height="3072" loading="lazy" decoding="async">
-              <figcaption class="micro">Fig. 01 · O tabuleiro, do primeiro ao último semestre</figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img src="https://framerusercontent.com/images/2u2l4cvOcOdO1jQGPl637PRYmWI.png" alt="Uma etapa aberta sobre o tabuleiro, com o achado da pesquisa e a régua de sentimento na base da tela." width="4320" height="3072" loading="lazy" decoding="async">
-              <figcaption class="micro">Fig. 02 · Uma etapa aberta, com a régua de sentimento</figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img src="https://framerusercontent.com/images/Gt20MHEWr6seNOXMahLIqb4plQ.png" alt="Visão ampla institucional: experiência, sugestões, apps e oportunidades cruzados com os pares de etapas." width="4320" height="3072" loading="lazy" decoding="async">
-              <figcaption class="micro">Fig. 03 · Visão ampla, lado institucional</figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img src="https://framerusercontent.com/images/3IY6aXgfkDIxVCej0xa2DWhplw.png" alt="Visão ampla pessoal: mental, físico, financeiro, futuro e dores cruzados com os pares de etapas." width="4320" height="3072" loading="lazy" decoding="async">
-              <figcaption class="micro">Fig. 04 · Visão ampla, lado pessoal</figcaption>
-            </figure>
-          </li>
-          <li>
-            <figure>
-              <img src="https://framerusercontent.com/images/D6BfM2dEe92QhBtCV7Q9lTCTu0.png" alt="Gráfico de sentimento com três linhas, financeiro, físico e mental, ao longo dos seis pares de etapas." width="4320" height="3072" loading="lazy" decoding="async">
-              <figcaption class="micro">Fig. 05 · O sentimento por eixo ao longo do curso</figcaption>
-            </figure>
-          </li>
-        </ul>
-
-        <p class="link-solto" data-revelar><a class="proximo-link" href="https://www.figma.com/proto/8fvE9ztg50OQFqWIqGfH3y/Mapa-de-Experie%CC%82ncia-Estudante-Medicina?page-id=221%3A2&amp;node-id=288-1762&amp;starting-point-node-id=288%3A1762&amp;t=rEOOuyzD3vuwNv1m-1" target="_blank" rel="noopener">Abrir o mapa completo <i aria-hidden="true">↗</i></a></p>
-
-        <div class="linha-nota" data-revelar>
-          <span class="micro">Relatórios por eixo</span>
-          <p>Além do mapa, os principais eixos ganharam relatórios em profundidade, com recortes das entrevistas e as reclamações na íntegra. Os achados foram cruzados com informação de mercado, e cada um veio com uma lista curta de indicadores para acompanhar depois da&nbsp;ação.</p>
-        </div>
-
-      </section>
-
-      <!-- 05. O resultado: quem leu, e o que isso fez com a nota. -->
-      <section class="secao" aria-labelledby="t-resultado">
-        <div class="secao__topo" data-revelar>
-          <div class="secao__head">
-            <span class="micro">05 · Resultado</span>
-            <span class="secao__rule"></span>
-          </div>
-          <h2 class="secao__titulo" id="t-resultado">O&nbsp;relatório passou a&nbsp;ser lido</h2>
-        </div>
-
-        <div class="corpo-texto" data-revelar>
-          <p>Com um trabalho de várias mãos, o engajamento com&nbsp;os&nbsp;relatórios mudou de&nbsp;patamar. A média de usuários únicos no primeiro mês era de 20 sem o&nbsp;mapa.</p>
-          <p>Com o mapa, foram 890 no mesmo período, e são esses acessos que&nbsp;viraram os planos de ação de cada&nbsp;campus.</p>
-        </div>
-
-        <div class="bloco" data-revelar data-revelar-atraso="1">
-          <span class="micro barras__titulo">Usuários únicos no primeiro mês</span>
-          <div class="barras" data-barras>
-            <div>
-              <div class="barra">
-                <div class="barra__cabeca">
-                  <span class="barra__rotulo">Sem o mapa de experiência</span>
-                  <span class="barra__valor">20</span>
-                </div>
-                <div class="barra__trilho" style="--larg: 2.2%"><div class="barra__preenche"></div></div>
-              </div>
-              <div class="barra barra--depois">
-                <div class="barra__cabeca">
-                  <span class="barra__rotulo">Com o mapa de experiência</span>
-                  <span class="barra__valor">890</span>
-                </div>
-                <div class="barra__trilho" style="--larg: 100%"><div class="barra__preenche"></div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="numeros" data-revelar>
-          <div class="numero-caso">
-            <span class="numero-caso__valor">+48</span>
-            <p class="numero-caso__label">pontos de NPS, de 33 negativos para 15&nbsp;positivos</p>
-          </div>
-          <div class="numero-caso">
-            <span class="numero-caso__valor">16</span>
-            <p class="numero-caso__label">campus construindo plano a&nbsp;partir do mesmo&nbsp;material</p>
-          </div>
-          <div class="numero-caso">
-            <span class="numero-caso__valor">890</span>
-            <p class="numero-caso__label">usuários únicos no primeiro mês, contra 20&nbsp;antes</p>
-          </div>
-          <div class="numero-caso">
-            <span class="numero-caso__valor">12 etapas</span>
-            <p class="numero-caso__label">da graduação, cada uma&nbsp;com&nbsp;o&nbsp;próprio recorte de&nbsp;sentimento</p>
-          </div>
-        </div>
-
-        <div class="fecho fecho--unido" data-revelar>
-          <div>
-            <span class="micro rotulo">O que eu levo daqui</span>
-            <p class="declaracao">Pesquisa que&nbsp;entrega a&nbsp;conclusão pronta não&nbsp;vira ação.</p>
-          </div>
-          <div class="corpo-texto">
-            <p>O formato não é embalagem. Quando ele obriga o&nbsp;time a percorrer a jornada, o plano de ação nasce de quem vai executar, e é por&nbsp;isso que&nbsp;ele acontece.</p>
-          </div>
-        </div>
-
-        <div class="acoes" data-revelar>
-          <p>Precisa transformar pesquisa em&nbsp;ação dentro do&nbsp;time? <a class="link" href="https://wa.me/5511977346175" target="_blank" rel="noopener">Me&nbsp;chama no&nbsp;WhatsApp</a> ou&nbsp;veja o&nbsp;próximo caso.</p>
-          <div class="acoes__ir">
-            <a class="proximo-link" href="case-processo.html">Próximo caso <i aria-hidden="true">→</i></a>
-          </div>
-        </div>
-      </section>
-
-    </div>
-  </div>
-
 </main>
-
-
-<footer class="footer">
-  <div class="onda onda--escura onda--subir" aria-hidden="true"></div>
-  <!-- A seta de voltar ao topo mora dentro da onda preta, no morro
-       que a onda faz para recebê-la. Conforme a página chega ao
-       fim, o morro cresce e a seta sobe junto com ele: são os dois
-       dizendo, sem escrever, que dali em diante só se anda para
-       cima.
-
-       #top e não um id nosso: a barra é fixa, e uma âncora para um
-       elemento fixo não faz o navegador rolar nada. "#top" sem
-       elemento correspondente é o fragmento que o HTML define como
-       "o começo do documento". -->
-  <div class="footer__subir">
-    <a class="subir" href="#top">
-      <span class="micro">Voltar ao topo</span>
-      <svg class="subir__seta" width="16" height="26" viewBox="0 0 16 26" fill="none" aria-hidden="true" focusable="false"><path d="M8 26V2M1 9l7-7 7 7" stroke="currentColor" stroke-width="2.1"/></svg>
-    </a>
-  </div>
-
-  <div class="wrap">
-    <div class="footer__grid">
-      <div data-revelar>
-        <h2>Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
-        <p class="footer__contact">
-          <a class="link" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff</a>
-        </p>
-        <a class="btn-green" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h11M7.5 2.5 12 7l-4.5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
-        </a>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
       </div>
-
-      <div class="footer__col" data-revelar data-revelar-atraso="1">
-        <h3>Casos</h3>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
         <ul>
-          <li><a href="case-processo.html">Processo com IA</a></li>
-          <li><a href="case-omnichat.html">Omnichat</a></li>
-          <li><a href="case-inpulse.html">Inpulse</a></li>
-          <li><a href="case-mapa-experiencia.html" aria-current="page">Mapa de experiência</a></li>
+          <li><a class="link" href="index.html">Home</a></li>
+          <li><a class="link" href="case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="case-mapa-experiencia.html" aria-current="page">Mapa de experiência</a></li>
         </ul>
-      </div>
-
-      <div class="footer__col" data-revelar data-revelar-atraso="2">
-        <h3>Fora daqui</h3>
-        <ul>
-          <li><a href="manifesto/index.html">Manifesto<i aria-hidden="true">↗</i></a></li>
-          <li><a href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn<i aria-hidden="true">↗</i></a></li>
-          <li><a href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp<i aria-hidden="true">↗</i></a></li>
-        </ul>
-      </div>
+      </nav>
     </div>
-
     <div class="footer__meta">
-      <span class="micro">Jeff Maia · Product Design Manager</span>
-      <span class="micro">São Paulo, Brasil</span>
-
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
     </div>
   </div>
 </footer>
 
-<!-- A cortina da passagem entre páginas. Fica fora da tela até que
-     um link interno seja clicado, ou até que a página anterior peça
-     a entrada. -->
-<div class="transicao" aria-hidden="true">
-  <span class="transicao__marca">J<i></i></span>
-</div>
-
-<script src="assets/base.js"></script>
-<script src="assets/caso.js"></script>
+<script src="assets/ds/componentes.js"></script>
 </body>
 </html>
