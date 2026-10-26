@@ -800,7 +800,7 @@ def palco_home(aqui):
   {c.lista_casos(P_SUB)}
 </main>"""
     titulo = "Hero da Home" if aqui == "hero.html" else "Cartão de caso"
-    return na_home(c.cabeca(P_SUB, f"{titulo} · Palco da vitrine") + c.cabecalho(P_SUB, None, "Pular para o conteúdo") + corpo + c.rodape(P_SUB, None), aqui)
+    return na_home(c.cabeca(P_SUB, f"{titulo} · Palco da vitrine", script=c.HERO_ESPERA) + c.cabecalho(P_SUB, None, "Pular para o conteúdo") + corpo + c.rodape(P_SUB, None), aqui)
 
 
 # Peça, altura do quadro da amostra e a página.

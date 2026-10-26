@@ -13,9 +13,10 @@ FAVICON = (
 )
 
 
-def cabeca(pre, titulo, css="", corpo_classe="", descricao="", acento="azul"):
+def cabeca(pre, titulo, css="", corpo_classe="", descricao="", acento="azul", script=""):
     """Com `descricao` a página é publicada: entra a descrição para a busca
-    e o analytics, e sai o noindex das provas. `acento` é o do caso (D5)."""
+    e o analytics, e sai o noindex das provas. `acento` é o do caso (D5).
+    `script` entra logo depois do script de uma linha, antes do CSS."""
     meta = (f'<meta name="description" content="{descricao}">\n<script src="{pre}assets/analytics.js"></script>'
             if descricao else '<meta name="robots" content="noindex">')
     return f"""<!DOCTYPE html>
@@ -23,7 +24,7 @@ def cabeca(pre, titulo, css="", corpo_classe="", descricao="", acento="azul"):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script>document.documentElement.classList.add("js");try{{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}}catch(e){{}}</script>
+<script>document.documentElement.classList.add("js");try{{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}}catch(e){{}}</script>{script}
 <title>{titulo}</title>
 {meta}
 <link rel="icon" href="{FAVICON}">
@@ -388,11 +389,24 @@ def _hero_esboco():
 HERO_ADESIVOS = ["lapis", "lupa", "pessoa", "janela", "dialogo", "celular", "camadas"]
 
 
+# Vai na cabeça da página com o hero. Segura a chegada até a Anton chegar
+# e a página pintar o primeiro quadro, para ela não disputar a thread com
+# o carregamento. Solta de qualquer jeito em 1,5s.
+HERO_ESPERA = ('\n<script>(function(){var r=document.documentElement;r.classList.add("hero-espera");'
+               'function solta(){requestAnimationFrame(function(){requestAnimationFrame(function(){r.classList.remove("hero-espera")})})}'
+               'var limite=new Promise(function(ok){setTimeout(ok,1500)});'
+               'var fonte=document.fonts&&document.fonts.load?document.fonts.load("400 1em Anton"):limite;'
+               'var pronto=new Promise(function(ok){addEventListener("DOMContentLoaded",ok)});'
+               'Promise.race([Promise.all([fonte,pronto]),limite]).then(solta,solta)})();</script>')
+
+
 def hero(pre, parado=False, id_="hero-frase"):
     """O Momento 3 no HTML. A chegada do rascunho até ele é toda do CSS.
     Cada pedaço da frase (--i) tem a sua vez de ser escrito no celular."""
     p = " data-parado" if parado else ""
-    q = lambda i, t: f'<span class="hero__q" style="--i: {i}">{t}</span>'
+    # A janela (qi) e o conteúdo (qc) deixam a escrita do celular só com
+    # translate (ver componentes.css).
+    q = lambda i, t: f'<span class="hero__q" style="--i: {i}"><span class="hero__qi"><span class="hero__qc">{t}</span></span></span>'
     l1 = (q(0, 'o&nbsp;<span class="hero__p hero__p--oficio">ofício</span>') + " " + q(1, "continua") + " "
           + q(2, 'o&nbsp;<span class="hero__p hero__p--mesmo">mesmo.</span>'))
     l2 = (q(3, 'o&nbsp;<span class="hero__p hero__p--jeito hero__p--emenda">jeito</span>') + " "
@@ -400,14 +414,9 @@ def hero(pre, parado=False, id_="hero-frase"):
           + q(5, '<span class="hero__p hero__p--nao">não.</span>'))
     adesivos = "".join(f'<img class="hero__adesivo hero__a--{n}" src="{pre}assets/ds/icones/{n}-lime.svg" alt="" width="96" height="96">'
                        for n in HERO_ADESIVOS) + _hero_esboco()
-    # O tremor do lápis no rascunho. Uma página com dois heróis leva o
-    # filtro só no que se move.
-    filtro = "" if parado else ('<svg class="hero__filtro" aria-hidden="true" focusable="false"><filter id="hero-tremor">'
-                                '<feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4"/>'
-                                '<feDisplacementMap in="SourceGraphic" scale="3.5"/></filter></svg>')
     tracos = "".join(f'<path style="--i: {i}" d="{_linha(4, y, x, k)}"/>' for i, (y, x, k) in enumerate([(14, 470, 1), (46, 500, 3), (78, 300, 5)]))
     return f"""<section class="hero" aria-labelledby="{id_}"{p}>
-  {filtro}<span class="hero__grade" aria-hidden="true"></span>
+  <span class="hero__grade" aria-hidden="true"></span>
   <h1 class="hero__frase" id="{id_}"><span class="hero__linha" style="--i: 0">{l1}</span> <span class="hero__linha" style="--i: 1">{l2}</span><span class="hero__nota hero__nota--topo" aria-hidden="true">Anton, o maior da tela</span><span class="hero__nota hero__nota--pe" aria-hidden="true">o não fica</span>{adesivos}</h1>
   <div class="hero__apoio">
     <p class="t-sub">{HERO_APOIO}</p>

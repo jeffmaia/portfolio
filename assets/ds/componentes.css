@@ -1285,9 +1285,9 @@ html:not(.js) .menu-botao { display: none; }
 
    Na rolagem só há um deslocamento leve. A primeira linha quase não se
    move, a segunda sobe um pouco mais, e os adesivos mais que a frase.
-   O progresso (--p) é o mesmo do topo até o hero sair de baixo do
-   cabeçalho, pela linha do tempo de rolagem do CSS e, onde ela não
-   existe, pelo módulo 5 do componentes.js.
+   O progresso é o mesmo do topo até o hero sair de baixo do cabeçalho.
+   Cada camada o segue pela linha do tempo de rolagem do CSS e, onde ela
+   não existe, pelo --p do módulo 5 do componentes.js.
 
    Do tablet para cima a frase tem duas linhas, uma por frase, e o
    tamanho sai da largura do hero: a primeira linha ocupa 10,8 vezes o
@@ -1296,8 +1296,18 @@ html:not(.js) .menu-botao { display: none; }
    pelo vão que as linhas curtas deixam à direita.
 
    O texto nunca muda de cor para lime, azul ou verde. A cor fica
-   sempre atrás das palavras. */
+   sempre atrás das palavras.
+
+   No celular a chegada pesava. O que se move é só translate, scale e
+   opacidade sempre que dá, para rodar fora da thread principal. O
+   contorno à mão perdeu o tremor, um filtro de SVG que o iPhone refazia
+   na frase inteira a cada quadro. O Safari ignora -webkit-text-stroke
+   dentro de @keyframes, então o contorno lê --contorno e a animação
+   mexe só na variável. Na Home a chegada espera a Anton e o primeiro
+   quadro (hero-espera, pelo script da cabeça), para não disputar a
+   thread com o carregamento. */
 @property --p { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --contorno { syntax: "<length>"; inherits: true; initial-value: 0px; }
 .hero {
   container-type: inline-size;
   position: relative;
@@ -1319,7 +1329,6 @@ html:not(.js) .menu-botao { display: none; }
   --hero-cor-3: var(--chart-3);
   --traco-rascunho: 2px;
 }
-.hero__filtro { position: absolute; width: 0; height: 0; }
 .hero__frase {
   position: relative;
   z-index: 1;
@@ -1374,6 +1383,7 @@ html:not(.js) .menu-botao { display: none; }
   .hero__frase { font-size: var(--text-hero-estreito); }
   .hero__linha { width: auto; white-space: normal; }
   .hero__q { display: block; width: fit-content; }
+  .hero__qi, .hero__qc { display: block; }
   .hero__linha + .hero__linha { margin-top: .22em; }
   .hero__linha + .hero__linha > .hero__q:last-child { margin-top: .14em; }
   .hero__p--jeito::before { left: -.08em; border-left-width: var(--stroke); border-radius: .06em; }
@@ -1391,7 +1401,8 @@ html:not(.js) .menu-botao { display: none; }
   .hero__a--esboco  { --t: 76px;   right: 0;    top: 6.2em; }
 }
 
-/* A chegada. */
+/* A chegada. Na Home ela espera a Anton e o primeiro quadro. */
+.hero-espera .hero *, .hero-espera .hero *::before, .hero-espera .hero *::after { animation-play-state: paused !important; }
 @media (prefers-reduced-motion: no-preference) {
   /* 1. Rascunho */
   .js .hero:not([data-parado]) .hero__grade {
@@ -1402,7 +1413,10 @@ html:not(.js) .menu-botao { display: none; }
     pointer-events: none;
     animation: hero-aparece var(--dur-media) var(--ease-saida) both, hero-some var(--dur-media) var(--ease-troca) var(--m2) forwards;
   }
-  .js .hero:not([data-parado]) .hero__frase { animation: hero-tinta var(--dur-media) var(--ease-troca) var(--m2) both; }
+  .js .hero:not([data-parado]) .hero__frase {
+    -webkit-text-stroke: var(--contorno) var(--foreground);
+    animation: hero-tinta var(--dur-media) var(--ease-troca) var(--m2) both;
+  }
   /* Cada linha é escrita da esquerda para a direita, e as guias vêm
      junto com ela. */
   .js .hero:not([data-parado]) .hero__linha { animation: hero-escreve var(--dur-lenta) var(--ease-troca) calc(var(--dur-media) * (1 + var(--i))) both; }
@@ -1470,19 +1484,34 @@ html:not(.js) .menu-botao { display: none; }
 @container (max-width: 599px) {
   @media (prefers-reduced-motion: no-preference) {
     /* No celular cada pedaço da frase é escrito na sua vez, e as guias
-       acompanham os pedaços. O deslocamento é a metade. */
+       acompanham os pedaços. O deslocamento é a metade. A escrita não
+       recorta com clip-path, que o iPhone repinta a cada quadro. O
+       pedaço mora numa janela (qi) que desliza da esquerda enquanto o
+       conteúdo (qc) desliza ao contrário, e o que se vê é o mesmo
+       recorte, só com translate. A janela sobra .3em e .4em em volta,
+       para as cores e o círculo do não caberem nela. */
     .js .hero:not([data-parado]) .hero__linha { animation: none; }
     .js .hero:not([data-parado]) .hero__linha::before,
     .js .hero:not([data-parado]) .hero__linha::after { display: none; }
-    .js .hero:not([data-parado]) .hero__q { animation: hero-escreve var(--dur-lenta) var(--ease-troca) calc(var(--dur-media) + var(--dur-rapida) * var(--i)) both; }
+    .js .hero:not([data-parado]) .hero__q { display: flow-root; }
+    .js .hero:not([data-parado]) .hero__qi {
+      overflow: hidden;
+      padding: .3em .4em;
+      margin: -.3em -.4em;
+      animation: hero-janela var(--dur-lenta) var(--ease-troca) calc(var(--dur-media) + var(--dur-rapida) * var(--i)) both;
+    }
+    .js .hero:not([data-parado]) .hero__qc { animation: hero-contra var(--dur-lenta) var(--ease-troca) calc(var(--dur-media) + var(--dur-rapida) * var(--i)) both; }
+    /* A guia vai até meia largura além do pedaço, e cresce junto com a
+       escrita. */
     .js .hero:not([data-parado]) .hero__q::before,
     .js .hero:not([data-parado]) .hero__q::after {
       content: "";
       position: absolute;
       left: -2cqi;
-      width: 104cqi;
+      width: min(104cqi, calc(150% + 2cqi));
       border-top: 1.5px dashed color-mix(in srgb, var(--foreground) 45%, transparent);
-      animation: hero-some var(--dur-media) var(--ease-troca) var(--m2) forwards;
+      transform-origin: left;
+      animation: hero-guia var(--dur-lenta) var(--ease-troca) calc(var(--dur-media) + var(--dur-rapida) * var(--i)) both, hero-some var(--dur-media) var(--ease-troca) var(--m2) forwards;
     }
     .js .hero:not([data-parado]) .hero__q::before { top: .25em; }
     .js .hero:not([data-parado]) .hero__q::after { top: 1.02em; }
@@ -1490,18 +1519,42 @@ html:not(.js) .menu-botao { display: none; }
     .js .hero:not([data-parado]) :is(.hero__linha, .hero__adesivo) { translate: 0 calc(var(--p) * var(--sobe) * -.5); }
   }
 }
+/* Onde há linha do tempo de rolagem, cada camada anima o próprio
+   translate por ela, em vez de herdar o --p. Assim a rolagem não
+   recalcula o hero inteiro a cada quadro. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .js .hero:not([data-parado]) {
       view-timeline: --hero block;
       view-timeline-inset: var(--altura-cabecalho) 0px;
-      animation: hero-progresso linear both;
-      animation-timeline: --hero;
-      animation-range: exit-crossing 0% exit-crossing 100%;
+      --fator: 1;
+    }
+    .js .hero:not([data-parado]) .hero__linha {
+      animation: hero-escreve var(--dur-lenta) var(--ease-troca) calc(var(--dur-media) * (1 + var(--i))) both, hero-sobe linear both;
+      animation-timeline: auto, --hero;
+      animation-range: normal, exit-crossing 0% exit-crossing 100%;
+    }
+    .js .hero:not([data-parado]) .hero__adesivo {
+      animation: hero-adesivo var(--dur-media) var(--ease-saida) calc(var(--m3) + var(--dur-rapida) * var(--o) / 2) both, hero-sobe linear both;
+      animation-timeline: auto, --hero;
+      animation-range: normal, exit-crossing 0% exit-crossing 100%;
+    }
+  }
+  @container (max-width: 599px) {
+    @media (prefers-reduced-motion: no-preference) {
+      .js .hero:not([data-parado]) :is(.hero__linha, .hero__adesivo) { --fator: .5; }
+      .js .hero:not([data-parado]) .hero__linha {
+        animation: hero-sobe linear both;
+        animation-timeline: --hero;
+        animation-range: exit-crossing 0% exit-crossing 100%;
+      }
     }
   }
 }
-@keyframes hero-progresso { from { --p: 0; } to { --p: 1; } }
+@keyframes hero-sobe { from { translate: 0 0; } to { translate: 0 calc(var(--sobe) * var(--fator) * -1); } }
+@keyframes hero-janela { from { translate: -100% 0; } }
+@keyframes hero-contra { from { translate: calc(100% + .8em) 0; } }
+@keyframes hero-guia { from { scale: 0 1; } }
 @keyframes hero-aparece { from { opacity: 0; } }
 @keyframes hero-some { to { opacity: 0; } }
 @keyframes hero-chega { from { opacity: 0; translate: 0 8px; } }
@@ -1510,8 +1563,8 @@ html:not(.js) .menu-botao { display: none; }
 @keyframes hero-traco { from { stroke-dashoffset: 520; } to { stroke-dashoffset: 0; } }
 @keyframes hero-circula { from { opacity: 0; scale: .7; } }
 @keyframes hero-tinta {
-  from { color: transparent; -webkit-text-stroke: var(--traco-rascunho) var(--foreground); filter: url(#hero-tremor); }
-  to { color: var(--foreground); -webkit-text-stroke: 0 transparent; filter: none; }
+  from { color: transparent; --contorno: var(--traco-rascunho); }
+  to { color: var(--foreground); --contorno: 0px; }
 }
 @keyframes hero-cor-tinta { from { color: transparent; } to { color: var(--foreground); } }
 @keyframes hero-cor-papel { to { color: var(--background); } }

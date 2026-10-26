@@ -25,7 +25,7 @@ def pagina():
   {c.hero("")}
   {c.lista_casos("")}
 </main>"""
-    return (c.cabeca("", TITULO_PAGINA, descricao=DESCRICAO, acento="lime") + CARGA
+    return (c.cabeca("", TITULO_PAGINA, descricao=DESCRICAO, acento="lime", script=c.HERO_ESPERA) + CARGA
             + c.cabecalho("", ARQUIVO, "Pular para o conteúdo", atual=ARQUIVO) + corpo + c.rodape("", ARQUIVO, atual=ARQUIVO))
 
 

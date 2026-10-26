@@ -93,7 +93,7 @@ São uns 3,2s no total. Por ficar abaixo de 5s, a WCAG não pede botão de pausa
 
 - **Sem JS ou com movimento reduzido.** Aparece direto o Momento 3, parado, sem deslocamento na rolagem.
 - **Leitor de tela.** O `h1` é a frase, inteira e lida uma vez. As notas do rascunho, os adesivos e as cores ficam escondidos dele.
-- **Celular.** Só deslocamento, giro, escala e opacidade. O tremor do rascunho é um filtro de SVG, e sai assim que o Momento 2 começa, para não pesar.
+- **Celular.** Só deslocamento, giro, escala e opacidade. O tremor do rascunho era um filtro de SVG e saiu em 25 de outubro de 2026, porque o iPhone travava com ele (ver `ds/fichas/hero.md`). O contorno à mão ficou sem tremor.
 - **Hover.** Não existe no hero.
 
 ## O Carregamento da Home
