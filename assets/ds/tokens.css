@@ -77,9 +77,14 @@
   /* A frase do hero, fora da escala. O tamanho sai da largura do hero
      (cqi), para cada linha caber sem quebrar: 115px em 1440 e 63px em
      768, numa linha por frase. No hero estreito, cada frase em três
-     linhas, 82px em 390. */
-  --text-hero:          min(9cqi, 8.5rem);
-  --text-hero-estreito: 23cqi;
+     linhas, 82px em 390.
+     A frase também cabe inteira na altura que a tela mostra ao abrir
+     (svh), com o cabeçalho, os dois respiros do hero e só 2rem da linha
+     de apoio, para chamar a rolagem. São duas linhas no hero largo e
+     seis no estreito, com os vãos de .22 e .14 entre as frases. */
+  --hero-altura:        calc(100svh - var(--altura-cabecalho) - 2 * var(--space-48) - 2rem);
+  --text-hero:          min(9cqi, 8.5rem, calc(var(--hero-altura) / (2 * var(--leading-display))));
+  --text-hero-estreito: min(23cqi, calc(var(--hero-altura) / (6 * var(--leading-display) + .36)));
 
   --leading-display: 1.22; /* o mesmo dos posts. O Ç do Anton desce fundo, e abaixo disso a cedilha bate no til da linha de baixo */
   --leading-titulo: 1.1;

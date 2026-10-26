@@ -43,7 +43,7 @@ Três famílias com papel fixo, como nos posts. A escala é fluida, uma reta ent
 
 **De onde saíram.** Os posts são desenhados num canvas de 1080 que o celular mostra a uns 36%. O título de capa de 118px vira cerca de 42px na tela do celular, e é daí que vem o `display` de 40. O mesmo vale para os outros degraus. No desktop a tela é maior e a escala sobe.
 
-**A frase do hero.** É a única fora da escala, com degraus próprios em `tokens.css`, `text-hero` (115px em 1440 e 63px em 768) e `text-hero-estreito` (82px em 390). O tamanho sai da largura do hero (`cqi`), para cada linha caber sem quebrar (ver `ds/fichas/hero.md`), com a entrelinha do `display`.
+**A frase do hero.** É a única fora da escala, com degraus próprios em `tokens.css`, `text-hero` (115px em 1440 e 63px em 768) e `text-hero-estreito` (82px em 390). O tamanho sai da largura do hero (`cqi`), para cada linha caber sem quebrar, e nunca passa da altura que a tela mostra ao abrir (`svh`), para a frase caber inteira com um pedaço da linha de apoio embaixo (ver `ds/fichas/hero.md`). A entrelinha é a do `display`.
 
 **Duas diferenças dos posts.** O rótulo dos posts tem no mínimo 23px de canvas, que dão uns 8px na tela. No site o mínimo é 12px. E a entrelinha do Anton fica em 1,22, a mesma dos posts. Testei 1,1 e 1,16, e nas duas a cedilha do Ç bate no til da linha de baixo ("VERIFICAÇÃO" sobre "INTENÇÃO" no título do Omnichat).
 
