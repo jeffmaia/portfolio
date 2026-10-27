@@ -4,10 +4,24 @@ const GA_MEASUREMENT_ID = "G-FZ28CNHCEJ";
 
 (() => {
   /* Abrir os arquivos direto do disco, ou servidos na própria máquina
-     para conferir, não conta como visita: só o site
+     ou na rede de casa para conferir, não conta como visita: só o site
      publicado deve alimentar a propriedade. */
   if (location.protocol === "file:") return;
-  if (["localhost", "127.0.0.1", "[::1]"].includes(location.hostname)) return;
+  const host = location.hostname;
+  if (["localhost", "127.0.0.1", "[::1]"].includes(host)) return;
+  if (/\.(local|localhost|test)$/.test(host)) return;
+  if (/^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(host)) return;
+
+  /* O site publicado não sabe se a visita vem do wifi de casa. Quem avisa é
+     o navegador: abrir o site uma vez com ?interno=1 grava a marca neste
+     aparelho e a medição para. Com ?interno=0 a marca sai. */
+  const MARCA = "jm-interno";
+  try {
+    const pedido = new URLSearchParams(location.search).get("interno");
+    if (pedido === "1") localStorage.setItem(MARCA, "1");
+    if (pedido === "0") localStorage.removeItem(MARCA);
+    if (localStorage.getItem(MARCA) === "1") return;
+  } catch (e) {}
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = function () { dataLayer.push(arguments); };

@@ -80,6 +80,7 @@ Entregas, aprovadas por você em 23 de outubro de 2026.
 - `ds/prova/caso.py` gera `case-omnichat.html` e o miolo da variação 4. A página é idêntica à v4 do commit da Fase 3 nas três larguras, conferida elemento por elemento, com o revelar na entrada a mais e o "cerca de" para leitor de tela no "~40 mil".
 - A página publicada leva a descrição, o analytics e o título de antes, sem o `noindex` das provas.
 - `assets/analytics.js` não conta mais visita servida em localhost.
+- `assets/analytics.js` também não conta visita pela rede de casa (IP privado, `.local`) e tem a marca de aparelho interno: abrir o site publicado com `?interno=1` para a medição naquele navegador, `?interno=0` desfaz. Quem acessa de casa pelo site publicado só sai da conta assim, ou pelo filtro de tráfego interno por IP no painel do GA4.
 
 Achados que ficam para depois.
 
