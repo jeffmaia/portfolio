@@ -141,7 +141,7 @@ DADOS = [
 LEVO = "O trabalho de design não é mais desenhar a&nbsp;tela primeiro."
 LEVO_CORPO = "É decidir, entre tantas coisas que a IA já gera sozinha, onde a atenção humana ainda faz&nbsp;diferença."
 FECHO = 'Esse desenho segue em construção na Omni. Se quiser entender como aplicar algo parecido no seu time, <a class="link" href="https://wa.me/5511977346175" target="_blank" rel="noopener">me&nbsp;chama no&nbsp;WhatsApp</a> ou veja o próximo caso.'
-PROXIMO = ("case-omnichat.html", "Omnichat")
+PROXIMO = ("case-design-system.html", "Design system")
 
 
 def corpo(pre):

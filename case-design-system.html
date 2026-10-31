@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="verde">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Um design system que pessoas e IA usam do mesmo jeito · Jeff Maia</title>
+<meta name="description" content="Na Omnichat, liderei a migração do design system do Figma para o código, com o Claude trabalhando junto com o time. Com 37 componentes documentados para a IA, as telas que voltavam da revisão de design caíram, em média, de 10 para 2, e documentar um componente caiu de dois dias para cinco minutos.">
+<script src="assets/analytics.js"></script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/ds/tokens.css">
+<link rel="stylesheet" href="assets/ds/componentes.css">
+
+</head>
+<body>
+<div class="carga" aria-hidden="true">
+  <div class="carga__quadro">
+    <svg class="carga__tela" viewBox="0 0 240 300" fill="none">
+      <g class="carga__esboco" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 10C70 6 160 12 232 8c4 82-2 202 2 284-74 4-164-2-228 2 4-84-2-204 2-284Z"/>
+        <path d="M24 40c66-3 126 3 192-1 2 31-2 61 1 89-67 3-127-2-194 2 3-30-1-60 1-90Z"/>
+        <path d="M26 42l188 84M214 41L25 128"/>
+        <path d="M24 152c56-3 106 3 156-2M24 168c46-3 86 2 116-2"/>
+        <path d="M24 192c36-3 66 2 88-1 2 29-2 54 1 77-33 3-63-2-91 2 3-26-1-54 2-78Z"/>
+        <path d="M128 192c32-3 62 2 88-1 2 29-2 54 1 77-27 3-57-2-90 2 3-26-1-54 1-78Z"/>
+      </g>
+      <g class="carga__camada carga__camada--grade" stroke="#000" stroke-width="1.6" stroke-dasharray="1 6" stroke-linecap="round">
+        <path d="M20 22v262M85 22v262M155 22v262M220 22v262M12 140h216"/>
+      </g>
+      <g class="carga__camada carga__camada--componentes" stroke="#000" stroke-width="2">
+        <rect x="2" y="2" width="236" height="296" rx="12"/>
+        <rect x="20" y="36" width="200" height="96" rx="8"/>
+        <rect x="36" y="104" width="64" height="18" rx="9"/>
+        <rect x="20" y="186" width="94" height="86" rx="8"/>
+        <rect x="126" y="186" width="94" height="86" rx="8"/>
+      </g>
+      <g class="carga__camada carga__camada--textos" fill="#000">
+        <rect x="36" y="50" width="122" height="10" rx="3"/>
+        <rect x="36" y="66" width="84" height="10" rx="3"/>
+        <rect x="36" y="84" width="104" height="5" rx="2.5"/>
+        <rect x="48" y="110" width="40" height="5" rx="2.5"/>
+        <rect x="20" y="148" width="148" height="6" rx="3"/>
+        <rect x="20" y="162" width="102" height="6" rx="3"/>
+        <rect x="32" y="204" width="56" height="6" rx="3"/>
+        <rect x="32" y="216" width="44" height="5" rx="2.5"/>
+        <rect x="138" y="204" width="56" height="6" rx="3"/>
+        <rect x="138" y="216" width="66" height="5" rx="2.5"/>
+      </g>
+      <g class="carga__camada carga__camada--cores">
+        <rect class="carga__cor" x="20" y="36" width="200" height="96" rx="8"/>
+        <rect x="36" y="104" width="64" height="18" rx="9" fill="#edfe5e"/>
+        <rect x="126" y="186" width="94" height="86" rx="8" fill="#dee5dd"/>
+      </g>
+    </svg>
+    <div class="carga__barra"><i></i></div>
+  </div>
+</div>
+
+<a class="pular" href="#conteudo">Pular para o caso</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="case-design-system.html" aria-current="page"><span>Design system</span></a></li>
+      <li><a class="sheet__item" href="case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container caso">
+  <nav class="sumario" data-sumario aria-label="Neste caso">
+    <p class="t-rotulo sumario__titulo">Neste caso</p>
+    <ol class="sumario__lista" id="sumario-lista"><li><a class="sumario__item" href="#contexto"><img class="icone" src="assets/ds/icones/lupa-verde.svg" alt="" width="32" height="32"><span class="sumario__num">01</span><span class="sumario__nome">Contexto</span></a></li><li><a class="sumario__item" href="#problema"><img class="icone" src="assets/ds/icones/alerta-verde.svg" alt="" width="32" height="32"><span class="sumario__num">02</span><span class="sumario__nome">O problema</span></a></li><li><a class="sumario__item" href="#como-funciona"><img class="icone" src="assets/ds/icones/camadas-verde.svg" alt="" width="32" height="32"><span class="sumario__num">03</span><span class="sumario__nome">Como funciona</span></a></li><li><a class="sumario__item" href="#governanca"><img class="icone" src="assets/ds/icones/verifica-verde.svg" alt="" width="32" height="32"><span class="sumario__num">04</span><span class="sumario__nome">Governança</span></a></li><li><a class="sumario__item" href="#adocao"><img class="icone" src="assets/ds/icones/pessoa-verde.svg" alt="" width="32" height="32"><span class="sumario__num">05</span><span class="sumario__nome">Adoção</span></a></li><li><a class="sumario__item" href="#o-que-deu-errado"><img class="icone" src="assets/ds/icones/xis-verde.svg" alt="" width="32" height="32"><span class="sumario__num">06</span><span class="sumario__nome">O que deu errado</span></a></li><li><a class="sumario__item" href="#resultado"><img class="icone" src="assets/ds/icones/grafico-verde.svg" alt="" width="32" height="32"><span class="sumario__num">07</span><span class="sumario__nome">Resultado</span></a></li></ol>
+    <button class="sumario__botao" type="button" aria-expanded="false" aria-controls="sumario-lista" hidden><span class="sr">Seções deste caso</span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span></button>
+    <span class="sumario__aviso" aria-hidden="true"></span>
+  </nav>
+
+  <div>
+    <header class="topo">
+      <div class="topo__texto"><ul class="badges" role="list"><li><span class="badge">Omnichat</span></li><li><span class="badge">Design system</span></li><li><span class="badge" data-variant="acento">Documentação para IA</span></li></ul><h1 class="t-display">Um&nbsp;design system que&nbsp;pessoas e&nbsp;IA usam do&nbsp;mesmo jeito</h1><p class="t-sub">O sistema era grande e bem estruturado. O&nbsp;problema eram três versões dele em&nbsp;produção e&nbsp;uma documentação que só&nbsp;servia a&nbsp;quem abria o&nbsp;Figma.</p></div>
+      <div class="card topo__ficha" data-variant="muted"><p class="t-rotulo card__titulo">Ficha do projeto</p><dl class="ficha"><div><dt>Duração</dt><dd>1 mês, do plano de migração à&nbsp;primeira versão no&nbsp;código</dd></div><div><dt>Jeff</dt><dd>Planejei a migração e negociei com produto, engenharia e&nbsp;as lideranças de&nbsp;desenvolvimento</dd></div><div><dt>Time</dt><dd>Os designers, junto comigo na reestruturação do sistema e&nbsp;nas skills do&nbsp;Claude</dd></div></dl></div>
+      <div class="card topo__salto" data-variant="acento"><div class="stat " data-variant="salto">
+  <span class="stat__antes"><span class="sr">De </span>2 dias</span>
+  <span class="stat__valor"><span class="sr">para </span>5 minutos</span>
+  <p class="stat__frase">O tempo para documentar um componente depois de aprovado, com a skill de documentação escrevendo o arquivo que a IA lê e perguntando o que falta antes de&nbsp;fechar.</p>
+</div><img class="ilustracao" src="assets/ds/ilustracoes/design-system-salto.svg" alt="" width="640" height="640" ></div>
+    </header>
+
+    <section class="section" id="contexto" aria-labelledby="contexto-rotulo">
+      <p class="section__rotulo t-rotulo" id="contexto-rotulo" data-revelar>01 · Contexto</p>
+      <p class="t-lead prosa" data-revelar>A Omnichat tinha um design system grande e bem estruturado, mas o produto rodava três versões dele ao&nbsp;mesmo tempo. Só a mais nova tinha documentação, e quase tudo sobre uso, anatomia e estilo morava no&nbsp;Figma.</p>
+      <div class="prosa" data-revelar><p>Uma atualização no sistema não chegava nas telas antigas, e coisas começavam a ir para produção sem passar por&nbsp;design.</p></div>
+    </section>
+
+    <section class="section" id="problema" aria-labelledby="problema-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>02 · O problema</p>
+      <h2 class="t-titulo" id="problema-titulo" data-revelar>A&nbsp;documentação não&nbsp;servia para&nbsp;a&nbsp;IA</h2>
+      <div class="prosa" data-revelar><p>Quando passamos a pedir telas para o Claude, o problema ficou maior. Boa parte do que existia no Figma não existia na biblioteca do GitHub, e a IA não sabia qual componente usar em cada&nbsp;fluxo.</p></div>
+      <figure class="figure" data-variant="moldura" data-revelar>
+  <div class="figure__quadro"><img src="assets/casos/design-system/botao-casos-de-uso.jpg" alt="Os casos de uso do Botão, documentados no Figma. À esquerda, a conversa de atendimento no desktop, com um resumo das últimas mensagens e os botões terciários marcados em vermelho. À direita, a mesma conversa no celular, com a mensagem de um cliente pedindo um tênis vermelho." width="1240" height="906" loading="lazy" decoding="async"></div>
+  <figcaption class="figure__legenda">Os casos de uso do Botão, documentados no Figma. Uma documentação rica para quem abria o arquivo, e fora do alcance da&nbsp;IA</figcaption>
+</figure>
+      <div class="prosa" data-revelar><p>O sistema tinha sido feito para designers consultarem. Para servir também à IA, ele precisava mudar de lugar, de dono e de&nbsp;formato.</p></div>
+      <table class="compare" data-variant="confronto" role="table" data-revelar>
+  <caption class="sr">O design system antes e depois, em cinco dimensões</caption>
+  <thead>
+    <tr role="row">
+      <th role="columnheader" scope="col"><span class="t-rotulo">Dimensão</span></th>
+      <th role="columnheader" scope="col"><span class="badge">Antes</span></th>
+      <th role="columnheader" scope="col"><span class="badge">Depois</span></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr role="row">
+      <th role="rowheader" scope="row">Onde mora</th>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Antes</span>No Figma, com a biblioteca do GitHub atrás</td>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Depois</span>No código, no repositório do design&nbsp;system</td>
+    </tr>
+    <tr role="row">
+      <th role="rowheader" scope="row">Quem cuida</th>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Antes</span>A engenharia de front&#8209;end</td>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Depois</span>Design</td>
+    </tr>
+    <tr role="row">
+      <th role="rowheader" scope="row">Como nasce</th>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Antes</span>Desenhado no Figma e depois&nbsp;codado</td>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Depois</span>Descrito e criado direto no&nbsp;código</td>
+    </tr>
+    <tr role="row">
+      <th role="rowheader" scope="row">Documentação</th>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Antes</span>Só na versão mais nova, escrita para&nbsp;designers</td>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Depois</span>Um MD por componente, escrito para&nbsp;a&nbsp;IA</td>
+    </tr>
+    <tr role="row">
+      <th role="rowheader" scope="row">Telas antigas</th>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Antes</span>Não recebiam as atualizações do&nbsp;sistema</td>
+      <td role="cell"><span class="t-rotulo compare__marca" aria-hidden="true">Depois</span>Migram aos poucos para o sistema&nbsp;novo</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
+
+    <section class="section" id="como-funciona" aria-labelledby="como-funciona-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>03 · Como funciona</p>
+      <h2 class="t-titulo" id="como-funciona-titulo" data-revelar>Os&nbsp;componentes passaram a&nbsp;nascer no&nbsp;código</h2>
+      <div class="prosa" data-revelar><p>Propus que design assumisse o repositório do design system, que até então era da engenharia de front&#8209;end. Os componentes passaram a nascer direto no código, criados com o Claude a partir de descrição e seguindo atomic&nbsp;design.</p><p>Não migramos as três versões de uma vez. Toda tela nova passou a nascer no sistema novo, e as antigas migram conforme são refeitas. O legado parou de crescer sem que o produto precisasse&nbsp;parar.</p><p>Um conjunto de título e subtítulo vira componente e entra dentro de qualquer outro, se ajustando ao que o componente pai precisa. No Modal, ele aparece duas vezes. E cada componente ganhou um arquivo MD escrito para a IA, com quando usar, comportamento e responsividade por&nbsp;dispositivo.</p></div>
+      <figure class="arquivo" data-revelar>
+  <div class="arquivo__corpo"><div class="arquivo__componente"><img src="assets/casos/design-system/modal-claro-escuro.png" alt="O Modal do design system no tema claro e no escuro, com o título primário na faixa de cima, o título secundário, o texto e dois botões, um secundário e um primário em amarelo." width="1198" height="451" loading="lazy" decoding="async"></div><div class="arquivo__doc"><p class="arquivo__barra"><span class="arquivo__nome">modal.md</span><span class="badge">Reconstituição</span></p><pre class="arquivo__texto"><b># Modal</b>
+
+Sobreposição que interrompe o fluxo principal para mostrar uma informação ou pedir uma ação importante, como uma confirmação ou um formulário curto.
+
+<b data-revelar>## Quando usar</b>
+- A pessoa precisa decidir ou preencher algo antes de seguir.
+- O conteúdo extra é curto e não pede rolar a página de trás.
+
+<b data-revelar>## Não use quando</b>
+- A ação é destrutiva e só pede sim ou não. Use Confirmation Dialog.
+- É um aviso que não interrompe nada. Use Toast.
+
+<b data-revelar>## Anatomia</b>
+1. Título primário, na faixa de cima, com o botão de fechar.
+2. Título secundário e texto, o componente Título e subtítulo.
+3. Ações, um botão secundário e um primário, nessa ordem.
+4. Backdrop com 70% de transparência, sempre.
+
+<b data-revelar>## Comportamento</b>
+- A altura acompanha o conteúdo. A largura vai até 680px.
+- O botão de fechar é sempre o Tertiary em color‑fixed‑white.
+- Esc e o clique no backdrop fecham, e o foco volta para quem abriu.
+- As cores vêm do componente e não mudam.
+
+<b data-revelar>## Responsividade</b>
+- Mobile. Largura da tela com 16px de margem, ações empilhadas.
+- Tablet. Centralizado, na largura do conteúdo.
+- Desktop. Centralizado, até 680px.</pre></div></div>
+  <figcaption class="figure__legenda">O Modal, exportado do Figma, e o MD dele reconstituído no formato que o time usava. O arquivo original ficou no repositório da&nbsp;Omnichat</figcaption>
+</figure>
+      <div class="prosa" data-revelar><p>O MD sai de uma skill de documentação, depois que o componente é aprovado, e o caminho é sempre o&nbsp;mesmo.</p></div>
+      <ol class="steps" data-layout="estagios" data-revelar><li class="step"><img class="icone step__icone" src="assets/ds/icones/lapis-verde.svg" alt="" width="64" height="64"><span class="t-rotulo">Entrada</span><h3 class="step__titulo">Descrição do&nbsp;componente</h3><p>O designer descreve o que o componente faz, em vez de desenhar no&nbsp;Figma.</p></li><li class="step"><img class="icone step__icone" src="assets/ds/icones/robo-verde.svg" alt="" width="64" height="64"><span class="t-rotulo">Camada</span><h3 class="step__titulo">Claude e&nbsp;a&nbsp;skill de&nbsp;documentação</h3><p>O Claude cria o componente no código, e a skill escreve o MD e pergunta o que está faltando antes de&nbsp;fechar.</p></li><li class="step"><img class="icone step__icone" src="assets/ds/icones/janela-verde.svg" alt="" width="64" height="64"><span class="t-rotulo">Saída</span><h3 class="step__titulo">O&nbsp;MD do&nbsp;componente</h3><ul class="step__lista"><li>Quando usar</li><li>Comportamento</li><li>Responsividade no mobile, no tablet e no desktop</li></ul></li></ol>
+    </section>
+
+    <section class="section" id="governanca" aria-labelledby="governanca-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>04 · Governança</p>
+      <h2 class="t-titulo" id="governanca-titulo" data-revelar>Qualquer área propõe e&nbsp;design aprova</h2>
+      <div class="prosa" data-revelar><p>Desenvolvedores, QAs e PMs podem propor componentes. Nenhuma proposta chega à base sem passar por design, e o caminho até lá é o&nbsp;mesmo para&nbsp;todas.</p></div>
+      <ol class="steps" data-layout="funil" data-revelar><li class="step" style="--i: 0"><img class="icone step__icone" src="assets/ds/icones/lampada-verde.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">01</span><h3 class="step__titulo">Proposta</h3><p>Um componente novo, proposto por quem está construindo a&nbsp;tela.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Dev, QA ou PM</p></li><li class="step" style="--i: 1"><img class="icone step__icone" src="assets/ds/icones/rota-verde.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">02</span><h3 class="step__titulo">Branch de aprovação</h3><p>A proposta cai numa branch só de componentes novos, fora da raiz do&nbsp;repositório.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> O repositório</p></li><li class="step" style="--i: 2"><img class="icone step__icone" src="assets/ds/icones/megafone-verde.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">03</span><h3 class="step__titulo">Aviso automático</h3><p>Design é avisado automaticamente de cada proposta que&nbsp;chega.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Automação</p></li><li class="step" style="--i: 3"><img class="icone step__icone" src="assets/ds/icones/dialogo-verde.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">04</span><h3 class="step__titulo">Aprovar ou negociar</h3><p>Das 10 propostas que chegaram, 4 viraram evolução de um componente que já existia, em vez de outro com a mesma&nbsp;função.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Design</p></li><li class="step" style="--i: 4"><img class="icone step__icone" src="assets/ds/icones/check-verde.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">05</span><h3 class="step__titulo">Raiz do repositório</h3><p>As outras 6 entraram como componentes novos, e só aí ganham o MD para&nbsp;a&nbsp;IA.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Design</p></li></ol>
+      <div class="prosa" data-revelar><p>Quando a dúvida era o nome, a decisão ia para votação. Na Sidebar, quatro nomes foram para a mesa, e cada pessoa do time marcava a opção com a sua bolinha e uma justificativa. SideBar ficou com quatro dos cinco&nbsp;votos.</p></div>
+      <figure class="figure" data-variant="moldura" data-revelar>
+  <div class="figure__quadro"><img src="assets/casos/design-system/votacao-sidebar.jpg" alt="A votação do nome da Sidebar no Figma. Quatro opções, Drawer, SideNav, SideBar e SlideOut, cada uma numa linha, com um quadro por pessoa do time para o voto e a justificativa. SideBar tem quatro votos e SlideOut tem um." width="1545" height="470" loading="lazy" decoding="async"></div>
+  <figcaption class="figure__legenda">A votação do nome da Sidebar, no arquivo de componentes do&nbsp;Figma</figcaption>
+</figure>
+    </section>
+
+    <section class="section" id="adocao" aria-labelledby="adocao-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>05 · Adoção</p>
+      <h2 class="t-titulo" id="adocao-titulo" data-revelar>O&nbsp;sistema saiu do&nbsp;time de&nbsp;design</h2>
+      <div class="prosa" data-revelar><p>Deixamos o design system disponível dentro do Claude para qualquer pessoa da empresa. Pessoas de CS, PMM e vendas passaram a prototipar para conversar com clientes, e engenharia, PMs, QAs e designers passaram a consumir a mesma&nbsp;base.</p></div>
+      <div class="callout" data-revelar>
+  <p class="callout__frase">Passaram a&nbsp;usar o&nbsp;nosso sistema em&nbsp;vez de&nbsp;improvisar o&nbsp;seu.</p>
+  <p class="callout__legenda">Quase todas as áreas já usavam o Claude por conta própria antes da&nbsp;formalização.</p>
+</div>
+    </section>
+
+    <section class="section" id="o-que-deu-errado" aria-labelledby="o-que-deu-errado-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>06 · O que deu errado</p>
+      <h2 class="t-titulo" id="o-que-deu-errado-titulo" data-revelar>O&nbsp;apego ao&nbsp;jeito antigo pesou mais que&nbsp;a&nbsp;ferramenta</h2>
+      <div class="prosa" data-revelar><p>A resistência maior veio das pessoas. Designers passaram a descrever em vez de desenhar, e alguns desenhavam no Figma antes de pedir e se frustravam quando o resultado vinha&nbsp;diferente.</p><p>O front&#8209;end perguntou o que faria sem a biblioteca. Respondi que eu também não sabia, mas que parte do trabalho dos dois times ia se&nbsp;fundir.</p></div>
+      <div class="callout" data-variant="atrito" data-revelar>
+  <img class="icone" src="assets/ds/icones/alerta-verde.svg" alt="" width="48" height="48">
+  <h3>Comecei achando que a&nbsp;migração passaria pelo&nbsp;Figma</h3>
+  <div class="prosa"><p>Pedíamos para o Claude desenhar no Figma e depois para ele ler o Figma e escrever o código. Um dia paramos e admitimos que era trabalho em dobro, por apego ao jeito&nbsp;antigo.</p></div>
+</div>
+      <div class="prosa" data-revelar><p>Se fizesse de novo, amadureceria a primeira versão só entre os designers antes de levar para outras áreas. Vendi o projeto antes de ele existir, sem números, e isso deixou a adoção mais lenta do que&nbsp;precisava.</p></div>
+    </section>
+
+    <section class="section" id="resultado" aria-labelledby="resultado-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>07 · Resultado</p>
+      <h2 class="t-titulo" id="resultado-titulo" data-revelar>Uma base que&nbsp;pessoas e&nbsp;IA leem do&nbsp;mesmo jeito</h2>
+      <div class="prosa" data-revelar><p>Com o MD de cada componente, a IA passou a saber qual usar em cada fluxo. As telas que o Claude gerava e voltavam da revisão de design caíram, em média, de 10 para&nbsp;2.</p><p>O design system deixou de ser uma biblioteca que só designers consultavam e virou a base que qualquer área da empresa usa para prototipar. Toda tela nova nasce nele, e o legado só&nbsp;diminui.</p></div>
+      <figure class="chart" data-variant="barras" data-revelar>
+  <figcaption class="t-rotulo">Telas voltando da revisão de design, em média</figcaption>
+  <div class="chart__grupos"><div class="chart__grupo" data-sentido="queda" style="--antes: 100; --depois: 20"><dl class="chart__marcos"><div class="chart__marco" data-ponto="antes"><dt class="t-rotulo">Antes dos MDs</dt><dd class="chart__valor">10</dd></div><div class="chart__marco" data-ponto="depois"><dt class="t-rotulo">Com os MDs</dt><dd class="chart__valor">2</dd></div></dl><div class="chart__barra" aria-hidden="true"><div class="chart__trilho"><span class="chart__antes"></span><span class="chart__preenche"></span></div></div></div></div>
+  <p class="chart__chave" aria-hidden="true"><span><span class="chart__amostra" data-tom="muted"></span>Antes dos MDs</span><span><span class="chart__amostra" data-tom="cheio"></span>Com os MDs</span></p>
+</figure>
+      <div class="cards" data-layout="mosaico" data-revelar><div class="card" data-tamanho="meio"><img class="icone" src="assets/ds/icones/olho-verde.svg" alt="" width="48" height="48"><div class="stat"><span class="stat__valor">37</span><p class="stat__frase">componentes com documentação escrita para a IA, do&nbsp;mobile ao&nbsp;desktop</p></div></div><div class="card" data-tamanho="meio"><img class="icone" src="assets/ds/icones/celular-verde.svg" alt="" width="48" height="48"><div class="stat"><span class="stat__valor">15</span><p class="stat__frase">pessoas de CS, PMM e vendas prototipando com o sistema para conversar com&nbsp;clientes</p></div></div></div>
+      <div class="callout superficie-tinta" data-revelar>
+  <span class="badge" data-variant="acento">O que eu levo daqui</span>
+  <p class="callout__frase">Quem executa não faz igual a&nbsp;você, e&nbsp;funciona.</p>
+  <p class="prosa">É a mesma lição de quando virei gestor. Ela voltou quando os designers passaram a descrever em vez de desenhar, e o resultado vinha diferente do que eles imaginavam e servia do&nbsp;mesmo&nbsp;jeito.</p>
+</div>
+      <div class="fechamento" data-revelar>
+  <p class="prosa">Precisa que o design system do seu time sirva para pessoas e para a IA? <a class="link" href="https://wa.me/5511977346175" target="_blank" rel="noopener">Me&nbsp;chama no&nbsp;WhatsApp</a> ou&nbsp;veja o&nbsp;próximo caso.</p>
+  <a class="button" href="case-omnichat.html">Próximo caso, Omnichat <span aria-hidden="true">→</span></a>
+</div>
+    </section>
+  </div>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="index.html">Home</a></li>
+          <li><a class="link" href="case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="case-design-system.html" aria-current="page">Design system</a></li>
+          <li><a class="link" href="case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/ds/componentes.js"></script>
+</body>
+</html>

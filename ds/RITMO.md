@@ -32,8 +32,8 @@ Toda peça tem um peso, como nos posts. É ele que regula o ritmo.
 
 ## Entre casos
 
-13. **Acento.** Dois casos seguidos na fila nunca têm o mesmo acento. A fila de hoje cumpre (lime, azul, verde, azul, e volta ao lime).
-14. **Seção 02 diferente.** Os quatro casos não abrem o meio com a mesma peça. Se o Omnichat mostra o problema em Cartões, o próximo mostra com outra coisa.
+13. **Acento.** Dois casos seguidos na fila nunca têm o mesmo acento. A fila de hoje cumpre (lime, verde, azul, verde, azul, e volta ao lime).
+14. **Seção 02 diferente.** Os casos não abrem o meio com a mesma peça. Se o Omnichat mostra o problema em Cartões, o próximo mostra com outra coisa.
 15. **Fechamento.** O texto do Destaque e o convite mudam com o caso. O convite fala do tipo de problema que o caso resolve, nunca uma frase genérica de contato.
 
 ## Checklist antes de publicar

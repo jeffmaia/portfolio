@@ -909,6 +909,58 @@ button { font: inherit; color: inherit; }
 }
 
 /* ============================================================
+   Arquivo
+   Um documento de texto mostrado como ele é, com o nome do arquivo na
+   barra, junto do componente que ele descreve. Serve para o MD que a
+   IA lê. O texto fica em fonte de código e quebra a linha, para nunca
+   abrir rolagem para o lado. Os títulos do Markdown vão em negrito, e a
+   cor é só a tinta.
+
+   O componente vem em cima, na largura inteira, e o arquivo embaixo,
+   em qualquer largura. Lado a lado o quadro do componente, que é
+   deitado, encolhia até não se ler (revisão sua, 31 de outubro).
+
+   Não reage a mouse, toque ou foco. Entra com o revelar da página.
+   ============================================================ */
+.arquivo { display: grid; gap: var(--space-12); min-width: 0; }
+.arquivo__corpo { display: grid; gap: var(--space-16); min-width: 0; }
+.arquivo__componente {
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--muted);
+}
+.arquivo__componente > img { display: block; width: 100%; height: auto; }
+.arquivo__doc {
+  min-width: 0;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+}
+.arquivo__barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  padding: var(--space-12) var(--space-16);
+  border-bottom: var(--stroke) solid var(--border);
+  background: var(--muted);
+}
+.arquivo__nome { font-family: var(--font-codigo); font-size: var(--text-apoio); font-weight: 700; }
+.arquivo__texto {
+  margin: 0;
+  padding: var(--space-16);
+  font-family: var(--font-codigo);
+  font-size: .8125rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.arquivo__texto b { font-weight: 700; }
+
+/* ============================================================
    Header e Sheet (menu)
    ============================================================ */
 .header {

@@ -28,6 +28,8 @@ Os nomes seguem o shadcn quando existe um equivalente (decisão D6).
 | Imagem | Figure | Moldura (com recorte e ao lado), Galeria, Sangria | não |
 | Sumário | Table of contents | Nasceu com a variação 4. As seções do caso com ícone, a da vez marcada. No celular vira um trilho na borda direita | sim |
 
+Depois da Fase 6 entrou um décimo sexto, o **Arquivo** (`CodeBlock`), pedido pelo caso do Design system e aprovado por você em 31 de outubro de 2026. Mostra um arquivo de texto, como o MD que a IA lê, com o componente que ele descreve logo acima. Ficha em `ds/fichas/arquivo.md`.
+
 O Omnichat usa 13 dos 15. É por isso que ele basta como página de prova.
 
 ## O que vira fundamento, e não componente

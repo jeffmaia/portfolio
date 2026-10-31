@@ -90,6 +90,7 @@ CARGA = """<div class="carga" aria-hidden="true">
 PAGINAS = [
     ("index.html", "Home"),
     ("case-processo.html", "Processo com IA"),
+    ("case-design-system.html", "Design system"),
     ("case-omnichat.html", "Omnichat"),
     ("case-inpulse.html", "Inpulse"),
     ("case-mapa-experiencia.html", "Mapa de experiência"),
@@ -434,6 +435,11 @@ CASOS = [
      "A maior mudança não foi trocar de ferramenta. Foi perceber quantas reuniões existiam só porque ninguém tinha um jeito melhor de&nbsp;transformar uma conversa em&nbsp;entregável.",
      ("2 meses", "1 semana", "de discovery, no&nbsp;lugar de&nbsp;um a&nbsp;dois meses"),
      "Liderança de produto e design · 1 mês"),
+    ("case-design-system.html", "verde", "Design system",
+     "Um&nbsp;design system que&nbsp;pessoas e&nbsp;IA usam do&nbsp;mesmo jeito",
+     "O sistema era grande e bem estruturado. O&nbsp;problema eram três versões dele em&nbsp;produção e&nbsp;uma documentação que só&nbsp;servia a&nbsp;quem abria o&nbsp;Figma.",
+     ("2 dias", "5 minutos", "para documentar um&nbsp;componente, com a&nbsp;skill escrevendo o&nbsp;MD"),
+     "Product Design Manager · 1 mês"),
     ("case-omnichat.html", "azul", "Omnichat",
      TITULO, LEAD,
      ("24%", "32%", "de conversão de leads qualificados nas&nbsp;origens redesenhadas"),
@@ -473,6 +479,6 @@ def lista_casos(pre, revelar=True):
     r = " data-revelar" if revelar else ""
     cartoes = "".join(cartao_caso(pre, n, *c) for n, c in enumerate(CASOS, 1))
     return f"""<section class="lista-casos" id="casos" aria-labelledby="casos-titulo">
-  <h2 class="section__rotulo t-rotulo" id="casos-titulo">Quatro casos</h2>
+  <h2 class="section__rotulo t-rotulo" id="casos-titulo">Cinco casos</h2>
   <div class="cards" data-layout="mosaico"{r}>{cartoes}</div>
 </section>"""

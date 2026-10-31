@@ -50,6 +50,7 @@ Estas peças estão em toda página de caso, sempre no mesmo lugar, e não passa
 | Telas com fundo vazio em volta | Imagem, `moldura` com `data-recorte` | A imagem inteira, com o fundo nos cantos |
 | Várias telas na ordem do percurso | Imagem, `galeria` (`data-abertura` se a primeira é o todo) | Abas, que escondem a sequência |
 | Uma imagem que é ambiente, não objeto | Imagem, `sangria`, se o caso não tiver o Destaque na tinta | Moldura, que a transforma em tela |
+| Um arquivo de texto que é a prova, como o MD de um componente | Arquivo, com o componente em cima se ele se vê | Imagem de um print do arquivo, que não se lê nem se copia |
 | A ação principal do trecho | Botão | Link, que some ao lado do texto |
 | Um destino no meio do texto, ou voltar, seguir, sair, subir | Link e as variantes | Botão, que disputa com a ação principal |
 
@@ -72,6 +73,7 @@ A tabela acima já aponta a variante. Esta parte diz o que existe no código hoj
 | Gráfico | `barras`, `pilhas`, `escala`, com os tons `cheio`, `trama` e `vazio` | |
 | Imagem | `moldura` (com `retrato`, `recorte` e ao lado), `galeria` (com `abertura`), `sangria` | |
 | Sumário | coluna fixa, trilho abaixo de 1100px | |
+| Arquivo | com o componente, sozinho, com selo | |
 | Cabeçalho e Rodapé | uma forma | |
 
 ## As três escolhas que mais confundem

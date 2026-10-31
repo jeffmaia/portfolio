@@ -34,6 +34,15 @@ No Processo com IA, preso ao indicador (Discovery de 2 meses para 1 semana).
   contorno tracejado, como as folhas que saíram no Inpulse. A pessoa ao
   lado olha o celular, e o robô é o Claude que fez o rascunho.
 
+No Design system, preso ao indicador (documentar um componente, de 2 dias
+para 5 minutos).
+
+- design-system-salto: duas folhas de calendário de mesa, uma por dia do
+  antes, só com o contorno tracejado, como as semanas que saíram no
+  Processo. Na frente, um relógio com a fatia de cinco minutos no lime, a
+  duodécima parte do mostrador. A pessoa ao lado olha o celular, com a
+  tela no lime, e o visto é o componente documentado.
+
 Nenhuma ilustração escreve o número: ele mora no HTML, que é quem o leitor de
 tela ouve e quem tem a fonte certa. A ilustração só repete a proporção.
 
@@ -276,10 +285,53 @@ def processo_salto():
     return f'<svg width="640" height="640" viewBox="0 0 640 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation">{DEFS}{corpo}</svg>'
 
 
+def folha_dia(x, y, larg=136, alt=150):
+    """Uma folha de calendário de mesa que já saiu: contorno, faixa do
+    topo e as argolas, tudo tracejado."""
+    tr = 'stroke="#000" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"'
+    return (f'<rect x="{x}" y="{y}" width="{larg}" height="{alt}" rx="8" {tr}/>'
+            f'<path d="M{x} {y + 40}H{x + larg}" {tr}/>'
+            f'<path d="M{x + larg * 0.3} {y - 14}V{y + 14}M{x + larg * 0.7} {y - 14}V{y + 14}" {tr}/>')
+
+
+def relogio(cx, cy, r, minutos=5):
+    """Um relógio de mesa com a fatia dos `minutos` no lime, do doze em
+    diante, e os ponteiros nas duas bordas da fatia."""
+    a = math.radians(minutos * 6)
+    fx, fy = cx + r * math.sin(a), cy - r * math.cos(a)
+    marcas = "".join(
+        f'<path d="M{cx + (r - 14) * math.sin(math.radians(g)):.1f} {cy - (r - 14) * math.cos(math.radians(g)):.1f}'
+        f'L{cx + (r - 26) * math.sin(math.radians(g)):.1f} {cy - (r - 26) * math.cos(math.radians(g)):.1f}" {OBJ}/>'
+        for g in (90, 180, 270))
+    pm = 0.78  # o ponteiro do fim da fatia fica dentro dela
+    return (
+        f'<path d="M{cx - r * 0.55} {cy + r * 0.8}l-10 {r * 0.26}M{cx + r * 0.55} {cy + r * 0.8}l10 {r * 0.26}" stroke="#000" stroke-width="10" stroke-linecap="round"/>'
+        f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="{PAPEL}" {OBJ}/>'
+        f'<path d="M{cx} {cy}V{cy - r}A{r} {r} 0 0 1 {fx:.1f} {fy:.1f}Z" fill="{LIME}" {OBJ}/>'
+        + marcas +
+        f'<path d="M{cx} {cy}V{cy - r * 0.62}" stroke="#000" stroke-width="6" stroke-linecap="round"/>'
+        f'<path d="M{cx} {cy}L{cx + r * pm * math.sin(a):.1f} {cy - r * pm * math.cos(a):.1f}" stroke="#000" stroke-width="4" stroke-linecap="round"/>'
+        f'<circle cx="{cx}" cy="{cy}" r="7" fill="#000"/>'
+    )
+
+
+def design_system_salto():
+    corpo = (
+        f'<circle cx="320" cy="350" r="250" fill="{VERDE}"/><circle cx="320" cy="350" r="250" fill="url(#pontos)" opacity=".12"/>'
+        + folha_dia(84, 236) + folha_dia(110, 262)
+        + relogio(290, 470, 100)
+        + pessoa_andando(520, 600, calca=PAPEL, tela=LIME)
+        + icone("verifica-verde", 110, 104, 92)
+        + chao(30, 610)
+    )
+    return f'<svg width="640" height="640" viewBox="0 0 640 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="presentation">{DEFS}{corpo}</svg>'
+
+
 SAIDA.mkdir(parents=True, exist_ok=True)
 (SAIDA / "omnichat-fronteira.svg").write_text(fronteira())
 (SAIDA / "omnichat-salto.svg").write_text(salto())
 (SAIDA / "mapa-salto.svg").write_text(mapa_salto())
 (SAIDA / "inpulse-salto.svg").write_text(inpulse_salto())
 (SAIDA / "processo-salto.svg").write_text(processo_salto())
+(SAIDA / "design-system-salto.svg").write_text(design_system_salto())
 print("ok")
