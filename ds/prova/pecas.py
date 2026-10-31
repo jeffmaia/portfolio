@@ -4,6 +4,7 @@ pronta. O texto de cada caso mora no módulo do caso, em ds/prova/casos/.
 
 `pre` é o caminho da página até a raiz, e `cor` é o acento dos ícones.
 """
+import html
 import textwrap
 
 import comum as c
@@ -232,6 +233,23 @@ def galeria(telas, link=None):
     return f"""<div class="figure" data-variant="galeria" data-abertura data-revelar>
   <ol class="figure__lista">{itens}</ol>
 </div>{fora}"""
+
+
+# ---------------------------------------------------------------- Arquivo
+def arquivo(nome, texto, selo=None, componente=None, legenda=None):
+    """Um arquivo de texto como ele é, com o nome na barra e, em cima, o
+    `img` do componente que ele descreve. `texto` é o Markdown cru, e as
+    linhas de título saem em negrito. `selo` é a Etiqueta da barra."""
+    def linha(l):
+        l = html.escape(l, quote=False)
+        return f"<b>{l}</b>" if l.startswith("#") else l
+    corpo = "\n".join(linha(l) for l in textwrap.dedent(texto).strip("\n").split("\n"))
+    sel = f'<span class="badge">{selo}</span>' if selo else ""
+    comp = f'<div class="arquivo__componente">{componente}</div>' if componente else ""
+    leg = f'\n  <figcaption class="figure__legenda">{legenda}</figcaption>' if legenda else ""
+    return f"""<figure class="arquivo" data-revelar>
+  <div class="arquivo__corpo">{comp}<div class="arquivo__doc"><p class="arquivo__barra"><span class="arquivo__nome">{nome}</span>{sel}</p><pre class="arquivo__texto">{corpo}</pre></div></div>{leg}
+</figure>"""
 
 
 # ---------------------------------------------------------------- Seção

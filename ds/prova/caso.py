@@ -10,12 +10,12 @@ Escreve na raiz do repositório a página de cada caso de CASOS.
 """
 from pathlib import Path
 import comum as c
-from casos import omnichat, mapa, inpulse, processo
+from casos import omnichat, mapa, inpulse, processo, design_system
 
 RAIZ = Path(__file__).resolve().parents[2]
 
 # Os casos já migrados para o Jeff DS.
-CASOS = [omnichat, mapa, inpulse, processo]
+CASOS = [omnichat, mapa, inpulse, processo, design_system]
 
 
 def sumario(pre, d):

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="verde">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Arquivo · Palco da vitrine</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__rolar { min-height: 60vh; }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+</style>
+</head>
+<body>
+
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="marca" href="../../../index.html" aria-label="Jeff Maia, Product Design Manager">
+      <b>Jeff Maia</b><span>Product Design Manager</span>
+    </a>
+    <button class="menu-botao" type="button" data-sheet-botao aria-expanded="false" aria-controls="menu">
+      <span class="menu-botao__icone" aria-hidden="true"><i></i><i></i></span>
+      <span class="menu-botao__rotulos"><span>Menu</span><span>Fechar</span></span>
+    </button>
+  </div>
+</header>
+
+<div class="sheet" id="menu">
+  <nav class="container sheet__inner" aria-label="Principal">
+    <ul class="sheet__lista">
+      <li><a class="sheet__item" href="../../../index.html"><span>Home</span></a></li>
+      <li><a class="sheet__item" href="../../../case-processo.html"><span>Processo com IA</span></a></li>
+      <li><a class="sheet__item" href="../../../case-design-system.html"><span>Design system</span></a></li>
+      <li><a class="sheet__item" href="../../../case-omnichat.html"><span>Omnichat</span></a></li>
+      <li><a class="sheet__item" href="../../../case-inpulse.html"><span>Inpulse</span></a></li>
+      <li><a class="sheet__item" href="../../../case-mapa-experiencia.html"><span>Mapa de experiência</span></a></li>
+    </ul>
+    <div class="sheet__contato">
+      <p class="t-rotulo">Contato</p>
+      <ul class="sheet__secundaria">
+        <li><a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">LinkedIn <i aria-hidden="true">↗</i></a></li>
+        <li><a class="link" data-variant="externo" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp <i aria-hidden="true">↗</i></a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+
+<main id="conteudo" class="container caso">
+  <nav class="sumario" data-sumario aria-label="Neste palco">
+    <p class="t-rotulo sumario__titulo">Neste palco</p>
+    <ol class="sumario__lista" id="sumario-lista"><li><a class="sumario__item" href="#s1"><img class="icone" src="../../../assets/ds/icones/camadas-azul.svg" alt="" width="32" height="32"><span class="sumario__num">01</span><span class="sumario__nome">Como funciona</span></a></li><li><a class="sumario__item" href="#s2"><img class="icone" src="../../../assets/ds/icones/verifica-azul.svg" alt="" width="32" height="32"><span class="sumario__num">02</span><span class="sumario__nome">Governança</span></a></li></ol>
+    <button class="sumario__botao" type="button" aria-expanded="false" aria-controls="sumario-lista" hidden><span class="sr">Seções deste palco</span><span class="sumario__seg" aria-hidden="true"></span><span class="sumario__seg" aria-hidden="true"></span></button>
+    <span class="sumario__aviso" aria-hidden="true"></span>
+  </nav>
+  <div>
+    <section class="section" id="s1" aria-labelledby="s1-titulo">
+      <p class="section__rotulo t-rotulo">01 · Como funciona</p>
+      <h2 class="t-titulo" id="s1-titulo">Os&nbsp;componentes passaram a&nbsp;nascer no&nbsp;código</h2>
+      <div class="prosa"><p>Propus que design assumisse o repositório do design system, que até então era da engenharia de front&#8209;end. Os componentes passaram a nascer direto no código, criados com o Claude a partir de descrição e seguindo atomic&nbsp;design.</p><p>Não migramos as três versões de uma vez. Toda tela nova passou a nascer no sistema novo, e as antigas migram conforme são refeitas. O legado parou de crescer sem que o produto precisasse&nbsp;parar.</p><p>Um conjunto de título e subtítulo vira componente e entra dentro de qualquer outro, se ajustando ao que o componente pai precisa. No Modal, ele aparece duas vezes. E cada componente ganhou um arquivo MD escrito para a IA, com quando usar, comportamento e responsividade por&nbsp;dispositivo.</p></div><figure class="arquivo" data-revelar>
+  <div class="arquivo__corpo"><div class="arquivo__componente"><img src="../../../assets/casos/design-system/modal-claro-escuro.png" alt="O Modal do design system no tema claro e no escuro, com o título primário na faixa de cima, o título secundário, o texto e dois botões, um secundário e um primário em amarelo." width="1198" height="451" loading="lazy" decoding="async"></div><div class="arquivo__doc"><p class="arquivo__barra"><span class="arquivo__nome">modal.md</span><span class="badge">Reconstituição</span></p><pre class="arquivo__texto"><b># Modal</b>
+
+Sobreposição que interrompe o fluxo principal para mostrar uma informação ou pedir uma ação importante, como uma confirmação ou um formulário curto.
+
+<b>## Quando usar</b>
+- A pessoa precisa decidir ou preencher algo antes de seguir.
+- O conteúdo extra é curto e não pede rolar a página de trás.
+
+<b>## Não use quando</b>
+- A ação é destrutiva e só pede sim ou não. Use Confirmation Dialog.
+- É um aviso que não interrompe nada. Use Toast.
+
+<b>## Anatomia</b>
+1. Título primário, na faixa de cima, com o botão de fechar.
+2. Título secundário e texto, o componente Título e subtítulo.
+3. Ações, um botão secundário e um primário, nessa ordem.
+4. Backdrop com 70% de transparência, sempre.
+
+<b>## Comportamento</b>
+- A altura acompanha o conteúdo. A largura vai até 680px.
+- O botão de fechar é sempre o Tertiary em color‑fixed‑white.
+- Esc e o clique no backdrop fecham, e o foco volta para quem abriu.
+- As cores vêm do componente e não mudam.
+
+<b>## Responsividade</b>
+- Mobile. Largura da tela com 16px de margem, ações empilhadas.
+- Tablet. Centralizado, na largura do conteúdo.
+- Desktop. Centralizado, até 680px.</pre></div></div>
+  <figcaption class="figure__legenda">O Modal, exportado do Figma, e o MD dele reconstituído no formato que o time usava. O arquivo original ficou no repositório da&nbsp;Omnichat</figcaption>
+</figure><div class="prosa"><p>O MD sai de uma skill de documentação, depois que o componente é aprovado, e o caminho é sempre o&nbsp;mesmo.</p></div><ol class="steps" data-layout="estagios"><li class="step"><img class="icone step__icone" src="../../../assets/ds/icones/lapis-verde.svg" alt="" width="64" height="64"><span class="t-rotulo">Entrada</span><h3 class="step__titulo">Descrição do&nbsp;componente</h3><p>O designer descreve o que o componente faz, em vez de desenhar no&nbsp;Figma.</p></li><li class="step"><img class="icone step__icone" src="../../../assets/ds/icones/robo-verde.svg" alt="" width="64" height="64"><span class="t-rotulo">Camada</span><h3 class="step__titulo">Claude e&nbsp;a&nbsp;skill de&nbsp;documentação</h3><p>O Claude cria o componente no código, e a skill escreve o MD e pergunta o que está faltando antes de&nbsp;fechar.</p></li><li class="step"><img class="icone step__icone" src="../../../assets/ds/icones/janela-verde.svg" alt="" width="64" height="64"><span class="t-rotulo">Saída</span><h3 class="step__titulo">O&nbsp;MD do&nbsp;componente</h3><ul class="step__lista"><li>Quando usar</li><li>Comportamento</li><li>Responsividade no mobile, no tablet e no desktop</li></ul></li></ol>
+    </section>
+    <section class="section" id="s2" aria-labelledby="s2-titulo">
+      <p class="section__rotulo t-rotulo">02 · Governança</p>
+      <h2 class="t-titulo" id="s2-titulo">Qualquer área propõe e&nbsp;design aprova</h2>
+      <div class="prosa"><p>Desenvolvedores, QAs e PMs podem propor componentes. Nenhuma proposta chega à base sem passar por design, e o caminho até lá é o&nbsp;mesmo para&nbsp;todas.</p></div><ol class="steps" data-layout="funil"><li class="step" style="--i: 0"><img class="icone step__icone" src="../../../assets/ds/icones/lampada-verde.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">01</span><h3 class="step__titulo">Proposta</h3><p>Um componente novo, proposto por quem está construindo a&nbsp;tela.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Dev, QA ou PM</p></li><li class="step" style="--i: 1"><img class="icone step__icone" src="../../../assets/ds/icones/rota-verde.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">02</span><h3 class="step__titulo">Branch de aprovação</h3><p>A proposta cai numa branch só de componentes novos, fora da raiz do&nbsp;repositório.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> O repositório</p></li><li class="step" style="--i: 2"><img class="icone step__icone" src="../../../assets/ds/icones/megafone-verde.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">03</span><h3 class="step__titulo">Aviso automático</h3><p>Design é avisado automaticamente de cada proposta que&nbsp;chega.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Automação</p></li><li class="step" style="--i: 3"><img class="icone step__icone" src="../../../assets/ds/icones/dialogo-verde.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">04</span><h3 class="step__titulo">Aprovar ou negociar</h3><p>Das 10 propostas que chegaram, 4 viraram evolução de um componente que já existia, em vez de outro com a mesma&nbsp;função.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Design</p></li><li class="step" style="--i: 4"><img class="icone step__icone" src="../../../assets/ds/icones/check-verde.svg" alt="" width="64" height="64"><span class="step__num" aria-hidden="true">05</span><h3 class="step__titulo">Raiz do repositório</h3><p>As outras 6 entraram como componentes novos, e só aí ganham o MD para&nbsp;a&nbsp;IA.</p><p class="step__efeito"><span class="t-rotulo">Quem conduz</span> Design</p></li></ol>
+    </section>
+  </div>
+</main>
+<footer class="footer superficie-tinta">
+  <div class="container">
+    <div class="footer__grade">
+      <div class="footer__chamada">
+        <h2 class="t-titulo">Quer conversar sobre&nbsp;um&nbsp;problema parecido?</h2>
+        <a class="button" href="https://wa.me/5511977346175" target="_blank" rel="noopener">WhatsApp +55 11 97734-6175 <span aria-hidden="true">↗</span></a>
+        <a class="link" data-variant="externo" href="https://www.linkedin.com/in/maiajeff/" target="_blank" rel="noopener">linkedin.com/in/maiajeff <i aria-hidden="true">↗</i></a>
+      </div>
+      <nav class="footer__col" aria-label="Páginas">
+        <p class="t-rotulo">Páginas</p>
+        <ul>
+          <li><a class="link" href="../../../index.html">Home</a></li>
+          <li><a class="link" href="../../../case-processo.html">Processo com IA</a></li>
+          <li><a class="link" href="../../../case-design-system.html">Design system</a></li>
+          <li><a class="link" href="../../../case-omnichat.html">Omnichat</a></li>
+          <li><a class="link" href="../../../case-inpulse.html">Inpulse</a></li>
+          <li><a class="link" href="../../../case-mapa-experiencia.html">Mapa de experiência</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__meta">
+      <span class="t-rotulo">Jeff Maia · São Paulo, Brasil</span>
+      <a class="link" data-variant="topo" href="#top">Voltar ao topo <i aria-hidden="true">↑</i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="../../../assets/ds/componentes.js"></script>
+</body>
+</html>

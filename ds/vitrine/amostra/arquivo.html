@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-acento="azul">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add("js");try{if(performance.getEntriesByType("navigation")[0].type==="back_forward")document.documentElement.classList.add("volta")}catch(e){}</script>
+<title>Arquivo · Amostra da vitrine</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='3' y='3' width='94' height='94' rx='14' fill='%23edfe5e' stroke='%23000' stroke-width='6'/%3E%3Ctext x='50' y='74' font-family='Impact, Anton, sans-serif' font-size='62' text-anchor='middle' fill='%23000'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../../../assets/ds/tokens.css">
+<link rel="stylesheet" href="../../../assets/ds/componentes.css">
+<style>
+.peca { display: grid; gap: var(--space-16); padding-top: var(--space-32); }
+.peca + .peca { margin-top: var(--space-32); border-top: var(--stroke) solid var(--border); }
+.peca > h3 { font-size: var(--text-lead); line-height: 1.3; }
+.palco { display: grid; gap: var(--space-12); }
+.palco__barra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-8) var(--space-16); }
+.palco__larguras { display: flex; gap: var(--space-8); }
+html:not(.js) .palco__larguras { display: none; }
+.palco__janela {
+  height: 640px;
+  overflow: hidden;
+  border: var(--stroke) solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  transition: width var(--dur-media) var(--ease-troca), height var(--dur-media) var(--ease-troca);
+}
+.palco__janela iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform-origin: 0 0;
+  transition: transform var(--dur-media) var(--ease-troca);
+}
+.amostra { display: grid; gap: var(--space-48); padding-block: var(--space-32) var(--space-48); }
+.amostra__item { display: grid; gap: var(--space-16); container-type: inline-size; }
+.amostra__nome { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-8) var(--space-12); }
+.amostra__tinta { display: grid; gap: var(--space-24); padding: var(--space-32); border-radius: var(--radius); }
+.amostra__fileira { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16) var(--space-32); }
+.amostra__rolar { min-height: 60vh; }
+.amostra__vazio { display: grid; place-items: center; min-height: 360px; border-radius: var(--radius); background: var(--muted); color: var(--ink); font-size: var(--text-apoio); }
+.ficha-pagina__palco { display: grid; gap: var(--space-16); }
+.ficha-pagina__palco > h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; }
+.testar { display: grid; gap: var(--space-8); padding-left: 1.2em; list-style: disc; font-size: var(--text-apoio); max-width: var(--leitura); }
+
+.palco-pagina { padding-block: var(--space-32) var(--space-secao); }
+.palco-pagina > div { display: grid; gap: var(--space-32); }
+.links-soltos { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); }
+.ficha-pagina { display: grid; gap: var(--space-32); padding-block: var(--space-32) var(--space-secao); }
+.ficha-pagina__topo { display: grid; gap: var(--space-16); justify-items: start; }
+.ficha-pagina__topo .t-sub { max-width: 40ch; }
+.doc { display: grid; gap: var(--space-16); max-width: 820px; }
+.doc h2 { font-size: var(--text-lead); font-weight: 700; line-height: 1.3; margin-top: var(--space-24); }
+.doc ul, .doc ol { display: grid; gap: var(--space-8); padding-left: 1.4em; }
+.doc ul { list-style: disc; }
+.doc ol { list-style: decimal; }
+.doc .tabela { overflow-x: auto; border: var(--stroke) solid var(--border); border-radius: var(--radius); }
+.doc table { width: 100%; border-collapse: collapse; font-size: var(--text-apoio); }
+.doc th, .doc td { padding: var(--space-8) var(--space-12); border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.doc tr:last-child td { border-bottom: 0; }
+.doc th { background: var(--muted); font-size: var(--text-rotulo); letter-spacing: var(--tracking-rotulo); text-transform: uppercase; }
+.doc pre { overflow-x: auto; padding: var(--space-16); border: var(--stroke) solid var(--border); border-radius: var(--radius); background: var(--muted); font-size: 13px; line-height: 1.5; }
+code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: .9em; }
+:not(pre) > code { padding: 1px 5px; border-radius: 4px; background: var(--muted); }
+</style>
+</head>
+<body>
+
+<main id="conteudo" class="container amostra">
+  <div class="amostra__item">
+    <p class="amostra__nome"><span class="t-rotulo">Com o componente em cima, o Modal do Design system</span><code>figure.arquivo</code></p>
+    <figure class="arquivo" data-revelar>
+  <div class="arquivo__corpo"><div class="arquivo__componente"><img src="../../../assets/casos/design-system/modal-claro-escuro.png" alt="O Modal do design system no tema claro e no escuro, com o título primário na faixa de cima, o título secundário, o texto e dois botões, um secundário e um primário em amarelo." width="1198" height="451" loading="lazy" decoding="async"></div><div class="arquivo__doc"><p class="arquivo__barra"><span class="arquivo__nome">modal.md</span><span class="badge">Reconstituição</span></p><pre class="arquivo__texto"><b># Modal</b>
+
+Sobreposição que interrompe o fluxo principal para mostrar uma informação ou pedir uma ação importante, como uma confirmação ou um formulário curto.
+
+<b>## Quando usar</b>
+- A pessoa precisa decidir ou preencher algo antes de seguir.
+- O conteúdo extra é curto e não pede rolar a página de trás.
+
+<b>## Não use quando</b>
+- A ação é destrutiva e só pede sim ou não. Use Confirmation Dialog.
+- É um aviso que não interrompe nada. Use Toast.
+
+<b>## Anatomia</b>
+1. Título primário, na faixa de cima, com o botão de fechar.
+2. Título secundário e texto, o componente Título e subtítulo.
+3. Ações, um botão secundário e um primário, nessa ordem.
+4. Backdrop com 70% de transparência, sempre.
+
+<b>## Comportamento</b>
+- A altura acompanha o conteúdo. A largura vai até 680px.
+- O botão de fechar é sempre o Tertiary em color‑fixed‑white.
+- Esc e o clique no backdrop fecham, e o foco volta para quem abriu.
+- As cores vêm do componente e não mudam.
+
+<b>## Responsividade</b>
+- Mobile. Largura da tela com 16px de margem, ações empilhadas.
+- Tablet. Centralizado, na largura do conteúdo.
+- Desktop. Centralizado, até 680px.</pre></div></div>
+  <figcaption class="figure__legenda">O Modal, exportado do Figma, e o MD dele reconstituído no formato que o time usava. O arquivo original ficou no repositório da&nbsp;Omnichat</figcaption>
+</figure>
+  </div>
+  <div class="amostra__item">
+    <p class="amostra__nome"><span class="t-rotulo">Sozinho, sem selo e sem legenda</span><code>figure.arquivo</code></p>
+    <figure class="arquivo" data-revelar>
+  <div class="arquivo__corpo"><div class="arquivo__doc"><p class="arquivo__barra"><span class="arquivo__nome">modal.md</span></p><pre class="arquivo__texto"><b># Modal</b>
+
+Sobreposição que interrompe o fluxo principal para mostrar uma informação ou pedir uma ação importante, como uma confirmação ou um formulário curto.
+
+<b>## Quando usar</b>
+- A pessoa precisa decidir ou preencher algo antes de seguir.
+- O conteúdo extra é curto e não pede rolar a página de trás.
+
+<b>## Não use quando</b>
+- A ação é destrutiva e só pede sim ou não. Use Confirmation Dialog.
+- É um aviso que não interrompe nada. Use Toast.
+
+<b>## Anatomia</b>
+1. Título primário, na faixa de cima, com o botão de fechar.
+2. Título secundário e texto, o componente Título e subtítulo.
+3. Ações, um botão secundário e um primário, nessa ordem.
+4. Backdrop com 70% de transparência, sempre.
+
+<b>## Comportamento</b>
+- A altura acompanha o conteúdo. A largura vai até 680px.
+- O botão de fechar é sempre o Tertiary em color‑fixed‑white.
+- Esc e o clique no backdrop fecham, e o foco volta para quem abriu.
+- As cores vêm do componente e não mudam.
+
+<b>## Responsividade</b>
+- Mobile. Largura da tela com 16px de margem, ações empilhadas.
+- Tablet. Centralizado, na largura do conteúdo.
+- Desktop. Centralizado, até 680px.</pre></div></div>
+</figure>
+  </div>
+</main>
+<script src="../../../assets/ds/componentes.js"></script>
+</body>
+</html>

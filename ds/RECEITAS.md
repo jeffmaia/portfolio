@@ -2,7 +2,7 @@
 
 Uma receita é a ordem dos componentes numa página e onde cada um senta na grade. Não tem cor nem forma própria. O que pode variar de um caso para outro está marcado como livre, o resto é fixo.
 
-São duas receitas, a do Caso e a da Home, as duas publicadas. A do Caso sai do modelo aprovado, `ds/prova/variacoes/v4.html`, e vale para os quatro casos, gerados por `ds/prova/caso.py` com o texto de cada um em `ds/prova/casos/`. A da Home é gerada por `ds/prova/home.py`.
+São duas receitas, a do Caso e a da Home, as duas publicadas. A do Caso sai do modelo aprovado, `ds/prova/variacoes/v4.html`, e vale para os cinco casos, gerados por `ds/prova/caso.py` com o texto de cada um em `ds/prova/casos/`. A da Home é gerada por `ds/prova/home.py`.
 
 ## Toda página
 
@@ -63,13 +63,14 @@ No desktop o título e a frase ocupam quatro das seis colunas e a ficha as outra
 
 ### O fechamento
 
-O Destaque na tinta carrega o que o caso deixa, com a Etiqueta "O que eu levo daqui" no acento. Depois dele, o convite em texto, com o Link para o WhatsApp no meio da frase, e o Botão "Próximo caso, Nome". A fila dos casos é Processo, Omnichat, Inpulse, Mapa e volta ao Processo.
+O Destaque na tinta carrega o que o caso deixa, com a Etiqueta "O que eu levo daqui" no acento. Depois dele, o convite em texto, com o Link para o WhatsApp no meio da frase, e o Botão "Próximo caso, Nome". A fila dos casos é Processo, Design system, Omnichat, Inpulse, Mapa e volta ao Processo.
 
 ### Acento por caso
 
 | Caso | Acento |
 | --- | --- |
 | Processo com IA | lime |
+| Design system | verde |
 | Omnichat | azul |
 | Inpulse | verde |
 | Mapa de experiência | azul |
@@ -88,7 +89,7 @@ Publicada no passo 4 da Fase 6, em `index.html`, gerada por `ds/prova/home.py`. 
 
 **Hero.** A frase é a própria cena (ver `ds/fichas/hero.md` e `ds/ROTEIRO-HERO.md`). Na chegada ela vai do rascunho à página pronta, uma vez, em uns 3,2s, e na rolagem só se desloca um pouco. Por isso a cortina do Carregamento não monta a tela na Home. O tamanho da frase vem de `--text-hero` e `--text-hero-estreito`, fora da escala de texto. Duas linhas do tablet para cima e seis no celular, e a frase sempre cabe inteira na altura visível da tela ao abrir, com só o começo da linha de apoio embaixo. No desktop a primeira tela deixa ver o rótulo e o alto dos primeiros Cartões da Lista. Sem JS ou com movimento reduzido, a página chega pronta.
 
-**Lista de casos.** Ocupa o lugar da Cena dos casos, que saiu. É uma `section.lista-casos` com o rótulo "Quatro casos" (`h2.section__rotulo`) e um mosaico de Cartões `caso`, um por caso, todos `meio` (ver a ficha do Cartão). Cada Cartão leva o acento do próprio caso (`data-acento` no Cartão) e tem, nesta ordem, o rótulo com o número e o nome do caso, o título do caso como `h3`, a frase de apoio, e na base do acento o Dado `salto` em tamanho de grupo, a ficha compacta (papel e duração numa linha) e um Link `seguir`, "Ver o caso". Não há Botão dentro da lista. Quatro Botões lado a lado disputariam entre si, e a ação principal da Home é escolher um caso.
+**Lista de casos.** Ocupa o lugar da Cena dos casos, que saiu. É uma `section.lista-casos` com o rótulo "Cinco casos" (`h2.section__rotulo`) e um mosaico de Cartões `caso`, um por caso, todos `meio` (ver a ficha do Cartão). Cada Cartão leva o acento do próprio caso (`data-acento` no Cartão) e tem, nesta ordem, o rótulo com o número e o nome do caso, o título do caso como `h3`, a frase de apoio, e na base do acento o Dado `salto` em tamanho de grupo, a ficha compacta (papel e duração numa linha) e um Link `seguir`, "Ver o caso". Não há Botão dentro da lista. Cinco Botões lado a lado disputariam entre si, e a ação principal da Home é escolher um caso.
 
 Do tablet para cima são dois Cartões por linha, com as partes alinhadas de um Cartão para o outro. No celular, um debaixo do outro.
 

@@ -27,7 +27,7 @@ sys.path.insert(0, str(AQUI.parent / "prova"))
 import comum as c  # noqa: E402
 import caso  # noqa: E402
 import pecas as pc  # noqa: E402
-from casos import mapa, inpulse, processo  # noqa: E402
+from casos import mapa, inpulse, processo, design_system  # noqa: E402
 
 P = "../../"
 P_SUB = "../../../"
@@ -39,6 +39,7 @@ ONDAS = [
     ("sequencia-e-comparacao", "rota", "Sequência", ""),
     ("dados", "grafico", "Dados", "Gráfico em <code>barras</code>, <code>pilhas</code> e <code>escala</code>."),
     ("midia-hero-e-home", "olho", "Mídia, hero e Home", "Imagem em <code>moldura</code>, <code>galeria</code> e <code>sangria</code>, o hero com o esboço que sobra e o Cartão da Lista de&nbsp;casos."),
+    ("caso-novo", "camadas", "Caso novo", ""),
 ]
 
 # As peças da Onda 1: arquivo da ficha, nome, largura com que o palco abre
@@ -152,6 +153,16 @@ MIDIA = [
         "Com mouse, o Link Ver o caso ganha a marca em papel, porque o acento sobre o acento não se veria. No toque ele tem&nbsp;44px.",
         "Com leitor de tela, cada Cartão é um artigo com o título do caso, e o Link diz qual caso&nbsp;abre.",
         "O Cartão não é alvo. Só o Link leva para a página do&nbsp;caso.",
+    ]),
+]
+
+# As peças que o caso do Design system pediu, depois da Onda 5.
+CASO_NOVO = [
+    ("arquivo", "Arquivo", 1440, [
+        "Role o palco até a Seção 03. O componente vem em cima, na largura inteira da Seção, e o MD embaixo, em qualquer&nbsp;largura.",
+        "Troque a largura. O texto do arquivo quebra a linha e nenhuma largura abre rolagem para o&nbsp;lado.",
+        "Os títulos do Markdown vão em negrito, e tudo fica na tinta. O selo da barra diz que o arquivo é uma&nbsp;reconstituição.",
+        "Nada reage a mouse, toque ou foco. A peça entra com o revelar da&nbsp;página.",
     ]),
 ]
 
@@ -284,7 +295,7 @@ def markdown(texto):
 
 
 def pagina_ficha(arq):
-    pronta = {x[0]: x for x in CASCA + ACAO + SEQUENCIA + DADOS + MIDIA}
+    pronta = {x[0]: x for x in CASCA + ACAO + SEQUENCIA + DADOS + MIDIA + CASO_NOVO}
     if arq in SEM_FICHA:
         titulo = pronta[arq][1]
         nome_shadcn, frase = SEM_FICHA[arq]
@@ -803,6 +814,23 @@ def palco_home(aqui):
     return na_home(c.cabeca(P_SUB, f"{titulo} · Palco da vitrine", script=c.HERO_ESPERA) + c.cabecalho(P_SUB, None, "Pular para o conteúdo") + corpo + c.rodape(P_SUB, None), aqui)
 
 
+def amostra_arquivo():
+    d = design_system
+    return amostra("Arquivo", "".join([
+        item("Com o componente em cima, o Modal do Design system", "figure.arquivo", pc.arquivo("modal.md", d.MODAL_MD, "Reconstituição", d.MODAL.replace('src="', f'src="{P_SUB}'), d.MODAL_LEGENDA)),
+        item("Sozinho, sem selo e sem legenda", "figure.arquivo", pc.arquivo("modal.md", d.MODAL_MD)),
+    ]))
+
+
+def palco_arquivo():
+    d = design_system
+    corpo = caso_palco("Neste palco", [
+        ("camadas", "Como funciona", d.COMO_TITULO, [pc.prosa(*d.COMO), pc.arquivo("modal.md", d.MODAL_MD, "Reconstituição", d.MODAL.replace('src="', f'src="{P_SUB}'), d.MODAL_LEGENDA), pc.prosa(d.COMO_MD), pc.estagios(P_SUB, d.ESTAGIOS, cor=d.ACENTO)]),
+        ("verifica", "Governança", d.GOVERNANCA_TITULO, [pc.prosa(d.GOVERNANCA), pc.funil(P_SUB, d.FASES, d.ICONES_FASES, cor=d.ACENTO)]),
+    ])
+    return c.cabeca(P_SUB, "Arquivo · Palco da vitrine", ESTILO, acento=d.ACENTO) + c.cabecalho(P_SUB, None, "Pular para o conteúdo") + corpo + c.rodape(P_SUB, None)
+
+
 # Peça, altura do quadro da amostra e a página.
 AMOSTRAS = {
     "cabecalho": (560, amostra_cabecalho),
@@ -817,13 +845,15 @@ AMOSTRAS = {
     "imagem": (900, amostra_imagem),
     "hero": (900, amostra_hero),
     "cartao-de-caso": (900, amostra_cartao_de_caso),
+    "arquivo": (900, amostra_arquivo),
 }
 
 
 PALCOS = {"cabecalho": palco_cabecalho, "sumario": palco_sumario, "rodape": palco_rodape,
           "link": palco_link, "etiqueta": palco_etiqueta, "destaque": palco_destaque,
           "passos": palco_passos, "antes-e-depois": palco_antes_e_depois, "grafico": palco_grafico,
-          "imagem": palco_imagem, "hero": lambda: palco_home("hero.html"), "cartao-de-caso": lambda: palco_home("cartao-de-caso.html")}
+          "imagem": palco_imagem, "hero": lambda: palco_home("hero.html"), "cartao-de-caso": lambda: palco_home("cartao-de-caso.html"),
+          "arquivo": palco_arquivo}
 
 
 # ── A vitrine ────────────────────────────────────────────────
@@ -930,11 +960,18 @@ def main():
 
     <section class="section" id="midia-hero-e-home" aria-labelledby="midia-titulo">
       <p class="section__rotulo t-rotulo" data-revelar>05 · Mídia, hero e Home</p>
-      <h2 class="t-titulo" id="midia-titulo" data-revelar>OO&nbsp;que se&nbsp;vê, e&nbsp;a&nbsp;porta de&nbsp;entradanbsp;que seO&nbsp;que se&nbsp;vê, e&nbsp;a&nbsp;porta de&nbsp;entradanbsp;vê eO&nbsp;que se&nbsp;vê, e&nbsp;a&nbsp;porta de&nbsp;entradanbsp;por onde seO&nbsp;que se&nbsp;vê, e&nbsp;a&nbsp;porta de&nbsp;entradanbsp;entra</h2>
+      <h2 class="t-titulo" id="midia-titulo" data-revelar>O&nbsp;que se&nbsp;vê, e&nbsp;a&nbsp;porta de&nbsp;entrada</h2>
       <div class="prosa" data-revelar><p>A Imagem em três formas, com as telas reais do Inpulse e do Mapa de experiência. O hero, em que a frase é a própria cena e vai do rascunho à página pronta, e o Cartão de caso, que monta a Lista de casos da Home. As três foram aprovadas e têm&nbsp;ficha.</p></div>
       {"".join(peca(*x) for x in MIDIA)}
     </section>
-{"".join(onda_futura(n) for n in range(6, len(ONDAS) + 1))}
+
+    <section class="section" id="caso-novo" aria-labelledby="caso-novo-titulo">
+      <p class="section__rotulo t-rotulo" data-revelar>06 · Caso novo</p>
+      <h2 class="t-titulo" id="caso-novo-titulo" data-revelar>O&nbsp;que o&nbsp;Design system&nbsp;pediu</h2>
+      <div class="prosa" data-revelar><p>O Arquivo mostra o MD que a IA lê junto do componente que ele descreve. É peça nova, aprovada por você em 31 de outubro de 2026, com&nbsp;ficha.</p></div>
+      {"".join(peca(*x) for x in CASO_NOVO)}
+    </section>
+{"".join(onda_futura(n) for n in range(7, len(ONDAS) + 1))}
   </div>
 </main>"""
 
